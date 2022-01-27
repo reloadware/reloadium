@@ -2,15 +2,16 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="310.48172mm"
-   height="76.090416mm"
-   viewBox="0 0 310.48172 76.090415"
+   width="312.05673mm"
+   height="78.245438mm"
+   viewBox="0 0 312.05673 78.245437"
    version="1.1"
    id="svg5"
    inkscape:version="1.1.1 (1:1.1+202109281949+c3084ef5ed)"
    sodipodi:docname="logo.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <sodipodi:namedview
@@ -23,13 +24,13 @@
      inkscape:pagecheckerboard="true"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="0.85736697"
-     inkscape:cx="306.75313"
-     inkscape:cy="474.12603"
-     inkscape:window-width="2093"
-     inkscape:window-height="2014"
+     inkscape:zoom="2.425"
+     inkscape:cx="300.20618"
+     inkscape:cy="281.03093"
+     inkscape:window-width="2003"
+     inkscape:window-height="1924"
      inkscape:window-x="3840"
-     inkscape:window-y="144"
+     inkscape:window-y="234"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg5"
      objecttolerance="10000"
@@ -43,38 +44,63 @@
     <inkscape:grid
        type="xygrid"
        id="grid56081"
-       originx="-59.850621"
-       originy="-81.017297"
+       originx="-58.773115"
+       originy="-79.939777"
        spacingx="0.52916667"
        spacingy="0.52916667" />
   </sodipodi:namedview>
   <defs
-     id="defs2" />
+     id="defs2">
+    <linearGradient
+       id="linearGradient2426"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop2424" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2426"
+       id="linearGradient2428"
+       x1="14.378211"
+       y1="27.957014"
+       x2="55.05777"
+       y2="27.957014"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
   <rect
      style="fill:#ff7200;fill-opacity:1;stroke:#ffffff;stroke-width:2.00709;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
      id="rect5101"
-     width="82.020828"
+     width="82.021004"
      height="74.083328"
-     x="1.003545"
-     y="1.003545" />
+     x="2.0810523"
+     y="2.0810647" />
+  <rect
+     style="fill:#ff7200;fill-opacity:0.00153791;stroke:#000000;stroke-width:0.987109;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     id="rect5101-0"
+     width="85.195839"
+     height="77.258331"
+     x="0.4935545"
+     y="0.4935545" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;white-space:pre;inline-size:76.7292;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
      x="13.381663"
      y="31.902498"
      id="text75603"
-     transform="matrix(5.270871,0,0,5.270871,-64.38736,-108.69177)"><tspan
+     transform="matrix(5.270871,0,0,5.270871,-63.309853,-107.61426)"><tspan
        x="13.381663"
        y="31.902498"
-       id="tspan917">Re</tspan></text>
+       id="tspan1873">Re</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;white-space:pre;inline-size:76.7292;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+     style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;white-space:pre;inline-size:76.7292;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.188773;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.997756"
      x="13.381663"
      y="31.902498"
      id="text75603-6"
-     transform="matrix(5.270871,0,0,5.270871,20.279307,-108.69177)"><tspan
+     transform="matrix(5.270871,0,0,5.270871,21.356814,-107.61426)"><tspan
        x="13.381663"
        y="31.902498"
-       id="tspan919">loadium</tspan></text>
+       id="tspan1875">loadium</tspan></text>
 </svg>

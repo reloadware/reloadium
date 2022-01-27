@@ -1,7 +1,8 @@
+
 .. raw:: html
 
     <p align="center">
-        <img src="media/logo.svg" width="400px" alt="Example">
+        <img src="media/logo.svg" width="400px" alt="Logo">
     </p>
     <h4 align="center"> The missing element of Python - Advanced Hot Reloading </h4>
 
@@ -11,7 +12,7 @@
 .. raw:: html
 
     <p align="center">
-        <img src="doc/example.gif" width="715px" alt="Example">
+        <img src="media/example.gif" width="715px" alt="Example">
     </p>
 
 
@@ -46,6 +47,8 @@ Running modules:
 
 | To apply your changes simply save a file in your editor of choice.
 
+| To apply your changes simply save a file
+
 
 General Python Features
 #######################
@@ -53,21 +56,22 @@ General Python Features
 | Reloadium will rerun current function when changed.
 | Developers get instant feedback whether the code is working or not.
 
-.. figure:: doc/frame_reloading.gif
+.. figure:: media/frame_reloading.gif
     :width: 700
     :alt: Frame Reloading
 
 
 | Reloadium will handle errors during reloading function and let you fix mistakes.
 
-.. figure:: doc/fixing_errors.gif
+.. figure:: media/fixing_errors.gif
     :width: 700
     :alt: Frame Reloading
+
 
 | Reloadium is capable of reloading files across the whole project.
 | Tweaking with settings could not be easier.
 
-.. figure:: doc/multi_file_reloading.gif
+.. figure:: media/multi_file_reloading.gif
     :width: 700
     :alt: Frame Reloading
 
@@ -77,14 +81,14 @@ Django
 
 | Reloadium will hot reload views and refresh page on save.
 
-.. figure:: doc/django_page_refreshing.gif
+.. figure:: media/django_page_refreshing.gif
     :width: 700
     :alt: Page Refreshing
 
 
 | Reloadium will rollback database changes to prevent creating unwanted objects after reloading current function.
 
-.. figure:: doc/django_rolling_back.gif
+.. figure:: media/django_rolling_back.gif
     :width: 700
     :alt: Rolling back db
 
@@ -95,7 +99,7 @@ Flask
 | Reloadium will hot reload flask apps and refresh page on save.
 | Changing content can be seen in real time making web development much smoother.
 
-.. figure:: doc/flask.gif
+.. figure:: media/flask.gif
     :width: 700
     :alt: Flask
 
@@ -106,7 +110,7 @@ SqlAlchemy
 
 | Reloadium will rollback database changes to prevent creating unwanted objects after reloading current function.
 
-.. figure:: doc/sqlalchemy.gif
+.. figure:: media/sqlalchemy.gif
     :width: 700
     :alt: SqlAlchemy
 
@@ -117,6 +121,6 @@ Pandas
 | Reloadium hot reloads pandas objects.
 | Manipulating complex dataframes for data science could not be easier.
 
-.. figure:: doc/pandas.gif
+.. figure:: media/pandas.gif
     :width: 700
     :alt: Pandas
