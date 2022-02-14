@@ -16,6 +16,12 @@
     </p>
 
 
+Details
+#######
+
+| Reloadium adds hot reloading also called "edit and continue" functionality to any Python application
+
+
 Installing
 ##########
 
@@ -45,7 +51,6 @@ Running modules:
 
    reloadium run -m my_module
 
-| To apply your changes simply save a file in your editor of choice.
 
 | To apply your changes simply save a file
 
