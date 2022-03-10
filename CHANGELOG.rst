@@ -2,6 +2,19 @@ Change Log
 ##########
 
 
+0.7.17
+-------
+
+**Miscellaneous**:
+    
+  Added:
+    * Windows 32 bit compatibility
+    * Handling unsupported python and os versions
+    * Desynchronisation reason messages
+    * Python 3.10 support
+    * Report to github message
+    * Wheel size optimisation
+    
 0.7.15
 -------
 

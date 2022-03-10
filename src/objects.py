@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, Optional
 if TYPE_CHECKING:
     from dataclasses import dataclass, field
 else:
-    from reloadium.reloader.vendored.dataclasses import dataclass, field
+    from reloadium.vendored.dataclasses import dataclass, field
 
 dataclass = dataclass(repr=False)  # type: ignore
 
