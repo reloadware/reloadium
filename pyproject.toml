@@ -10,6 +10,7 @@ rhei = "^0.5.2"
 envo = "^1.2.1"
 auditwheel = "^5.1.2"
 build = "^0.7.0"
+astunparse = "^1.6.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"
