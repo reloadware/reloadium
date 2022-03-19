@@ -2,6 +2,27 @@ Change Log
 ##########
 
 
+0.7.18
+-------
+
+**Miscellaneous**:
+    
+  Changed:
+    * Move cache to dot directory
+    
+  Added:
+    * No reload decorators
+    * PyGame plugin
+    * Older mac os systems compatibility
+    * No reload decorators validation
+    
+  Fixed:
+    * Flask request object update issues
+    * Python 3.6 compatibility issues
+    
+  Removed:
+    * Full reload feature
+    
 0.7.17
 -------
 

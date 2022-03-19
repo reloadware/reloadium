@@ -157,7 +157,6 @@ class BaseConfig:
         "**/reloadium_config.py",
     ]
 
-    full_reload_on_desync: bool = True
     debugger_speedups: bool = True
     verbose: bool = True
 
