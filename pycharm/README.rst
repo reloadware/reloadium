@@ -1,7 +1,5 @@
 
 
-
-
 .. raw:: html
 
     <p align="center">
@@ -31,32 +29,32 @@ Details
 Installing
 ##########
 
-| If you are a PyCharm user please check out `Reloadium plugin <https://plugins.jetbrains.com/plugin/18509-reloadium>`_
-| Plugins for other IDEs are coming soon.
+The plugin can be installed from PyCharm marketplace.
 
-| Reloadium can be also used as a standalone library by installing it manually with pip:
 
-.. code-block:: console
+.. raw:: html
 
-   pip install reloadium
+    <iframe frameborder="none" width="245px" height="48px" src="https://plugins.jetbrains.com/embeddable/install/18509"></iframe>
+
+
+| `Marketplace link <https://plugins.jetbrains.com/plugin/18509-reloadium>`_
+
+
+.. figure:: media/plugin_install.png
+    :width: 600
+    :alt: Installing
 
 
 Using
 #####
 
-Running python files:
+| After installing (IDE restart might be needed) the plugin will install 
+	reloadium client https://github.com/reloadware/reloadium automatically and will be ready to use. 
+| To run or debug your script with Reloadium press buttons as showed below:
 
-
-.. code-block:: console
-
-   reloadium run example.py
-
-Running modules:
-
-.. code-block:: console
-
-   reloadium run -m my_module
-
+.. figure:: media/reloadium_buttons.png
+    :width: 400
+    :alt: Buttons
 
 | To apply your changes simply save a file
 

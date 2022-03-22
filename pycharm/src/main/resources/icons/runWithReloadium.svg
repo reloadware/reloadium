@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="run.svg"
+   inkscape:version="1.1.1 (1:1.1+202109281949+c3084ef5ed)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="54.5625"
+     inkscape:cx="8"
+     inkscape:cy="8"
+     inkscape:window-width="1916"
+     inkscape:window-height="1942"
+     inkscape:window-x="3840"
+     inkscape:window-y="216"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <polygon
+     fill="#59A869"
+     fill-rule="evenodd"
+     points="4 2 14 8 4 14"
+     id="polygon2"
+     style="fill:#ff7200;fill-opacity:1.0" />
+</svg>

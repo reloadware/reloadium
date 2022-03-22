@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333334 4.2333333"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (1:1.1+202109281949+c3084ef5ed)"
+   sodipodi:docname="pluginIcon.svg"
+   inkscape:export-filename="/home/q/Code/reloadware/cluster/website/frontend/body/public/favicon.ico.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ff85ff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
+     inkscape:document-units="mm"
+     showgrid="true"
+     inkscape:zoom="8.574188"
+     inkscape:cx="4.6068502"
+     inkscape:cy="4.8401085"
+     inkscape:window-width="1996"
+     inkscape:window-height="2032"
+     inkscape:window-x="1840"
+     inkscape:window-y="126"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5"
+     objecttolerance="10000"
+     inkscape:snap-path-clip="false"
+     guidetolerance="10000"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     units="px"
+     width="309.94806px"
+     scale-x="1"
+     viewbox-width="80.94876">
+    <inkscape:grid
+       type="xygrid"
+       id="grid56081"
+       originx="-98.737503"
+       originy="-119.90417"
+       spacingx="0.52916667"
+       spacingy="0.52916667" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <rect
+     style="fill:#ff7200;fill-opacity:1;stroke:#ffffff;stroke-width:0.103609;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
+     id="rect5101"
+     width="4.1297245"
+     height="4.1297245"
+     x="0.051804502"
+     y="0.051804502" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;white-space:pre;inline-size:76.7292;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+     x="13.381663"
+     y="31.902498"
+     id="text75603"
+     transform="matrix(0.27209056,0,0,0.27209056,-3.3907394,-5.5198949)"><tspan
+       x="13.381663"
+       y="31.902498"
+       id="tspan883">Re</tspan></text>
+</svg>

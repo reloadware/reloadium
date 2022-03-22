@@ -1,0 +1,230 @@
+{
+  "0.7.2": [
+    {
+      "type": "Added",
+      "description": "Older mac os systems compatibility",
+      "tag": "Miscellaneous",
+      "date": "2022-03-19"
+    },
+    {
+      "type": "Changed",
+      "description": "Bump library version",
+      "tag": "Miscellaneous",
+      "date": "2022-03-19"
+    },
+    {
+      "type": "Added",
+      "description": "Bundle library into the plugin",
+      "tag": "Miscellaneous",
+      "date": "2022-03-21"
+    },
+    {
+      "type": "Fixed",
+      "description": "Context popup actions EDT errors",
+      "tag": "Miscellaneous",
+      "date": "2022-03-21"
+    },
+    {
+      "type": "Changed",
+      "description": "Move cache to dot directory",
+      "tag": "Miscellaneous",
+      "date": "2022-03-21"
+    },
+    {
+      "type": "Added",
+      "description": "PyGame plugin",
+      "tag": "Miscellaneous",
+      "date": "2022-03-21"
+    },
+    {
+      "type": "Added",
+      "description": "No reload decorators",
+      "tag": "Miscellaneous",
+      "date": "2022-03-21"
+    },
+    {
+      "type": "Added",
+      "description": "No reload decorators validation",
+      "tag": "Miscellaneous",
+      "date": "2022-03-21"
+    },
+    {
+      "type": "Fixed",
+      "description": "Flask request object update issues",
+      "tag": "Miscellaneous",
+      "date": "2022-03-21"
+    },
+    {
+      "type": "Fixed",
+      "description": "Python 3.6 compatibility issues",
+      "tag": "Miscellaneous",
+      "date": "2022-03-21"
+    }
+  ],
+  "0.7.1": [
+    {
+      "date": "2022-03-01",
+      "description": "Older IDE version compatibility",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-03-07",
+      "description": "Windows 32bit support",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    },
+    {
+      "date": "2022-03-07",
+      "description": "More tests",
+      "tag": "Code Quality",
+      "type": "Added"
+    },
+    {
+      "date": "2022-03-07",
+      "description": "Wheels handling refactor",
+      "tag": "Code Quality",
+      "type": "Changed"
+    },
+    {
+      "date": "2022-03-07",
+      "description": "Persisting old package versions",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-03-07",
+      "description": "Handling not supported python versions",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    }
+  ],
+  "0.7.0": [
+    {
+      "date": "2022-02-28",
+      "description": "Conda compatibility",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    },
+    {
+      "date": "2022-02-28",
+      "description": "PipEnv compatibility",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    },
+    {
+      "date": "2022-02-28",
+      "description": "Poetry compatibility",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    },
+    {
+      "date": "2022-02-28",
+      "description": "Old pip version compatibility",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    },
+    {
+      "date": "2022-02-28",
+      "description": "Unit tests, integration tests",
+      "tag": "Code quality",
+      "type": "Added"
+    },
+    {
+      "date": "2022-02-28",
+      "description": "General refactor",
+      "tag": "Code quality",
+      "type": "Added"
+    },
+    {
+      "date": "2022-02-28",
+      "description": "EDT errors for context actions",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    }
+  ],
+  "0.6.5": [
+    {
+      "date": "2022-02-15",
+      "description": "Null pointer exception when sdk is not set",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-02-16",
+      "description": "Error when setting run from context menu but not exists in configuration list",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-02-17",
+      "description": "Shortcuts mapping",
+      "tag": "Miscellaneous",
+      "type": "Removed"
+    }
+  ],
+  "0.6.4": [
+    {
+      "date": "2022-02-14",
+      "description": "Update popup",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-02-15",
+      "description": "Context group action running wrong configuration",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-02-15",
+      "description": "NotNull parameter exeception when there are no packages",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    }
+  ],
+  "0.6.3": [
+    {
+      "date": "2022-02-08",
+      "description": "Pip compatibility issues for linux",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-02-09",
+      "description": "Remote interpreters support",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    },
+    {
+      "date": "2022-02-09",
+      "description": "Speed optimizations",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    },
+    {
+      "date": "2022-02-09",
+      "description": "EDT errors",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-02-10",
+      "description": "Reloadium buttons not starting process ocassionally",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-02-10",
+      "description": "Older versions compatibility",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    },
+    {
+      "date": "2022-02-10",
+      "description": "General stability",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    }
+  ]
+}

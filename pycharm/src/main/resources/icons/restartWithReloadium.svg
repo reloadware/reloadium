@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="restart.svg"
+   inkscape:version="1.1.1 (1:1.1+202109281949+c3084ef5ed)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="54.5625"
+     inkscape:cx="8"
+     inkscape:cy="8"
+     inkscape:window-width="1916"
+     inkscape:window-height="2068"
+     inkscape:window-x="3840"
+     inkscape:window-y="90"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g8" />
+  <g
+     fill="none"
+     fill-rule="evenodd"
+     id="g8">
+    <rect
+       width="5"
+       height="5"
+       x="9"
+       y="10"
+       fill="#6E6E6E"
+       id="rect2"
+       style="fill:#b3b3b3" />
+    <polygon
+       fill="#59A869"
+       points="10 1 15.5 5 10 9"
+       id="polygon4"
+       style="fill:#ff7200;fill-opacity:1.0" />
+    <path
+       fill="#59A869"
+       d="M8,15 L7.5,15 C4.46243388,15 2,12.5375661 2,9.5 C2,6.46243388 4.46243388,4 7.5,4 L11,4 L11,6 L7.5,6 C5.56700338,6 4,7.56700338 4,9.5 C4,11.4329966 5.56700338,13 7.5,13 L8,13 L8,15 Z"
+       id="path6"
+       style="fill:#ff7200;fill-opacity:1.0" />
+  </g>
+</svg>
