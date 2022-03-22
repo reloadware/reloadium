@@ -1,0 +1,240 @@
+{
+  "0.7.18": [
+    {
+      "type": "Changed",
+      "description": "Move cache to dot directory",
+      "tag": "Miscellaneous",
+      "date": "2022-03-19"
+    },
+    {
+      "type": "Added",
+      "description": "No reload decorators",
+      "tag": "Miscellaneous",
+      "date": "2022-03-19"
+    },
+    {
+      "type": "Added",
+      "description": "PyGame plugin",
+      "tag": "Miscellaneous",
+      "date": "2022-03-19"
+    },
+    {
+      "type": "Fixed",
+      "description": "Flask request object update issues",
+      "tag": "Miscellaneous",
+      "date": "2022-03-19"
+    },
+    {
+      "type": "Removed",
+      "description": "Full reload feature",
+      "tag": "Miscellaneous",
+      "date": "2022-03-19"
+    },
+    {
+      "type": "Fixed",
+      "description": "Python 3.6 compatibility issues",
+      "tag": "Miscellaneous",
+      "date": "2022-03-19"
+    },
+    {
+      "type": "Added",
+      "description": "Older mac os systems compatibility",
+      "tag": "Miscellaneous",
+      "date": "2022-03-19"
+    },
+    {
+      "type": "Added",
+      "description": "No reload decorators validation",
+      "tag": "Miscellaneous",
+      "date": "2022-03-19"
+    }
+  ],
+  "0.7.17": [
+    {
+      "type": "Added",
+      "description": "Windows 32 bit compatibility",
+      "tag": "Miscellaneous",
+      "date": "2022-03-07"
+    },
+    {
+      "type": "Added",
+      "description": "Handling unsupported python and os versions",
+      "tag": "Miscellaneous",
+      "date": "2022-03-07"
+    },
+    {
+      "type": "Added",
+      "description": "Desynchronisation reason messages",
+      "tag": "Miscellaneous",
+      "date": "2022-03-07"
+    },
+    {
+      "type": "Added",
+      "description": "Python 3.10 support",
+      "tag": "Miscellaneous",
+      "date": "2022-03-07"
+    },
+    {
+      "type": "Added",
+      "description": "Report to github message",
+      "tag": "Miscellaneous",
+      "date": "2022-03-07"
+    },
+    {
+      "type": "Added",
+      "description": "Wheel size optimisation",
+      "tag": "Miscellaneous",
+      "date": "2022-03-08"
+    }
+  ],
+  "0.7.15": [
+    {
+      "date": "2022-03-01",
+      "description": "Property frame reloading",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    },
+    {
+      "date": "2022-03-01",
+      "description": "Classmethods frame reloading",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    },
+    {
+      "date": "2022-03-01",
+      "description": "Minor bugs",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-03-01",
+      "description": "Frame reloader integrity tests",
+      "tag": "Code quality",
+      "type": "Added"
+    },
+    {
+      "date": "2022-03-01",
+      "description": "General refactor",
+      "tag": "Code quality",
+      "type": "Added"
+    }
+  ],
+  "0.7.13": [
+    {
+      "date": "2022-02-15",
+      "description": "No __main__ feature not working for some cases",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-02-16",
+      "description": "Support for __future__ imports",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    },
+    {
+      "date": "2022-02-16",
+      "description": "Unable to update function after frame update",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-02-18",
+      "description": "Slices for Python 3.8 produce exception",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    }
+  ],
+  "0.7.12": [
+    {
+      "date": "2022-02-15",
+      "description": "Support for no __main__ guard when debugging",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    }
+  ],
+  "0.7.11": [
+    {
+      "date": "2022-02-15",
+      "description": "Support for no __main__ guard",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    }
+  ],
+  "0.7.10": [
+    {
+      "date": "2022-02-09",
+      "description": "Remote interpreters debugging support",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    },
+    {
+      "date": "2022-02-10",
+      "description": "Nuitka errors on Windows",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    }
+  ],
+  "0.7.9": [
+    {
+      "date": "2022-02-09",
+      "description": "Remote interpreters debugging support",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    },
+    {
+      "date": "2022-02-10",
+      "description": "Nuitka errors on Windows",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    }
+  ],
+  "0.7.8": [
+    {
+      "date": "2022-02-07",
+      "description": "Process hanging on exit",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-02-07",
+      "description": "Crashing when django installed but not imported",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-02-07",
+      "description": "Django and Flask support",
+      "tag": "PyCharmPlugin",
+      "type": "Added"
+    }
+  ],
+  "0.7.6": [
+    {
+      "date": "2022-02-05",
+      "description": "Python < 3.9 versions",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    }
+  ],
+  "0.7.0": [
+    {
+      "date": "2022-02-01",
+      "description": "Windows compatibility issues",
+      "tag": "Miscellaneous",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-02-01",
+      "description": "Run and Debug Buttons would fail if clicked too fast",
+      "tag": "PyCharmPlugin",
+      "type": "Fixed"
+    },
+    {
+      "date": "2022-02-01",
+      "description": "Terminal commands and help ",
+      "tag": "Miscellaneous",
+      "type": "Added"
+    }
+  ]
+}
