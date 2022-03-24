@@ -1,4 +1,30 @@
 {
+  "0.8.0": [
+    {
+      "type": "Added",
+      "description": "Print warning when no files are watched",
+      "tag": "Miscellaneous",
+      "date": "2022-03-24"
+    },
+    {
+      "type": "Added",
+      "description": "Print watched paths on start",
+      "tag": "Miscellaneous",
+      "date": "2022-03-24"
+    },
+    {
+      "type": "Fixed",
+      "description": "PYTHONPATH issues for standalone usage",
+      "tag": "Miscellaneous",
+      "date": "2022-03-24"
+    },
+    {
+      "type": "Fixed",
+      "description": "Tuples reloading when not changed bug",
+      "tag": "Miscellaneous",
+      "date": "2022-03-24"
+    }
+  ],
   "0.7.18": [
     {
       "type": "Changed",

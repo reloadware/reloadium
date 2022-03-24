@@ -2,6 +2,19 @@ Change Log
 ##########
 
 
+0.8.0
+-------
+
+**Miscellaneous**:
+    
+  Added:
+    * Print warning when no files are watched
+    * Print watched paths on start
+    
+  Fixed:
+    * PYTHONPATH issues for standalone usage
+    * Tuples reloading when not changed bug
+    
 0.7.18
 -------
 

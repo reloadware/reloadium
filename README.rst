@@ -22,8 +22,25 @@
 
 
 
+
 Details
 #######
+
+
+.. image:: https://badge.fury.io/py/reloadium.svg
+    :target: https://badge.fury.io/py/reloadium
+
+.. image:: https://img.shields.io/jetbrains/plugin/v/18509-reloadium
+    :target: https://plugins.jetbrains.com/plugin/18509-reloadium
+
+.. image:: https://img.shields.io/jetbrains/plugin/d/18509-reloadium
+    :target: https://plugins.jetbrains.com/plugin/18509-reloadium
+
+.. image:: https://img.shields.io/jetbrains/plugin/r/stars/18509-reloadium
+    :target: https://plugins.jetbrains.com/plugin/18509-reloadium
+
+
+
 
 | Reloadium adds hot reloading also called "edit and continue" functionality to any Python application
 
