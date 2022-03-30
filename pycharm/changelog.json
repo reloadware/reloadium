@@ -1,4 +1,86 @@
 {
+  "0.7.5": [
+    {
+      "type": "Added",
+      "description": "RELOADIUMPATH working for files",
+      "tag": "Miscellaneous",
+      "date": "2022-03-31"
+    },
+    {
+      "type": "Fixed",
+      "description": "Reloading current function with decorators bug",
+      "tag": "Miscellaneous",
+      "date": "2022-03-31"
+    },
+    {
+      "type": "Added",
+      "description": "Warning when editing current function during runtime (not debug)",
+      "tag": "User Experience",
+      "date": "2022-03-31"
+    },
+    {
+      "type": "Fixed",
+      "description": "Fixing errors during current function not rolling back session properly",
+      "tag": "Django",
+      "date": "2022-03-31"
+    },
+    {
+      "type": "Fixed",
+      "description": "Editing template files not reloading page for Flask",
+      "tag": "Flask",
+      "date": "2022-03-31"
+    },
+    {
+      "type": "Fixed",
+      "description": "Remote interpreters issues",
+      "tag": "Miscellaneous",
+      "date": "2022-03-31"
+    },
+    {
+      "type": "Fixed",
+      "description": "Breakpoint not hit when no files are watching",
+      "tag": "Miscellaneous",
+      "date": "2022-03-31"
+    },
+    {
+      "type": "Added",
+      "description": "Message that user reload errors can be fixed",
+      "tag": "User Experience",
+      "date": "2022-03-31"
+    },
+    {
+      "type": "Added",
+      "description": "Settings",
+      "tag": "Miscellaneous",
+      "date": "2022-03-31"
+    },
+    {
+      "type": "Added",
+      "description": "Reloadium menu group",
+      "tag": "Miscellaneous",
+      "date": "2022-03-31"
+    }
+  ],
+  "0.7.3": [
+    {
+      "type": "Added",
+      "description": "Print warning when no files are watched",
+      "tag": "Miscellaneous",
+      "date": "2022-03-24"
+    },
+    {
+      "type": "Added",
+      "description": "Print watched paths on start",
+      "tag": "Miscellaneous",
+      "date": "2022-03-24"
+    },
+    {
+      "type": "Fixed",
+      "description": "Tuples reloading when not changed bug",
+      "tag": "Miscellaneous",
+      "date": "2022-03-24"
+    }
+  ],
   "0.7.2": [
     {
       "type": "Added",

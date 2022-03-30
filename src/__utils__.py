@@ -54,6 +54,7 @@ def report_import_fail(e: Exception) -> None:
     from reloadium.__version__ import version
     from reloadium.vendored import pkg_resources
     import ssl
+    from pathlib import Path
 
     pip_info = pkg_resources.working_set.by_key.get("pip")  # type: ignore
     if pip_info:
@@ -63,8 +64,13 @@ def report_import_fail(e: Exception) -> None:
 
     architecture = " ".join(platform.architecture())
 
+    reason = repr(e)
+
+    # sanitize
+    reason = reason.replace(str(Path.home()), "<home>")
+
     payload = {
-        "reason": repr(e),
+        "reason": reason,
         "is_docker": is_docker(),
         "operating_system_type": get_os_type(),
         "architecture": architecture,

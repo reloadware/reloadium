@@ -2,23 +2,21 @@ package rw.service;
 
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.execution.RunnerAndConfigurationSettings;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
-import com.intellij.ui.EditorNotifications;
 import org.apache.log4j.Level;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.audit.RwSentry;
+import rw.config.Config;
+import rw.pkg.BuiltinPackageManager;
+import rw.pkg.WebPackageManager;
+import rw.util.OsType;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import rw.config.Config;
-import rw.pkg.BuiltinPackageManager;
-import rw.util.OsType;
-import rw.pkg.WebPackageManager;
 
-
-public final class Service {
+public class Service {
     private static final Logger LOGGER = Logger.getInstance(Service.class);
     @VisibleForTesting
     public BuiltinPackageManager builtinPackageManager;
@@ -29,11 +27,11 @@ public final class Service {
 
     @VisibleForTesting
     public Service() {
-        LOGGER.setLevel(Level.INFO);
         LOGGER.info("Starting service");
         this.webPackageManager = new WebPackageManager();
         this.builtinPackageManager = new BuiltinPackageManager();
         this.validateOsType();
+        this.init();
     }
 
     public void init() {
@@ -43,20 +41,13 @@ public final class Service {
         JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkForUpdate, 1,
                 Config.get().checkForUpdateInterval, TimeUnit.HOURS);
 
-        JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkIfStillGood, 60,
+        JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkIfStillGood, 120,
                 30, TimeUnit.SECONDS);
     }
 
-    public void updateNotifications(Project project) {
-        EditorNotifications editorNotifications = EditorNotifications.getInstance(project);
-        editorNotifications.updateAllNotifications();
-    }
-
     public static Service get() {
-        if (singleton == null)
-        {
-            singleton = new Service();
-            singleton.init();
+        if (singleton == null) {
+            singleton = ApplicationManager.getApplication().getService(Service.class);
         }
 
         return singleton;
@@ -90,7 +81,7 @@ public final class Service {
             return;
         }
 
-        if (!this.webPackageManager.isInstalled() && !this.webPackageManager.isInstalling() && !this.builtinPackageManager.isInstalling()) {
+        if (this.webPackageManager.shouldInstall() && !this.webPackageManager.isInstalling() && !this.builtinPackageManager.isInstalling()) {
             this.webPackageManager.run(null);
         }
     }

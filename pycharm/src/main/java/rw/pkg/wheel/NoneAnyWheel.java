@@ -2,7 +2,7 @@ package rw.pkg.wheel;
 
 import rw.config.Config;
 
-import java.nio.file.Path;
+import java.io.File;
 
 public class NoneAnyWheel extends BaseWheel {
     NoneAnyWheel(String url) {
@@ -13,7 +13,7 @@ public class NoneAnyWheel extends BaseWheel {
     }
 
     @Override
-    public Path getPackageDir() {
+    public File getPackageDir() {
         return Config.get().getPackagePythonVersionDir(this.getPythonVersion(), this.getArchitecture());
     }
 }

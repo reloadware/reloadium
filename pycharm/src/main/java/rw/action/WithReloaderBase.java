@@ -1,6 +1,5 @@
 package rw.action;
 
-import com.fasterxml.jackson.module.kotlin.ReflectionCache;
 import com.intellij.execution.ExecutionManager;
 import com.intellij.execution.Executor;
 import com.intellij.execution.RunnerAndConfigurationSettings;
@@ -13,14 +12,16 @@ import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.text.StringUtil;
+import org.jetbrains.annotations.NotNull;
 import rw.config.Config;
 import rw.handler.runConf.BaseRunConfHandler;
 import rw.handler.runConf.RunConfHandlerFactory;
+import rw.pkg.WebPackageManager;
 import rw.service.Service;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.TimerTask;
 
@@ -28,14 +29,16 @@ import java.util.TimerTask;
 public abstract class WithReloaderBase extends AnAction {
     RunType runType;
 
+    private static final Logger LOGGER = Logger.getInstance(WithReloaderBase.class);
+
     public void update(@NotNull AnActionEvent e) {
+        Presentation presentation = e.getPresentation();
+        presentation.setVisible(true);
+
         Project project = getEventProject(e);
-        Service service = Service.get();
 
         if (project == null)
             return;
-
-        Presentation presentation = e.getPresentation();
 
         RunnerAndConfigurationSettings conf = this.getConfiguration(e);
 
@@ -44,7 +47,6 @@ public abstract class WithReloaderBase extends AnAction {
         }
         else{
             this.handleRunningConfs(project, e, conf);
-            service.updateNotifications(project);
             this.setEnabledText(e, conf);
             presentation.setEnabled(true);
         }
@@ -64,7 +66,7 @@ public abstract class WithReloaderBase extends AnAction {
             return false;
         }
 
-        if (handler.getWorkingDirectory().isBlank() || !handler.canRun()) {
+        if (!handler.canRun()) {
             return false;
         }
 
@@ -79,6 +81,8 @@ public abstract class WithReloaderBase extends AnAction {
     }
 
     public void actionPerformed(@NotNull AnActionEvent e) {
+        LOGGER.info("Performing action");
+
         Project project = getEventProject(e);
 
         if (project == null)

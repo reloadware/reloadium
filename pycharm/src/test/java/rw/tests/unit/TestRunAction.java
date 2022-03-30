@@ -118,16 +118,6 @@ public class TestRunAction extends BaseMockedTestCase {
     }
 
     @Test
-    public void testNoWorkingDir() {
-        AnActionEvent event = new TestActionEvent();
-        this.cakeshop.getRunConf().setWorkingDirectory("");
-        this.action.update(event);
-
-        assertThat(event.getPresentation().isVisible()).isTrue();
-        assertThat(event.getPresentation().isEnabled()).isFalse();
-    }
-
-    @Test
     public void testActionPerformed() {
         AnActionEvent event = new TestActionEvent();
         this.action.update(event);
@@ -140,7 +130,7 @@ public class TestRunAction extends BaseMockedTestCase {
         assertThat(runConf.getScriptName()).isEqualTo("main.py");
         assertThat(runConf.isModuleMode()).isFalse();
 
-        String pythonpath = this.cakeshop.getRunConf().getEnvs().get("PYTHONPATH");
+        String pythonpath = runConf.getEnvs().get("PYTHONPATH");
         assertThat(pythonpath.endsWith("3.9")).isTrue();
 
         assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium run");

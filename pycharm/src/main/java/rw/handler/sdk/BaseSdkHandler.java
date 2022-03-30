@@ -45,8 +45,6 @@ abstract public class BaseSdkHandler {
 
         boolean ret = true;
         ret &= PythonSdkFlavor.getFlavor(this.sdk) != null;
-        ret &= new File(this.sdk.getHomePath()).exists();
-
         return ret;
     }
 }

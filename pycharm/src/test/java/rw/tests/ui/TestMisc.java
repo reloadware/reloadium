@@ -34,7 +34,8 @@ public class TestMisc extends PackageTestBase {
     void installsPackage(final RemoteRobot remoteRobot) throws Exception {
         Depot.run("env.get_remote().clean()");
         Product.run("p.rm_config");
-        Plugin.run("p.rm_package");
+        // Package is downloaded on application start so this will break things
+        // Plugin.run("p.rm_package");
         Product.run("p.push_release");
         String version = Product.run("v.current_version")[0];
         Depot.run("p.publish_release");
@@ -49,6 +50,5 @@ public class TestMisc extends PackageTestBase {
         waitFor(ofSeconds(10), () -> console.hasText(String.format("Reloadium %s", version)));
         waitFor(ofSeconds(10), () -> console.hasText("Hi, PyCharm"));
         waitFor(ofSeconds(10), () -> console.hasText("Process finished with exit code 0"));
-        waitFor(ofSeconds(10), () -> console.hasText((TextData textData) -> textData.getText().contains("python -m reloadium")));
     }
 }

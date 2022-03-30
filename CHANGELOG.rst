@@ -2,6 +2,36 @@ Change Log
 ##########
 
 
+0.8.2
+-------
+
+**Miscellaneous**:
+    
+  Added:
+    * Add settings env variables
+    * RELOADIUMPATH working for files
+    
+  Fixed:
+    * Reloading current function with decorators bug
+    * Remote interpreters issues
+    * Breakpoint not hit when no files are watching
+    
+**User Experience**:
+    
+  Added:
+    * Warning when editing current function during runtime (not debug)
+    * Message that user reload errors can be fixed
+    
+**Django**:
+    
+  Fixed:
+    * Fixing errors during current function not rolling back session properly
+    
+**Flask**:
+    
+  Fixed:
+    * Editing template files not reloading page for Flask
+    
 0.8.0
 -------
 

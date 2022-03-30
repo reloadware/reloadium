@@ -2,7 +2,7 @@ package rw.pkg.wheel;
 
 import rw.config.Config;
 
-import java.nio.file.Path;
+import java.io.File;
 
 public class TarWheel extends BaseWheel {
     TarWheel(String url) {
@@ -13,7 +13,7 @@ public class TarWheel extends BaseWheel {
     }
 
     @Override
-    public Path getPackageDir() {
+    public File getPackageDir() {
         return Config.get().getPackagePythonVersionDir(this.getPythonVersion(), this.getArchitecture());
     }
 }

@@ -6,9 +6,6 @@ import io.sentry.SentryLevel;
 import io.sentry.protocol.Message;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.config.Config;
-import rw.config.Stage;
-
-import java.util.List;
 
 
 public class RwSentry {

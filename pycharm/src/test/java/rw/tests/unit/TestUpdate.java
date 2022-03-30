@@ -43,7 +43,7 @@ public class TestUpdate extends BaseMockedTestCase {
 
     @Test
     public void testInstallingWhenNotInstalled() throws Exception {
-        FileUtils.deleteDirectory(Config.get().getPackagesRootDir().toFile());
+        FileUtils.deleteDirectory(Config.get().getPackagesRootDir());
 
         AnActionEvent event = new TestActionEvent();
         this.action.update(event);
@@ -58,10 +58,10 @@ public class TestUpdate extends BaseMockedTestCase {
         MiscUtils.assertInstalled(this.webVersion);
 
         verify(this.webPackageManager, times(1)).install(any());
-        verify(this.notificationManager, times(1)).show(this.getProject(),
-                Config.get().msgs.UPDATED_SUCCESSFULLY,
-                "",
-                NotificationType.INFORMATION);
+        verify(this.notificationManager, times(1)).show(any(),
+                eq(Config.get().msgs.UPDATED_SUCCESSFULLY),
+                eq(""),
+                eq(NotificationType.INFORMATION));
     }
 
     @Test
@@ -79,10 +79,10 @@ public class TestUpdate extends BaseMockedTestCase {
         assertThat(event.getPresentation().isEnabled()).isTrue();
 
         verify(this.webPackageManager, times(0)).install(any());
-        verify(this.notificationManager, times(1)).show(this.getProject(),
-                Config.get().msgs.ALREADY_UP_TO_DATE,
-                "",
-                NotificationType.INFORMATION);
+        verify(this.notificationManager, times(1)).show(any(),
+                eq(Config.get().msgs.ALREADY_UP_TO_DATE),
+                eq(""),
+                eq(NotificationType.INFORMATION));
 
         MiscUtils.assertInstalled(this.webVersion);
     }
@@ -91,7 +91,7 @@ public class TestUpdate extends BaseMockedTestCase {
     public void testUpdate() throws Exception {
         PackageFixture packageFixture = new PackageFixture("0.0.0");
 
-        FileUtils.deleteDirectory(Config.get().getPackagesRootDir().toFile());
+        FileUtils.deleteDirectory(Config.get().getPackagesRootDir());
 
         AnActionEvent event = new TestActionEvent();
         this.action.update(event);
@@ -104,10 +104,10 @@ public class TestUpdate extends BaseMockedTestCase {
         assertThat(event.getPresentation().isEnabled()).isTrue();
 
         verify(this.webPackageManager, times(1)).install(any());
-        verify(this.notificationManager, times(1)).show(this.getProject(),
-                Config.get().msgs.UPDATED_SUCCESSFULLY,
-                "",
-                NotificationType.INFORMATION);
+        verify(this.notificationManager, times(1)).show(any(),
+                eq(Config.get().msgs.UPDATED_SUCCESSFULLY),
+                eq(""),
+                eq(NotificationType.INFORMATION));
 
         MiscUtils.assertInstalled(this.webVersion);
         assertThat(packageFixture.packageDistInfoDir.exists()).isFalse();

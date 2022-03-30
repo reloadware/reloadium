@@ -5,39 +5,19 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import net.lingala.zip4j.ZipFile;
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.httpclient.auth.BasicScheme;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rw.audit.RwSentry;
 import rw.config.Config;
-import rw.config.Stage;
 import rw.pkg.wheel.BaseWheel;
 import rw.pkg.wheel.WheelFactory;
-import rw.util.OsType;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
 
 class InstallTask extends Task.Backgroundable {
     @Nullable
@@ -101,7 +81,6 @@ public abstract class BasePackageManager {
         }
     }
 
-
     public BasePackageManager() {
         this.errored = false;
         this.currentVersionFile = Paths.get(String.valueOf(Config.get().getPackagesRootDir()), "version.txt");
@@ -125,17 +104,53 @@ public abstract class BasePackageManager {
         }
     }
 
-    abstract boolean isInstalled();
+    abstract boolean shouldInstall();
 
     public boolean isInstalling() {
         return this.installing;
     }
 
-    abstract public void install(@Nullable Listener listener) throws Exception ;
+    abstract public void install(@Nullable Listener listener) throws Exception;
+
     public void run(@Nullable Listener listener) {
-        if (!this.isInstalled()) {
+        if (this.shouldInstall()) {
             this.installing = true;
             ProgressManager.getInstance().run(new InstallTask(this, listener));
+        }
+    }
+
+    abstract protected List<File> getWheelFiles() throws IOException;
+
+    protected void installWheels(List<File> wheels) throws Exception {
+        for (File wheelFile : wheels) {
+            BaseWheel wheel = WheelFactory.factory(wheelFile.getName());
+
+            File packageVersionDir = wheel.getPackageDir();
+            wheel.initPackageDir();
+
+            new ZipFile(wheelFile).extractAll(packageVersionDir.toString());
+            try {
+                wheelFile.delete();
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    protected void installVersion(@Nullable Listener listener, String version) throws Exception {
+        if (listener != null)
+            listener.started();
+
+        List<File> wheels = this.getWheelFiles();
+        this.installWheels(wheels);
+        Files.writeString(this.currentVersionFile, version);
+        this.cleanWheels(wheels);
+    }
+    protected void cleanWheels(List<File> wheels) {
+        for (File w : wheels) {
+            try {
+                w.delete();
+            } catch (Exception ignored) {
+            }
         }
     }
 }

@@ -4,7 +4,7 @@ import rw.config.Config;
 import rw.pkg.Architecture;
 import rw.util.OsType;
 
-import java.nio.file.Path;
+import java.io.File;
 
 public class WinWheel extends BaseWheel {
     WinWheel(String url) {
@@ -25,7 +25,7 @@ public class WinWheel extends BaseWheel {
     }
 
     @Override
-    public Path getPackageDir() {
+    public File getPackageDir() {
         return Config.get().getPackagePythonVersionDir(this.getPythonVersion(), this.getArchitecture());
     }
 }

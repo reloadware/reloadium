@@ -6,7 +6,10 @@ import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.execution.compound.CompoundRunConfiguration;
 import com.intellij.execution.compound.CompoundRunConfigurationType;
 import com.intellij.execution.impl.RunManagerImpl;
+import com.intellij.ide.highlighter.ModuleFileType;
 import com.intellij.openapi.application.WriteAction;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.ProjectJdkTable;
 import com.intellij.openapi.projectRoots.Sdk;
@@ -42,13 +45,13 @@ public class CakeshopFixture {
 
     public CakeshopFixture(Project project) throws Exception {
         this.project = project;
-        this.root = Path.of(Files.createTempDirectory("cakeshop").toFile().getAbsolutePath());
-
-        this.sdkFixture = new SdkFixture(this.root.toFile(), "3.9");
     }
 
     public void start() throws Exception {
         // Create source
+        this.root = Path.of(Files.createTempDirectory("cakeshop").toFile().getAbsolutePath());
+        this.sdkFixture = new SdkFixture(this.root.toFile(), "3.9");
+
         this.source = Path.of(root.toString(), "main.py" ).toFile();
         String body = Files.readString(Path.of(this.getClass().getClassLoader().getResource("cakeshop.py").getFile()));
         Files.writeString(this.source.toPath(), body);
@@ -80,6 +83,7 @@ public class CakeshopFixture {
 
     public void stop() {
         RunManager runManager = RunManager.getInstance(project);
+
         runManager.removeConfiguration(this.settings);
         runManager.removeConfiguration(this.nonPySettings);
         runManager.setSelectedConfiguration(null);

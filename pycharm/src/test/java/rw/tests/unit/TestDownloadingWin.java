@@ -21,7 +21,7 @@ public class TestDownloadingWin extends BaseMockedTestCase {
 
         super.setUp();
 
-        if (Config.get().getPackagePythonVersionDir("3.9").toFile().exists()) {
+        if (Config.get().getPackagePythonVersionDir("3.9").exists()) {
             int a = 1;
         }
     }

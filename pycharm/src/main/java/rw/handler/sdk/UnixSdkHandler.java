@@ -13,8 +13,8 @@ public class UnixSdkHandler extends BaseSdkHandler {
 
     public File getPackageDir() {
         if (!this.isSdkVersionSupported()) {
-            return Config.get().getPackagePythonVersionDir(Config.get().supportedVersions[0]).toFile();
+            return Config.get().getPackagePythonVersionDir(Config.get().supportedVersions[0]);
         }
-        return Config.get().getPackagePythonVersionDir(this.getVersion()).toFile();
+        return Config.get().getPackagePythonVersionDir(this.getVersion());
     }
 }

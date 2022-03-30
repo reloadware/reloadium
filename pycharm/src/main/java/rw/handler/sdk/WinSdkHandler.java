@@ -17,20 +17,20 @@ public class WinSdkHandler extends BaseSdkHandler {
 
     public File getPackageDir() {
         if (!this.isSdkVersionSupported()) {
-            return Config.get().getPackagePythonVersionDir(Config.get().supportedVersions[0]).toFile();
+            return Config.get().getPackagePythonVersionDir(Config.get().supportedVersions[0]);
         }
 
         assert this.sdk.getHomePath() != null;
         try {
             String interpreterContent = new String(Files.readAllBytes(Path.of(this.sdk.getHomePath())));
             if (interpreterContent.contains("amd64")) {
-                return Config.get().getPackagePythonVersionDir(this.getVersion(), Architecture.x64).toFile();
+                return Config.get().getPackagePythonVersionDir(this.getVersion(), Architecture.x64);
             }
             else {
-                return Config.get().getPackagePythonVersionDir(this.getVersion(), Architecture.x86).toFile();
+                return Config.get().getPackagePythonVersionDir(this.getVersion(), Architecture.x86);
             }
         } catch (IOException e) {
-            return Config.get().getPackagePythonVersionDir(this.getVersion()).toFile();
+            return Config.get().getPackagePythonVersionDir(this.getVersion());
         }
     };
 }

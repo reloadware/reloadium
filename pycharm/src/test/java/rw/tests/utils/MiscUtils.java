@@ -76,17 +76,17 @@ public class MiscUtils {
     }
 
     public static void assertInstalled(String version) throws Exception {
-        assertThat(Config.get().getPackagesRootDir().toFile().exists()).isTrue();
+        assertThat(Config.get().getPackagesRootDir().exists()).isTrue();
 
         for (String pythonVersion: Config.get().supportedVersions) {
-            File pythonVersionDir = Config.get().getPackagePythonVersionDir(pythonVersion).toFile();
-            File packageDir = Paths.get(String.valueOf(pythonVersionDir), Config.get().packageName).toFile();
+            File pythonVersionDir = Config.get().getPackagePythonVersionDir(pythonVersion);
+            File packageDir = new File(String.valueOf(pythonVersionDir), Config.get().packageName);
 
             assertThat(packageDir.exists()).isTrue();
             assertThat(pythonVersionDir.exists()).isTrue();
 
             if(OsType.DETECTED == OsType.Windows) {
-                File pythonVersion32Dir = Config.get().getPackagePythonVersionDir(pythonVersion, Architecture.x86).toFile();
+                File pythonVersion32Dir = Config.get().getPackagePythonVersionDir(pythonVersion, Architecture.x86);
                 assertThat(pythonVersion32Dir.exists()).isTrue();
             }
         }

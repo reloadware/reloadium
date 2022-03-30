@@ -94,7 +94,6 @@ pip-wheel-metadata
 
 *.pyi
 *.c
-smartreloader.build
 
 __obfuscated__
 __normalised__

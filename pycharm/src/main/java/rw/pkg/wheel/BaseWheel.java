@@ -1,11 +1,12 @@
 package rw.pkg.wheel;
 
-import org.apache.maven.artifact.versioning.ComparableVersion;
+import org.apache.commons.io.FileUtils;
 import rw.config.Config;
 import rw.pkg.Architecture;
 import rw.util.OsType;
 
-import java.nio.file.Path;
+import java.io.File;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,5 +73,17 @@ abstract public class BaseWheel {
         return this.version;
     }
 
-    abstract public Path getPackageDir();
+    abstract public File getPackageDir();
+
+    public void initPackageDir() {
+        File packageDir = this.getPackageDir();
+
+        if (packageDir.exists()) {
+            try {
+                FileUtils.deleteDirectory(packageDir);
+            } catch (IOException ignored) {
+            }
+        }
+        packageDir.mkdirs();
+    }
 }

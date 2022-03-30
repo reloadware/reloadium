@@ -2,9 +2,6 @@ package rw.handler.sdk;
 
 import com.intellij.openapi.projectRoots.Sdk;
 import com.jetbrains.python.sdk.PythonSdkType;
-import com.jetbrains.python.sdk.flavors.PythonSdkFlavor;
-import com.jetbrains.python.sdk.flavors.UnixPythonSdkFlavor;
-import com.jetbrains.python.sdk.flavors.WinPythonSdkFlavor;
 import org.jetbrains.annotations.Nullable;
 
 

@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.reloadware'
-version '0.7.2' //  # RwRender: version '{{ ctx.version }}' //
+version '0.7.5' //  # RwRender: version '{{ ctx.version }}' //
 
 repositories {
     mavenCentral()
@@ -68,6 +68,15 @@ intellij {
     plugins = [intellijPlugin]
     updateSinceUntilBuild = false
 }
+
+// Pro
+//intellij {
+//    version = 'PY-2021.3.2'
+//    type = 'PY'
+//    downloadSources = true
+//    plugins = ["python"]
+//    updateSinceUntilBuild = false
+//}
 
 test {
     useJUnitPlatform()

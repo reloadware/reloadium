@@ -6,14 +6,13 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.actionSystem.UpdateInBackground;
-import com.intellij.openapi.project.Project;
+import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
-import rw.service.Service;
-
-import static com.intellij.openapi.externalSystem.util.ExternalSystemApiUtil.executeOnEdt;
 
 
 abstract public class ContextPopupAction extends WithReloaderBase implements UpdateInBackground {
+    private static final Logger LOGGER = Logger.getInstance(ContextPopupAction.class);
+
     public void update(@NotNull AnActionEvent e) {
         if(this.canRun(e)) {
             super.update(e);

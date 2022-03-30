@@ -5,6 +5,7 @@ import org.powermock.reflect.Whitebox;
 import rw.config.Config;
 import rw.config.Stage;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -26,7 +27,7 @@ public class ConfigFixture {
         this.device = spy(new Config());
         Config.singleton = this.device;
 
-        Path dotDir = Path.of(Files.createTempDirectory(".reloadium").toFile().getAbsolutePath());
+        File dotDir = new File(Files.createTempDirectory(".reloadium").toFile().getAbsolutePath());
 
         Mockito.lenient().doReturn(dotDir).when(this.device).getDotDir();
 

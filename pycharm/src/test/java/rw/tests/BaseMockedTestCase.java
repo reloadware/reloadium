@@ -8,6 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import rw.audit.RwSentry;
 import rw.pkg.BuiltinPackageManager;
 import rw.service.Service;
+import rw.service.TestService;
 import rw.tests.fixtures.ConfigFixture;
 import rw.tests.fixtures.PyPiFixture;
 import rw.tests.fixtures.SentryFixture;
@@ -31,7 +32,7 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
 
     public RwSentry sentry;
 
-    public Service service;
+    public TestService service;
 
     @BeforeEach
     protected void setUp() throws Exception {
@@ -47,8 +48,8 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
         this.pyPiFixture.start();
         this.pyPiFixture.mockSimple();
 
-        this.service = spy(new Service());
-        Service.singleton = this.service;
+        this.service = new TestService();
+        TestService.singleton = this.service;
 
         this.webPackageManager = spy(this.service.webPackageManager);
         this.service.webPackageManager = this.webPackageManager;

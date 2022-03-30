@@ -53,7 +53,7 @@ public class TestService extends BaseMockedTestCase {
         this.service.init();
         PackageFixture packageFixture = new PackageFixture(this.webVersion.toString());
 
-        FileUtils.deleteDirectory(Config.get().getPackagesRootDir().toFile());
+        FileUtils.deleteDirectory(Config.get().getPackagesRootDir());
 
         this.service.checkIfStillGood();
 

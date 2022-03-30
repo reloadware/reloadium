@@ -37,9 +37,15 @@ public class TestWebPackageManager extends BaseMockedTestCase {
     }
 
     @Test
-    public void testIsUpToDate() throws Exception {
-        PackageFixture packageFixture = new PackageFixture("0.7.12");
-        assertThat(this.webPackageManager.isInstalled()).isFalse();
+    public void testShouldInstallCurrentOld() throws Exception {
+        PackageFixture packageFixture = new PackageFixture("0.1.0");
+        assertThat(this.webPackageManager.shouldInstall()).isTrue();
+    }
+
+    @Test
+    public void testShouldInstallCurrentSame() throws Exception {
+        PackageFixture packageFixture = new PackageFixture(this.webVersion);
+        assertThat(this.webPackageManager.shouldInstall()).isFalse();
     }
 
     @Test
@@ -163,7 +169,7 @@ public class TestWebPackageManager extends BaseMockedTestCase {
         lenient().doThrow(new RuntimeException("Error")).when(
                 this.service.webPackageManager).getWheelUrlsForVersion(any());
 
-        FileUtils.deleteDirectory(Config.get().getPackagesRootDir().toFile());
+        FileUtils.deleteDirectory(Config.get().getPackagesRootDir());
 
         this.service.checkForUpdate();
 

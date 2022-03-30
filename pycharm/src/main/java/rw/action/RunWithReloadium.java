@@ -1,12 +1,15 @@
 package rw.action;
 
-import com.intellij.execution.*;
+import com.intellij.execution.Executor;
 import com.intellij.execution.executors.DefaultRunExecutor;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.diagnostic.Logger;
 import rw.icons.Icons;
 
 
 public class RunWithReloadium extends WithReloaderBase {
+    private static final Logger LOGGER = Logger.getInstance(RunWithReloadium.class);
+
     RunWithReloadium() {
         super();
         this.runType = RunType.RUN;

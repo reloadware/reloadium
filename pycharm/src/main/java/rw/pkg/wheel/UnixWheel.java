@@ -4,7 +4,7 @@ import rw.config.Config;
 import rw.pkg.Architecture;
 import rw.util.OsType;
 
-import java.nio.file.Path;
+import java.io.File;
 
 public class UnixWheel extends BaseWheel {
     UnixWheel(String url) {
@@ -27,7 +27,7 @@ public class UnixWheel extends BaseWheel {
     }
 
     @Override
-    public Path getPackageDir() {
+    public File getPackageDir() {
         return Config.get().getPackagePythonVersionDir(this.getPythonVersion());
     }
 }

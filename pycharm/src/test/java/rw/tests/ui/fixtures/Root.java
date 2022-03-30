@@ -51,6 +51,8 @@ public class Root extends IdeaFrame {
     }
 
     public void assertButtonsEnabled() {
+        MiscUtils.sleep(5.0f);
+
         ActionButtonFixture runWithReloadium = this.runWithReloadium();
         ActionButtonFixture debugWithReloadium = this.debugWithReloadium();
 

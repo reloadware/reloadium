@@ -3,10 +3,13 @@ package rw.action;
 import com.intellij.execution.Executor;
 import com.intellij.execution.executors.DefaultDebugExecutor;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.diagnostic.Logger;
 import rw.icons.Icons;
 
 
 public class DebugWithReloadium extends WithReloaderBase {
+    private static final Logger LOGGER = Logger.getInstance(DebugWithReloadium.class);
+
     public static String ID = "DebugWithReloadium";
 
     DebugWithReloadium() {

@@ -14,4 +14,5 @@ public interface Icons {
     Icon RestartDebugger = IconLoader.getIcon("/icons/restartDebuggerWithReloadium.svg", Icons.class);
     Icon Update = IconLoader.getIcon("/icons/updateReloadium.svg", Icons.class);
     Icon ProductIcon = IconLoader.getIcon("/icons/reloadiumIcon.svg", Icons.class);
+    Icon Settings = IconLoader.getIcon("/icons/settings.svg", Icons.class);
 }
