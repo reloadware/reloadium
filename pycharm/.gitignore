@@ -3,4 +3,4 @@ build
 reloadium-*.zip
 video
 common
-src/main/resources/wheels/*
+src/main/resources/META-INF/wheels/*

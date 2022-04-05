@@ -2,6 +2,33 @@ Change Log
 ##########
 
 
+0.7.7
+-------
+
+**Miscellaneous**:
+    
+  Added:
+    * About Reloadium button
+    
+  Fixed:
+    * Older IDE versions compatiblity
+    * Patching methods bugs
+    * Adding classes bugs
+    * Patching tuples bugs
+    
+**User Experience**:
+    
+  Added:
+    * Modifing not loaded files msg
+    
+0.7.6
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Updating methods issues under run (non debug)
+    
 0.7.5
 -------
 
@@ -127,7 +154,7 @@ Change Log
   Fixed:
     * Update popup
     * Context group action running wrong configuration
-    * NotNull parameter exeception when there are no packages
+    * NotNull parameter exception when there are no packages
     
 0.6.3
 -------
@@ -137,7 +164,7 @@ Change Log
   Fixed:
     * Pip compatibility issues for linux
     * EDT errors
-    * Reloadium buttons not starting process ocassionally
+    * Reloadium buttons not starting process occasionally
     * General stability
     
   Added:

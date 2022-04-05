@@ -115,6 +115,7 @@ public final class WebPackageManager extends BasePackageManager {
             LOGGER.info("Using cached.");
             return this.wheelUrlsCache;
         }
+        LOGGER.info("Cache obsolete, fetching from web");
 
         this.wheelUrlsCacheCheckTimestamp = Instant.now().getEpochSecond();
 

@@ -2,6 +2,29 @@ Change Log
 ##########
 
 
+0.8.4
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Patching methods bugs
+    * Adding classes bugs
+    * Patching tuples bugs
+    
+**User Experience**:
+    
+  Added:
+    * Modifing not loaded files msg
+    
+0.8.3
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Updating methods issues under run (non debug)
+    
 0.8.2
 -------
 

@@ -41,8 +41,8 @@ public class Service {
         JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkForUpdate, 1,
                 Config.get().checkForUpdateInterval, TimeUnit.HOURS);
 
-        JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkIfStillGood, 120,
-                30, TimeUnit.SECONDS);
+        JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkIfStillGood, 2,
+                10, TimeUnit.MINUTES);
     }
 
     public static Service get() {
@@ -69,6 +69,7 @@ public class Service {
     }
 
     public void checkForUpdate() {
+        LOGGER.info("Checking for update");
         if (this.webPackageManager.hasErrored()) {
             return;
         }
@@ -77,12 +78,10 @@ public class Service {
     }
 
     public void checkIfStillGood() {
-        if (this.webPackageManager.hasErrored()) {
-            return;
-        }
-
-        if (this.webPackageManager.shouldInstall() && !this.webPackageManager.isInstalling() && !this.builtinPackageManager.isInstalling()) {
-            this.webPackageManager.run(null);
+        LOGGER.info("Checking if still good");
+        if (this.builtinPackageManager.shouldInstall() && !this.builtinPackageManager.isInstalling()) {
+            LOGGER.info("Not good, installing builtin package");
+            this.builtinPackageManager.run(null);
         }
     }
 }

@@ -13,6 +13,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.text.StringUtil;
@@ -20,13 +21,12 @@ import org.jetbrains.annotations.NotNull;
 import rw.config.Config;
 import rw.handler.runConf.BaseRunConfHandler;
 import rw.handler.runConf.RunConfHandlerFactory;
-import rw.pkg.WebPackageManager;
 import rw.service.Service;
 
 import java.util.TimerTask;
 
 
-public abstract class WithReloaderBase extends AnAction {
+public abstract class WithReloaderBase extends AnAction implements DumbAware {
     RunType runType;
 
     private static final Logger LOGGER = Logger.getInstance(WithReloaderBase.class);

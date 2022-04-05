@@ -15,4 +15,6 @@ public interface Icons {
     Icon Update = IconLoader.getIcon("/icons/updateReloadium.svg", Icons.class);
     Icon ProductIcon = IconLoader.getIcon("/icons/reloadiumIcon.svg", Icons.class);
     Icon Settings = IconLoader.getIcon("/icons/settings.svg", Icons.class);
+    Icon About = IconLoader.getIcon("/icons/about.svg", Icons.class);
+    Icon AboutLogo = IconLoader.getIcon("/icons/aboutLogo.svg", Icons.class);
 }

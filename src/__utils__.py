@@ -99,6 +99,9 @@ def pre_import_check() -> None:
         sys.stderr.write(colored(IMPORT_ERROR_MSG, (255, 0, 0)))
         sys.stderr.flush()
 
+        if os.environ.get("RW_DEBUG", "False") != "False":
+            raise
+
         try:
             report_import_fail(e)
         except:

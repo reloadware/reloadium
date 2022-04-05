@@ -1,4 +1,50 @@
 {
+  "0.7.7": [
+    {
+      "type": "Added",
+      "description": "About Reloadium button",
+      "tag": "Miscellaneous",
+      "date": "2022-04-05"
+    },
+    {
+      "type": "Fixed",
+      "description": "Older IDE versions compatiblity",
+      "tag": "Miscellaneous",
+      "date": "2022-04-05"
+    },
+    {
+      "type": "Fixed",
+      "description": "Patching methods bugs",
+      "tag": "Miscellaneous",
+      "date": "2022-04-05"
+    },
+    {
+      "type": "Fixed",
+      "description": "Adding classes bugs",
+      "tag": "Miscellaneous",
+      "date": "2022-04-05"
+    },
+    {
+      "type": "Fixed",
+      "description": "Patching tuples bugs",
+      "tag": "Miscellaneous",
+      "date": "2022-04-05"
+    },
+    {
+      "type": "Added",
+      "description": "Modifing not loaded files msg",
+      "tag": "User Experience",
+      "date": "2022-04-05"
+    }
+  ],
+  "0.7.6": [
+    {
+      "type": "Fixed",
+      "description": "Updating methods issues under run (non debug)",
+      "tag": "Miscellaneous",
+      "date": "2022-04-01"
+    }
+  ],
   "0.7.5": [
     {
       "type": "Added",
@@ -260,7 +306,7 @@
     },
     {
       "date": "2022-02-15",
-      "description": "NotNull parameter exeception when there are no packages",
+      "description": "NotNull parameter exception when there are no packages",
       "tag": "Miscellaneous",
       "type": "Fixed"
     }
@@ -292,7 +338,7 @@
     },
     {
       "date": "2022-02-10",
-      "description": "Reloadium buttons not starting process ocassionally",
+      "description": "Reloadium buttons not starting process occasionally",
       "tag": "Miscellaneous",
       "type": "Fixed"
     },

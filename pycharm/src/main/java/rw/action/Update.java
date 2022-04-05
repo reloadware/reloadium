@@ -4,6 +4,7 @@ import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 import rw.config.Config;
@@ -12,7 +13,7 @@ import rw.service.Service;
 import rw.util.NotificationManager;
 
 
-public class Update extends AnAction {
+public class Update extends AnAction implements DumbAware {
     private static final Logger LOGGER = Logger.getInstance(Update.class);
 
     public static String ID = "UpdatePackage";

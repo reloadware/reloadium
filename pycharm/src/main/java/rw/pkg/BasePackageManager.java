@@ -1,6 +1,7 @@
 // Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package rw.pkg;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
@@ -62,6 +63,8 @@ class InstallTask extends Task.Backgroundable {
 
 
 public abstract class BasePackageManager {
+    private static final Logger LOGGER = Logger.getInstance(BasePackageManager.class);
+
     @NotNull
     protected final Path currentVersionFile;
     boolean installing;
@@ -115,6 +118,7 @@ public abstract class BasePackageManager {
     public void run(@Nullable Listener listener) {
         if (this.shouldInstall()) {
             this.installing = true;
+            LOGGER.info("Installing");
             ProgressManager.getInstance().run(new InstallTask(this, listener));
         }
     }

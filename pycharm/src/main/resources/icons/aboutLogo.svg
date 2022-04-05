@@ -3,12 +3,12 @@
 
 <svg
    style="isolation:isolate"
-   viewBox="0 0 12 12"
-   width="12pt"
-   height="12pt"
+   viewBox="0 0 64 64"
+   width="64pt"
+   height="64pt"
    version="1.1"
    id="svg15"
-   sodipodi:docname="reloadiumIcon.svg"
+   sodipodi:docname="reloadiumIconAbout.svg"
    inkscape:version="1.1.1 (1:1.1+202109281949+c3084ef5ed)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -26,9 +26,9 @@
      showgrid="false"
      units="mm"
      viewbox-width="24.0024"
-     inkscape:zoom="21.773043"
-     inkscape:cx="3.3986982"
-     inkscape:cy="12.377691"
+     inkscape:zoom="5.4432608"
+     inkscape:cx="51.623468"
+     inkscape:cy="85.702306"
      inkscape:window-width="1961"
      inkscape:window-height="1942"
      inkscape:window-x="1875"
@@ -57,7 +57,7 @@
   <g
      clip-path="url(#_clipPath_2DjBwKfnqYfgY3i8bpL6YLHQhvIHsUX6)"
      id="g13"
-     transform="scale(0.05)">
+     transform="scale(0.26666667)">
     <rect
        x="3.75"
        y="3.75"

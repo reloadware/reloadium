@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.reloadium</id>
     <name>Reloadium</name>
-    <version>0.7.5</version>
+    <version>0.7.7</version>
     <idea-version since-build="203"/>
     <vendor email="damian@reloadware.com" url="www.reloadware.com">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
@@ -21,6 +21,51 @@
 
     <change-notes><![CDATA[
     
+        <h3>0.7.7</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>MISCELLANEOUS:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>About Reloadium button</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Older IDE versions compatiblity</li>
+                            <li>Patching methods bugs</li>
+                            <li>Adding classes bugs</li>
+                            <li>Patching tuples bugs</li>
+                        </ul>
+                    
+                </div>
+                <h4>USER EXPERIENCE:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Modifing not loaded files msg</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
+        <h3>0.7.6</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>MISCELLANEOUS:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Updating methods issues under run (non debug)</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>0.7.5</h3>
             <div style="padding-left: 20px;">
             
@@ -220,7 +265,7 @@
                         <ul>
                             <li>Update popup</li>
                             <li>Context group action running wrong configuration</li>
-                            <li>NotNull parameter exeception when there are no packages</li>
+                            <li>NotNull parameter exception when there are no packages</li>
                         </ul>
                     
                 </div>
@@ -236,7 +281,7 @@
                         <ul>
                             <li>Pip compatibility issues for linux</li>
                             <li>EDT errors</li>
-                            <li>Reloadium buttons not starting process ocassionally</li>
+                            <li>Reloadium buttons not starting process occasionally</li>
                             <li>General stability</li>
                         </ul>
                     
@@ -324,6 +369,11 @@
                     class="rw.action.Settings"
                     text="Settings"
                     icon="rw.icons.Icons.Settings">
+            </action>
+            <action id="ReloadiumAbout"
+                    class="rw.action.About"
+                    text="About"
+                    icon="rw.icons.Icons.About">
             </action>
             <add-to-group group-id="MainMenu" relative-to-action="ToolsMenu" anchor="before"/>
         </group>

@@ -26,8 +26,8 @@ import java.util.Objects;
 
 public final class BuiltinPackageManager extends BasePackageManager {
     boolean installing;
-    File builtinWheelsDir;
     String builtinVersion;
+    String resourceWheelsPathRoot = "META-INF/wheels/";
 
     private static final Logger LOGGER = Logger.getInstance(BuiltinPackageManager.class);
 
@@ -35,9 +35,9 @@ public final class BuiltinPackageManager extends BasePackageManager {
         super();
         LOGGER.info("Creating BuiltinPackageManager");
 
-        this.builtinWheelsDir = new File(this.getClass().getClassLoader().getResource("wheels").getFile());
         try {
-            String builtinVersionStr = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("wheels/version.txt"), StandardCharsets.UTF_8.name());
+            String builtinVersionStr = IOUtils.toString(getClass().getClassLoader().getResourceAsStream(
+                    this.resourceWheelsPathRoot + "version.txt"), StandardCharsets.UTF_8.name());
             this.builtinVersion = builtinVersionStr;
         } catch (IOException e) {
             RwSentry.get().captureException(e);
@@ -81,7 +81,7 @@ public final class BuiltinPackageManager extends BasePackageManager {
         String[] wheels = null;
         try {
             wheels = IOUtils.toString(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                    "wheels/content.txt")), StandardCharsets.UTF_8.name()).split("\n");
+                    this.resourceWheelsPathRoot + "content.txt")), StandardCharsets.UTF_8.name()).split("\n");
         } catch (IOException e) {
             RwSentry.get().captureException(e);
             throw e;
@@ -98,7 +98,9 @@ public final class BuiltinPackageManager extends BasePackageManager {
 
             File wheelFile = new File(tmpdir, wheel.getFilename());
 
-            InputStream wheelFileStream = getClass().getClassLoader().getResourceAsStream(String.format("wheels/%s", wheelFilename));
+            InputStream wheelFileStream = getClass().getClassLoader().getResourceAsStream(
+                    this.resourceWheelsPathRoot + wheelFilename
+            );
             FileUtils.copyInputStreamToFile(wheelFileStream, wheelFile);
             wheelFileStream.close();
             ret.add(wheelFile);
