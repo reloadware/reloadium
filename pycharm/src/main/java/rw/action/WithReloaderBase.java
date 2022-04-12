@@ -26,7 +26,7 @@ import rw.service.Service;
 import java.util.TimerTask;
 
 
-public abstract class WithReloaderBase extends AnAction implements DumbAware {
+public abstract class WithReloaderBase extends AnAction {
     RunType runType;
 
     private static final Logger LOGGER = Logger.getInstance(WithReloaderBase.class);

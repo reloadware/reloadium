@@ -55,6 +55,7 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
         this.runConf.getEnvs().put("RW_CACHE", EnvUtils.boolToEnv(state.cacheEnabled));
         this.runConf.getEnvs().put("RW_PRINTLOGO", EnvUtils.boolToEnv(state.printLogo));
         this.runConf.getEnvs().put("RW_WATCHCWD", EnvUtils.boolToEnv(state.watchCwd));
+        this.runConf.getEnvs().put("PYDEVD_USE_CYTHON", "NO");
 
         List<String> reloadiumPath = new ArrayList<String>(state.reloadiumPath);
 

@@ -116,10 +116,15 @@ public abstract class BasePackageManager {
     abstract public void install(@Nullable Listener listener) throws Exception;
 
     public void run(@Nullable Listener listener) {
-        if (this.shouldInstall()) {
+        try {
+            if (this.shouldInstall()) {
             this.installing = true;
             LOGGER.info("Installing");
             ProgressManager.getInstance().run(new InstallTask(this, listener));
+        }
+        }
+        catch (Exception e) {
+            RwSentry.get().captureException(e);
         }
     }
 

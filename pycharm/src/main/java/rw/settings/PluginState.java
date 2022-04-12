@@ -23,7 +23,7 @@ public class PluginState {
         this.printLogo = true;
         this.cacheEnabled = true;
         this.verbose = true;
-        this.debuggerSpeedups = true;
+        this.debuggerSpeedups = false;
     }
 
     @Override

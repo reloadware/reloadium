@@ -1,12 +1,12 @@
 plugins {
     id('java')
     id('org.jetbrains.intellij') version '1.5.2'
-    id("org.jetbrains.kotlin.jvm") version "1.6.0"
+    id("org.jetbrains.kotlin.jvm") version "1.6.20"
     id('com.adarshr.test-logger') version '3.1.0'
 }
 
 group 'com.reloadware'
-version '0.7.7' //  # RwRender: version '{{ ctx.version }}' //
+version '0.7.8' //  # RwRender: version '{{ ctx.version }}' //
 
 repositories {
     mavenCentral()

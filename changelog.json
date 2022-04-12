@@ -1,4 +1,60 @@
 {
+  "0.8.5": [
+    {
+      "type": "Changed",
+      "description": "Make debugger speedups disabled by default (does not work in some cases)",
+      "tag": "Miscellaneous",
+      "date": "2022-04-12"
+    },
+    {
+      "type": "Fixed",
+      "description": "Optimise import time",
+      "tag": "Miscellaneous",
+      "date": "2022-04-12"
+    },
+    {
+      "type": "Fixed",
+      "description": "Modifying decorated class methods bugs",
+      "tag": "Miscellaneous",
+      "date": "2022-04-12"
+    },
+    {
+      "type": "Fixed",
+      "description": "Comprehensions bugs",
+      "tag": "Miscellaneous",
+      "date": "2022-04-12"
+    },
+    {
+      "type": "Added",
+      "description": "Handle user errors feature (let users fix errors that occured durring debugging).",
+      "tag": "Miscellaneous",
+      "date": "2022-04-12"
+    },
+    {
+      "type": "Fixed",
+      "description": "Python 3.10 compatibility bugs",
+      "tag": "Miscellaneous",
+      "date": "2022-04-12"
+    },
+    {
+      "type": "Fixed",
+      "description": "Reloading nested classes",
+      "tag": "Miscellaneous",
+      "date": "2022-04-12"
+    },
+    {
+      "type": "Fixed",
+      "description": "Windows compatibility bugs (django not rolling back db on user error)",
+      "tag": "Miscellaneous",
+      "date": "2022-04-12"
+    },
+    {
+      "type": "Added",
+      "description": "Adding and editing enums",
+      "tag": "Miscellaneous",
+      "date": "2022-04-12"
+    }
+  ],
   "0.8.4": [
     {
       "type": "Fixed",
@@ -20,7 +76,7 @@
     },
     {
       "type": "Added",
-      "description": "Modifing not loaded files msg",
+      "description": "Modifying not loaded files msg",
       "tag": "User Experience",
       "date": "2022-04-05"
     }

@@ -2,6 +2,27 @@ Change Log
 ##########
 
 
+0.7.8
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Index not ready errors
+    * Optimise import time
+    * Modifying decorated class methods bugs
+    * Comprehensions bugs
+    * Python 3.10 compatibility bugs
+    * Reloading nested classes
+    * Windows compatibility bugs (django not rolling back db on user error)
+    
+  Changed:
+    * Make debugger speedups disabled by default (does not work in some cases)
+    
+  Added:
+    * Handle user errors feature (let users fix errors that occured durring debugging).
+    * Adding and editing enums
+    
 0.7.7
 -------
 
