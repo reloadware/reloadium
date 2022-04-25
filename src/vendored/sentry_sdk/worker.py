@@ -64,7 +64,7 @@ class BackgroundWorker(object):
         with self._lock:
             if not self.is_alive:
                 self._thread = threading.Thread(
-                    target=self._target, name="raven-sentry.BackgroundWorker"
+                    target=self._target, name="reloadium-sentry"
                 )
                 self._thread.daemon = True
                 self._thread.start()

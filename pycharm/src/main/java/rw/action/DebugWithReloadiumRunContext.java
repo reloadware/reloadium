@@ -8,6 +8,8 @@ import rw.icons.Icons;
 
 public class DebugWithReloadiumRunContext extends ContextPopupAction {
 
+    public static String ID = "DebugWithReloadiumRunContextPopup";
+
     DebugWithReloadiumRunContext() {
         super();
         this.runType = RunType.DEBUG;

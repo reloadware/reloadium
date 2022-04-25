@@ -1,6 +1,7 @@
 package rw.handler.runConf;
 
 import com.intellij.execution.configurations.RunConfiguration;
+import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.ModuleRootManager;
@@ -10,7 +11,8 @@ import com.jetbrains.python.run.AbstractPythonRunConfiguration;
 import org.jetbrains.annotations.Nullable;
 import rw.action.RunType;
 import rw.audit.RwSentry;
-import rw.config.Config;
+import rw.consts.Const;
+import rw.session.Session;
 import rw.settings.PluginState;
 import rw.settings.Settings;
 import rw.util.EnvUtils;
@@ -22,11 +24,13 @@ import java.util.List;
 public class PythonRunConfHandler extends BaseRunConfHandler {
     AbstractPythonRunConfiguration<?> runConf;
     AbstractPythonRunConfiguration<?> origRunConf;
+    Session session;
 
     public PythonRunConfHandler(RunConfiguration runConf) {
         super(runConf);
         this.runConf = (AbstractPythonRunConfiguration<?>) runConf;
         this.origRunConf = (AbstractPythonRunConfiguration<?>) runConf.clone();
+        this.session = new Session(this.runConf.getProject(), this);
     }
 
     @Override
@@ -41,12 +45,14 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
 
         String pathSep = System.getProperty("path.separator");
 
-        this.runConf.setInterpreterOptions(String.format("-m %s %s", Config.get().packageName, command));
+        this.runConf.setInterpreterOptions(String.format("-m %s %s", Const.get().packageName, command));
+
+        this.session.start();
 
         // Set Envs
-        this.runConf.getEnvs().put(Config.get().ideNameEnvVar, ApplicationInfo.getInstance().getFullApplicationName());
-        this.runConf.getEnvs().put(Config.get().idePluginVersionEnvVar, Config.get().version);
-        this.runConf.getEnvs().put(Config.get().ideVersionEnvVar, ApplicationInfo.getInstance().getFullVersion());
+        this.runConf.getEnvs().put(Const.get().ideNameEnvVar, ApplicationInfo.getInstance().getFullApplicationName());
+        this.runConf.getEnvs().put(Const.get().idePluginVersionEnvVar, Const.get().version);
+        this.runConf.getEnvs().put(Const.get().ideVersionEnvVar, ApplicationInfo.getInstance().getFullVersion());
 
         PluginState state = Settings.getInstance(this.runConf.getProject()).getState();
 
@@ -55,6 +61,7 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
         this.runConf.getEnvs().put("RW_CACHE", EnvUtils.boolToEnv(state.cacheEnabled));
         this.runConf.getEnvs().put("RW_PRINTLOGO", EnvUtils.boolToEnv(state.printLogo));
         this.runConf.getEnvs().put("RW_WATCHCWD", EnvUtils.boolToEnv(state.watchCwd));
+        this.runConf.getEnvs().put("RW_IDE_SERVERPORT", String.valueOf(this.session.getPort()));
         this.runConf.getEnvs().put("PYDEVD_USE_CYTHON", "NO");
 
         List<String> reloadiumPath = new ArrayList<String>(state.reloadiumPath);
@@ -69,7 +76,7 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
                         continue;
                     }
                     try {
-                        reloadiumPath.add(f.toNioPath().toString());
+                        reloadiumPath.add(this.convertPathToRemote(f.toNioPath().toString()));
                     }
                     catch (Exception e) {
                         RwSentry.get().captureException(e);
@@ -92,6 +99,16 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
             pythonpath = packagePath;
 
         this.runConf.getEnvs().put("PYTHONPATH", pythonpath);
+    }
+
+    public void onProcessStarted(RunContentDescriptor descriptor) {
+
+    }
+
+    @Override
+    public void onProcessExit() {
+        super.onProcessExit();
+        this.session.close();
     }
 
     @Override

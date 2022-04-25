@@ -1,7 +1,7 @@
 package rw.pkg.wheel;
 
 import org.apache.commons.io.FileUtils;
-import rw.config.Config;
+import rw.consts.Const;
 import rw.pkg.Architecture;
 import rw.util.OsType;
 
@@ -34,7 +34,7 @@ abstract public class BaseWheel {
         this.pythonVersion = "3." + pythonVersionMatcher.group(1);
 
         // ####### Get filename
-        Matcher filenameMatcher = Pattern.compile(String.format("%s-.*?\\.whl", Config.get().packageName)).matcher(input);
+        Matcher filenameMatcher = Pattern.compile(String.format("%s-.*?\\.whl", Const.get().packageName)).matcher(input);
         if (!filenameMatcher.find()) {
             throw new RuntimeException("Could not retrieve filename from url " + input);
         }
@@ -42,7 +42,7 @@ abstract public class BaseWheel {
 
 
         // ####### Get version
-        Matcher versionMatcher = Pattern.compile(String.format("%s-(\\d+\\.\\d+\\.\\d+)", Config.get().packageName)).matcher(this.input);
+        Matcher versionMatcher = Pattern.compile(String.format("%s-(\\d+\\.\\d+\\.\\d+)", Const.get().packageName)).matcher(this.input);
         if (!versionMatcher.find()) {
             throw new RuntimeException("Could not retrieve version from url " + input);
         }

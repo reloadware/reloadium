@@ -1,7 +1,7 @@
 package rw.handler.sdk;
 
 import com.intellij.openapi.projectRoots.Sdk;
-import rw.config.Config;
+import rw.consts.Const;
 
 import java.io.File;
 
@@ -13,8 +13,8 @@ public class UnixSdkHandler extends BaseSdkHandler {
 
     public File getPackageDir() {
         if (!this.isSdkVersionSupported()) {
-            return Config.get().getPackagePythonVersionDir(Config.get().supportedVersions[0]);
+            return Const.get().getPackagePythonVersionDir(Const.get().supportedVersions[0]);
         }
-        return Config.get().getPackagePythonVersionDir(this.getVersion());
+        return Const.get().getPackagePythonVersionDir(this.getVersion());
     }
 }

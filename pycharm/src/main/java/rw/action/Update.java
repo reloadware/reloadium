@@ -7,7 +7,8 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
-import rw.config.Config;
+import rw.audit.RwSentry;
+import rw.consts.Const;
 import rw.pkg.WebPackageManager;
 import rw.service.Service;
 import rw.util.NotificationManager;
@@ -37,7 +38,7 @@ public class Update extends AnAction implements DumbAware {
 
         if (!service.getPackageManager().shouldInstall()) {
             NotificationManager.get().show(project,
-                    Config.get().msgs.ALREADY_UP_TO_DATE,
+                    Const.get().msgs.ALREADY_UP_TO_DATE,
                     "",
                     NotificationType.INFORMATION);
             return;
@@ -53,7 +54,7 @@ public class Update extends AnAction implements DumbAware {
                     public void success() {
                         LOGGER.info("Success");
                         NotificationManager.get().show(project,
-                    Config.get().msgs.UPDATED_SUCCESSFULLY,
+                    Const.get().msgs.UPDATED_SUCCESSFULLY,
                     "",
                     NotificationType.INFORMATION);
                     }
@@ -62,8 +63,9 @@ public class Update extends AnAction implements DumbAware {
                     public void fail(Exception exception) {
                         LOGGER.error("Failed");
                         LOGGER.info(exception);
+                        RwSentry.get().captureException(exception);
                         NotificationManager.get().show(project,
-                    Config.get().msgs.INSTALLING_FAILED,
+                    Const.get().msgs.INSTALLING_FAILED,
                     "",
                     NotificationType.ERROR);
                     }

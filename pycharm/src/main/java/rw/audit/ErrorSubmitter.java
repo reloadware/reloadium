@@ -16,6 +16,7 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.util.Consumer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import rw.consts.Const;
 
 import java.awt.*;
 
@@ -24,7 +25,8 @@ public class ErrorSubmitter extends ErrorReportSubmitter {
     @Nullable
     @Override
     public String getPrivacyNoticeText() {
-        return "Hereby you agree to <a href=\"https://reloadium.io/privacy-policy\">this privacy policy</a>";
+        return String.format("Hereby you agree to <a href=\"%s\">this privacy policy</a>",
+                Const.get().privacyPolicyUrl);
     }
 
     @NotNull

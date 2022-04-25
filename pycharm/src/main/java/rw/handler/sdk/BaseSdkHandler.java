@@ -3,7 +3,7 @@ package rw.handler.sdk;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.jetbrains.python.psi.LanguageLevel;
 import com.jetbrains.python.sdk.flavors.PythonSdkFlavor;
-import rw.config.Config;
+import rw.consts.Const;
 
 import java.io.File;
 import java.util.Arrays;
@@ -34,7 +34,7 @@ abstract public class BaseSdkHandler {
             return false;
         }
 
-        boolean ret = Arrays.asList(Config.get().supportedVersions).contains(this.getVersion());
+        boolean ret = Arrays.asList(Const.get().supportedVersions).contains(this.getVersion());
         return ret;
     }
 
@@ -46,5 +46,9 @@ abstract public class BaseSdkHandler {
         boolean ret = true;
         ret &= PythonSdkFlavor.getFlavor(this.sdk) != null;
         return ret;
+    }
+
+    public Sdk getSdk() {
+        return this.sdk;
     }
 }

@@ -15,7 +15,7 @@
 .. raw:: html
 
     <p align="center">
-        <img src="media/example_small.gif" width="715px" alt="Example">
+        <img src="media/example_small.gif" width="900px" alt="Example">
     </p>
 
 

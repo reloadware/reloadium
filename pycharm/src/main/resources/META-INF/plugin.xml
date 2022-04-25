@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.reloadium</id>
     <name>Reloadium</name>
-    <version>0.7.8</version>
+    <version>0.8.0</version>
     <idea-version since-build="203"/>
     <vendor email="damian@reloadware.com" url="www.reloadware.com">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
@@ -21,10 +21,56 @@
 
     <change-notes><![CDATA[
     
+        <h3>0.8.0</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>Miscellaneous:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Reloading decorated methods by objects</li>
+                            <li>Adding methods bugs</li>
+                            <li>Fixing module errors while in function frame bugs</li>
+                            <li>Hangs on startup error in debug mode</li>
+                            <li>Python <= 3.8 compatiblity issues</li>
+                            <li>Python 3.10 compatibility issues</li>
+                            <li>Frame restart pointer recovering bugs</li>
+                        </ul>
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Handle reloading main module without guard, while loop as entrypoint</li>
+                        </ul>
+                    
+                        <b>Changed:</b>
+                        <ul>
+                            <li>Optimise threads</li>
+                        </ul>
+                    
+                </div>
+                <h4>PyCharmPlugin:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>First run dialog</li>
+                            <li>First debug dialog</li>
+                            <li>Events, commands</li>
+                            <li>Error highlighter</li>
+                            <li>First user error dialog</li>
+                            <li>Fixing frame error dialog</li>
+                            <li>Remote interpreters improvements</li>
+                            <li>Handling remote path mappings</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>0.7.8</h3>
             <div style="padding-left: 20px;">
             
-                <h4>MISCELLANEOUS:</h4>
+                <h4>Miscellaneous:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Fixed:</b>
@@ -55,7 +101,7 @@
         <h3>0.7.7</h3>
             <div style="padding-left: 20px;">
             
-                <h4>MISCELLANEOUS:</h4>
+                <h4>Miscellaneous:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Added:</b>
@@ -72,7 +118,7 @@
                         </ul>
                     
                 </div>
-                <h4>USER EXPERIENCE:</h4>
+                <h4>User Experience:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Added:</b>
@@ -86,7 +132,7 @@
         <h3>0.7.6</h3>
             <div style="padding-left: 20px;">
             
-                <h4>MISCELLANEOUS:</h4>
+                <h4>Miscellaneous:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Fixed:</b>
@@ -100,7 +146,7 @@
         <h3>0.7.5</h3>
             <div style="padding-left: 20px;">
             
-                <h4>MISCELLANEOUS:</h4>
+                <h4>Miscellaneous:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Added:</b>
@@ -118,7 +164,7 @@
                         </ul>
                     
                 </div>
-                <h4>USER EXPERIENCE:</h4>
+                <h4>User Experience:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Added:</b>
@@ -128,7 +174,7 @@
                         </ul>
                     
                 </div>
-                <h4>DJANGO:</h4>
+                <h4>Django:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Fixed:</b>
@@ -137,7 +183,7 @@
                         </ul>
                     
                 </div>
-                <h4>FLASK:</h4>
+                <h4>Flask:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Fixed:</b>
@@ -151,7 +197,7 @@
         <h3>0.7.3</h3>
             <div style="padding-left: 20px;">
             
-                <h4>MISCELLANEOUS:</h4>
+                <h4>Miscellaneous:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Added:</b>
@@ -171,7 +217,7 @@
         <h3>0.7.2</h3>
             <div style="padding-left: 20px;">
             
-                <h4>MISCELLANEOUS:</h4>
+                <h4>Miscellaneous:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Added:</b>
@@ -202,7 +248,7 @@
         <h3>0.7.1</h3>
             <div style="padding-left: 20px;">
             
-                <h4>MISCELLANEOUS:</h4>
+                <h4>Miscellaneous:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Fixed:</b>
@@ -218,7 +264,7 @@
                         </ul>
                     
                 </div>
-                <h4>CODE QUALITY:</h4>
+                <h4>Code Quality:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Added:</b>
@@ -237,7 +283,7 @@
         <h3>0.7.0</h3>
             <div style="padding-left: 20px;">
             
-                <h4>MISCELLANEOUS:</h4>
+                <h4>Miscellaneous:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Added:</b>
@@ -254,7 +300,7 @@
                         </ul>
                     
                 </div>
-                <h4>CODE QUALITY:</h4>
+                <h4>Code quality:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Added:</b>
@@ -269,7 +315,7 @@
         <h3>0.6.5</h3>
             <div style="padding-left: 20px;">
             
-                <h4>MISCELLANEOUS:</h4>
+                <h4>Miscellaneous:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Fixed:</b>
@@ -289,7 +335,7 @@
         <h3>0.6.4</h3>
             <div style="padding-left: 20px;">
             
-                <h4>MISCELLANEOUS:</h4>
+                <h4>Miscellaneous:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Fixed:</b>
@@ -305,7 +351,7 @@
         <h3>0.6.3</h3>
             <div style="padding-left: 20px;">
             
-                <h4>MISCELLANEOUS:</h4>
+                <h4>Miscellaneous:</h4>
                 <div style="padding-left: 40px;">
                     
                         <b>Fixed:</b>
@@ -340,6 +386,10 @@
 
         <projectService
           serviceImplementation="rw.settings.Settings"/>
+
+         <applicationService
+          serviceImplementation="rw.dialogs.DialogsState"
+          />
 
         <applicationService
           serviceInterface="rw.service.Service"

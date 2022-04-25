@@ -51,6 +51,7 @@ class BaseThread(threading.Thread):
 
     def __init__(self):
         threading.Thread.__init__(self)
+        self.name = "reloadium-watchdog"
         if hasattr(self, "daemon"):
             self.daemon = True
         else:

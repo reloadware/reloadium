@@ -1,13 +1,11 @@
 package rw.tests.utils;
 
-import rw.config.Config;
+import rw.consts.Const;
 import rw.pkg.Architecture;
-import rw.pkg.WebPackageManager;
 import rw.util.OsType;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -76,21 +74,21 @@ public class MiscUtils {
     }
 
     public static void assertInstalled(String version) throws Exception {
-        assertThat(Config.get().getPackagesRootDir().exists()).isTrue();
+        assertThat(Const.get().getPackagesRootDir().exists()).isTrue();
 
-        for (String pythonVersion: Config.get().supportedVersions) {
-            File pythonVersionDir = Config.get().getPackagePythonVersionDir(pythonVersion);
-            File packageDir = new File(String.valueOf(pythonVersionDir), Config.get().packageName);
+        for (String pythonVersion: Const.get().supportedVersions) {
+            File pythonVersionDir = Const.get().getPackagePythonVersionDir(pythonVersion);
+            File packageDir = new File(String.valueOf(pythonVersionDir), Const.get().packageName);
 
             assertThat(packageDir.exists()).isTrue();
             assertThat(pythonVersionDir.exists()).isTrue();
 
             if(OsType.DETECTED == OsType.Windows) {
-                File pythonVersion32Dir = Config.get().getPackagePythonVersionDir(pythonVersion, Architecture.x86);
+                File pythonVersion32Dir = Const.get().getPackagePythonVersionDir(pythonVersion, Architecture.x86);
                 assertThat(pythonVersion32Dir.exists()).isTrue();
             }
         }
-        Path currentVersionFile = Paths.get(String.valueOf(Config.get().getPackagesRootDir()), "version.txt");
+        Path currentVersionFile = Paths.get(String.valueOf(Const.get().getPackagesRootDir()), "version.txt");
         Files.readString(currentVersionFile);
     }
 

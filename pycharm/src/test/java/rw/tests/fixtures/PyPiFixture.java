@@ -3,9 +3,8 @@ package rw.tests.fixtures;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.ConnectionOptions;
-import org.mockserver.model.Header;
 import org.mockserver.model.MediaType;
-import rw.config.Config;
+import rw.consts.Const;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +13,6 @@ import java.nio.file.Path;
 import static io.netty.handler.codec.http.HttpHeaderNames.*;
 import static org.mockserver.model.BinaryBody.binary;
 import static org.mockserver.model.Header.header;
-import static org.mockserver.model.Headers.headers;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 import static org.mockserver.model.HttpStatusCode.OK_200;
@@ -25,7 +23,7 @@ public class PyPiFixture {
     Integer port = 1080;
 
     public PyPiFixture() throws IllegalAccessException {
-        FieldUtils.writeField(Config.get(), "pypiUrl", this.getUrl(), true);
+        FieldUtils.writeField(Const.get(), "pypiUrl", this.getUrl(), true);
     }
 
     public void start() {

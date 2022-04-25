@@ -3,7 +3,7 @@ package rw.tests.unit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import rw.config.Config;
+import rw.consts.Const;
 import rw.tests.BaseMockedTestCase;
 import rw.tests.fixtures.WinFixture;
 import rw.tests.utils.MiscUtils;
@@ -21,7 +21,7 @@ public class TestDownloadingWin extends BaseMockedTestCase {
 
         super.setUp();
 
-        if (Config.get().getPackagePythonVersionDir("3.9").exists()) {
+        if (Const.get().getPackagePythonVersionDir("3.9").exists()) {
             int a = 1;
         }
     }

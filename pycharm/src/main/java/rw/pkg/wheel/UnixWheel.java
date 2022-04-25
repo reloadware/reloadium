@@ -1,6 +1,6 @@
 package rw.pkg.wheel;
 
-import rw.config.Config;
+import rw.consts.Const;
 import rw.pkg.Architecture;
 import rw.util.OsType;
 
@@ -28,6 +28,6 @@ public class UnixWheel extends BaseWheel {
 
     @Override
     public File getPackageDir() {
-        return Config.get().getPackagePythonVersionDir(this.getPythonVersion());
+        return Const.get().getPackagePythonVersionDir(this.getPythonVersion());
     }
 }

@@ -1,4 +1,4 @@
-package rw.config;
+package rw.consts;
 
 public enum Stage {
     LOCAL("local"),

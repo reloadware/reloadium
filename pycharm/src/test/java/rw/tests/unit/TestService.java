@@ -4,7 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import rw.config.Config;
+import rw.consts.Const;
 import rw.tests.BaseMockedTestCase;
 import rw.tests.utils.MiscUtils;
 import rw.tests.fixtures.PackageFixture;
@@ -53,7 +53,7 @@ public class TestService extends BaseMockedTestCase {
         this.service.init();
         PackageFixture packageFixture = new PackageFixture(this.webVersion.toString());
 
-        FileUtils.deleteDirectory(Config.get().getPackagesRootDir());
+        FileUtils.deleteDirectory(Const.get().getPackagesRootDir());
 
         this.service.checkIfStillGood();
 

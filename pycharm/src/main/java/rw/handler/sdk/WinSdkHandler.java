@@ -1,7 +1,7 @@
 package rw.handler.sdk;
 
 import com.intellij.openapi.projectRoots.Sdk;
-import rw.config.Config;
+import rw.consts.Const;
 import rw.pkg.Architecture;
 
 import java.io.File;
@@ -17,20 +17,20 @@ public class WinSdkHandler extends BaseSdkHandler {
 
     public File getPackageDir() {
         if (!this.isSdkVersionSupported()) {
-            return Config.get().getPackagePythonVersionDir(Config.get().supportedVersions[0]);
+            return Const.get().getPackagePythonVersionDir(Const.get().supportedVersions[0]);
         }
 
         assert this.sdk.getHomePath() != null;
         try {
             String interpreterContent = new String(Files.readAllBytes(Path.of(this.sdk.getHomePath())));
             if (interpreterContent.contains("amd64")) {
-                return Config.get().getPackagePythonVersionDir(this.getVersion(), Architecture.x64);
+                return Const.get().getPackagePythonVersionDir(this.getVersion(), Architecture.x64);
             }
             else {
-                return Config.get().getPackagePythonVersionDir(this.getVersion(), Architecture.x86);
+                return Const.get().getPackagePythonVersionDir(this.getVersion(), Architecture.x86);
             }
         } catch (IOException e) {
-            return Config.get().getPackagePythonVersionDir(this.getVersion());
+            return Const.get().getPackagePythonVersionDir(this.getVersion());
         }
     };
 }

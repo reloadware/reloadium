@@ -9,7 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rw.config.Config;
+import rw.consts.Const;
 
 import javax.swing.*;
 
@@ -27,7 +27,7 @@ public class SettingsConfigurable implements Configurable, SearchableConfigurabl
 
     @Override
     public @NlsContexts.ConfigurableName String getDisplayName() {
-        return StringUtils.capitalize(Config.get().packageName);
+        return StringUtils.capitalize(Const.get().packageName);
     }
 
     @Override
@@ -52,6 +52,6 @@ public class SettingsConfigurable implements Configurable, SearchableConfigurabl
 
     @Override
     public @NotNull @NonNls String getId() {
-        return Config.get().packageName;
+        return Const.get().packageName;
     }
 }

@@ -4,8 +4,14 @@ import io.sentry.Sentry;
 import io.sentry.SentryEvent;
 import io.sentry.SentryLevel;
 import io.sentry.protocol.Message;
+import io.sentry.protocol.User;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.config.Config;
+import rw.config.ConfigManager;
+import rw.consts.Const;
+import rw.consts.Stage;
+
+import java.util.Arrays;
 
 
 public class RwSentry {
@@ -24,8 +30,8 @@ public class RwSentry {
 
     public void enable() {
         Sentry.init(options -> {
-            options.setDsn(Config.get().sentryDsn);
-            options.setEnvironment(Config.get().stage.value);
+            options.setDsn(Const.get().sentryDsn);
+            options.setEnvironment(Const.get().stage.value);
         });
     }
 
@@ -50,6 +56,10 @@ public class RwSentry {
     }
 
     public void captureException(Throwable throwable) {
+        if (Arrays.asList(Stage.LOCAL, Stage.CI).contains(Const.get().stage)) {
+            throwable.printStackTrace();
+        }
+
         this.enable();
 
         SentryEvent event = new SentryEvent();
@@ -78,6 +88,11 @@ public class RwSentry {
     private void addExtraInfo(SentryEvent event) {
         event.setLevel(SentryLevel.ERROR);
         event.setServerName("");
-        event.setRelease(Config.get().version);
+
+        User user = new User();
+        user.setId(ConfigManager.get().getConfig().user.uuid);
+
+        event.setUser(user);
+        event.setRelease(Const.get().version);
     }
 }

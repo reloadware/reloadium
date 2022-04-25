@@ -5,7 +5,6 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl;
 import com.intellij.openapi.projectRoots.impl.SdkConfigurationUtil;
 import com.jetbrains.python.sdk.PythonSdkType;
-import rw.config.Config;
 import rw.util.OsType;
 
 import java.io.File;
