@@ -14,11 +14,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.jetbrains.annotations.Nullable;
 import rw.audit.RwSentry;
-import rw.config.Config;
-import rw.config.Stage;
+import rw.consts.Const;
+import rw.consts.Stage;
 import rw.pkg.wheel.BaseWheel;
 import rw.pkg.wheel.WheelFactory;
-import rw.service.Service;
 import rw.util.OsType;
 
 import java.io.File;
@@ -74,7 +73,7 @@ public final class WebPackageManager extends BasePackageManager {
         LOGGER.info("Getting wheels files");
 
         String version = this.getLatestVersionFromWeb();
-        String tmpdir = Files.createTempDirectory(Config.get().packageName).toFile().getAbsolutePath();
+        String tmpdir = Files.createTempDirectory(Const.get().packageName).toFile().getAbsolutePath();
         List<File> ret = new ArrayList<>();
 
         for (BaseWheel wheel : this.getWheelUrlsForVersion(version)) {
@@ -84,9 +83,9 @@ public final class WebPackageManager extends BasePackageManager {
 
             URL url = new URL(wheel.getInput());
             URLConnection urlConnection = url.openConnection();
-            if (Config.get().stage != Stage.PROD) {
+            if (Const.get().stage != Stage.PROD) {
                 String basicAuthenticationEncoded = Base64.getEncoder().encodeToString(
-                        String.format("%s:%s", Config.get().pypiUsername, Config.get().pypiPassword).getBytes(StandardCharsets.UTF_8)
+                        String.format("%s:%s", Const.get().pypiUsername, Const.get().pypiPassword).getBytes(StandardCharsets.UTF_8)
                 );
                 urlConnection.setRequestProperty("Authorization", "Basic " + basicAuthenticationEncoded);
             }
@@ -121,7 +120,7 @@ public final class WebPackageManager extends BasePackageManager {
 
         List<BaseWheel> ret = new ArrayList<>();
 
-        String requestUrl = Config.get().pypiUrl + "/simple/" + Config.get().packageName;
+        String requestUrl = Const.get().pypiUrl + "/simple/" + Const.get().packageName;
 
         RequestConfig.Builder requestBuilder = RequestConfig.custom();
         int timeout = 10;
@@ -132,9 +131,9 @@ public final class WebPackageManager extends BasePackageManager {
         CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(requestBuilder.build()).build();
         HttpGet httpGet = new HttpGet(requestUrl);
 
-        if (!Config.get().pypiUsername.equals("None")) {
+        if (!Const.get().pypiUsername.equals("None")) {
             httpGet.addHeader("Authorization", BasicScheme.authenticate(
-                    new UsernamePasswordCredentials(Config.get().pypiUsername, Config.get().pypiPassword), "UTF-8"));
+                    new UsernamePasswordCredentials(Const.get().pypiUsername, Const.get().pypiPassword), "UTF-8"));
         }
 
         HttpResponse httpResponse = null;
@@ -145,8 +144,8 @@ public final class WebPackageManager extends BasePackageManager {
             while (m.find()) {
                 String url = m.group(1);
 
-                if (Arrays.asList(Stage.LOCAL, Stage.CI, Stage.STAGE).contains(Config.get().stage)) {
-                    url = String.format("%s%s", Config.get().pypiUrl, url);
+                if (Arrays.asList(Stage.LOCAL, Stage.CI, Stage.STAGE).contains(Const.get().stage)) {
+                    url = String.format("%s%s", Const.get().pypiUrl, url);
                 }
 
                 BaseWheel wheelUrl = WheelFactory.factory(url);

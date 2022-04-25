@@ -1,4 +1,4 @@
-package rw.config;
+package rw.consts;
 
 import com.intellij.openapi.util.text.StringUtil;
 

@@ -9,7 +9,7 @@ import net.lingala.zip4j.ZipFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rw.audit.RwSentry;
-import rw.config.Config;
+import rw.consts.Const;
 import rw.pkg.wheel.BaseWheel;
 import rw.pkg.wheel.WheelFactory;
 
@@ -29,7 +29,7 @@ class InstallTask extends Task.Backgroundable {
 
     InstallTask(@NotNull BasePackageManager packageManager,
                 @Nullable BasePackageManager.Listener listener) {
-        super(null, Config.get().msgs.INSTALLING_PACKAGE);
+        super(null, Const.get().msgs.INSTALLING_PACKAGE);
         this.packageManager = packageManager;
         this.listener = listener;
     }
@@ -42,7 +42,7 @@ class InstallTask extends Task.Backgroundable {
 
     @NotNull
     protected String getTaskText() {
-        return Config.get().msgs.INSTALLING_PACKAGE;
+        return Const.get().msgs.INSTALLING_PACKAGE;
     }
 
     protected void runTask(@NotNull ProgressIndicator indicator) {
@@ -86,7 +86,7 @@ public abstract class BasePackageManager {
 
     public BasePackageManager() {
         this.errored = false;
-        this.currentVersionFile = Paths.get(String.valueOf(Config.get().getPackagesRootDir()), "version.txt");
+        this.currentVersionFile = Paths.get(String.valueOf(Const.get().getPackagesRootDir()), "version.txt");
         this.installing = false;
     }
 

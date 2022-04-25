@@ -7,9 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import rw.audit.RwSentry;
 import rw.pkg.BuiltinPackageManager;
-import rw.service.Service;
 import rw.service.TestService;
-import rw.tests.fixtures.ConfigFixture;
+import rw.tests.fixtures.ConstFixture;
 import rw.tests.fixtures.PyPiFixture;
 import rw.tests.fixtures.SentryFixture;
 import rw.pkg.WebPackageManager;
@@ -27,7 +26,7 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
     public WebPackageManager webPackageManager;
     public BuiltinPackageManager builtinPackageManager;
 
-    public ConfigFixture configFixture;
+    public ConstFixture constFixture;
     public SentryFixture sentryFixture;
 
     public RwSentry sentry;
@@ -38,8 +37,8 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        this.configFixture = new ConfigFixture(true);
-        this.configFixture.start();
+        this.constFixture = new ConstFixture(true);
+        this.constFixture.start();
 
         this.sentryFixture = new SentryFixture();
         this.sentry = this.sentryFixture.mocked;
@@ -64,7 +63,7 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
     @AfterEach
     protected void tearDown() throws Exception {
         this.pyPiFixture.stop();
-        this.configFixture.stop();
+        this.constFixture.stop();
         super.tearDown();
     }
 

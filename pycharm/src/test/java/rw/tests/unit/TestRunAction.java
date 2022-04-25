@@ -5,18 +5,18 @@ import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.jetbrains.python.run.PythonRunConfiguration;
-import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import rw.action.RunWithReloadium;
-import rw.config.Config;
 import rw.pkg.Architecture;
 import rw.tests.BaseMockedTestCase;
 import rw.tests.fixtures.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.intellij.testFramework.TestActionEvent;
 
@@ -26,6 +26,7 @@ public class TestRunAction extends BaseMockedTestCase {
     CakeshopFixture cakeshop;
     AnAction action;
     SdkFixture oldSdkFixture;
+    DialogFactoryFixture dialogFactoryFixture;
 
     @BeforeEach
     protected void setUp() throws Exception {
@@ -38,6 +39,9 @@ public class TestRunAction extends BaseMockedTestCase {
         this.oldSdkFixture = new SdkFixture(this.cakeshop.getRoot().toFile(), "3.2");
         this.oldSdkFixture.start();
 
+        this.dialogFactoryFixture = new DialogFactoryFixture(this.getProject());
+        this.dialogFactoryFixture.start();
+
         this.action = ActionManager.getInstance().getAction(RunWithReloadium.ID);
     }
 
@@ -45,6 +49,7 @@ public class TestRunAction extends BaseMockedTestCase {
     protected void tearDown() throws Exception {
         this.cakeshop.stop();
         this.oldSdkFixture.stop();
+        this.dialogFactoryFixture.stop();
 
         super.tearDown();
     }
@@ -134,6 +139,7 @@ public class TestRunAction extends BaseMockedTestCase {
         assertThat(pythonpath.endsWith("3.9")).isTrue();
 
         assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium run");
+        verify(this.dialogFactoryFixture.dialogFactory, times(1)).showFirstRunDialog(this.getProject());
     }
 
     @Test

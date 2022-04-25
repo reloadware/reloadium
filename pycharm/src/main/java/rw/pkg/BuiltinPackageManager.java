@@ -8,10 +8,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.jetbrains.annotations.Nullable;
 import rw.audit.RwSentry;
-import rw.config.Config;
+import rw.consts.Const;
 import rw.pkg.wheel.BaseWheel;
 import rw.pkg.wheel.WheelFactory;
-import rw.service.Service;
 import rw.util.OsType;
 
 import java.io.File;
@@ -76,7 +75,7 @@ public final class BuiltinPackageManager extends BasePackageManager {
 
         List<File> ret = new ArrayList<>();
 
-        String tmpdir = Files.createTempDirectory(Config.get().packageName).toFile().getAbsolutePath();
+        String tmpdir = Files.createTempDirectory(Const.get().packageName).toFile().getAbsolutePath();
 
         String[] wheels = null;
         try {

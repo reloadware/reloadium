@@ -2,6 +2,38 @@ Change Log
 ##########
 
 
+0.8.0
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Reloading decorated methods by objects
+    * Adding methods bugs
+    * Fixing module errors while in function frame bugs
+    * Hangs on startup error in debug mode
+    * Python <= 3.8 compatiblity issues
+    * Python 3.10 compatibility issues
+    * Frame restart pointer recovering bugs
+    
+  Added:
+    * Handle reloading main module without guard, while loop as entrypoint
+    
+  Changed:
+    * Optimise threads
+    
+**PyCharmPlugin**:
+    
+  Added:
+    * First run dialog
+    * First debug dialog
+    * Events, commands
+    * Error highlighter
+    * First user error dialog
+    * Fixing frame error dialog
+    * Remote interpreters improvements
+    * Handling remote path mappings
+    
 0.7.8
 -------
 

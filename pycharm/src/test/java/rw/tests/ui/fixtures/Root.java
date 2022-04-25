@@ -4,7 +4,7 @@ import com.intellij.remoterobot.RemoteRobot;
 import com.intellij.remoterobot.data.RemoteComponent;
 import com.intellij.remoterobot.fixtures.*;
 import org.jetbrains.annotations.NotNull;
-import rw.config.Config;
+import rw.consts.Const;
 import rw.tests.utils.MiscUtils;
 
 import java.time.Duration;
@@ -28,6 +28,10 @@ public class Root extends IdeaFrame {
         return this.find(ActionButtonFixture.class, byXpath("//div[@myicon='runWithReloadium.svg']"), ofSeconds(120));
     }
 
+    public FirstRunDialogFixture firstRunDialog() {
+        return this.find(FirstRunDialogFixture.class);
+    }
+
     public ActionButtonFixture debugWithReloadium() {
         return this.find(ActionButtonFixture.class, byXpath("//div[@myicon='debugWithReloadium.svg']"), ofSeconds(120));
     }
@@ -40,13 +44,13 @@ public class Root extends IdeaFrame {
 
     public void assertInstallNotification() {
         this.find(ComponentFixture.class,
-                byXpath(String.format("//div[@accessiblename='%s']", Config.get().msgs.UPDATED_SUCCESSFULLY)),
+                byXpath(String.format("//div[@accessiblename='%s']", Const.get().msgs.UPDATED_SUCCESSFULLY)),
                 Duration.ofSeconds(60));
     }
 
     public void assertInstallErrorNotification() {
         this.find(ComponentFixture.class,
-                byXpath(String.format("//div[@accessiblename='%s']", Config.get().msgs.INSTALLING_FAILED)),
+                byXpath(String.format("//div[@accessiblename='%s']", Const.get().msgs.INSTALLING_FAILED)),
                 Duration.ofSeconds(60));
     }
 

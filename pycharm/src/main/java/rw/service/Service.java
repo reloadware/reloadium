@@ -4,10 +4,9 @@ import com.intellij.concurrency.JobScheduler;
 import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
-import org.apache.log4j.Level;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.audit.RwSentry;
-import rw.config.Config;
+import rw.consts.Const;
 import rw.pkg.BuiltinPackageManager;
 import rw.pkg.WebPackageManager;
 import rw.util.OsType;
@@ -39,7 +38,7 @@ public class Service {
         this.builtinPackageManager.run(null);
 
         JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkForUpdate, 1,
-                Config.get().checkForUpdateInterval, TimeUnit.HOURS);
+                Const.get().checkForUpdateInterval, TimeUnit.HOURS);
 
         JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkIfStillGood, 2,
                 10, TimeUnit.MINUTES);

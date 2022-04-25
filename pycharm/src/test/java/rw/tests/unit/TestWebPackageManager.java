@@ -4,7 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import rw.config.Config;
+import rw.consts.Const;
 import rw.pkg.Architecture;
 import rw.pkg.wheel.BaseWheel;
 import rw.tests.BaseMockedTestCase;
@@ -169,7 +169,7 @@ public class TestWebPackageManager extends BaseMockedTestCase {
         lenient().doThrow(new RuntimeException("Error")).when(
                 this.service.webPackageManager).getWheelUrlsForVersion(any());
 
-        FileUtils.deleteDirectory(Config.get().getPackagesRootDir());
+        FileUtils.deleteDirectory(Const.get().getPackagesRootDir());
 
         this.service.checkForUpdate();
 

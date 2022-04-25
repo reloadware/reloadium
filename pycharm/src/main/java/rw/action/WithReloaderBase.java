@@ -5,6 +5,8 @@ import com.intellij.execution.Executor;
 import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.execution.impl.ExecutionManagerImpl;
 import com.intellij.execution.impl.RunManagerImpl;
+import com.intellij.execution.process.ProcessAdapter;
+import com.intellij.execution.process.ProcessEvent;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.runners.ExecutionEnvironmentBuilder;
 import com.intellij.execution.runners.ProgramRunner;
@@ -13,12 +15,12 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.NotNull;
-import rw.config.Config;
+import rw.audit.RwSentry;
+import rw.consts.Const;
 import rw.handler.runConf.BaseRunConfHandler;
 import rw.handler.runConf.RunConfHandlerFactory;
 import rw.service.Service;
@@ -44,8 +46,7 @@ public abstract class WithReloaderBase extends AnAction {
 
         if (!this.canRun(e)) {
             presentation.setEnabled(false);
-        }
-        else{
+        } else {
             this.handleRunningConfs(project, e, conf);
             this.setEnabledText(e, conf);
             presentation.setEnabled(true);
@@ -76,34 +77,37 @@ public abstract class WithReloaderBase extends AnAction {
     public void setEnabledText(@NotNull AnActionEvent e, RunnerAndConfigurationSettings conf) {
         String text = String.format("%s '%s' with %s", this.getExecutor().getActionName(),
                 conf.getName(),
-                StringUtil.capitalize(Config.get().packageName));
+                StringUtil.capitalize(Const.get().packageName));
         e.getPresentation().setText(text);
     }
 
     public void actionPerformed(@NotNull AnActionEvent e) {
         LOGGER.info("Performing action");
+        try {
+            Project project = getEventProject(e);
 
-        Project project = getEventProject(e);
+            if (project == null)
+                return;
 
-        if (project == null)
-            return;
+            RunManagerImpl runManager = RunManagerImpl.getInstanceImpl(project);
+            RunnerAndConfigurationSettings conf = this.getConfiguration(e);
 
-        RunManagerImpl runManager = RunManagerImpl.getInstanceImpl(project);
-        RunnerAndConfigurationSettings conf = this.getConfiguration(e);
+            ExecutionEnvironment environment = this.getEnvironment(conf);
 
-        ExecutionEnvironment environment = this.getEnvironment(conf);
+            RunnerAndConfigurationSettings settings = environment.getRunnerAndConfigurationSettings();
 
-        RunnerAndConfigurationSettings settings = environment.getRunnerAndConfigurationSettings();
+            if (!runManager.hasSettings(settings)) {
+                runManager.addConfiguration(settings);
+            }
+            runManager.setSelectedConfiguration(settings);
 
-        if (!runManager.hasSettings(settings)) {
-            runManager.addConfiguration(settings);
+            if (ExecutionManager.getInstance(project).isStarting(environment))
+                return;
+
+            ExecutionManager.getInstance(project).restartRunProfile(environment);
+        } catch (Exception exception) {
+            RwSentry.get().captureException(exception);
         }
-        runManager.setSelectedConfiguration(settings);
-
-        if (ExecutionManager.getInstance(project).isStarting(environment))
-            return;
-
-        ExecutionManager.getInstance(project).restartRunProfile(environment);
     }
 
     protected ExecutionEnvironment getEnvironment(RunnerAndConfigurationSettings conf) {
@@ -120,8 +124,8 @@ public abstract class WithReloaderBase extends AnAction {
 
         TimerTask task = new TimerTask() {
             public void run() {
-            if (handler.isActivated())
-                handler.afterRun();
+                if (handler.isActivated())
+                    handler.afterRun();
             }
         };
 
@@ -130,9 +134,17 @@ public abstract class WithReloaderBase extends AnAction {
         ExecutionEnvironment ret = builder.build(new ProgramRunner.Callback() {
             @Override
             public void processStarted(RunContentDescriptor descriptor) {
+                handler.onProcessStarted(descriptor);
                 handler.afterRun();
+                descriptor.getProcessHandler().addProcessListener(new ProcessAdapter() {
+                    @Override
+                    public void processTerminated(@NotNull ProcessEvent event) {
+                        handler.onProcessExit();
+                    }
+                });
             }
         });
+
         return ret;
     }
 

@@ -1,6 +1,6 @@
 package rw.pkg.wheel;
 
-import rw.config.Config;
+import rw.consts.Const;
 
 import java.io.File;
 
@@ -14,6 +14,6 @@ public class TarWheel extends BaseWheel {
 
     @Override
     public File getPackageDir() {
-        return Config.get().getPackagePythonVersionDir(this.getPythonVersion(), this.getArchitecture());
+        return Const.get().getPackagePythonVersionDir(this.getPythonVersion(), this.getArchitecture());
     }
 }

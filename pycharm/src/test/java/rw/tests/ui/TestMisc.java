@@ -3,15 +3,14 @@ package rw.tests.ui;
 
 import com.automation.remarks.junit5.Video;
 import com.intellij.remoterobot.RemoteRobot;
-import com.intellij.remoterobot.data.TextData;
 import com.intellij.remoterobot.fixtures.ContainerFixture;
 import com.intellij.remoterobot.utils.Keyboard;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import rw.tests.Depot;
-import rw.tests.Plugin;
 import rw.tests.Product;
+import rw.tests.ui.fixtures.FirstRunDialogFixture;
 import rw.tests.ui.fixtures.Root;
 import rw.tests.ui.steps.MiscSteps;
 import rw.tests.ui.utils.RemoteRobotExtension;
@@ -45,6 +44,8 @@ public class TestMisc extends PackageTestBase {
         root.assertButtonsEnabled();
 
         root.runWithReloadium().click();
+
+        root.firstRunDialog().okButton().click();
 
         ContainerFixture console = root.console();
         waitFor(ofSeconds(10), () -> console.hasText(String.format("Reloadium %s", version)));

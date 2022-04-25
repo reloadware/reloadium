@@ -1,31 +1,28 @@
 package rw.tests.fixtures;
 
-import org.apache.commons.io.FileUtils;
-import org.powermock.reflect.Whitebox;
-import rw.config.Config;
-import rw.config.Stage;
+import rw.consts.Const;
+import rw.consts.Stage;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import org.mockito.Mockito;
 
 
-public class ConfigFixture {
-    Config device;
+public class ConstFixture {
+    Const device;
 
     boolean makeProd;
 
-    public ConfigFixture(boolean makeProd) {
+    public ConstFixture(boolean makeProd) {
         this.makeProd = makeProd;
     }
 
     public void start() throws Exception {
-        this.device = spy(new Config());
-        Config.singleton = this.device;
+        this.device = spy(new Const());
+        Const.singleton = this.device;
 
         File dotDir = new File(Files.createTempDirectory(".reloadium").toFile().getAbsolutePath());
 

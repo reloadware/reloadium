@@ -8,7 +8,7 @@ import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rw.action.AboutDialog;
+import rw.dialogs.AboutDialog;
 
 
 public class About extends AnAction implements DumbAware, LightEditCompatible {

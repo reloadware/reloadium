@@ -1,4 +1,108 @@
 {
+  "0.8.0": [
+        {
+      "type": "Fixed",
+      "description": "Reloading decorated methods by objects",
+      "tag": "Miscellaneous",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Fixed",
+      "description": "Adding methods bugs",
+      "tag": "Miscellaneous",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Added",
+      "description": "Handle reloading main module without guard, while loop as entrypoint",
+      "tag": "Miscellaneous",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Fixed",
+      "description": "Fixing module errors while in function frame bugs",
+      "tag": "Miscellaneous",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Fixed",
+      "description": "Hangs on startup error in debug mode",
+      "tag": "Miscellaneous",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Changed",
+      "description": "Optimise threads",
+      "tag": "Miscellaneous",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Fixed",
+      "description": "Python <= 3.8 compatiblity issues",
+      "tag": "Miscellaneous",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Fixed",
+      "description": "Python 3.10 compatibility issues",
+      "tag": "Miscellaneous",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Fixed",
+      "description": "Frame restart pointer recovering bugs",
+      "tag": "Miscellaneous",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Added",
+      "description": "First run dialog",
+      "tag": "PyCharmPlugin",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Added",
+      "description": "First debug dialog",
+      "tag": "PyCharmPlugin",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Added",
+      "description": "Events, commands",
+      "tag": "PyCharmPlugin",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Added",
+      "description": "Error highlighter",
+      "tag": "PyCharmPlugin",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Added",
+      "description": "First user error dialog",
+      "tag": "PyCharmPlugin",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Added",
+      "description": "Fixing frame error dialog",
+      "tag": "PyCharmPlugin",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Added",
+      "description": "Remote interpreters improvements",
+      "tag": "PyCharmPlugin",
+      "date": "2022-04-25"
+    },
+    {
+      "type": "Added",
+      "description": "Handling remote path mappings",
+      "tag": "PyCharmPlugin",
+      "date": "2022-04-25"
+    }
+  ],
   "0.7.8": [
     {
       "type": "Fixed",

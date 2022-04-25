@@ -13,14 +13,18 @@ import org.junit.jupiter.api.TestInstance;
 import rw.action.DebugWithReloadium;
 import rw.tests.BaseMockedTestCase;
 import rw.tests.fixtures.CakeshopFixture;
+import rw.tests.fixtures.DialogFactoryFixture;
 import rw.tests.fixtures.PackageFixture;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestDebugAction extends BaseMockedTestCase {
     CakeshopFixture cakeshop;
+    DialogFactoryFixture dialogFactoryFixture;
 
     @BeforeEach
     protected void setUp() throws Exception {
@@ -29,11 +33,15 @@ public class TestDebugAction extends BaseMockedTestCase {
         PackageFixture packageFixture = new PackageFixture("0.7.12");
         this.cakeshop = new CakeshopFixture(this.getProject());
         this.cakeshop.start();
+
+        this.dialogFactoryFixture = new DialogFactoryFixture(this.getProject());
+        this.dialogFactoryFixture.start();
     }
 
     @AfterEach
     protected void tearDown() throws Exception {
         this.cakeshop.stop();
+        this.dialogFactoryFixture.stop();
 
         super.tearDown();
     }
@@ -77,5 +85,7 @@ public class TestDebugAction extends BaseMockedTestCase {
         assertThat(runConf.isModuleMode()).isFalse();
         assertThat(runConf.getEnvs().get("PYTHONPATH").isBlank()).isFalse();
         assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium pydev_proxy");
+
+        verify(this.dialogFactoryFixture.dialogFactory, times(1)).showFirstDebugDialog(this.getProject());
     }
 }
