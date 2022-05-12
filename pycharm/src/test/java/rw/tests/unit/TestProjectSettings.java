@@ -1,11 +1,8 @@
 package rw.tests.unit;
 
-import com.intellij.execution.RunManager;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.vfs.VirtualFileWrapper;
-import com.intellij.testFramework.PsiTestUtil;
 import com.intellij.testFramework.TestActionEvent;
 import com.jetbrains.python.run.PythonRunConfiguration;
 import org.junit.jupiter.api.AfterEach;
@@ -13,25 +10,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import rw.action.RunWithReloadium;
-import rw.pkg.Architecture;
-import rw.settings.PluginState;
-import rw.settings.Settings;
-import rw.settings.SettingsConfigurable;
+import rw.settings.ProjectState;
+import rw.settings.ProjectSettings;
 import rw.tests.BaseMockedTestCase;
 import rw.tests.fixtures.*;
 import rw.util.EnvUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class TestSettings extends BaseMockedTestCase {
+public class TestProjectSettings extends BaseMockedTestCase {
     CakeshopFixture cakeshop;
     SourceRootFixture sourceRootFixture;
     AnAction action;
@@ -57,44 +48,44 @@ public class TestSettings extends BaseMockedTestCase {
 
     @Test
     public void testStateEquals() {
-        PluginState state1 = new PluginState();
-        PluginState state2 = new PluginState();
+        ProjectState state1 = new ProjectState();
+        ProjectState state2 = new ProjectState();
 
         assertThat(state1).isEqualTo(state2);
 
         state2.reloadiumPath = List.of("1", "2");
         assertThat(state1).isNotEqualTo(state2);
 
-        state2 = new PluginState();
+        state2 = new ProjectState();
         state2.watchCwd = !state2.watchCwd;
         assertThat(state1).isNotEqualTo(state2);
 
-        state2 = new PluginState();
+        state2 = new ProjectState();
         state2.watchSourceRoots = !state2.watchSourceRoots;
         assertThat(state1).isNotEqualTo(state2);
 
-        state2 = new PluginState();
+        state2 = new ProjectState();
         state2.printLogo = !state2.printLogo;
         assertThat(state1).isNotEqualTo(state2);
 
-        state2 = new PluginState();
+        state2 = new ProjectState();
         state2.cacheEnabled = !state2.cacheEnabled;
         assertThat(state1).isNotEqualTo(state2);
 
-        state2 = new PluginState();
+        state2 = new ProjectState();
         state2.verbose = !state2.verbose;
         assertThat(state1).isNotEqualTo(state2);
 
-        state2 = new PluginState();
+        state2 = new ProjectState();
         state2.debuggerSpeedups = !state2.debuggerSpeedups;
         assertThat(state1).isNotEqualTo(state2);
     }
 
     @Test
     public void testDebuggerSpeedups() {
-        PluginState stateIn = new PluginState();
+        ProjectState stateIn = new ProjectState();
         stateIn.debuggerSpeedups = !stateIn.debuggerSpeedups;
-        Settings.getInstance(this.getProject()).loadState(stateIn);
+        ProjectSettings.getInstance(this.getProject()).loadState(stateIn);
 
         AnActionEvent event = new TestActionEvent();
         this.action.update(event);
@@ -108,9 +99,9 @@ public class TestSettings extends BaseMockedTestCase {
 
     @Test
     public void testVerbose() {
-        PluginState stateIn = new PluginState();
+        ProjectState stateIn = new ProjectState();
         stateIn.verbose = !stateIn.verbose;
-        Settings.getInstance(this.getProject()).loadState(stateIn);
+        ProjectSettings.getInstance(this.getProject()).loadState(stateIn);
 
         AnActionEvent event = new TestActionEvent();
         this.action.update(event);
@@ -124,9 +115,9 @@ public class TestSettings extends BaseMockedTestCase {
 
     @Test
     public void testPrintLogo() {
-        PluginState stateIn = new PluginState();
+        ProjectState stateIn = new ProjectState();
         stateIn.printLogo = !stateIn.printLogo;
-        Settings.getInstance(this.getProject()).loadState(stateIn);
+        ProjectSettings.getInstance(this.getProject()).loadState(stateIn);
 
         AnActionEvent event = new TestActionEvent();
         this.action.update(event);
@@ -140,9 +131,9 @@ public class TestSettings extends BaseMockedTestCase {
 
     @Test
     public void testCacheEnabled() {
-        PluginState stateIn = new PluginState();
+        ProjectState stateIn = new ProjectState();
         stateIn.cacheEnabled = !stateIn.cacheEnabled;
-        Settings.getInstance(this.getProject()).loadState(stateIn);
+        ProjectSettings.getInstance(this.getProject()).loadState(stateIn);
 
         AnActionEvent event = new TestActionEvent();
         this.action.update(event);
@@ -156,9 +147,9 @@ public class TestSettings extends BaseMockedTestCase {
 
     @Test
     public void testWatchCwd() {
-        PluginState stateIn = new PluginState();
+        ProjectState stateIn = new ProjectState();
         stateIn.watchCwd = !stateIn.watchCwd;
-        Settings.getInstance(this.getProject()).loadState(stateIn);
+        ProjectSettings.getInstance(this.getProject()).loadState(stateIn);
 
         AnActionEvent event = new TestActionEvent();
         this.action.update(event);
@@ -172,9 +163,9 @@ public class TestSettings extends BaseMockedTestCase {
 
     @Test
     public void testWatchSourceRoots() throws Exception {
-        PluginState stateIn = new PluginState();
+        ProjectState stateIn = new ProjectState();
         stateIn.watchSourceRoots = true;
-        Settings.getInstance(this.getProject()).loadState(stateIn);
+        ProjectSettings.getInstance(this.getProject()).loadState(stateIn);
 
         this.sourceRootFixture.start();
 
@@ -190,9 +181,9 @@ public class TestSettings extends BaseMockedTestCase {
 
     @Test
     public void testNotWatchSourceRoots() throws Exception {
-        PluginState stateIn = new PluginState();
+        ProjectState stateIn = new ProjectState();
         stateIn.watchSourceRoots = false;
-        Settings.getInstance(this.getProject()).loadState(stateIn);
+        ProjectSettings.getInstance(this.getProject()).loadState(stateIn);
 
         this.sourceRootFixture.start();
 
@@ -210,9 +201,9 @@ public class TestSettings extends BaseMockedTestCase {
     public void testRelodiumPath() throws Exception {
         String pathSep = System.getProperty("path.separator");
 
-        PluginState stateIn = new PluginState();
+        ProjectState stateIn = new ProjectState();
         stateIn.reloadiumPath = List.of("/cakeshop/cake", "/cakeshop/cookie.py");
-        Settings.getInstance(this.getProject()).loadState(stateIn);
+        ProjectSettings.getInstance(this.getProject()).loadState(stateIn);
 
         AnActionEvent event = new TestActionEvent();
         this.action.update(event);
@@ -222,5 +213,21 @@ public class TestSettings extends BaseMockedTestCase {
 
         String env = runConf.getEnvs().get("RELOADIUMPATH");
         assertThat(env).isEqualTo(String.join(pathSep, stateIn.reloadiumPath));
+    }
+
+    @Test
+    public void testProfile() throws Exception {
+        ProjectState stateIn = new ProjectState();
+        stateIn.profile = !stateIn.profile;
+        ProjectSettings.getInstance(this.getProject()).loadState(stateIn);
+
+        AnActionEvent event = new TestActionEvent();
+        this.action.update(event);
+        this.action.actionPerformed(event);
+
+        PythonRunConfiguration runConf = this.cakeshop.getRunConf();
+
+        String env = runConf.getEnvs().get("RW_PROFILE");
+        assertThat(env).isEqualTo(EnvUtils.boolToEnv(stateIn.profile));
     }
 }

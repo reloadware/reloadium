@@ -13,6 +13,7 @@ __all__ = ["Object",
            "All",
            "Dictionary",
            "Import",
+           "Imported",
            "Iterable",
            "List",
            "Tuple",
@@ -32,7 +33,7 @@ __all__ = ["Object",
            "StaticMethod",
            "Enum",
            "EnumAttr",
-           "Foreigner",
+           "Dynamic",
            "Reference",
            "Module",
            "Action",
@@ -213,7 +214,7 @@ class EnumAttr(Object):
 
 
 @dataclass
-class Foreigner(Object):
+class Dynamic(Object):
     pass
 
 
@@ -227,6 +228,11 @@ class Module(Object):
     path: Path
 
     module: Optional["Module"] = field(init=False, default=None)
+
+
+@dataclass
+class Imported(Object):
+    pass
 
 
 @dataclass
@@ -264,3 +270,4 @@ class DeepUpdate(Action):
 @dataclass
 class UpdateFrame(Action):
     pass
+

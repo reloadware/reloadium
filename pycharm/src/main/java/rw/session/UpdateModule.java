@@ -1,26 +1,44 @@
 package rw.session;
 
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
-import rw.handler.runConf.PythonRunConfHandler;
+import rw.highlights.Blink;
+import rw.highlights.Blinker;
+import rw.preferences.Preferences;
+import rw.preferences.PreferencesState;
 
-import java.io.File;
+import java.awt.*;
+import java.util.List;
 
-public class UpdateModule extends Event {
+public class UpdateModule extends FileEvent {
     private static final Logger LOGGER = Logger.getInstance(UpdateModule.class);
 
     public static final String ID = "UpdateModule";
-    File file;
+    public static final String VERSION = "0.1.0";
 
-    UpdateModule(Project project, PythonRunConfHandler handler, String[] args) {
-        super(project, handler);
-        this.file = new File(this.handler.convertPathToLocal(args[0]));
-    }
+    Color BLINK_COLOR = new Color(255, 114, 0, 40);
+
+    public List<Action> actions;
 
     @Override
     public void handle() {
-        LOGGER.info("Handling UpdateModule " + String.format("(%s)", this.file));
+        LOGGER.info("Handling UpdateModule " + String.format("(%s)", this.getPath()));
+        PreferencesState state = Preferences.getInstance().getState();
 
-        HighlightManager.get().clearFile(this.file);
+        this.handler.getErrorHighlightManager().clearAll();
+
+        for (Action a : this.actions) {
+            if (a.getLineStart() == -1) {
+                continue;
+            }
+
+            if (a.getName().equals("Move") || a.getName().equals("Delete")) {
+                continue;
+            }
+
+            Blink blink = new Blink(this.handler.getProject(), this.getLocalPath(), a.getLineStart(), a.getLineEnd(),
+                    this.BLINK_COLOR, 0, state.blinkDuration);
+            Blinker.get().blink(blink);
+        }
+
     }
 }

@@ -9,7 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsForm {
+public class ProjectSettingsForm {
     private JCheckBox addCurrentWorkingDirectoryCB;
     private JPanel mainPanel;
     private JComponent reloadiumPathPanel;
@@ -18,6 +18,7 @@ public class SettingsForm {
     private JCheckBox verboseCB;
     private JCheckBox debuggerSpeedupsCB;
     private JCheckBox watchSourceRootsCB;
+    private JCheckBox profileCB;
     private ReloadiumPath reloadiumPath;
 
     private void createUIComponents() {
@@ -36,8 +37,8 @@ public class SettingsForm {
         return this.mainPanel;
     }
 
-    public PluginState getState() {
-        PluginState state = new PluginState();
+    public ProjectState getState() {
+        ProjectState state = new ProjectState();
 
         List<String> paths = new ArrayList<>();
         for (VirtualFile virtualFile : this.reloadiumPath.getRoots()) {
@@ -51,10 +52,11 @@ public class SettingsForm {
         state.cacheEnabled = this.cacheEnabledCB.isSelected();
         state.verbose = this.verboseCB.isSelected();
         state.debuggerSpeedups = this.debuggerSpeedupsCB.isSelected();
+        state.profile = this.profileCB.isSelected();
         return state;
     }
 
-    public void setState(PluginState state) {
+    public void setState(ProjectState state) {
         this.reloadiumPath.clearList();
         for (String path: state.reloadiumPath) {
             VirtualFile file = new VirtualFileWrapper(new File(path)).getVirtualFile(false);
@@ -66,5 +68,6 @@ public class SettingsForm {
         this.cacheEnabledCB.setSelected(state.cacheEnabled);
         this.verboseCB.setSelected(state.verbose);
         this.debuggerSpeedupsCB.setSelected(state.debuggerSpeedups);
+        this.profileCB.setSelected(state.profile);
     }
 }

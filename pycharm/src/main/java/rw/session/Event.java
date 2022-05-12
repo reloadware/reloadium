@@ -2,19 +2,20 @@ package rw.session;
 
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.VisibleForTesting;
-import rw.handler.runConf.PythonRunConfHandler;
+import rw.handler.runConf.BaseRunConfHandler;
+import rw.handler.runConf.BaseRunConfHandler;
 
-abstract public class Event {
-    protected final Project project;
-
+public class Event {
     public static final String ID = null;
-    protected PythonRunConfHandler handler;
+    public static final String VERSION = null;
 
-    protected Event(Project project, PythonRunConfHandler handler) {
-        this.project = project;
-        this.handler = handler;
-    }
+    transient BaseRunConfHandler handler;
 
     @VisibleForTesting
-    public abstract void handle();
+    public void handle() {
+    };
+
+    public void setHandler(BaseRunConfHandler handler) {
+        this.handler = handler;
+    }
 }

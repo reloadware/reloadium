@@ -42,6 +42,10 @@ public class RemoteRunConfHandler extends PythonRunConfHandler {
     @NotNull
     @Override
     public String convertPathToLocal(@NotNull String remotePath) {
+        if (this.runConf.getMappingSettings() == null){
+            return remotePath;
+        }
+
         String ret = this.runConf.getMappingSettings().convertToLocal(remotePath);
         return ret;
     }
@@ -49,6 +53,10 @@ public class RemoteRunConfHandler extends PythonRunConfHandler {
     @NotNull
     @Override
     public String convertPathToRemote(@NotNull String localPath) {
+        if (this.runConf.getMappingSettings() == null){
+            return localPath;
+        }
+
         String ret = this.runConf.getMappingSettings().convertToRemote(localPath);
         return ret;
     }

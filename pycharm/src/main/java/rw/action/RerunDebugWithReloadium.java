@@ -5,17 +5,16 @@ import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.execution.executors.DefaultDebugExecutor;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKey;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import rw.consts.DataKeys;
 import rw.icons.Icons;
-
-class ExecutionDataKeys {
-  public static final DataKey<ExecutionEnvironment> EXECUTION_ENVIRONMENT = DataKey.create("executionEnvironment");
-}
 
 
 public class RerunDebugWithReloadium extends WithReloaderBase {
+    public static String ID = "RerunDebugWithReloadium";
+
     private static final Logger LOGGER = Logger.getInstance(RerunDebugWithReloadium.class);
 
         RerunDebugWithReloadium() {
@@ -24,8 +23,14 @@ public class RerunDebugWithReloadium extends WithReloaderBase {
     }
 
     @Override
+    @Nullable
     protected RunnerAndConfigurationSettings getConfiguration(@NotNull AnActionEvent e) {
-        ExecutionEnvironment environment = e.getData(ExecutionDataKeys.EXECUTION_ENVIRONMENT);
+        ExecutionEnvironment environment = e.getData(DataKeys.EXECUTION_ENVIRONMENT);
+
+        if(environment==null) {
+            return null;
+        }
+
         RunnerAndConfigurationSettings ret = environment.getRunnerAndConfigurationSettings();
         return ret;
     }

@@ -1,17 +1,27 @@
 package rw.session;
 
+import com.google.gson.Gson;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.audit.RwSentry;
-import rw.handler.runConf.PythonRunConfHandler;
+import rw.handler.runConf.BaseRunConfHandler;
 
+import rw.session.Event;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
+import java.net.SocketException;
+import java.util.HashMap;
+import java.util.Map;
 
+import static java.util.Map.entry;
+
+class RawEvent {
+    public String ID;
+    public String VERSION;
+}
 
 public class Session extends Thread {
     private static final Logger LOGGER = Logger.getInstance(Session.class);
@@ -23,21 +33,44 @@ public class Session extends Thread {
     private PrintWriter out;
     private BufferedReader in;
     private Integer port = null;
-    private PythonRunConfHandler runConfHandler;
+    private final BaseRunConfHandler handler;
+    private Map<String, Class<? extends Event>> events;
+    private Map<String, String> eventVersions;
 
-    public Session(Project project, PythonRunConfHandler runConfHandler) {
+    public Session(Project project, BaseRunConfHandler handler) {
         this.project = project;
-        this.runConfHandler = runConfHandler;
+        this.handler = handler;
+
+        this.events = Map.ofEntries(
+                entry(Handshake.ID, Handshake.class),
+                entry(UpdateModule.ID, UpdateModule.class),
+                entry(FrameError.ID, FrameError.class),
+                entry(FrameProgress.ID, FrameProgress.class),
+                entry(UserError.ID, UserError.class),
+                entry(UpdateFrame.ID, UpdateFrame.class)
+        );
+
+        this.eventVersions = Map.ofEntries(
+                entry(Handshake.ID, Handshake.VERSION),
+                entry(UpdateModule.ID, UpdateModule.VERSION),
+                entry(FrameError.ID, FrameError.VERSION),
+                entry(FrameProgress.ID, FrameProgress.VERSION),
+                entry(UserError.ID, UserError.VERSION),
+                entry(UpdateFrame.ID, UpdateFrame.VERSION)
+        );
 
         try {
             this.serverSocket = new ServerSocket(0);
             this.port = this.serverSocket.getLocalPort();
-        } catch (IOException e) {
-            RwSentry.get().captureException(e);
+        } catch (IOException ignored) {
         }
     }
 
     public void run() {
+        if (this.serverSocket == null) {
+            return;
+        }
+
         try {
             this.clientSocket = this.serverSocket.accept();
             this.out = new PrintWriter(this.clientSocket.getOutputStream(), true);
@@ -47,8 +80,10 @@ public class Session extends Thread {
                 while ((inputLine = this.in.readLine()) != null) {
                     this.ingestLine(inputLine);
                 }
-            } catch (IOException e) {
-                RwSentry.get().captureException(e);
+            } catch (SocketException e) {
+                if (!e.getMessage().equals("Connection reset")) {
+                    RwSentry.get().captureException(e);
+                }
             }
         } catch (IOException e) {
             RwSentry.get().captureException(e);
@@ -73,42 +108,33 @@ public class Session extends Thread {
 
     @VisibleForTesting
     @Nullable
-    public Event eventFactory(String line) {
-        String[] parts = line.split("\t");
-        String eventName = parts[0];
-        String[] args = Arrays.copyOfRange(parts, 1, parts.length);
+    public Event eventFactory(String payload) {
+        Gson g = new Gson();
 
-        switch (eventName) {
-            case Handshake.ID: {
-                return new Handshake(this.project, this.runConfHandler, args);
-            }
+        RawEvent event = g.fromJson(payload, RawEvent.class);
+        Event ret;
 
-            case UpdateModule.ID: {
-                return new UpdateModule(this.project, this.runConfHandler, args);
-            }
-
-            case FrameError.ID: {
-                return new FrameError(this.project, this.runConfHandler, args);
-            }
-
-            case UserError.ID: {
-                return new UserError(this.project, this.runConfHandler, args);
-            }
-
-            case UpdateFrame.ID: {
-                return new UpdateFrame(this.project, this.runConfHandler, args);
-            }
-
-            default: {
-                LOGGER.warn("Unknown event " + eventName);
-            }
+        Class<? extends Event> eventClass = this.events.get(event.ID);
+        if (eventClass == null) {
+            LOGGER.warn("Unknown event " + event.ID);
+            return null;
         }
-        return null;
+        String expectedVersion = this.eventVersions.get(event.ID);
+
+        if (!expectedVersion.equals(event.VERSION)) {
+            LOGGER.warn(String.format("Incompatible event versions for event type \"%s\" (expected=%s, got=%s)",
+                    event.ID, expectedVersion, event.VERSION));
+            return null;
+        }
+        ret = g.fromJson(payload, eventClass);
+        ret.setHandler(this.handler);
+
+        return ret;
     }
 
     public void close() {
         try {
-            if (this.in != null){
+            if (this.in != null) {
                 this.in.close();
             }
             if (this.out != null) {

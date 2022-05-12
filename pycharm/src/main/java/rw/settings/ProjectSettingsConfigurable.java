@@ -13,21 +13,21 @@ import rw.consts.Const;
 
 import javax.swing.*;
 
-public class SettingsConfigurable implements Configurable, SearchableConfigurable, Configurable.NoScroll {
+public class ProjectSettingsConfigurable implements Configurable, SearchableConfigurable, Configurable.NoScroll {
     Project project;
-    SettingsForm form;
-    Settings settings;
+    ProjectSettingsForm form;
+    ProjectSettings projectSettings;
 
-    SettingsConfigurable(Project project) {
+    ProjectSettingsConfigurable(Project project) {
         this.project = project;
 
-        this.form = new SettingsForm();
-        this.settings = Settings.getInstance(this.project);
+        this.form = new ProjectSettingsForm();
+        this.projectSettings = ProjectSettings.getInstance(this.project);
     }
 
     @Override
     public @NlsContexts.ConfigurableName String getDisplayName() {
-        return StringUtils.capitalize(Const.get().packageName);
+        return StringUtils.capitalize(Const.get().packageName) + "ProjectSettings";
     }
 
     @Override
@@ -37,17 +37,17 @@ public class SettingsConfigurable implements Configurable, SearchableConfigurabl
 
     @Override
     public boolean isModified() {
-        return !this.form.getState().equals(this.settings.getState());
+        return !this.form.getState().equals(this.projectSettings.getState());
     }
 
     @Override
     public void apply() throws ConfigurationException {
-        this.settings.loadState(this.form.getState());
+        this.projectSettings.loadState(this.form.getState());
     }
 
     @Override
     public void reset() {
-        this.form.setState(this.settings.getState());
+        this.form.setState(this.projectSettings.getState());
     }
 
     @Override

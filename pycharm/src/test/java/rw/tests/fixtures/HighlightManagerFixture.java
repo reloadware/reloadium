@@ -1,21 +1,22 @@
 package rw.tests.fixtures;
 
 import com.intellij.openapi.project.Project;
-import rw.dialogs.DialogFactory;
-import rw.session.HighlightManager;
+import rw.handler.runConf.BaseRunConfHandler;
+import rw.highlights.ErrorHighlightManager;
 
 import static org.mockito.Mockito.*;
 
 
 public class HighlightManagerFixture {
-    public HighlightManager highlightManager;
+    public ErrorHighlightManager errorHighlightManager;
 
-    public HighlightManagerFixture() throws Exception {
+    BaseRunConfHandler handler;
+    public HighlightManagerFixture(BaseRunConfHandler handler) throws Exception {
+        this.handler = handler;
     }
 
     public void start() {
-        this.highlightManager = spy(new HighlightManager());
-        HighlightManager.singleton = this.highlightManager;
+        this.handler.__setErrorHighlightManager(spy(this.handler.getErrorHighlightManager()));
     }
 
     public void stop() {

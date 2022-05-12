@@ -7,21 +7,21 @@ import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 
-@State(name = "Reloadium", storages = @Storage("reloadium.xml"))
-public class Settings implements PersistentStateComponent<PluginState> {
-    PluginState state = new PluginState();
-    public static Settings getInstance(@NotNull Project project) {
-        return project.getService(Settings.class);
+@State(name = "ReloadiumProjectSettings", storages = @Storage("reloadium.xml"))
+public class ProjectSettings implements PersistentStateComponent<ProjectState> {
+    ProjectState state = new ProjectState();
+    public static ProjectSettings getInstance(@NotNull Project project) {
+        return project.getService(ProjectSettings.class);
     }
 
     @NotNull
     @Override
-    public PluginState getState() {
+    public ProjectState getState() {
         return this.state;
     }
 
     @Override
-    public void loadState(@NotNull PluginState state) {
+    public void loadState(@NotNull ProjectState state) {
         XmlSerializerUtil.copyBean(state, this.state);
     }
 }

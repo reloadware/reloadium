@@ -2,6 +2,33 @@ Change Log
 ##########
 
 
+0.8.7
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Pydash icompatibility
+    * --help not working
+    * Morphing object types
+    * Hanging on reload issues
+    
+  Added:
+    * Handle django model fields
+    * Graphene extension
+    
+**PyCharmPlugin**:
+    
+  Fixed:
+    * Error highlighter not working for closures
+    * Multithreaded frame reload issues
+    
+  Added:
+    * Highlighting updated objects
+    * Preferences
+    * Frame progress rendering
+    * Profiling current function
+    
 0.8.6
 -------
 

@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.reloadium</id>
     <name>Reloadium</name>
-    <version>0.8.0</version>
+    <version>0.8.1</version>
     <idea-version since-build="203"/>
     <vendor email="damian@reloadware.com" url="www.reloadware.com">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
@@ -15,12 +15,53 @@
             <img src="https://raw.githubusercontent.com/reloadware/reloadium/main/media/example_small.gif" width="715px" alt="Example">
         </p>
         
-         <p>Reloadium adds hot reloading also called "edit and continue" functionality to any Python application</p>
+         <p>Reloadium adds hot reloading and profiling features to any Python application</p>
         ]]>
     </description>
 
     <change-notes><![CDATA[
     
+        <h3>0.8.1</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>Miscellaneous:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Pydash icompatibility</li>
+                            <li>--help not working</li>
+                            <li>Morphing object types</li>
+                            <li>Hanging on reload issues</li>
+                        </ul>
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Handle django model fields</li>
+                            <li>Graphene extension</li>
+                        </ul>
+                    
+                </div>
+                <h4>PyCharmPlugin:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Error highlighter not working for closures</li>
+                            <li>Multithreaded frame reload issues</li>
+                        </ul>
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Highlighting updated objects</li>
+                            <li>Preferences</li>
+                            <li>Frame progress rendering</li>
+                            <li>Profiling current function</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>0.8.0</h3>
             <div style="padding-left: 20px;">
             
@@ -377,15 +418,25 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <errorHandler implementation="rw.audit.ErrorSubmitter"/>
+
         <projectConfigurable
           parentId="tools"
-          instance="rw.settings.SettingsConfigurable"
-          id="rw.settings.Settings"
-          displayName="Reloadium"
+          instance="rw.settings.ProjectSettingsConfigurable"
+          id="rw.settings.ProjectSettings"
+          displayName="Reloadium Project Settings"
           nonDefaultProject="false"/>
 
         <projectService
-          serviceImplementation="rw.settings.Settings"/>
+          serviceImplementation="rw.settings.ProjectSettings"/>
+
+        <applicationConfigurable
+          parentId="tools"
+          instance="rw.preferences.PreferencesConfigurable"
+          id="rw.preferences.Preferences"
+          displayName="Reloadium Preferences"/>
+
+         <applicationService
+          serviceImplementation="rw.preferences.Preferences"/>
 
          <applicationService
           serviceImplementation="rw.dialogs.DialogsState"
@@ -436,7 +487,7 @@
             <add-to-group group-id="RunContextGroup" anchor="first"/>
         </action>
 
-        <action class="rw.action.RerunDebugWithReloadium">
+        <action id="RerunDebugWithReloadium" class="rw.action.RerunDebugWithReloadium">
             <add-to-group group-id="XDebugger.ToolWindow.LeftToolbar" anchor="first"/>
         </action>
 
@@ -446,9 +497,14 @@
                     text="Update Reloadium Package"
                     icon="rw.icons.Icons.Update">
             </action>
-            <action id="ReloadiumSettings"
-                    class="rw.action.Settings"
-                    text="Settings"
+            <action id="ReloadiumProjectSettings"
+                    class="rw.action.ProjectSettings"
+                    text="Project Settings"
+                    icon="rw.icons.Icons.Settings">
+            </action>
+            <action id="ReloadiumPreferences"
+                    class="rw.action.Preferences"
+                    text="Preferences"
                     icon="rw.icons.Icons.Settings">
             </action>
             <action id="ReloadiumAbout"
@@ -458,6 +514,10 @@
             </action>
             <add-to-group group-id="MainMenu" relative-to-action="ToolsMenu" anchor="before"/>
         </group>
+
+        <action id="Profile" class="rw.profile.ProfileResultToggle" icon="rw.icons.Icons.Timing">
+          <add-to-group group-id="EditorGutterPopupMenu" anchor="first"/>
+        </action>
     </actions>
 
 </idea-plugin>

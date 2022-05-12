@@ -1,4 +1,4 @@
-package rw.session;
+package rw.highlights;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ReadAction;
@@ -20,47 +20,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import rw.session.Highlighter;
 
 import static com.intellij.codeInsight.hint.HintUtil.ERROR_COLOR_KEY;
 import static com.intellij.openapi.editor.colors.EditorColorsUtil.getGlobalOrDefaultColor;
 
 
-public class HighlightManager {
+public class ErrorHighlightManager {
     Map<File, List<Highlighter>> all;
 
     @VisibleForTesting
-    public static HighlightManager singleton;
+    public static ErrorHighlightManager singleton;
+
+    Project project;
 
     @VisibleForTesting
-    public HighlightManager() {
+    public ErrorHighlightManager(Project project) {
         this.all = new HashMap<>();
+        this.project = project;
     }
 
-    public static HighlightManager get() {
-        if (HighlightManager.singleton == null) {
-            HighlightManager.singleton = new HighlightManager();
-        }
-        return HighlightManager.singleton;
-    }
-
-    public void add(Project project, File file, int line) {
+    public void add(File file, int line) {
         if (!this.all.containsKey(file)) {
             this.all.put(file, new ArrayList<>());
         }
 
-        VirtualFile virtualFile = new VirtualFileWrapper(file).getVirtualFile();
-        Document document = ReadAction.compute(() -> FileDocumentManager.getInstance().getDocument(virtualFile));
+        Highlighter highlighter = new Highlighter(this.project, file, line, getGlobalOrDefaultColor(ERROR_COLOR_KEY),
+                10, false);
+        this.all.get(file).add(highlighter);
 
-        MarkupModel markupModel = DocumentMarkupModel.forDocument(document, project, true);
-        TextAttributes textAttribute = new TextAttributes(null, getGlobalOrDefaultColor(ERROR_COLOR_KEY),
-                null, null, Font.PLAIN);
-
-        ApplicationManager.getApplication().invokeLater(() -> {
-            RangeHighlighter highlighter = markupModel.addLineHighlighter(line-1,
-                DebuggerColors.EXECUTION_LINE_HIGHLIGHTERLAYER, textAttribute);
-            this.all.get(file).add(new Highlighter(highlighter, markupModel));
-        });
+        highlighter.show();
     }
 
     public void clearFile(File file) {
@@ -69,17 +57,32 @@ public class HighlightManager {
             return;
         }
 
-        ApplicationManager.getApplication().invokeLater(() -> {
-            for (Highlighter h : highlighters) {
-                h.remove();
-            }
-            highlighters.clear();
-        });
+        for (Highlighter h : highlighters) {
+            h.hide();
+        }
+        highlighters.clear();
     }
 
     public void clearAll() {
-        for(File f: this.all.keySet()) {
+        for (File f : this.all.keySet()) {
             this.clearFile(f);
+        }
+        this.all.clear();
+    }
+
+    public void activate() {
+        for (List<Highlighter> hs : this.all.values()) {
+            for (Highlighter h : hs) {
+                h.show();
+            }
+        }
+    }
+
+    public void deactivate() {
+        for (List<Highlighter> hs : this.all.values()) {
+            for (Highlighter h : hs) {
+                h.hide();
+            }
         }
     }
 }

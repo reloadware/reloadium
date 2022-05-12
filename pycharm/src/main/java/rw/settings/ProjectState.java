@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PluginState {
+public class ProjectState {
     public List<String> reloadiumPath;
     public boolean watchCwd;
     public boolean watchSourceRoots;
@@ -15,8 +15,9 @@ public class PluginState {
     public boolean cacheEnabled;
     public boolean verbose;
     public boolean debuggerSpeedups;
+    public boolean profile;
 
-    public PluginState() {
+    public ProjectState() {
         this.reloadiumPath = new ArrayList<String>();
         this.watchCwd = true;
         this.watchSourceRoots = true;
@@ -24,13 +25,14 @@ public class PluginState {
         this.cacheEnabled = true;
         this.verbose = true;
         this.debuggerSpeedups = false;
+        this.profile = true;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PluginState that = (PluginState) o;
+        ProjectState that = (ProjectState) o;
 
         boolean ret = true;
 
@@ -41,10 +43,11 @@ public class PluginState {
         ret &= this.printLogo == that.printLogo;
         ret &= this.verbose == that.verbose;
         ret &= this.watchSourceRoots == that.watchSourceRoots;
+        ret &= this.profile == that.profile;
         return ret;
     }
 
-    public static PluginState getInstance(@NotNull Project project) {
-        return project.getService(PluginState.class);
+    public static ProjectState getInstance(@NotNull Project project) {
+        return project.getService(ProjectState.class);
     }
 }
