@@ -1,4 +1,78 @@
 {
+  "0.8.7": [
+    {
+      "type": "Fixed",
+      "description": "Pydash icompatibility",
+      "tag": "Miscellaneous",
+      "date": "2022-05-12"
+    },
+    {
+      "type": "Fixed",
+      "description": "--help not working",
+      "tag": "Miscellaneous",
+      "date": "2022-05-12"
+    },
+    {
+      "type": "Added",
+      "description": "Handle django model fields",
+      "tag": "Miscellaneous",
+      "date": "2022-05-12"
+    },
+    {
+      "type": "Fixed",
+      "description": "Error highlighter not working for closures",
+      "tag": "PyCharmPlugin",
+      "date": "2022-05-12"
+    },
+    {
+      "type": "Added",
+      "description": "Graphene extension",
+      "tag": "Miscellaneous",
+      "date": "2022-05-12"
+    },
+    {
+      "type": "Fixed",
+      "description": "Morphing object types",
+      "tag": "Miscellaneous",
+      "date": "2022-05-12"
+    },
+    {
+      "type": "Added",
+      "description": "Highlighting updated objects",
+      "tag": "PyCharmPlugin",
+      "date": "2022-05-12"
+    },
+    {
+      "type": "Added",
+      "description": "Preferences",
+      "tag": "PyCharmPlugin",
+      "date": "2022-05-12"
+    },
+    {
+      "type": "Added",
+      "description": "Frame progress rendering",
+      "tag": "PyCharmPlugin",
+      "date": "2022-05-12"
+    },
+    {
+      "type": "Added",
+      "description": "Profiling current function",
+      "tag": "PyCharmPlugin",
+      "date": "2022-05-12"
+    },
+    {
+      "type": "Fixed",
+      "description": "Hanging on reload issues",
+      "tag": "Miscellaneous",
+      "date": "2022-05-12"
+    },
+    {
+      "type": "Fixed",
+      "description": "Multithreaded frame reload issues",
+      "tag": "PyCharmPlugin",
+      "date": "2022-05-12"
+    }
+  ],
   "0.8.6": [
     {
       "type": "Fixed",

@@ -36,7 +36,6 @@ public class HowToUseBody {
             this.termsAndConditions.setBackground(ColorUtil.hackBrightness(
                     JBUI.CurrentTheme.CustomFrameDecorations.paneBackground(), 1, 1 / 1.05f)
             );
-            this.termsAndConditions.setFont(this.description.getFont());
         } else {
             this.termsAndConditions.setVisible(false);
         }

@@ -4,15 +4,10 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
-import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
-import rw.service.Service;
-import rw.settings.PluginState;
 
-import java.util.List;
-
-@State(name = "Reloadium", storages = @Storage("reloadium.xml"))
+@State(name = "DialogsState", storages = @Storage("reloadium.xml"))
 public class DialogsState implements PersistentStateComponent<DialogsState> {
     public boolean firstRun = true;
     public boolean firstDebug = true;

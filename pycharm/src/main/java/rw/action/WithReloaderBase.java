@@ -16,16 +16,22 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import rw.audit.RwSentry;
 import rw.consts.Const;
 import rw.handler.runConf.BaseRunConfHandler;
 import rw.handler.runConf.RunConfHandlerFactory;
+import rw.handler.runConf.RunConfHandlerManager;
+import rw.handler.sdk.BaseSdkHandler;
+import rw.handler.sdk.SdkHandlerFactory;
 import rw.service.Service;
 
 import java.util.TimerTask;
+import com.jetbrains.python.run.AbstractPythonRunConfiguration;
 
 
 public abstract class WithReloaderBase extends AnAction {
@@ -42,11 +48,11 @@ public abstract class WithReloaderBase extends AnAction {
         if (project == null)
             return;
 
-        RunnerAndConfigurationSettings conf = this.getConfiguration(e);
-
         if (!this.canRun(e)) {
             presentation.setEnabled(false);
         } else {
+            RunnerAndConfigurationSettings conf = this.getConfiguration(e);
+            assert conf != null;
             this.handleRunningConfs(project, e, conf);
             this.setEnabledText(e, conf);
             presentation.setEnabled(true);
@@ -61,13 +67,22 @@ public abstract class WithReloaderBase extends AnAction {
             return false;
         }
 
-        BaseRunConfHandler handler = RunConfHandlerFactory.factory(conf.getConfiguration());
+        if (!AbstractPythonRunConfiguration.class.isAssignableFrom(conf.getConfiguration().getClass())) {
+            return false;
+        }
+        Sdk sdk = ((AbstractPythonRunConfiguration<?>)conf.getConfiguration()).getSdk();
 
-        if (handler == null) {
+        if (sdk == null) {
             return false;
         }
 
-        if (!handler.canRun()) {
+        BaseSdkHandler sdkHandler = SdkHandlerFactory.factory(sdk);
+
+        if (sdkHandler == null) {
+            return false;
+        }
+
+        if (!sdkHandler.isValid()) {
             return false;
         }
 
@@ -116,7 +131,7 @@ public abstract class WithReloaderBase extends AnAction {
 
         BaseRunConfHandler handler = RunConfHandlerFactory.factory(conf.getConfiguration());
 
-        if (handler.isActivated()) {
+        if (handler.isReloadiumActivated()) {
             return builder.build();
         }
 
@@ -124,7 +139,7 @@ public abstract class WithReloaderBase extends AnAction {
 
         TimerTask task = new TimerTask() {
             public void run() {
-                if (handler.isActivated())
+                if (handler.isReloadiumActivated())
                     handler.afterRun();
             }
         };
@@ -145,9 +160,12 @@ public abstract class WithReloaderBase extends AnAction {
             }
         });
 
+        handler.setExecutionEnvironment(ret);
+        RunConfHandlerManager.get().register(ret, handler);
         return ret;
     }
 
+    @Nullable
     protected RunnerAndConfigurationSettings getConfiguration(@NotNull AnActionEvent e) {
         Project project = getEventProject(e);
         RunManagerImpl runManager = RunManagerImpl.getInstanceImpl(project);

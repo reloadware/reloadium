@@ -2,6 +2,7 @@
 package rw.pkg;
 
 import com.intellij.openapi.diagnostic.Logger;
+import org.apache.commons.httpclient.ConnectTimeoutException;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.BasicScheme;
 import org.apache.commons.io.IOExceptionList;
@@ -9,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -20,9 +22,13 @@ import rw.pkg.wheel.BaseWheel;
 import rw.pkg.wheel.WheelFactory;
 import rw.util.OsType;
 
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLHandshakeException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
@@ -34,13 +40,13 @@ import java.util.regex.Pattern;
 
 
 public final class WebPackageManager extends BasePackageManager {
-    @Nullable List<BaseWheel> wheelUrlsCache;
+    @Nullable
+    List<BaseWheel> wheelUrlsCache;
     long wheelUrlsCacheCheckTimestamp;
 
     private static final Logger LOGGER = Logger.getInstance(WebPackageManager.class);
 
-    public WebPackageManager()
-    {
+    public WebPackageManager() {
         super();
 
         LOGGER.info("Creating WebPackageManager");
@@ -51,6 +57,10 @@ public final class WebPackageManager extends BasePackageManager {
 
     public boolean shouldInstall() {
         String fromWeb = this.getLatestVersionFromWeb();
+        if (fromWeb == null) {
+            return false;
+        }
+
         String local = this.getCurrentVersion();
 
         if (local == null) {
@@ -157,6 +167,7 @@ public final class WebPackageManager extends BasePackageManager {
                 ret.add(wheelUrl);
             }
             httpClient.close();
+        } catch (ConnectException | SocketTimeoutException | ConnectTimeoutException | SSLException ignored) {
         } catch (IOException e) {
             RwSentry.get().captureException(e);
         }

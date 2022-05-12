@@ -5,7 +5,7 @@
     <p align="center">
         <img src="media/logo.svg" width="400px" alt="Logo">
     </p>
-    <h4 align="center"> The missing element of Python - Advanced Hot Reloading </h4>
+    <h4 align="center"> The missing element of Python - Advanced Hot Reloading & Profiling </h4>
 
 .. class:: center
 
@@ -23,7 +23,7 @@
 Details
 #######
 
-| Reloadium adds hot reloading also called "edit and continue" functionality to any Python application
+| Reloadium adds hot reloading and profiling features to any Python application
 
 
 Installing

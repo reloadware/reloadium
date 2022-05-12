@@ -5,11 +5,12 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.DumbAware;
 import org.jetbrains.annotations.NotNull;
-import rw.settings.SettingsConfigurable;
+import rw.preferences.PreferencesConfigurable;
+import rw.settings.ProjectSettingsConfigurable;
 
 
-public class Settings extends AnAction implements DumbAware {
-    public static String ID = "ReloadiumSettings";
+public class Preferences extends AnAction implements DumbAware {
+    public static String ID = "ReloadiumPreferences";
 
     @Override
     public void update(@NotNull AnActionEvent e) {
@@ -18,6 +19,6 @@ public class Settings extends AnAction implements DumbAware {
     }
 
     public void actionPerformed(@NotNull AnActionEvent e) {
-        ShowSettingsUtil.getInstance().showSettingsDialog(e.getProject(), SettingsConfigurable.class);
+        ShowSettingsUtil.getInstance().showSettingsDialog(e.getProject(), PreferencesConfigurable.class);
     }
 }
