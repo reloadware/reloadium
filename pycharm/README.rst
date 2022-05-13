@@ -5,7 +5,7 @@
     <p align="center">
         <img src="media/logo.svg" width="400px" alt="Logo">
     </p>
-    <h4 align="center"> The missing element of Python - Advanced Hot Reloading & Profiling </h4>
+    <h4 align="center"> The missing element of Python </h4>
 
 .. class:: center
 

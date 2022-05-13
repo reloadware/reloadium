@@ -7,15 +7,18 @@
     <p align="center">
         <img src="media/logo.svg" width="400px" alt="Logo">
     </p>
-    <h4 align="center"> The missing element of Python - Advanced Hot Reloading & Profiling </h4>
+    <h3 align="center"> Advanced Hot Reloading & Profiling </h3>
 
 .. class:: center
 
 
 .. raw:: html
 
-    <p align="center">
-        <img src="media/example_small.gif" width="900px" alt="Example">
+    <p id="hot-reloading" align="center">
+        <img src="media/example_small.gif" width="750px" alt="Example">
+    </p>
+    <p id="profiling" align="center">
+        <img src="media/profiling.gif" width="750px" alt="Profiling">
     </p>
 
 
