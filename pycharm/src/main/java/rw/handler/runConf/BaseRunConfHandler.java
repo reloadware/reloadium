@@ -14,7 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.action.RunType;
-import rw.frame.FrameManager;
+import rw.profile.TimeProfiler;
+import rw.stack.Stack;
 import rw.handler.sdk.BaseSdkHandler;
 import rw.handler.sdk.SdkHandlerFactory;
 import rw.highlights.ErrorHighlightManager;
@@ -22,12 +23,15 @@ import rw.profile.ProfilePreviewRenderer;
 import rw.service.Service;
 import rw.session.Session;
 
+import java.io.File;
+
 public abstract class BaseRunConfHandler implements Disposable {
     AbstractPythonRunConfiguration<?> runConf;
     @Nullable
     BaseSdkHandler sdkHandler;
     ExecutionEnvironment executionEnvironment;
-    FrameManager frameManager;
+    Stack stack;
+    TimeProfiler timeProfiler;
     Session session;
     ErrorHighlightManager errorHighlightManager;
     ProfilePreviewRenderer profilePreviewRenderer;
@@ -39,10 +43,11 @@ public abstract class BaseRunConfHandler implements Disposable {
         this.project = this.runConf.getProject();
 
         this.sdkHandler = SdkHandlerFactory.factory(this.runConf.getSdk());
-        this.frameManager = new FrameManager(this.project);
+        this.stack = new Stack(this.project);
+        this.timeProfiler = new TimeProfiler(this.stack);
         this.session = new Session(this.project, this);
         this.errorHighlightManager = new ErrorHighlightManager(this.project);
-        this.profilePreviewRenderer = new ProfilePreviewRenderer(this.project, this.frameManager);
+        this.profilePreviewRenderer = new ProfilePreviewRenderer(this.project, this.stack, this.timeProfiler);
 
         this.handleJbEvents();
     }
@@ -77,8 +82,8 @@ public abstract class BaseRunConfHandler implements Disposable {
         this.deactivate();
     }
 
-    public FrameManager getFrameManager() {
-        return frameManager;
+    public Stack getStack() {
+        return stack;
     }
 
     public ErrorHighlightManager getErrorHighlightManager() {
@@ -111,11 +116,13 @@ public abstract class BaseRunConfHandler implements Disposable {
     public void activate() {
         this.errorHighlightManager.activate();
         this.profilePreviewRenderer.activate();
+        this.stack.activate();
     }
 
     public void deactivate() {
         this.errorHighlightManager.deactivate();
         this.profilePreviewRenderer.deactivate();
+        this.stack.deactivate();
     }
 
     @Override
@@ -132,5 +139,9 @@ public abstract class BaseRunConfHandler implements Disposable {
     @VisibleForTesting
     public void __setErrorHighlightManager(ErrorHighlightManager errorHighlightManager) {
         this.errorHighlightManager = errorHighlightManager;
+    }
+
+    public TimeProfiler getTimeProfiler() {
+        return this.timeProfiler;
     }
 }

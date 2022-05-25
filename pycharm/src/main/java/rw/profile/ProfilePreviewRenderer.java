@@ -1,30 +1,29 @@
 package rw.profile;
 
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.editor.markup.*;
-import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.editor.colors.EditorColors;
+import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.ui.JBColor;
-import rw.frame.FileFrames;
-import rw.frame.Frame;
-import rw.frame.FrameManager;
+import rw.stack.Frame;
+import rw.stack.Stack;
 import rw.highlights.Highlighter;
 
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.IntStream;
 
 public class ProfilePreviewRenderer {
     List<Highlighter> highlighters;
 
     Project project;
-    FrameManager frameManager;
+    TimeProfiler timeProfiler;
+    Stack stack;
 
-    public ProfilePreviewRenderer(Project project, FrameManager frameManager) {
+    public ProfilePreviewRenderer(Project project, Stack stack, TimeProfiler timeProfiler) {
         this.project = project;
-        this.frameManager = frameManager;
+        this.stack = stack;
+        this.timeProfiler = timeProfiler;
         this.highlighters = new ArrayList<>();
     }
 
@@ -38,24 +37,35 @@ public class ProfilePreviewRenderer {
         this.deactivate();
         this.highlighters.clear();
 
-        for (Map.Entry<File, FileFrames> pathToFramesE : this.frameManager.getPathToFrames().entrySet()) {
-            for (Map.Entry<Integer, Color> lineToColorE : pathToFramesE.getValue().getLineToColor().entrySet()) {
-                Color color = new Color(lineToColorE.getValue().getRed(),
-                        lineToColorE.getValue().getGreen(),
-                        lineToColorE.getValue().getBlue(),
-                        150);
+        Color emptyColor = EditorColorsManager.getInstance().getGlobalScheme().getColor(EditorColors.GUTTER_BACKGROUND);
 
-                Highlighter highlighter = new Highlighter(this.project,
-                        pathToFramesE.getKey(),
-                        lineToColorE.getKey(),
-                        color,
-                        1, true);
+        for (Map.Entry<File, Map<Integer, Color>> pathToLineColorsE : this.timeProfiler.getLineToColor().entrySet()) {
+            File path = pathToLineColorsE.getKey();
+            for (Map.Entry<Integer, Color> lineToColorE : pathToLineColorsE.getValue().entrySet()) {
+                Integer line = lineToColorE.getKey();
+                Color color = lineToColorE.getValue();
 
+                Highlighter highlighter = new Highlighter(this.project, path, line, color,1, true);
                 this.highlighters.add(highlighter);
             }
-            for (Highlighter h: this.highlighters) {
-                h.show();
+
+            // Fill empty spaces
+            Set<Integer> lines = pathToLineColorsE.getValue().keySet();
+            for (Frame f : this.stack.getForPath(path)) {
+                if (lines.isEmpty()) {
+                    continue;
+                }
+                IntStream.range(f.getBodyLineno(), f.getEndLineno()+1).forEachOrdered(n -> {
+                    if (!lines.contains(n)) {
+                        Highlighter highlighter = new Highlighter(this.project, path, n, emptyColor,1, true);
+
+                        this.highlighters.add(highlighter);
+                    }
+                });
             }
+        }
+        for (Highlighter h : this.highlighters) {
+            h.show();
         }
     }
 

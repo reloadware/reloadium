@@ -82,7 +82,7 @@ class FSEventsQueue(Thread):
     """ Low level FSEvents client. """
 
     def __init__(self, path):
-        Thread.__init__(self)
+        Thread.__init__(self, name="reloadium-watchdog")
         self._queue = queue.Queue()
         self._run_loop = None
 

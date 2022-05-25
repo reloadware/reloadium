@@ -9,6 +9,7 @@ import rw.audit.RwSentry;
 import rw.pkg.BuiltinPackageManager;
 import rw.service.TestService;
 import rw.tests.fixtures.ConstFixture;
+import rw.tests.fixtures.DialogFactoryFixture;
 import rw.tests.fixtures.PyPiFixture;
 import rw.tests.fixtures.SentryFixture;
 import rw.pkg.WebPackageManager;
@@ -25,6 +26,7 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
     public PyPiFixture pyPiFixture;
     public WebPackageManager webPackageManager;
     public BuiltinPackageManager builtinPackageManager;
+    public DialogFactoryFixture dialogFactoryFixture;
 
     public ConstFixture constFixture;
     public SentryFixture sentryFixture;
@@ -36,6 +38,9 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
     @BeforeEach
     protected void setUp() throws Exception {
         super.setUp();
+
+        this.dialogFactoryFixture = new DialogFactoryFixture(this.getProject());
+        this.dialogFactoryFixture.start();
 
         this.constFixture = new ConstFixture(true);
         this.constFixture.start();
@@ -64,6 +69,7 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
     protected void tearDown() throws Exception {
         this.pyPiFixture.stop();
         this.constFixture.stop();
+        this.dialogFactoryFixture.stop();
         super.tearDown();
     }
 

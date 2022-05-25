@@ -1,19 +1,20 @@
 <idea-plugin>
     <id>org.reloadium</id>
-    <name>Reloadium</name>
-    <version>0.8.1</version>
+    <name>Reloadium - Hot Reloading &#38; Profiling for Python</name>
+    <version>0.8.2</version>
     <idea-version since-build="203"/>
-    <vendor email="damian@reloadware.com" url="www.reloadware.com">Reloadware</vendor>
+    <vendor email="damian@reloadware.com" url="reloadium.io">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.python</depends>
     <depends>com.intellij.modules.platform</depends>
 
     <description><![CDATA[
-        <h1> Advanced Hot Reloading for Python </h1>
-
-        <p align="center">
-            <img src="https://raw.githubusercontent.com/reloadware/reloadium/main/media/example_small.gif" width="715px" alt="Example">
-        </p>
+        <div>
+            <img src="https://raw.githubusercontent.com/reloadware/reloadium/main/media/example_small.gif" width="600px" alt="Hot Reloading"/>
+        </div>
+        <div>
+            <img src="https://raw.githubusercontent.com/reloadware/reloadium/main/media/profiling.gif" width="600px" alt="Profiling"/>
+        </div>
         
          <p>Reloadium adds hot reloading and profiling features to any Python application</p>
         ]]>
@@ -21,6 +22,53 @@
 
     <change-notes><![CDATA[
     
+        <h3>0.8.2</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>Miscellaneous:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Frame progress stopping after handled exceptions</li>
+                            <li>Startup error when running without utf-8 encoding</li>
+                            <li>Fixing errors mode for handled exceptions</li>
+                            <li>Mocked functions errors</li>
+                            <li>Intercepting flask errors</li>
+                            <li>Reference issues for enums</li>
+                            <li>Dataclass attributes updating issues</li>
+                            <li>Debugger speedups</li>
+                        </ul>
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Handle profiling closures</li>
+                            <li>VsCode compatibility</li>
+                        </ul>
+                    
+                </div>
+                <h4>PyCharm:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>More colormaps choices</li>
+                        </ul>
+                    
+                        <b>Changed:</b>
+                        <ul>
+                            <li>Move Timing Details button below Annotate with git blame</li>
+                            <li>Make debugger speedups enabled by default</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Disappearing frame progress for very slow lines</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>0.8.1</h3>
             <div style="padding-left: 20px;">
             
@@ -516,7 +564,7 @@
         </group>
 
         <action id="Profile" class="rw.profile.ProfileResultToggle" icon="rw.icons.Icons.Timing">
-          <add-to-group group-id="EditorGutterPopupMenu" anchor="first"/>
+          <add-to-group group-id="EditorGutterVcsPopupMenu" relative-to-action="Annotate" anchor="after"/>
         </action>
     </actions>
 

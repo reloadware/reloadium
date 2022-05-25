@@ -45,7 +45,7 @@ public class ErrorHighlightManager {
         }
 
         Highlighter highlighter = new Highlighter(this.project, file, line, getGlobalOrDefaultColor(ERROR_COLOR_KEY),
-                10, false);
+                0, false);
         this.all.get(file).add(highlighter);
 
         highlighter.show();

@@ -32,7 +32,7 @@ class ThreadWithLoggedException(threading.Thread):
             self.logger = kwargs.pop("logger")
         except KeyError:
             raise Exception("Missing 'logger' in kwargs")
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs, name="reloadium-websocket-server")
         self.exception = None
 
     def run(self):

@@ -1,4 +1,90 @@
 {
+  "0.8.2": [
+    {
+      "type": "Fixed",
+      "description": "Frame progress stopping after handled exceptions",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Startup error when running without utf-8 encoding",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Added",
+      "description": "Handle profiling closures",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Fixing errors mode for handled exceptions",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Mocked functions errors",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Intercepting flask errors",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Reference issues for enums",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Dataclass attributes updating issues",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Added",
+      "description": "VsCode compatibility",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Added",
+      "description": "More colormaps choices",
+      "tag": "PyCharm",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Changed",
+      "description": "Move Timing Details button below Annotate with git blame",
+      "tag": "PyCharm",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Disappearing frame progress for very slow lines",
+      "tag": "PyCharm",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Debugger speedups",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Changed",
+      "description": "Make debugger speedups enabled by default",
+      "tag": "PyCharm",
+      "date": "2022-05-26"
+    }
+  ],
     "0.8.1": [
     {
       "type": "Fixed",

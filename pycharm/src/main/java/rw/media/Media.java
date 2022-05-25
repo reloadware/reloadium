@@ -1,16 +1,18 @@
 package rw.media;
 
+import rw.audit.RwSentry;
+
 import javax.swing.*;
 import java.io.IOException;
 
-/*
- * https://www.jetbrains.org/intellij/sdk/docs/reference_guide/work_with_icons_and_images.html
- */
 public class Media {
     public static Icon RunExample;
     public static Icon DebugExample;
     public static Icon FixingUserErrors;
     public static Icon FixingFrameErrors;
+    public static ImageIcon inferno;
+    public static ImageIcon plasma;
+    public static ImageIcon viridis;
 
     static {
         try {
@@ -18,8 +20,11 @@ public class Media {
             DebugExample = new ImageIcon(Media.class.getClassLoader().getResourceAsStream("META-INF/media/example_debug.gif").readAllBytes());
             FixingUserErrors = new ImageIcon(Media.class.getClassLoader().getResourceAsStream("META-INF/media/fixing_user_errors.gif").readAllBytes());
             FixingFrameErrors = new ImageIcon(Media.class.getClassLoader().getResourceAsStream("META-INF/media/fixing_frame_errors.gif").readAllBytes());
+            inferno = new ImageIcon(Media.class.getClassLoader().getResourceAsStream("META-INF/media/inferno.png").readAllBytes());
+            plasma = new ImageIcon(Media.class.getClassLoader().getResourceAsStream("META-INF/media/plasma.png").readAllBytes());
+            viridis = new ImageIcon(Media.class.getClassLoader().getResourceAsStream("META-INF/media/viridis.png").readAllBytes());
         } catch (IOException e) {
-            e.printStackTrace();
+            RwSentry.get().captureException(e);
         }
     }
 }

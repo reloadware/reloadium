@@ -1,4 +1,90 @@
 {
+  "0.8.8": [
+    {
+      "type": "Fixed",
+      "description": "Frame progress stopping after handled exceptions",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Startup error when running without utf-8 encoding",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Added",
+      "description": "Handle profiling closures",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Fixing errors mode for handled exceptions",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Mocked functions errors",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Intercepting flask errors",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Reference issues for enums",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Dataclass attributes updating issues",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Added",
+      "description": "VsCode compatibility",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Added",
+      "description": "More colormaps choices",
+      "tag": "PyCharm",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Changed",
+      "description": "Move Timing Details button below Annotate with git blame",
+      "tag": "PyCharm",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Disappearing frame progress for very slow lines",
+      "tag": "PyCharm",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Debugger speedups",
+      "tag": "Miscellaneous",
+      "date": "2022-05-26"
+    },
+    {
+      "type": "Changed",
+      "description": "Make debugger speedups enabled by default",
+      "tag": "PyCharm",
+      "date": "2022-05-26"
+    }
+  ],
   "0.8.7": [
     {
       "type": "Fixed",
@@ -21,7 +107,7 @@
     {
       "type": "Fixed",
       "description": "Error highlighter not working for closures",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-05-12"
     },
     {
@@ -39,25 +125,25 @@
     {
       "type": "Added",
       "description": "Highlighting updated objects",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-05-12"
     },
     {
       "type": "Added",
       "description": "Preferences",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-05-12"
     },
     {
       "type": "Added",
       "description": "Frame progress rendering",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-05-12"
     },
     {
       "type": "Added",
       "description": "Profiling current function",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-05-12"
     },
     {
@@ -69,7 +155,7 @@
     {
       "type": "Fixed",
       "description": "Multithreaded frame reload issues",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-05-12"
     }
   ],
@@ -131,49 +217,49 @@
     {
       "type": "Added",
       "description": "First run dialog",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-04-25"
     },
     {
       "type": "Added",
       "description": "First debug dialog",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-04-25"
     },
     {
       "type": "Added",
       "description": "Events, commands",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-04-25"
     },
     {
       "type": "Added",
       "description": "Error highlighter",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-04-25"
     },
     {
       "type": "Added",
       "description": "First user error dialog",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-04-25"
     },
     {
       "type": "Added",
       "description": "Fixing frame error dialog",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-04-25"
     },
     {
       "type": "Added",
       "description": "Remote interpreters improvements",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-04-25"
     },
     {
       "type": "Added",
       "description": "Handling remote path mappings",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "date": "2022-04-25"
     }
   ],
@@ -555,7 +641,7 @@
     {
       "date": "2022-02-07",
       "description": "Django and Flask support",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "type": "Added"
     }
   ],
@@ -577,7 +663,7 @@
     {
       "date": "2022-02-01",
       "description": "Run and Debug Buttons would fail if clicked too fast",
-      "tag": "PyCharmPlugin",
+      "tag": "PyCharm",
       "type": "Fixed"
     },
     {

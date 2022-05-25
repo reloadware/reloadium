@@ -1,0 +1,16 @@
+{
+  "ID": "StackUpdate",
+  "VERSION": "%s",
+  "content": {
+    "0": [
+      {
+        "frame_id": 0,
+        "body_lineno": 2,
+        "end_lineno": 10,
+        "path": "%s",
+        "handler_lineno": 1,
+        "fullname": "cakeshop.cake"
+      }
+    ]
+  }
+}

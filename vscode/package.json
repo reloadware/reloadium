@@ -1,0 +1,75 @@
+{
+	"name": "reloadium",
+	"displayName": "reloadium",
+	"description": "Advanced Hot Reloading & Profiling for Python",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.67.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:reloadium.run"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "reloadium.run",
+				"title": "Run with Reloadium",
+				"category": "Python"
+			}
+		],
+		"menus": {
+            "commandPalette": [
+                {
+                    "category": "Python",
+                    "command": "reloadium.run",
+                    "icon": "$(debug-alt)",
+                    "title": "%python.command.reloadium.run.title%",
+                    "when": "!virtualWorkspace && shellExecutionSupported"
+                }
+			],
+			"editor/title/run": [
+                {
+                    "command": "reloadium.run",
+                    "group": "navigation@1",
+                    "title": "%python.command.reloadium.run.title%",
+                    "when": "resourceLangId == python && !isInDiffEditor && !virtualWorkspace && shellExecutionSupported"
+                }
+            ]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "yarn run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "yarn run compile && yarn run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.2.0",
+		"@types/mocha": "^9.1.1",
+		"@types/node": "14.x",
+		"@types/vscode": "^1.67.0",
+		"@typescript-eslint/eslint-plugin": "^5.21.0",
+		"@typescript-eslint/parser": "^5.21.0",
+		"@vscode/test-electron": "^2.1.3",
+		"eslint": "^8.14.0",
+		"glob": "^8.0.1",
+		"mocha": "^9.2.2",
+		"ts-loader": "^9.2.8",
+		"typescript": "^4.6.4"
+	},
+	"dependencies": {
+		"@types/fs-extra": "^9.0.13",
+		"@types/inversify": "^2.0.33",
+		"fs-extra": "^10.1.0",
+		"jsonc-parser": "^3.0.0"
+	},
+	"__metadata": {
+		"publisherDisplayName": "Reloadware"
+	}
+}

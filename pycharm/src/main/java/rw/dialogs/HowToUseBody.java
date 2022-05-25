@@ -27,7 +27,7 @@ public class HowToUseBody {
         this.description.setText("<html>" + description + "</html>");
 
         String url = String.format("<a href=\"%s\">terms and conditions and privacy policy</a>", Const.get().legalUrl);
-        String terms = "<div style=\"font-family:DejaVu Sans\">By using this software you accept " + url + "</div>";
+        String terms = "<div>By using this software you accept " + url + "</div>";
 
         if (showTerms) {
 
