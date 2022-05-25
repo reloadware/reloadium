@@ -1,13 +1,11 @@
 package rw.highlights;
 
 import com.intellij.diff.util.DiffUtil;
-import com.intellij.diff.util.Side;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.diff.LineStatusMarkerDrawUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.editor.impl.DocumentMarkupModel;
 import com.intellij.openapi.editor.markup.*;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -68,18 +66,18 @@ public class Highlighter {
     RangeHighlighter device;
     MarkupModel markupModel;
 
-    int lineno;
-    int endLineno;
+    int line;
+    int endLine;
     File file;
     Project project;
     Color color;
     int layer;
     boolean gutter;
 
-    public Highlighter(Project project, File file, int lineno, int endLineno, Color color, int layer, boolean gutter) {
+    public Highlighter(Project project, File file, int line, int endLine, Color color, int layer, boolean gutter) {
         this.project = project;
-        this.endLineno = endLineno;
-        this.lineno = lineno;
+        this.endLine = endLine;
+        this.line = line;
         this.file = file;
         this.color = color;
         this.layer = layer;
@@ -90,8 +88,8 @@ public class Highlighter {
         this.gutter = gutter;
     }
 
-    public Highlighter(Project project, File file, int lineno, Color color, int layer, boolean gutter) {
-        this(project, file, lineno, lineno, color, layer, gutter);
+    public Highlighter(Project project, File file, int line, Color color, int layer, boolean gutter) {
+        this(project, file, line, line, color, layer, gutter);
     }
 
     public RangeHighlighter getDevice() {
@@ -134,8 +132,8 @@ public class Highlighter {
 
         ApplicationManager.getApplication().invokeLater(() -> {
             try {
-                if (this.lineno == this.endLineno) {
-                    this.device = this.markupModel.addLineHighlighter(this.lineno - 1,
+                if (this.line == this.endLine) {
+                    this.device = this.markupModel.addLineHighlighter(this.line - 1,
                             layer, textAttribute);
                 } else {
                     TextRange textRange = this.getTextRange(document);
@@ -144,7 +142,7 @@ public class Highlighter {
                             textAttribute, HighlighterTargetArea.LINES_IN_RANGE);
                 }
                 if (this.gutter) {
-                    LineMarkerRenderer renderer = new GutterRenderer(this.lineno, this.endLineno, this.color,"");
+                    LineMarkerRenderer renderer = new GutterRenderer(this.line, this.endLine, this.color,"");
                     this.device.setLineMarkerRenderer(renderer);
                 }
             } catch (IndexOutOfBoundsException ignored) {
@@ -153,20 +151,24 @@ public class Highlighter {
     }
 
     private int getJbLayer() {
-        return DebuggerColors.EXECUTION_LINE_HIGHLIGHTERLAYER - 10 + this.layer;
+        return DebuggerColors.EXECUTION_LINE_HIGHLIGHTERLAYER + this.layer;
     }
 
     private TextRange getTextRange(Document document) {
-        int correctedLineEnd = this.endLineno;
-        if (this.endLineno == -1) {
-            correctedLineEnd = this.lineno - 1;
+        int correctedLineEnd = this.endLine;
+        if (this.endLine == -1) {
+            correctedLineEnd = this.line - 1;
         }
 
-        if (correctedLineEnd < this.lineno) {
-            correctedLineEnd = this.lineno;
+        if (correctedLineEnd < this.line) {
+            correctedLineEnd = this.line;
         }
 
-        TextRange range = DiffUtil.getLinesRange(document, this.lineno - 1, correctedLineEnd);
+        TextRange range = DiffUtil.getLinesRange(document, this.line - 1, correctedLineEnd);
         return range;
+    }
+
+    public int getLine() {
+        return line;
     }
 }

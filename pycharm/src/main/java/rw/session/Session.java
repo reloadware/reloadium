@@ -8,12 +8,10 @@ import org.jetbrains.annotations.VisibleForTesting;
 import rw.audit.RwSentry;
 import rw.handler.runConf.BaseRunConfHandler;
 
-import rw.session.Event;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Map.entry;
@@ -43,20 +41,20 @@ public class Session extends Thread {
 
         this.events = Map.ofEntries(
                 entry(Handshake.ID, Handshake.class),
-                entry(UpdateModule.ID, UpdateModule.class),
+                entry(ModuleUpdate.ID, ModuleUpdate.class),
                 entry(FrameError.ID, FrameError.class),
                 entry(FrameProgress.ID, FrameProgress.class),
-                entry(UserError.ID, UserError.class),
-                entry(UpdateFrame.ID, UpdateFrame.class)
+                entry(StackUpdate.ID, StackUpdate.class),
+                entry(UserError.ID, UserError.class)
         );
 
         this.eventVersions = Map.ofEntries(
                 entry(Handshake.ID, Handshake.VERSION),
-                entry(UpdateModule.ID, UpdateModule.VERSION),
+                entry(ModuleUpdate.ID, ModuleUpdate.VERSION),
                 entry(FrameError.ID, FrameError.VERSION),
                 entry(FrameProgress.ID, FrameProgress.VERSION),
                 entry(UserError.ID, UserError.VERSION),
-                entry(UpdateFrame.ID, UpdateFrame.VERSION)
+                entry(StackUpdate.ID, StackUpdate.VERSION)
         );
 
         try {

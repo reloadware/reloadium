@@ -24,7 +24,7 @@ public class ProjectState {
         this.printLogo = true;
         this.cacheEnabled = true;
         this.verbose = true;
-        this.debuggerSpeedups = false;
+        this.debuggerSpeedups = true;
         this.profile = true;
     }
 

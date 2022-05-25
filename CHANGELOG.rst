@@ -2,6 +2,37 @@ Change Log
 ##########
 
 
+0.8.8
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Frame progress stopping after handled exceptions
+    * Startup error when running without utf-8 encoding
+    * Fixing errors mode for handled exceptions
+    * Mocked functions errors
+    * Intercepting flask errors
+    * Reference issues for enums
+    * Dataclass attributes updating issues
+    * Debugger speedups
+    
+  Added:
+    * Handle profiling closures
+    * VsCode compatibility
+    
+**PyCharm**:
+    
+  Added:
+    * More colormaps choices
+    
+  Changed:
+    * Move Timing Details button below Annotate with git blame
+    * Make debugger speedups enabled by default
+    
+  Fixed:
+    * Disappearing frame progress for very slow lines
+    
 0.8.7
 -------
 
@@ -17,7 +48,7 @@ Change Log
     * Handle django model fields
     * Graphene extension
     
-**PyCharmPlugin**:
+**PyCharm**:
     
   Fixed:
     * Error highlighter not working for closures
@@ -49,7 +80,7 @@ Change Log
   Changed:
     * Optimise threads
     
-**PyCharmPlugin**:
+**PyCharm**:
     
   Added:
     * First run dialog
@@ -259,7 +290,7 @@ Change Log
     * Process hanging on exit
     * Crashing when django installed but not imported
     
-**PyCharmPlugin**:
+**PyCharm**:
     
   Added:
     * Django and Flask support
@@ -283,7 +314,7 @@ Change Log
   Added:
     * Terminal commands and help 
     
-**PyCharmPlugin**:
+**PyCharm**:
     
   Fixed:
     * Run and Debug Buttons would fail if clicked too fast

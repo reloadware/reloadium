@@ -10,31 +10,28 @@ import com.intellij.openapi.editor.colors.EditorFontType;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.NlsContexts;
-import com.intellij.ui.JBColor;
 import com.intellij.xdebugger.XDebuggerManager;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rw.frame.FileFrames;
-import rw.frame.Frame;
-import rw.frame.FrameManager;
+import rw.stack.Stack;
 import rw.handler.runConf.BaseRunConfHandler;
 import rw.handler.runConf.RunConfHandlerManager;
-import rw.service.Service;
 
 import java.awt.*;
 import java.io.File;
+import java.sql.Time;
 import java.util.List;
 
 public class ProfileGutterProvider implements TextAnnotationGutterProvider {
     boolean selected;
 
     Editor editor;
+    File path;
 
-    ProfileGutterProvider(Editor editor)
-    {
+    ProfileGutterProvider(Editor editor) {
         this.selected = false;
         this.editor = editor;
+        this.path = ((EditorImpl) editor).getVirtualFile().toNioPath().toFile();
     }
 
     @Override
@@ -43,15 +40,16 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
     }
 
     @Override
-    public @Nullable String getLineText(int line, Editor editor) {
-        FileFrames frames = this.getFileFrames();
+    public @Nullable
+    String getLineText(int line, Editor editor) {
         String empty = "       ";
+        TimeProfiler timeProfiler = this.getTimeProfiler();
 
-        if (frames == null) {
-            return empty;
+        if (timeProfiler == null) {
+            return null;
         }
 
-        Float time = frames.getLineTimeMs(line+1);
+        Float time = timeProfiler.getLineTimeMs(this.path, line + 1);
 
         if (time == null) {
             return empty;
@@ -81,22 +79,21 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
     @Override
     @Nullable
     public Color getBgColor(int line, Editor editor) {
-        FileFrames frames = this.getFileFrames();
-
-        if (frames == null) {
+        TimeProfiler timeProfiler = this.getTimeProfiler();
+        if (timeProfiler == null) {
             return null;
         }
 
-        Color color = frames.getLineColor(line+1);
+        Color color = timeProfiler.getLineColor(this.path, line + 1);
 
         if (color == null) {
             return null;
         }
 
         Color ret = new Color(color.getRed(),
-        color.getGreen(),
-        color.getBlue(),
-        70);
+                color.getGreen(),
+                color.getBlue(),
+                100);
         return ret;
     }
 
@@ -118,7 +115,8 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
         this.selected = selected;
     }
 
-    @Nullable private FileFrames getFileFrames() {
+    @Nullable
+    private TimeProfiler getTimeProfiler() {
         Project project = editor.getProject();
 
         if (project == null) {
@@ -142,14 +140,7 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
             return null;
         }
 
-        FrameManager frameManager = handler.getFrameManager();
 
-        if (frameManager == null) {
-            return null;
-        }
-
-        File path = ((EditorImpl)editor).getVirtualFile().toNioPath().toFile();
-        FileFrames frames = frameManager.getForPath(path);
-        return frames;
+        return handler.getTimeProfiler();
     }
 }

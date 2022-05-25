@@ -24,7 +24,6 @@ import java.util.Objects;
 
 
 public final class BuiltinPackageManager extends BasePackageManager {
-    boolean installing;
     String builtinVersion;
     String resourceWheelsPathRoot = "META-INF/wheels/";
 
@@ -64,10 +63,6 @@ public final class BuiltinPackageManager extends BasePackageManager {
 
         boolean ret = builtinVersion.compareTo(currentVersion) > 0;
         return ret;
-    }
-
-    public boolean isInstalling() {
-        return this.installing;
     }
 
     protected List<File> getWheelFiles() throws IOException, IOExceptionList {

@@ -1,9 +1,13 @@
-import sys
 import os
+import sys
 from typing import Tuple
 
-IMPORT_ERROR_MSG = ("It seems like your platform or Python version are not supported yet.\n"
-                    "Please submit a github issue to let us know at https://github.com/reloadware/reloadium\n")
+IMPORT_ERROR_MSG = (
+    "It seems like your platform or Python version are not supported yet.\n"
+    "Windows, Linux, macOS (except M1 chip) and Python >= 3.6 are currently supported.\n"
+    "Please submit a github issue if you believe Reloadium should be working on your system at\n"
+    "https://github.com/reloadware/reloadium\n"
+)
 
 
 def colored(inp: str, color: Tuple[int, int, int]) -> str:

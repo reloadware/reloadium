@@ -2,7 +2,7 @@
 package rw.pkg;
 
 import com.intellij.openapi.diagnostic.Logger;
-import org.apache.commons.httpclient.ConnectTimeoutException;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.BasicScheme;
 import org.apache.commons.io.IOExceptionList;
@@ -10,7 +10,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -27,10 +26,7 @@ import javax.net.ssl.SSLHandshakeException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.Instant;
@@ -167,7 +163,7 @@ public final class WebPackageManager extends BasePackageManager {
                 ret.add(wheelUrl);
             }
             httpClient.close();
-        } catch (ConnectException | SocketTimeoutException | ConnectTimeoutException | SSLException ignored) {
+        } catch (ConnectException | SocketTimeoutException | ConnectTimeoutException | UnknownHostException | SSLException ignored) {
         } catch (IOException e) {
             RwSentry.get().captureException(e);
         }

@@ -114,7 +114,7 @@ class SessionFlusher(object):
                     if self._running:
                         self.flush()
 
-            thread = Thread(target=_thread)
+            thread = Thread(target=_thread, name="reloadium-sentry")
             thread.daemon = True
             thread.start()
             self._thread = thread

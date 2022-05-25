@@ -1,4 +1,5 @@
 import sys
-from reloadium.reloader import shell_start
 
-shell_start(sys.argv)
+from reloadium.reloader import start
+
+start(sys.argv)

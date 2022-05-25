@@ -14,7 +14,9 @@ import rw.tests.ui.fixtures.FirstRunDialogFixture;
 import rw.tests.ui.fixtures.Root;
 import rw.tests.ui.steps.MiscSteps;
 import rw.tests.ui.utils.RemoteRobotExtension;
+import rw.tests.utils.MiscUtils;
 
+import java.net.ConnectException;
 import java.nio.file.Path;
 
 import static com.intellij.remoterobot.utils.RepeatUtilsKt.waitFor;
@@ -38,7 +40,14 @@ public class TestMisc extends PackageTestBase {
         Product.run("p.push_release");
         String version = Product.run("v.current_version")[0];
         Depot.run("p.publish_release");
-        steps.createNewProject();
+
+        try {
+            steps.createNewProject();
+        }
+        catch (Exception exception) {
+            MiscUtils.sleep(15.0f);
+            steps.createNewProject();
+        }
 
         final Root root = remoteRobot.find(Root.class, ofSeconds(5));
         root.assertButtonsEnabled();

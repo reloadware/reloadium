@@ -72,3 +72,37 @@ public final class ProfileResultToggle extends ToggleAction implements DumbAware
         gutterProvider.setSelected(selected);
     }
 }
+
+[0.8.8]
+
+-------
+
+[0.8.2] PyCharmPlugin
+
+**Miscellaneous**:
+
+  Fixed:
+    * Frame progress stopping after handled exceptions
+    * Startup error when running without utf-8 encoding
+    * Fixing errors mode for handled exceptions
+    * Mocked functions errors
+    * Intercepting flask errors
+    * Reference issues for enums
+    * Dataclass attributes updating issues
+    * Debugger speedups
+
+  Added:
+    * Handle profiling closures
+    * VsCode compatibility
+
+**PyCharm**:
+
+  Added:
+    * More colormaps choices
+
+  Changed:
+    * Move Timing Details button below Annotate with git blame
+    * Make debugger speedups enabled by default
+
+  Fixed:
+    * Disappearing frame progress for very slow lines

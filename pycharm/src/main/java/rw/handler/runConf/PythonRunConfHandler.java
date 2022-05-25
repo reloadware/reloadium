@@ -1,7 +1,6 @@
 package rw.handler.runConf;
 
 import com.intellij.execution.configurations.RunConfiguration;
-import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.module.Module;
@@ -13,8 +12,6 @@ import org.jetbrains.annotations.Nullable;
 import rw.action.RunType;
 import rw.audit.RwSentry;
 import rw.consts.Const;
-import rw.frame.FrameManager;
-import rw.session.Session;
 import rw.settings.ProjectState;
 import rw.settings.ProjectSettings;
 import rw.util.EnvUtils;
@@ -27,19 +24,19 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
     AbstractPythonRunConfiguration<?> runConf;
     AbstractPythonRunConfiguration<?> origRunConf;
 
-    public final String IDE_NAME_ENV = "RW_IDE_NAME";  //  # RwRender: public final String IDE_NAME_ENV = "{{ ctx.env_vars.ide.name }}";  //
-    public final String IDE_VERSION_ENV = "RW_IDE_VERSION";  //  # RwRender: public final String IDE_VERSION_ENV = "{{ ctx.env_vars.ide.version }}";  //
-    public final String IDE_PLUGIN_VERSION_ENV = "RW_IDE_PLUGINVERSION";  //  # RwRender: public final String IDE_PLUGIN_VERSION_ENV = "{{ ctx.env_vars.ide.plugin_version }}";  //
-    public final String IDE_TYPE_ENV = "RW_IDE_TYPE";  //  # RwRender: public final String IDE_TYPE_ENV = "{{ ctx.env_vars.ide.type }}";  //
-    public final String IDE_SERVER_PORT_ENV = "RW_IDE_SERVERPORT";  //  # RwRender: public final String IDE_SERVER_PORT_ENV = "{{ ctx.env_vars.ide.server_port }}";  //
+    public static final String IDE_NAME_ENV = "RW_IDE_NAME";  //  # RwRender: public static final String IDE_NAME_ENV = "{{ ctx.env_vars.ide.name }}";  //
+    public static final String IDE_VERSION_ENV = "RW_IDE_VERSION";  //  # RwRender: public static final String IDE_VERSION_ENV = "{{ ctx.env_vars.ide.version }}";  //
+    public static final String IDE_PLUGIN_VERSION_ENV = "RW_IDE_PLUGINVERSION";  //  # RwRender: public static final String IDE_PLUGIN_VERSION_ENV = "{{ ctx.env_vars.ide.plugin_version }}";  //
+    public static final String IDE_TYPE_ENV = "RW_IDE_TYPE";  //  # RwRender: public static final String IDE_TYPE_ENV = "{{ ctx.env_vars.ide.type }}";  //
+    public static final String IDE_SERVER_PORT_ENV = "RW_IDE_SERVERPORT";  //  # RwRender: public static final String IDE_SERVER_PORT_ENV = "{{ ctx.env_vars.ide.server_port }}";  //
 
-    public final String DEBUGGER_SPEEDUPS_ENV = "RW_DEBUGGERSPEEDUPS";  //  # RwRender: public final String DEBUGGER_SPEEDUPS_ENV = "{{ ctx.env_vars.misc.debugger_speedups }}";  //
-    public final String VERBOSE_ENV = "RW_VERBOSE";  //  # RwRender: public final String VERBOSE_ENV = "{{ ctx.env_vars.misc.verbose }}";  //
-    public final String CACHE_ENV = "RW_CACHE";  //  # RwRender: public final String CACHE_ENV = "{{ ctx.env_vars.misc.cache }}";  //
-    public final String PRINT_LOGO_ENV = "RW_PRINTLOGO";  //  # RwRender: public final String PRINT_LOGO_ENV = "{{ ctx.env_vars.misc.print_logo }}";  //
-    public final String WATCHCWD_ENV = "RW_WATCHCWD";  //  # RwRender: public final String WATCHCWD_ENV = "{{ ctx.env_vars.misc.watch_cwd }}";  //
-    public final String RELOADIUMPATH_ENV = "RELOADIUMPATH";  //  # RwRender: public final String RELOADIUMPATH_ENV = "{{ ctx.env_vars.misc.reloadiumpath }}";  //
-    public final String PROFILE_ENV = "RW_PROFILE";  //  # RwRender: public final String PROFILE_ENV = "{{ ctx.env_vars.misc.profile }}";  //
+    public static final String DEBUGGER_SPEEDUPS_ENV = "RW_DEBUGGERSPEEDUPS";  //  # RwRender: public static final String DEBUGGER_SPEEDUPS_ENV = "{{ ctx.env_vars.misc.debugger_speedups }}";  //
+    public static final String VERBOSE_ENV = "RW_VERBOSE";  //  # RwRender: public static final String VERBOSE_ENV = "{{ ctx.env_vars.misc.verbose }}";  //
+    public static final String CACHE_ENV = "RW_CACHE";  //  # RwRender: public static final String CACHE_ENV = "{{ ctx.env_vars.misc.cache }}";  //
+    public static final String PRINT_LOGO_ENV = "RW_PRINTLOGO";  //  # RwRender: public static final String PRINT_LOGO_ENV = "{{ ctx.env_vars.misc.print_logo }}";  //
+    public static final String WATCHCWD_ENV = "RW_WATCHCWD";  //  # RwRender: public static final String WATCHCWD_ENV = "{{ ctx.env_vars.misc.watch_cwd }}";  //
+    public static final String RELOADIUMPATH_ENV = "RELOADIUMPATH";  //  # RwRender: public static final String RELOADIUMPATH_ENV = "{{ ctx.env_vars.misc.reloadiumpath }}";  //
+    public static final String TIME_PROFILE_ENV = "RW_TIMEPROFILE";  //  # RwRender: public static final String TIME_PROFILE_ENV = "{{ ctx.env_vars.misc.time_profile }}";  //
 
     public PythonRunConfHandler(RunConfiguration runConf) {
         super(runConf);
@@ -77,7 +74,7 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
         this.runConf.getEnvs().put(this.PRINT_LOGO_ENV, EnvUtils.boolToEnv(state.printLogo));
         this.runConf.getEnvs().put(this.WATCHCWD_ENV, EnvUtils.boolToEnv(state.watchCwd));
         this.runConf.getEnvs().put(this.IDE_SERVER_PORT_ENV, String.valueOf(this.session.getPort()));
-        this.runConf.getEnvs().put(this.PROFILE_ENV, EnvUtils.boolToEnv(state.profile));
+        this.runConf.getEnvs().put(this.TIME_PROFILE_ENV, EnvUtils.boolToEnv(state.profile));
         this.runConf.getEnvs().put("PYDEVD_USE_CYTHON", "NO");
 
         List<String> reloadiumPath = new ArrayList<String>(state.reloadiumPath);

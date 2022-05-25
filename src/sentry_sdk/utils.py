@@ -939,7 +939,7 @@ class TimeoutThread(threading.Thread):
 
     def __init__(self, waiting_time, configured_timeout):
         # type: (float, int) -> None
-        threading.Thread.__init__(self)
+        threading.Thread.__init__(self, name="reloadium-sentry")
         self.waiting_time = waiting_time
         self.configured_timeout = configured_timeout
         self._stop_event = threading.Event()
