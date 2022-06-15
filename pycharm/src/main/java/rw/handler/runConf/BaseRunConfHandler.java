@@ -14,7 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.action.RunType;
-import rw.profile.TimeProfiler;
+import rw.profile.FrameProgressRenderer;
+import rw.profile.LineProfiler;
 import rw.stack.Stack;
 import rw.handler.sdk.BaseSdkHandler;
 import rw.handler.sdk.SdkHandlerFactory;
@@ -23,15 +24,14 @@ import rw.profile.ProfilePreviewRenderer;
 import rw.service.Service;
 import rw.session.Session;
 
-import java.io.File;
-
 public abstract class BaseRunConfHandler implements Disposable {
     AbstractPythonRunConfiguration<?> runConf;
     @Nullable
     BaseSdkHandler sdkHandler;
     ExecutionEnvironment executionEnvironment;
     Stack stack;
-    TimeProfiler timeProfiler;
+    FrameProgressRenderer frameProgressRenderer;
+    LineProfiler lineProfiler;
     Session session;
     ErrorHighlightManager errorHighlightManager;
     ProfilePreviewRenderer profilePreviewRenderer;
@@ -44,10 +44,11 @@ public abstract class BaseRunConfHandler implements Disposable {
 
         this.sdkHandler = SdkHandlerFactory.factory(this.runConf.getSdk());
         this.stack = new Stack(this.project);
-        this.timeProfiler = new TimeProfiler(this.stack);
+        this.frameProgressRenderer = new FrameProgressRenderer(this.project);
+        this.lineProfiler = new LineProfiler();
         this.session = new Session(this.project, this);
         this.errorHighlightManager = new ErrorHighlightManager(this.project);
-        this.profilePreviewRenderer = new ProfilePreviewRenderer(this.project, this.stack, this.timeProfiler);
+        this.profilePreviewRenderer = new ProfilePreviewRenderer(this.project, this.stack, this.lineProfiler);
 
         this.handleJbEvents();
     }
@@ -86,6 +87,10 @@ public abstract class BaseRunConfHandler implements Disposable {
         return stack;
     }
 
+    public FrameProgressRenderer getStackRenderer() {
+        return frameProgressRenderer;
+    }
+
     public ErrorHighlightManager getErrorHighlightManager() {
         return errorHighlightManager;
     }
@@ -116,13 +121,13 @@ public abstract class BaseRunConfHandler implements Disposable {
     public void activate() {
         this.errorHighlightManager.activate();
         this.profilePreviewRenderer.activate();
-        this.stack.activate();
+        this.frameProgressRenderer.activate();
     }
 
     public void deactivate() {
         this.errorHighlightManager.deactivate();
         this.profilePreviewRenderer.deactivate();
-        this.stack.deactivate();
+        this.frameProgressRenderer.deactivate();
     }
 
     @Override
@@ -141,7 +146,7 @@ public abstract class BaseRunConfHandler implements Disposable {
         this.errorHighlightManager = errorHighlightManager;
     }
 
-    public TimeProfiler getTimeProfiler() {
-        return this.timeProfiler;
+    public LineProfiler getTimeProfiler() {
+        return this.lineProfiler;
     }
 }

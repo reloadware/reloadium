@@ -26,7 +26,7 @@ import static com.intellij.openapi.editor.colors.EditorColorsUtil.getGlobalOrDef
 
 
 public class ErrorHighlightManager {
-    Map<File, List<Highlighter>> all;
+    Map<File, List<ErrorHighlighter>> all;
 
     @VisibleForTesting
     public static ErrorHighlightManager singleton;
@@ -39,25 +39,28 @@ public class ErrorHighlightManager {
         this.project = project;
     }
 
-    public void add(File file, int line) {
+    public void add(File file, int line, String msg) {
         if (!this.all.containsKey(file)) {
             this.all.put(file, new ArrayList<>());
         }
 
-        Highlighter highlighter = new Highlighter(this.project, file, line, getGlobalOrDefaultColor(ERROR_COLOR_KEY),
-                0, false);
+        if (line < 0){
+            return;
+        }
+
+        ErrorHighlighter highlighter = new ErrorHighlighter(this.project, file, line, msg);
         this.all.get(file).add(highlighter);
 
         highlighter.show();
     }
 
     public void clearFile(File file) {
-        List<Highlighter> highlighters = this.all.get(file);
+        List<ErrorHighlighter> highlighters = this.all.get(file);
         if (highlighters == null) {
             return;
         }
 
-        for (Highlighter h : highlighters) {
+        for (ErrorHighlighter h : highlighters) {
             h.hide();
         }
         highlighters.clear();
@@ -71,16 +74,16 @@ public class ErrorHighlightManager {
     }
 
     public void activate() {
-        for (List<Highlighter> hs : this.all.values()) {
-            for (Highlighter h : hs) {
+        for (List<ErrorHighlighter> hs : this.all.values()) {
+            for (ErrorHighlighter h : hs) {
                 h.show();
             }
         }
     }
 
     public void deactivate() {
-        for (List<Highlighter> hs : this.all.values()) {
-            for (Highlighter h : hs) {
+        for (List<ErrorHighlighter> hs : this.all.values()) {
+            for (ErrorHighlighter h : hs) {
                 h.hide();
             }
         }

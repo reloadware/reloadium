@@ -13,13 +13,11 @@ import com.intellij.openapi.util.NlsContexts;
 import com.intellij.xdebugger.XDebuggerManager;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
 import org.jetbrains.annotations.Nullable;
-import rw.stack.Stack;
 import rw.handler.runConf.BaseRunConfHandler;
 import rw.handler.runConf.RunConfHandlerManager;
 
 import java.awt.*;
 import java.io.File;
-import java.sql.Time;
 import java.util.List;
 
 public class ProfileGutterProvider implements TextAnnotationGutterProvider {
@@ -43,13 +41,13 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
     public @Nullable
     String getLineText(int line, Editor editor) {
         String empty = "       ";
-        TimeProfiler timeProfiler = this.getTimeProfiler();
+        LineProfiler lineProfiler = this.getTimeProfiler();
 
-        if (timeProfiler == null) {
+        if (lineProfiler == null) {
             return null;
         }
 
-        Float time = timeProfiler.getLineTimeMs(this.path, line + 1);
+        Float time = lineProfiler.getLineTimeMs(this.path, line);
 
         if (time == null) {
             return empty;
@@ -79,12 +77,12 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
     @Override
     @Nullable
     public Color getBgColor(int line, Editor editor) {
-        TimeProfiler timeProfiler = this.getTimeProfiler();
-        if (timeProfiler == null) {
+        LineProfiler lineProfiler = this.getTimeProfiler();
+        if (lineProfiler == null) {
             return null;
         }
 
-        Color color = timeProfiler.getLineColor(this.path, line + 1);
+        Color color = lineProfiler.getLineColor(this.path, line+1);
 
         if (color == null) {
             return null;
@@ -116,7 +114,7 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
     }
 
     @Nullable
-    private TimeProfiler getTimeProfiler() {
+    private LineProfiler getTimeProfiler() {
         Project project = editor.getProject();
 
         if (project == null) {

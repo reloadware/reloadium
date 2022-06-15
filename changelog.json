@@ -1,4 +1,72 @@
 {
+  "0.9.0": [
+    {
+      "type": "Changed",
+      "description": "More defensive reloading",
+      "tag": "Miscellaneous",
+      "date": "2022-06-15"
+    },
+    {
+      "type": "Added",
+      "description": "Reloading closures",
+      "tag": "Miscellaneous",
+      "date": "2022-06-15"
+    },
+    {
+      "type": "Fixed",
+      "description": "Not resolving templates for Flask",
+      "tag": "Miscellaneous",
+      "date": "2022-06-15"
+    },
+    {
+      "type": "Fixed",
+      "description": "Errors not highlighted when reloading module frames",
+      "tag": "Miscellaneous",
+      "date": "2022-06-15"
+    },
+    {
+      "type": "Fixed",
+      "description": "Syntax errors not highlighted",
+      "tag": "Miscellaneous",
+      "date": "2022-06-15"
+    },
+    {
+      "type": "Added",
+      "description": "Before and after reload hooks",
+      "tag": "Miscellaneous",
+      "date": "2022-06-15"
+    },
+    {
+      "type": "Added",
+      "description": "Accepting (re-raising) handled exceptions",
+      "tag": "Miscellaneous",
+      "date": "2022-06-15"
+    },
+    {
+      "type": "Added",
+      "description": "Rendering exception messages",
+      "tag": "PyCharm",
+      "date": "2022-06-15"
+    },
+    {
+      "type": "Added",
+      "description": "Profiling modules",
+      "tag": "Miscellaneous",
+      "date": "2022-06-15"
+    },
+    {
+      "type": "Fixed",
+      "description": "Pickling issues",
+      "tag": "Miscellaneous",
+      "date": "2022-06-15"
+    },
+    {
+      "type": "Fixed",
+      "description": "Watching paths with dots",
+      "tag": "Miscellaneous",
+      "date": "2022-06-15"
+    }
+  ],
   "0.8.8": [
     {
       "type": "Fixed",

@@ -43,18 +43,22 @@ public class Session extends Thread {
                 entry(Handshake.ID, Handshake.class),
                 entry(ModuleUpdate.ID, ModuleUpdate.class),
                 entry(FrameError.ID, FrameError.class),
-                entry(FrameProgress.ID, FrameProgress.class),
+                entry(LineProfile.ID, LineProfile.class),
                 entry(StackUpdate.ID, StackUpdate.class),
-                entry(UserError.ID, UserError.class)
+                entry(UserError.ID, UserError.class),
+                entry(ClearErrors.ID, ClearErrors.class),
+                entry(LineProfileClear.ID, LineProfileClear.class)
         );
 
         this.eventVersions = Map.ofEntries(
                 entry(Handshake.ID, Handshake.VERSION),
                 entry(ModuleUpdate.ID, ModuleUpdate.VERSION),
                 entry(FrameError.ID, FrameError.VERSION),
-                entry(FrameProgress.ID, FrameProgress.VERSION),
+                entry(LineProfile.ID, LineProfile.VERSION),
                 entry(UserError.ID, UserError.VERSION),
-                entry(StackUpdate.ID, StackUpdate.VERSION)
+                entry(StackUpdate.ID, StackUpdate.VERSION),
+                entry(ClearErrors.ID, ClearErrors.VERSION),
+                entry(LineProfileClear.ID, LineProfileClear.VERSION)
         );
 
         try {

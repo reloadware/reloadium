@@ -15,7 +15,7 @@ public class PreferencesState {
     public String timingColorMap;
 
     public PreferencesState() {
-        this.blinkDuration = 300;
+        this.blinkDuration = 1000;
         this.timingColorMap = ColorMaps.get().viridis.getName();
     }
 

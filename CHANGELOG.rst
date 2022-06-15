@@ -2,6 +2,32 @@ Change Log
 ##########
 
 
+0.9.0
+-------
+
+**Miscellaneous**:
+    
+  Changed:
+    * More defensive reloading
+    
+  Added:
+    * Reloading closures
+    * Before and after reload hooks
+    * Accepting (re-raising) handled exceptions
+    * Profiling modules
+    
+  Fixed:
+    * Not resolving templates for Flask
+    * Errors not highlighted when reloading module frames
+    * Syntax errors not highlighted
+    * Pickling issues
+    * Watching paths with dots
+    
+**PyCharm**:
+    
+  Added:
+    * Rendering exception messages
+    
 0.8.8
 -------
 

@@ -108,9 +108,9 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
 
         if (!pythonpath.isBlank()) {
             pythonpath = String.format("%s%s%s", packagePath, pathSep, pythonpath);
-        } else
+        } else {
             pythonpath = packagePath;
-
+        }
         this.runConf.getEnvs().put("PYTHONPATH", pythonpath);
     }
 
