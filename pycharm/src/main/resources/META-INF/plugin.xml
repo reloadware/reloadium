@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.reloadium</id>
     <name>Reloadium - Hot Reloading &#38; Profiling for Python</name>
-    <version>0.8.2</version>
+    <version>0.8.3</version>
     <idea-version since-build="203"/>
     <vendor email="damian@reloadware.com" url="reloadium.io">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
@@ -22,6 +22,46 @@
 
     <change-notes><![CDATA[
     
+        <h3>0.8.3</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>Miscellaneous:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Changed:</b>
+                        <ul>
+                            <li>More defensive reloading</li>
+                        </ul>
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Reloading closures</li>
+                            <li>Before and after reload hooks</li>
+                            <li>Accepting (re-raising) handled exceptions</li>
+                            <li>Profiling modules</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Not resolving templates for Flask</li>
+                            <li>Errors not highlighted when reloading module frames</li>
+                            <li>Syntax errors not highlighted</li>
+                            <li>Pickling issues</li>
+                            <li>Watching paths with dots</li>
+                        </ul>
+                    
+                </div>
+                <h4>PyCharm:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Rendering exception messages</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>0.8.2</h3>
             <div style="padding-left: 20px;">
             

@@ -3,10 +3,9 @@ package rw.stack;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nullable;
 import rw.session.FrameData;
-import rw.session.FrameProgress;
+import rw.session.LineProfile;
 import rw.session.StackUpdate;
 
-import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,12 +26,6 @@ public class Stack {
         this.frameIdToFrame = new HashMap<>();
     }
 
-    public void onFrameProgressEvent(FrameProgress event) {
-        Frame frame = this.frameIdToFrame.get(event.getFrameId());
-        frame.updateLineTiming(event.getLineTiming());
-        frame.renderProgress(project, event);
-    }
-
     public void onStackUpdateEvent(StackUpdate event) {
         this.content.clear();
         this.pathToFrames.clear();
@@ -44,6 +37,7 @@ public class Stack {
             for (FrameData f : entry.getValue()) {
                 Frame frame = this.frameIdToFrame.getOrDefault(f.getFrameId(),
                         new Frame(f.getFrameId(),
+                                threadId,
                                 f.getLocalPath(),
                                 f.getBodyLineno(),
                                 f.getEndLineno(),
@@ -78,17 +72,5 @@ public class Stack {
         }
 
         return ret;
-    }
-
-    public void activate() {
-        for (Frame f : this.frameIdToFrame.values()) {
-            f.activate();
-        }
-    }
-
-    public void deactivate() {
-        for (Frame f : this.frameIdToFrame.values()) {
-            f.deactivate();
-        }
     }
 }

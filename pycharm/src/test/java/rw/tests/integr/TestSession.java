@@ -79,7 +79,7 @@ public class TestSession extends BaseMockedTestCase {
         FileUtils.write(file, "1\n2\n3\n4", "utf-8");
         file.createNewFile();
 
-        String payload = String.format("{\"ID\": \"UserError\", \"VERSION\": \"%s\", \"path\": \"%s\", \"line\": 2}",
+        String payload = String.format("{\"ID\": \"UserError\", \"VERSION\": \"%s\", \"path\": \"%s\", \"line\": 2, \"msg\": \"msg\"}",
                 UserError.VERSION, file);
         UserError event = (UserError) session.eventFactory(payload);
         assertThat(event).isInstanceOf(UserError.class);
@@ -89,7 +89,7 @@ public class TestSession extends BaseMockedTestCase {
         event.handle();
         verify(this.dialogFactoryFixture.dialogFactory, times(1)).showFirstUserErrorDialog(this.getProject());
         verify(handler.getErrorHighlightManager(), times(1)).add(
-                eq(file), eq(2));
+                eq(file), eq(2), eq("msg"));
     }
 
     @Test
@@ -129,16 +129,16 @@ public class TestSession extends BaseMockedTestCase {
         stackUpdate.handle();
 
         String payload = String.format("{\"ID\": \"FrameError\", \"VERSION\": \"%s\", " +
-                        "\"line\": 2, " + "\"frame_id\": 0}",
+                        "\"line\": 2, \"path\": \"%s\"," +
+                        "\"msg\": \"msg\"}",
                 FrameError.VERSION, file);
         FrameError event = (FrameError) session.eventFactory(payload);
         assertThat(event).isInstanceOf(FrameError.class);
         assertThat(event.getLine()).isEqualTo(2);
-        assertThat(event.getFrameId()).isEqualTo(0);
 
         event.handle();
         verify(this.dialogFactoryFixture.dialogFactory, times(1)).showFirstFrameErrorDialog(this.getProject());
-        verify(handler.getErrorHighlightManager(), times(1)).add(eq(file), eq(2));
+        verify(handler.getErrorHighlightManager(), times(1)).add(eq(file), eq(2), eq("msg"));
     }
 
     @Test
@@ -171,7 +171,7 @@ public class TestSession extends BaseMockedTestCase {
 
         event.handle();
 
-        verify(handler.getErrorHighlightManager(), times(1)).clearAll();
+        verify(handler.getErrorHighlightManager(), times(1)).clearFile(eq(file));
     }
 
     @Test

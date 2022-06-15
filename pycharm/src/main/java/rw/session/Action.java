@@ -1,9 +1,6 @@
 package rw.session;
 
 import com.google.gson.annotations.SerializedName;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
-import rw.handler.runConf.PythonRunConfHandler;
 
 public class Action {
     private String name;
@@ -12,6 +9,7 @@ public class Action {
     private int lineStart;
     @SerializedName("line_end")
     private int lineEnd;
+    private boolean blink;
 
     public int getLineEnd() {
         return lineEnd;
@@ -27,5 +25,8 @@ public class Action {
 
     public String getObj() {
         return obj;
+    }
+    public boolean shouldBlink() {
+        return blink;
     }
 }

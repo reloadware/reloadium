@@ -54,7 +54,7 @@ public class Blinker {
 
         while (true) {
             try {
-                Thread.sleep((long) (state.blinkDuration / 3.0));
+                Thread.sleep((long) (200));
             } catch (InterruptedException e) {
             }
             for (Blink b : new ArrayList<>(this.all)) {

@@ -15,30 +15,32 @@ public class ModuleUpdate extends FileEvent {
     public static final String ID = "ModuleUpdate";
     public static final String VERSION = "0.1.0";
 
-    Color BLINK_COLOR = new Color(255, 114, 0, 40);
+    Color BLINK_COLOR = new Color(255, 114, 0, 60);
 
     public List<Action> actions;
 
     @Override
     public void handle() {
-        LOGGER.info("Handling ModuleUpdate " + String.format("(%s)", this.getPath()));
+        LOGGER.info("Handling ModuleUpdate " + String.format("(%s)", this.getLocalPath()));
         PreferencesState state = Preferences.getInstance().getState();
 
-        this.handler.getErrorHighlightManager().clearAll();
+        this.handler.getErrorHighlightManager().clearFile(this.getLocalPath());
+        this.handler.getProfilePreviewRenderer().update();
 
         for (Action a : this.actions) {
             if (a.getLineStart() == -1) {
                 continue;
             }
 
-            if (a.getName().equals("Move") || a.getName().equals("Delete")) {
+            if (a.getName().equals("Move") || a.getName().equals("Delete") || a.getObj().equals("Frame")) {
                 continue;
             }
 
-            Blink blink = new Blink(this.handler.getProject(), this.getLocalPath(), a.getLineStart(), a.getLineEnd(),
+            if (a.shouldBlink()) {
+                Blink blink = new Blink(this.handler.getProject(), this.getLocalPath(), a.getLineStart(), a.getLineEnd(),
                     this.BLINK_COLOR, -2, state.blinkDuration);
             Blinker.get().blink(blink);
+            }
         }
-
     }
 }

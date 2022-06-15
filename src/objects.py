@@ -86,6 +86,11 @@ class Iterable(Object):
 
 
 @dataclass
+class IterableItem(Object):
+    pass
+
+
+@dataclass
 class List(Iterable):
     pass
 
