@@ -163,7 +163,7 @@ public final class WebPackageManager extends BasePackageManager {
                 ret.add(wheelUrl);
             }
             httpClient.close();
-        } catch (ConnectException | SocketTimeoutException | ConnectTimeoutException | UnknownHostException | SSLException ignored) {
+        } catch (SocketException | SocketTimeoutException | ConnectTimeoutException | UnknownHostException | SSLException ignored) {
         } catch (IOException e) {
             RwSentry.get().captureException(e);
         }

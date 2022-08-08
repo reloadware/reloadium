@@ -2,6 +2,21 @@ Change Log
 ##########
 
 
+0.8.4
+-------
+
+**Miscellaneous**:
+    
+  Changed:
+    * Add mypyc optimisations
+    
+  Added:
+    * Support async methods
+    * Nested closures support
+    
+  Removed:
+    * Python 3.6 support
+    
 0.8.3
 -------
 

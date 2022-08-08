@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.reloadware'
-version '0.8.3' //  # RwRender: version '{{ ctx.version }}' //
+version '0.8.4' //  # RwRender: version '{{ ctx.version }}' //
 
 repositories {
     mavenCentral()

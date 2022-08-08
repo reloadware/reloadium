@@ -1,5 +1,5 @@
 import sys
 
-from reloadium.reloader import start
+from reloadium.corium import start
 
 start(sys.argv)

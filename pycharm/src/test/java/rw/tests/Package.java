@@ -3,10 +3,9 @@ package rw.tests;
 import rw.tests.utils.MiscUtils;
 
 import java.io.File;
-import java.io.IOException;
 
-public class Product {
+public class Package {
     static public String[] run(String cmd) throws Exception {
-        return MiscUtils.envoRun(cmd, new File("../../product"));
+        return MiscUtils.envoRun(cmd, new File("../../package"));
     }
 }
