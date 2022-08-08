@@ -88,11 +88,8 @@ __pycache__
 # bin files that are downloaded on bootstrap
 .deps
 
-sandbox*
-
 pip-wheel-metadata
 
-*.pyi
 *.c
 
 __obfuscated__
@@ -107,7 +104,11 @@ reloader/.build_cache
 wheels
 
 common
+re_common
 
 .syncthing*
 
 .idea
+
+
+*.profile

@@ -9,14 +9,12 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import rw.tests.Depot;
-import rw.tests.Product;
-import rw.tests.ui.fixtures.FirstRunDialogFixture;
+import rw.tests.Package;
 import rw.tests.ui.fixtures.Root;
 import rw.tests.ui.steps.MiscSteps;
 import rw.tests.ui.utils.RemoteRobotExtension;
 import rw.tests.utils.MiscUtils;
 
-import java.net.ConnectException;
 import java.nio.file.Path;
 
 import static com.intellij.remoterobot.utils.RepeatUtilsKt.waitFor;
@@ -34,11 +32,11 @@ public class TestMisc extends PackageTestBase {
     @Video
     void installsPackage(final RemoteRobot remoteRobot) throws Exception {
         Depot.run("env.get_remote().clean()");
-        Product.run("p.rm_config");
+        Package.run("p.rm_config");
         // Package is downloaded on application start so this will break things
         // Plugin.run("p.rm_package");
-        Product.run("p.push_release");
-        String version = Product.run("v.current_version")[0];
+        Package.run("p.push_release");
+        String version = Package.run("v.current_version")[0];
         Depot.run("p.publish_release");
 
         try {

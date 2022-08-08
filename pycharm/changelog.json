@@ -1,4 +1,30 @@
 {
+  "0.8.4": [
+    {
+      "type": "Changed",
+      "description": "Add mypyc optimisations",
+      "tag": "Miscellaneous",
+      "date": "2022-08-06"
+    },
+    {
+      "type": "Added",
+      "description": "Support async methods",
+      "tag": "Miscellaneous",
+      "date": "2022-08-06"
+    },
+    {
+      "type": "Removed",
+      "description": "Python 3.6 support",
+      "tag": "Miscellaneous",
+      "date": "2022-08-06"
+    },
+    {
+      "type": "Added",
+      "description": "Nested closures support",
+      "tag": "Miscellaneous",
+      "date": "2022-08-06"
+    }
+  ],
   "0.8.3": [
     {
       "type": "Changed",
@@ -153,7 +179,7 @@
       "date": "2022-05-26"
     }
   ],
-    "0.8.1": [
+  "0.8.1": [
     {
       "type": "Fixed",
       "description": "Pydash icompatibility",
@@ -228,7 +254,7 @@
     }
   ],
   "0.8.0": [
-        {
+    {
       "type": "Fixed",
       "description": "Reloading decorated methods by objects",
       "tag": "Miscellaneous",

@@ -1,4 +1,30 @@
 {
+  "0.9.1": [
+    {
+      "type": "Changed",
+      "description": "Add mypyc optimisations",
+      "tag": "Miscellaneous",
+      "date": "2022-08-06"
+    },
+    {
+      "type": "Added",
+      "description": "Support async methods",
+      "tag": "Miscellaneous",
+      "date": "2022-08-06"
+    },
+    {
+      "type": "Removed",
+      "description": "Python 3.6 support",
+      "tag": "Miscellaneous",
+      "date": "2022-08-06"
+    },
+    {
+      "type": "Added",
+      "description": "Nested closures support",
+      "tag": "Miscellaneous",
+      "date": "2022-08-06"
+    }
+  ],
   "0.9.0": [
     {
       "type": "Changed",
@@ -62,7 +88,7 @@
     },
     {
       "type": "Fixed",
-      "description": "Watching paths with dots",
+      "description": "Watching paths containing dots",
       "tag": "Miscellaneous",
       "date": "2022-06-15"
     }

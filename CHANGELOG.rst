@@ -2,6 +2,21 @@ Change Log
 ##########
 
 
+0.9.1
+-------
+
+**Miscellaneous**:
+    
+  Changed:
+    * Add mypyc optimisations
+    
+  Added:
+    * Support async methods
+    * Nested closures support
+    
+  Removed:
+    * Python 3.6 support
+    
 0.9.0
 -------
 
@@ -21,7 +36,7 @@ Change Log
     * Errors not highlighted when reloading module frames
     * Syntax errors not highlighted
     * Pickling issues
-    * Watching paths with dots
+    * Watching paths containing dots
     
 **PyCharm**:
     
