@@ -42,7 +42,9 @@ Details
 .. image:: https://img.shields.io/jetbrains/plugin/r/stars/18509-reloadium
     :target: https://plugins.jetbrains.com/plugin/18509-reloadium
 
-
+Sponsors
+#######
+Thanks https://you.com for the M1 Mini donation
 
 
 | Reloadium adds hot reloading and profiling features to any Python application
