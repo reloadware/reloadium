@@ -13,9 +13,13 @@ import java.util.Objects;
 public class PreferencesState {
     public int blinkDuration;
     public String timingColorMap;
+    public boolean sentry;
+    public boolean telemetry;
 
     public PreferencesState() {
         this.blinkDuration = 1000;
+        this.telemetry = true;
+        this.sentry = true;
         this.timingColorMap = ColorMaps.get().viridis.getName();
     }
 
@@ -28,10 +32,8 @@ public class PreferencesState {
         boolean ret;
         ret = this.blinkDuration == that.blinkDuration;
         ret &= this.timingColorMap.equals(that.timingColorMap);
+        ret &= this.sentry == that.sentry;
+        ret &= this.telemetry == that.telemetry;
         return ret;
-    }
-
-    public static PreferencesState getInstance(@NotNull Project project) {
-        return project.getService(PreferencesState.class);
     }
 }

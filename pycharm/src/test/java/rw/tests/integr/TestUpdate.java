@@ -20,7 +20,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestUpdate extends BaseMockedTestCase {
     AnAction action;
     public NotificationManagerFixture notificationManagerFixture;

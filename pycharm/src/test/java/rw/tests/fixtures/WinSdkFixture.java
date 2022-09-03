@@ -5,7 +5,6 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl;
 import com.intellij.openapi.projectRoots.impl.SdkConfigurationUtil;
 import com.jetbrains.python.sdk.PythonSdkType;
-import org.apache.commons.io.FileUtils;
 import rw.pkg.Architecture;
 import rw.util.OsType;
 
@@ -15,13 +14,11 @@ import java.nio.file.Path;
 
 
 public class WinSdkFixture extends SdkFixture {
-    Architecture architecture;
     WinFixture winFixture;
 
     public WinSdkFixture(File projectRoot, String version, Architecture architecture) {
         super(projectRoot, version);
         this.winFixture = new WinFixture();
-        this.architecture = architecture;
     }
 
     public void start() throws Exception {
@@ -36,12 +33,7 @@ public class WinSdkFixture extends SdkFixture {
         WriteAction.runAndWait(() -> SdkConfigurationUtil.addSdk(this.sdk));
 
         byte[] interpreterContent;
-        if (this.architecture == Architecture.x64) {
-            interpreterContent = Files.readAllBytes(Path.of(this.getClass().getClassLoader().getResource("python64.exe").getFile()));
-        }
-        else {
-            interpreterContent = Files.readAllBytes(Path.of(this.getClass().getClassLoader().getResource("python32.exe").getFile()));
-        }
+        interpreterContent = Files.readAllBytes(Path.of(this.getClass().getClassLoader().getResource("python64.exe").getFile()));
 
         Files.write(this.getSdkHome().toPath(), interpreterContent);
     }

@@ -79,9 +79,6 @@ public class Service implements Disposable {
 
     public void checkForUpdate() {
         LOGGER.info("Checking for update");
-        if (this.webPackageManager.hasErrored()) {
-            return;
-        }
 
         this.webPackageManager.run(null);
     }

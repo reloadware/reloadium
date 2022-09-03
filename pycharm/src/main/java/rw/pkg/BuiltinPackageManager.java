@@ -65,7 +65,7 @@ public final class BuiltinPackageManager extends BasePackageManager {
         return ret;
     }
 
-    protected List<File> getWheelFiles() throws IOException, IOExceptionList {
+    public List<File> getWheelFiles() throws IOException, IOExceptionList {
         LOGGER.info("Getting wheels files");
 
         List<File> ret = new ArrayList<>();
@@ -86,7 +86,7 @@ public final class BuiltinPackageManager extends BasePackageManager {
 
             BaseWheel wheel = WheelFactory.factory(wheelFilename);
 
-            if (wheel.getOsType() != OsType.DETECTED) {
+            if (wheel.getOsType() != OsType.DETECTED || wheel.getArchitecture() != Architecture.DETECTED) {
                 continue;
             }
 

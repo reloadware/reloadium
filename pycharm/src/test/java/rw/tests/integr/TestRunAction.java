@@ -21,7 +21,6 @@ import static org.mockito.Mockito.verify;
 import com.intellij.testFramework.TestActionEvent;
 
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestRunAction extends BaseMockedTestCase {
     CakeshopFixture cakeshop;
     AnAction action;
@@ -114,7 +113,7 @@ public class TestRunAction extends BaseMockedTestCase {
 
         this.action.actionPerformed(event);
         String pythonpath = this.cakeshop.getRunConf().getEnvs().get("PYTHONPATH");
-        assertThat(pythonpath.endsWith("3.6")).isTrue();
+        assertThat(pythonpath.endsWith("3.7")).isTrue();
     }
 
     @Test
@@ -135,32 +134,6 @@ public class TestRunAction extends BaseMockedTestCase {
 
         assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium run");
         verify(this.dialogFactoryFixture.dialogFactory, times(1)).showFirstRunDialog(this.getProject());
-    }
-
-    @Test
-    public void testActionPerformedWin32() throws Exception {
-        WinSdkFixture winSdkFixture = new WinSdkFixture(this.cakeshop.getRoot().toFile(), "3.9", Architecture.x86);
-        winSdkFixture.start();
-
-        this.cakeshop.getRunConf().setSdkHome(winSdkFixture.getSdkHome().toString());
-
-        AnActionEvent event = new TestActionEvent();
-        this.action.update(event);
-        assertThat(event.getPresentation().isVisible()).isTrue();
-        assertThat(event.getPresentation().isEnabled()).isTrue();
-        this.action.actionPerformed(event);
-
-        PythonRunConfiguration runConf = this.cakeshop.getRunConf();
-
-        assertThat(runConf.getScriptName()).isEqualTo("main.py");
-        assertThat(runConf.isModuleMode()).isFalse();
-
-        String pythonpath = this.cakeshop.getRunConf().getEnvs().get("PYTHONPATH");
-        assertThat(pythonpath.endsWith("3.9-32")).isTrue();
-
-        assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium run");
-
-        winSdkFixture.stop();
     }
 
     @Test

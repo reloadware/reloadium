@@ -26,7 +26,7 @@ import rw.consts.Const;
 import rw.handler.runConf.BaseRunConfHandler;
 import rw.handler.runConf.RunConfHandlerFactory;
 import rw.handler.runConf.RunConfHandlerManager;
-import rw.handler.sdk.BaseSdkHandler;
+import rw.handler.sdk.SdkHandler;
 import rw.handler.sdk.SdkHandlerFactory;
 import rw.service.Service;
 
@@ -76,7 +76,7 @@ public abstract class WithReloaderBase extends AnAction {
             return false;
         }
 
-        BaseSdkHandler sdkHandler = SdkHandlerFactory.factory(sdk);
+        SdkHandler sdkHandler = SdkHandlerFactory.factory(sdk);
 
         if (sdkHandler == null) {
             return false;

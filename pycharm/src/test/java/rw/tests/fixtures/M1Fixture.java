@@ -4,13 +4,13 @@ import rw.pkg.Architecture;
 import rw.util.OsType;
 
 
-public class WinFixture {
+public class M1Fixture {
     OsFixture osFixture;
     ArchFixture archFixture;
 
-    public WinFixture() {
-        this.osFixture = new OsFixture(OsType.Windows);
-        this.archFixture = new ArchFixture(Architecture.X64);
+    public M1Fixture() {
+        this.osFixture = new OsFixture(OsType.MacOS);
+        this.archFixture = new ArchFixture(Architecture.ARM64);
     }
 
     public void start() {

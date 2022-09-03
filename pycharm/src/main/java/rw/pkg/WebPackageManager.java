@@ -75,7 +75,7 @@ public final class WebPackageManager extends BasePackageManager {
         this.installVersion(listener, version);
     }
 
-    protected List<File> getWheelFiles() throws IOException, IOExceptionList {
+    public List<File> getWheelFiles() throws IOException, IOExceptionList {
         LOGGER.info("Getting wheels files");
 
         String version = this.getLatestVersionFromWeb();
@@ -156,7 +156,7 @@ public final class WebPackageManager extends BasePackageManager {
 
                 BaseWheel wheelUrl = WheelFactory.factory(url);
 
-                if (wheelUrl.getOsType() != OsType.DETECTED) {
+                if (wheelUrl.getOsType() != OsType.DETECTED || wheelUrl.getArchitecture() != Architecture.DETECTED) {
                     continue;
                 }
 

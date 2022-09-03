@@ -2,6 +2,38 @@ Change Log
 ##########
 
 
+0.9.2
+-------
+
+**Miscellaneous**:
+    
+  Added:
+    * Support for no_reload decorator for frame reloads
+    * Profiling optimisations
+    * PyTest extension
+    * Disabling telemetry
+    * Disabling error reporting
+    * RELOADIUMIGNORE env variable
+    * M1 support
+    * Profiling optimisations
+    
+  Fixed:
+    * cached_property issues
+    * Moving function closures
+    * Moving non instantiated closures
+    
+  Removed:
+    * Win32 support
+    
+**PyCharm**:
+    
+  Fixed:
+    * Freeze on update
+    
+  Added:
+    * Docker compose support
+    * Docker support
+    
 0.9.1
 -------
 

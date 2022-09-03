@@ -11,9 +11,4 @@ public class NoneAnyWheel extends BaseWheel {
 
     protected void parse() {
     }
-
-    @Override
-    public File getPackageDir() {
-        return Const.get().getPackagePythonVersionDir(this.getPythonVersion(), this.getArchitecture());
-    }
 }

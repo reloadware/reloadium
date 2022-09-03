@@ -22,7 +22,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestProjectSettings extends BaseMockedTestCase {
     CakeshopFixture cakeshop;
     SourceRootFixture sourceRootFixture;
@@ -70,7 +69,7 @@ public class TestProjectSettings extends BaseMockedTestCase {
         assertThat(state1).isNotEqualTo(state2);
 
         state2 = new ProjectState();
-        state2.cacheEnabled = !state2.cacheEnabled;
+        state2.cache = !state2.cache;
         assertThat(state1).isNotEqualTo(state2);
 
         state2 = new ProjectState();
@@ -133,7 +132,7 @@ public class TestProjectSettings extends BaseMockedTestCase {
     @Test
     public void testCacheEnabled() {
         ProjectState stateIn = new ProjectState();
-        stateIn.cacheEnabled = !stateIn.cacheEnabled;
+        stateIn.cache = !stateIn.cache;
         ProjectSettings.getInstance(this.getProject()).loadState(stateIn);
 
         AnActionEvent event = new TestActionEvent();
@@ -143,7 +142,7 @@ public class TestProjectSettings extends BaseMockedTestCase {
         PythonRunConfiguration runConf = this.cakeshop.getRunConf();
 
         String env = runConf.getEnvs().get(PythonRunConfHandler.CACHE_ENV);
-        assertThat(env).isEqualTo(EnvUtils.boolToEnv(stateIn.cacheEnabled));
+        assertThat(env).isEqualTo(EnvUtils.boolToEnv(stateIn.cache));
     }
 
     @Test

@@ -12,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import rw.action.RunType;
 import rw.audit.RwSentry;
 import rw.consts.Const;
+import rw.preferences.Preferences;
+import rw.preferences.PreferencesState;
 import rw.settings.ProjectState;
 import rw.settings.ProjectSettings;
 import rw.util.EnvUtils;
@@ -33,9 +35,12 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
     public static final String DEBUGGER_SPEEDUPS_ENV = "RW_DEBUGGERSPEEDUPS";  //  # RwRender: public static final String DEBUGGER_SPEEDUPS_ENV = "{{ ctx.env_vars.misc.debugger_speedups }}";  //
     public static final String VERBOSE_ENV = "RW_VERBOSE";  //  # RwRender: public static final String VERBOSE_ENV = "{{ ctx.env_vars.misc.verbose }}";  //
     public static final String CACHE_ENV = "RW_CACHE";  //  # RwRender: public static final String CACHE_ENV = "{{ ctx.env_vars.misc.cache }}";  //
+    public static final String TELEMETRY_ENV = "RW_TELEMETRY";  //  # RwRender: public static final String TELEMETRY_ENV = "{{ ctx.env_vars.misc.telemetry }}";  //
+    public static final String SENTRY_ENV = "RW_SENTRY";  //  # RwRender: public static final String SENTRY_ENV = "{{ ctx.env_vars.misc.sentry }}";  //
     public static final String PRINT_LOGO_ENV = "RW_PRINTLOGO";  //  # RwRender: public static final String PRINT_LOGO_ENV = "{{ ctx.env_vars.misc.print_logo }}";  //
     public static final String WATCHCWD_ENV = "RW_WATCHCWD";  //  # RwRender: public static final String WATCHCWD_ENV = "{{ ctx.env_vars.misc.watch_cwd }}";  //
     public static final String RELOADIUMPATH_ENV = "RELOADIUMPATH";  //  # RwRender: public static final String RELOADIUMPATH_ENV = "{{ ctx.env_vars.misc.reloadiumpath }}";  //
+    public static final String RELOADIUMIGNORE_ENV = "RELOADIUMIGNORE";  //  # RwRender: public static final String RELOADIUMIGNORE_ENV = "{{ ctx.env_vars.misc.reloadiumignore }}";  //
     public static final String TIME_PROFILE_ENV = "RW_TIMEPROFILE";  //  # RwRender: public static final String TIME_PROFILE_ENV = "{{ ctx.env_vars.misc.time_profile }}";  //
 
     public PythonRunConfHandler(RunConfiguration runConf) {
@@ -46,6 +51,8 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
 
     @Override
     public void beforeRun(RunType runType) {
+        PreferencesState preferences = Preferences.getInstance().getState();
+
         String command;
 
         if (runType == RunType.DEBUG) {
@@ -64,22 +71,23 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
         this.runConf.getEnvs().put(this.IDE_NAME_ENV, ApplicationInfo.getInstance().getFullApplicationName());
         this.runConf.getEnvs().put(this.IDE_PLUGIN_VERSION_ENV, Const.get().version);
         this.runConf.getEnvs().put(this.IDE_VERSION_ENV, ApplicationInfo.getInstance().getFullVersion());
-        this.runConf.getEnvs().put(this.IDE_TYPE_ENV,  Const.get().pycharm);
+        this.runConf.getEnvs().put(this.IDE_TYPE_ENV, Const.get().pycharm);
 
         ProjectState state = ProjectSettings.getInstance(this.runConf.getProject()).getState();
 
         this.runConf.getEnvs().put(this.DEBUGGER_SPEEDUPS_ENV, EnvUtils.boolToEnv(state.debuggerSpeedups));
         this.runConf.getEnvs().put(this.VERBOSE_ENV, EnvUtils.boolToEnv(state.verbose));
-        this.runConf.getEnvs().put(this.CACHE_ENV, EnvUtils.boolToEnv(state.cacheEnabled));
+        this.runConf.getEnvs().put(this.CACHE_ENV, EnvUtils.boolToEnv(state.cache));
         this.runConf.getEnvs().put(this.PRINT_LOGO_ENV, EnvUtils.boolToEnv(state.printLogo));
         this.runConf.getEnvs().put(this.WATCHCWD_ENV, EnvUtils.boolToEnv(state.watchCwd));
         this.runConf.getEnvs().put(this.IDE_SERVER_PORT_ENV, String.valueOf(this.session.getPort()));
         this.runConf.getEnvs().put(this.TIME_PROFILE_ENV, EnvUtils.boolToEnv(state.profile));
         this.runConf.getEnvs().put("PYDEVD_USE_CYTHON", "NO");
+        this.runConf.getEnvs().put(this.TELEMETRY_ENV, EnvUtils.boolToEnv(preferences.telemetry));
+        this.runConf.getEnvs().put(this.SENTRY_ENV, EnvUtils.boolToEnv(preferences.sentry));
 
-        List<String> reloadiumPath = new ArrayList<String>(state.reloadiumPath);
-
-        if (state.watchSourceRoots){
+        List<String> reloadiumPath = new ArrayList<>(state.reloadiumPath);
+        if (state.watchSourceRoots) {
             @Nullable Module module = this.runConf.getModule();
             if (module != null) {
                 VirtualFile[] sourceRootsRaw = ModuleRootManager.getInstance(module).getSourceRoots(false);
@@ -88,17 +96,17 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
                     if (TempFileSystem.class.isAssignableFrom(f.getFileSystem().getClass())) {
                         continue;
                     }
-                    try {
-                        reloadiumPath.add(this.convertPathToRemote(f.toNioPath().toString()));
-                    }
-                    catch (Exception e) {
-                        RwSentry.get().captureException(e);
-                    }
+                    reloadiumPath.add(f.toNioPath().toString());
                 }
             }
         }
 
-        this.runConf.getEnvs().put(this.RELOADIUMPATH_ENV, String.join(pathSep, reloadiumPath));
+        List<String> reloadiumPathRemote = this.getRemotePaths(reloadiumPath);
+        this.runConf.getEnvs().put(this.RELOADIUMPATH_ENV, String.join(pathSep, reloadiumPathRemote));
+
+        List<String> reloadiumIgnore = new ArrayList<>(state.reloadiumIgnore);
+        List<String> reloadiumIgnoreRemote = this.getRemotePaths(reloadiumIgnore);
+        this.runConf.getEnvs().put(this.RELOADIUMIGNORE_ENV, String.join(pathSep, reloadiumIgnoreRemote));
 
         // Set PYTHONPATH
         String pythonpath = this.runConf.getEnvs().getOrDefault("PYTHONPATH", "");
@@ -112,6 +120,19 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
             pythonpath = packagePath;
         }
         this.runConf.getEnvs().put("PYTHONPATH", pythonpath);
+    }
+
+    private List<String> getRemotePaths(List<String> paths) {
+        List<String> ret = new ArrayList<>();
+
+        for (String p : paths) {
+            try {
+                ret.add(this.convertPathToRemote(p));
+            } catch (Exception e) {
+                RwSentry.get().captureException(e);
+            }
+        }
+        return ret;
     }
 
     public void onProcessStarted(RunContentDescriptor descriptor) {
