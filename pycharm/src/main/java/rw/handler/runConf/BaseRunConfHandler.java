@@ -17,7 +17,7 @@ import rw.action.RunType;
 import rw.profile.FrameProgressRenderer;
 import rw.profile.LineProfiler;
 import rw.stack.Stack;
-import rw.handler.sdk.BaseSdkHandler;
+import rw.handler.sdk.SdkHandler;
 import rw.handler.sdk.SdkHandlerFactory;
 import rw.highlights.ErrorHighlightManager;
 import rw.profile.ProfilePreviewRenderer;
@@ -27,7 +27,7 @@ import rw.session.Session;
 public abstract class BaseRunConfHandler implements Disposable {
     AbstractPythonRunConfiguration<?> runConf;
     @Nullable
-    BaseSdkHandler sdkHandler;
+    SdkHandler sdkHandler;
     ExecutionEnvironment executionEnvironment;
     Stack stack;
     FrameProgressRenderer frameProgressRenderer;
@@ -148,5 +148,9 @@ public abstract class BaseRunConfHandler implements Disposable {
 
     public LineProfiler getTimeProfiler() {
         return this.lineProfiler;
+    }
+
+    public Session getSession() {
+        return this.session;
     }
 }

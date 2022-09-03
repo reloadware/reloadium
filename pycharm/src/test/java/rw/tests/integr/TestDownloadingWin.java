@@ -3,32 +3,28 @@ package rw.tests.integr;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import rw.consts.Const;
 import rw.tests.BaseMockedTestCase;
-import rw.tests.fixtures.WinFixture;
+import rw.tests.fixtures.OsFixture;
 import rw.tests.utils.MiscUtils;
+import rw.util.OsType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class TestDownloadingWin extends BaseMockedTestCase {
-    WinFixture winFixture;
+    OsFixture osFixture;
 
     @BeforeEach
     protected void setUp() throws Exception {
-        this.winFixture = new WinFixture();
-        this.winFixture.start();
+        this.osFixture = new OsFixture(OsType.Windows);
+        this.osFixture.start();
 
         super.setUp();
-
-        if (Const.get().getPackagePythonVersionDir("3.9").exists()) {
-            int a = 1;
-        }
     }
 
     @AfterEach
     protected void tearDown() throws Exception {
-        this.winFixture.stop();
+        this.osFixture.stop();
         super.tearDown();
     }
 

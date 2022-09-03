@@ -9,14 +9,19 @@ import java.io.File;
 import java.util.Arrays;
 
 
-abstract public class BaseSdkHandler {
+public class SdkHandler {
     Sdk sdk;
 
-    public BaseSdkHandler(Sdk sdk) {
+    public SdkHandler(Sdk sdk) {
         this.sdk = sdk;
     }
 
-    abstract public File getPackageDir();
+    public File getPackageDir() {
+        if (!this.isSdkVersionSupported()) {
+            return Const.get().getPackagePythonVersionDir(Const.get().supportedVersions[0]);
+        }
+        return Const.get().getPackagePythonVersionDir(this.getVersion());
+    }
 
     public String getVersion() {
         PythonSdkFlavor flavor = PythonSdkFlavor.getFlavor(this.sdk);

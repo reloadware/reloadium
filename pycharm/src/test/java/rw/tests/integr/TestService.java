@@ -13,7 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestService extends BaseMockedTestCase {
 
     @BeforeEach
@@ -31,21 +30,8 @@ public class TestService extends BaseMockedTestCase {
     public void testUpdatingPeriodically() throws Exception {
         this.service.init();
         MiscUtils.assertInstalled(this.builtinVersion);
-        service.checkForUpdate();
-        MiscUtils.assertInstalled(this.webVersion);
-    }
-
-    @Test
-    public void testNotUpdatingErrored() throws Exception {
-        this.service.init();
-        lenient().doThrow(new RuntimeException("Error")).when(
-                this.service.webPackageManager).getWheelUrlsForVersion(any());
-
         this.service.checkForUpdate();
-
-        verify(this.service.webPackageManager, times(1)).install(any());
-        assertThat(this.service.webPackageManager.hasErrored()).isTrue();
-        MiscUtils.assertInstalled(this.builtinVersion);
+        MiscUtils.assertInstalled(this.webVersion);
     }
 
     @Test

@@ -4,9 +4,12 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.jetbrains.python.sdk.PythonSdkType;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
+
 
 abstract public class SdkHandlerFactory {
-    public static @Nullable BaseSdkHandler factory(@Nullable Sdk sdk) {
+    public static @Nullable
+    SdkHandler factory(@Nullable Sdk sdk) {
         if (sdk == null) {
             return null;
         }
@@ -16,12 +19,6 @@ abstract public class SdkHandlerFactory {
         }
 
         assert sdk.getHomePath() != null;
-
-        if (sdk.getHomePath().endsWith(".exe")){
-            return new WinSdkHandler(sdk);
-        }
-        else {
-            return new UnixSdkHandler(sdk);
-        }
+        return new SdkHandler(sdk);
     }
 }

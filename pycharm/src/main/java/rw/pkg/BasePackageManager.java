@@ -46,13 +46,16 @@ class InstallTask extends Task.Backgroundable {
     }
 
     protected void runTask(@NotNull ProgressIndicator indicator) {
+        if (!this.packageManager.shouldInstall()) {
+            this.packageManager.installing = false;
+            return;
+        }
         try {
             this.packageManager.install(null);
             if (this.listener != null)
                 this.listener.success();
         } catch (Exception e) {
             RwSentry.get().captureException(e);
-            this.packageManager.setErrored();
             if (this.listener != null)
                 this.listener.fail(e);
         } finally {
@@ -68,7 +71,6 @@ public abstract class BasePackageManager {
     @NotNull
     protected final Path currentVersionFile;
     boolean installing;
-    private boolean errored;
 
     public static class Listener {
         public void started() {
@@ -85,17 +87,8 @@ public abstract class BasePackageManager {
     }
 
     public BasePackageManager() {
-        this.errored = false;
         this.currentVersionFile = Paths.get(String.valueOf(Const.get().getPackagesRootDir()), "version.txt");
         this.installing = false;
-    }
-
-    void setErrored() {
-        this.errored = true;
-    }
-
-    public boolean hasErrored() {
-        return this.errored;
     }
 
     @Nullable
@@ -117,18 +110,16 @@ public abstract class BasePackageManager {
 
     public void run(@Nullable Listener listener) {
         try {
-            if (this.shouldInstall()) {
             this.installing = true;
             LOGGER.info("Installing");
             ProgressManager.getInstance().run(new InstallTask(this, listener));
-        }
         }
         catch (Exception e) {
             RwSentry.get().captureException(e);
         }
     }
 
-    abstract protected List<File> getWheelFiles() throws IOException;
+    abstract public List<File> getWheelFiles() throws IOException;
 
     protected void installWheels(List<File> wheels) throws Exception {
         for (File wheelFile : wheels) {
@@ -150,6 +141,9 @@ public abstract class BasePackageManager {
             listener.started();
 
         List<File> wheels = this.getWheelFiles();
+        if (wheels.isEmpty()) {
+            return;
+        }
         this.installWheels(wheels);
         Files.writeString(this.currentVersionFile, version);
         this.cleanWheels(wheels);

@@ -9,20 +9,22 @@ import java.util.Objects;
 
 public class ProjectState {
     public List<String> reloadiumPath;
+    public List<String> reloadiumIgnore;
     public boolean watchCwd;
     public boolean watchSourceRoots;
     public boolean printLogo;
-    public boolean cacheEnabled;
+    public boolean cache;
     public boolean verbose;
     public boolean debuggerSpeedups;
     public boolean profile;
 
     public ProjectState() {
         this.reloadiumPath = new ArrayList<String>();
+        this.reloadiumIgnore = new ArrayList<String>();
         this.watchCwd = true;
         this.watchSourceRoots = true;
         this.printLogo = true;
-        this.cacheEnabled = true;
+        this.cache = true;
         this.verbose = true;
         this.debuggerSpeedups = true;
         this.profile = true;
@@ -37,7 +39,8 @@ public class ProjectState {
         boolean ret = true;
 
         ret &= Objects.equals(this.reloadiumPath, that.reloadiumPath);
-        ret &= this.cacheEnabled == that.cacheEnabled;
+        ret &= Objects.equals(this.reloadiumIgnore, that.reloadiumIgnore);
+        ret &= this.cache == that.cache;
         ret &= this.debuggerSpeedups == that.debuggerSpeedups;
         ret &= this.watchCwd == that.watchCwd;
         ret &= this.printLogo == that.printLogo;

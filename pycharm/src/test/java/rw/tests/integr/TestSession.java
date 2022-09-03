@@ -26,7 +26,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestSession extends BaseMockedTestCase {
     CakeshopFixture cakeshop;
     DialogFactoryFixture dialogFactoryFixture;
@@ -170,8 +169,6 @@ public class TestSession extends BaseMockedTestCase {
         assertThat(action.getObj()).isEqualTo("Function");
 
         event.handle();
-
-        verify(handler.getErrorHighlightManager(), times(1)).clearFile(eq(file));
     }
 
     @Test

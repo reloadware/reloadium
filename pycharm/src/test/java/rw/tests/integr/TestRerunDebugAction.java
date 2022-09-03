@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestRerunDebugAction extends BaseMockedTestCase {
     CakeshopFixture cakeshop;
 

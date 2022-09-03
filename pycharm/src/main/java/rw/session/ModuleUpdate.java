@@ -22,7 +22,6 @@ public class ModuleUpdate extends FileEvent {
         LOGGER.info("Handling ModuleUpdate " + String.format("(%s)", this.getLocalPath()));
         PreferencesState state = Preferences.getInstance().getState();
 
-        this.handler.getErrorHighlightManager().clearFile(this.getLocalPath());
         this.handler.getProfilePreviewRenderer().update();
 
         Color BLINK_COLOR = new Color(255, 114, 0, 60);

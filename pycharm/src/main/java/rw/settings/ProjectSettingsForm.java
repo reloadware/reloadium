@@ -1,6 +1,7 @@
 package rw.settings;
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
+import com.intellij.openapi.projectRoots.ui.PathEditor;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
 
@@ -19,18 +20,16 @@ public class ProjectSettingsForm {
     private JCheckBox debuggerSpeedupsCB;
     private JCheckBox watchSourceRootsCB;
     private JCheckBox profileCB;
-    private ReloadiumPath reloadiumPath;
+    private JComponent reloadiumIgnorePanel;
+    private RwPathEditor reloadiumPath;
+    private RwPathEditor reloadiumIgnore;
 
     private void createUIComponents() {
-        this.reloadiumPath = new ReloadiumPath(new FileChooserDescriptor(
-                true,
-                true,
-                false,
-                false,
-                false,
-                true));
+        this.reloadiumPath = new RwPathEditor();
+        this.reloadiumIgnore = new RwPathEditor();
 
         this.reloadiumPathPanel = this.reloadiumPath.createComponent();
+        this.reloadiumIgnorePanel = this.reloadiumIgnore.createComponent();
     }
 
     public JPanel getMainPanel() {
@@ -40,16 +39,12 @@ public class ProjectSettingsForm {
     public ProjectState getState() {
         ProjectState state = new ProjectState();
 
-        List<String> paths = new ArrayList<>();
-        for (VirtualFile virtualFile : this.reloadiumPath.getRoots()) {
-            paths.add(virtualFile.toNioPath().toString());
-        }
-
-        state.reloadiumPath = paths;
+        state.reloadiumPath = this.reloadiumPath.getPaths();
+        state.reloadiumIgnore = this.reloadiumIgnore.getPaths();
         state.watchCwd = this.addCurrentWorkingDirectoryCB.isSelected();
         state.watchSourceRoots = this.watchSourceRootsCB.isSelected();
         state.printLogo = this.printLogoCB.isSelected();
-        state.cacheEnabled = this.cacheEnabledCB.isSelected();
+        state.cache = this.cacheEnabledCB.isSelected();
         state.verbose = this.verboseCB.isSelected();
         state.debuggerSpeedups = this.debuggerSpeedupsCB.isSelected();
         state.profile = this.profileCB.isSelected();
@@ -57,15 +52,13 @@ public class ProjectSettingsForm {
     }
 
     public void setState(ProjectState state) {
-        this.reloadiumPath.clearList();
-        for (String path: state.reloadiumPath) {
-            VirtualFile file = new VirtualFileWrapper(new File(path)).getVirtualFile(false);
-            this.reloadiumPath.addPaths(file);
-        }
+        this.reloadiumPath.addPaths(state.reloadiumPath);
+        this.reloadiumIgnore.addPaths(state.reloadiumIgnore);
+
         this.addCurrentWorkingDirectoryCB.setSelected(state.watchCwd);
         this.watchSourceRootsCB.setSelected(state.watchSourceRoots);
         this.printLogoCB.setSelected(state.printLogo);
-        this.cacheEnabledCB.setSelected(state.cacheEnabled);
+        this.cacheEnabledCB.setSelected(state.cache);
         this.verboseCB.setSelected(state.verbose);
         this.debuggerSpeedupsCB.setSelected(state.debuggerSpeedups);
         this.profileCB.setSelected(state.profile);

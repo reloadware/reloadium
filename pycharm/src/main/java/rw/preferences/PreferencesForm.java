@@ -1,7 +1,6 @@
 package rw.preferences;
 
 import com.intellij.openapi.ui.ComboBox;
-import rw.icons.Icons;
 import rw.util.colormap.ColorMaps;
 
 import javax.swing.*;
@@ -10,6 +9,8 @@ public class PreferencesForm {
     private JPanel mainPanel;
     private JSpinner blinkDuration;
     private JComboBox<ImageIcon> timingColormap;
+    private JCheckBox telemetry;
+    private JCheckBox sentry;
 
     private void createUIComponents() {
         this.blinkDuration = new JSpinner(new SpinnerNumberModel(0, 0, 2000, 10));
@@ -26,11 +27,15 @@ public class PreferencesForm {
         PreferencesState state = new PreferencesState();
         state.blinkDuration = ((SpinnerNumberModel)this.blinkDuration.getModel()).getNumber().intValue();
         state.timingColorMap = ColorMaps.get().getColorMapByImage((ImageIcon) this.timingColormap.getModel().getSelectedItem()).getName();
+        state.telemetry = this.telemetry.isSelected();
+        state.sentry = this.sentry.isSelected();
         return state;
     }
 
     public void setState(PreferencesState state) {
         this.blinkDuration.setValue(state.blinkDuration);
         this.timingColormap.getModel().setSelectedItem(ColorMaps.get().getColorMapByName(state.timingColorMap).getImage());
+        this.telemetry.setSelected(state.telemetry);
+        this.sentry.setSelected(state.sentry);
     }
 }

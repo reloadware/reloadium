@@ -73,7 +73,9 @@ abstract public class BaseWheel {
         return this.version;
     }
 
-    abstract public File getPackageDir();
+    public File getPackageDir() {
+        return Const.get().getPackagePythonVersionDir(this.getPythonVersion());
+    }
 
     public void initPackageDir() {
         File packageDir = this.getPackageDir();

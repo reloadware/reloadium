@@ -1,4 +1,96 @@
 {
+  "0.9.2": [
+    {
+      "type": "Added",
+      "description": "Support for no_reload decorator for frame reloads",
+      "tag": "Miscellaneous",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Fixed",
+      "description": "cached_property issues",
+      "tag": "Miscellaneous",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Fixed",
+      "description": "Freeze on update",
+      "tag": "PyCharm",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Fixed",
+      "description": "Moving function closures",
+      "tag": "Miscellaneous",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Removed",
+      "description": "Win32 support",
+      "tag": "Miscellaneous",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Added",
+      "description": "Profiling optimisations",
+      "tag": "Miscellaneous",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Fixed",
+      "description": "Moving non instantiated closures",
+      "tag": "Miscellaneous",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Added",
+      "description": "Docker compose support",
+      "tag": "PyCharm",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Added",
+      "description": "Docker support",
+      "tag": "PyCharm",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Added",
+      "description": "PyTest extension",
+      "tag": "Miscellaneous",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Added",
+      "description": "Disabling telemetry",
+      "tag": "Miscellaneous",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Added",
+      "description": "Disabling error reporting",
+      "tag": "Miscellaneous",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Added",
+      "description": "RELOADIUMIGNORE env variable",
+      "tag": "Miscellaneous",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Added",
+      "description": "M1 support",
+      "tag": "Miscellaneous",
+      "date": "2022-09-03"
+    },
+    {
+      "type": "Added",
+      "description": "Profiling optimisations",
+      "tag": "Miscellaneous",
+      "date": "2022-09-03"
+    }
+  ],
   "0.9.1": [
     {
       "type": "Changed",

@@ -82,11 +82,6 @@ public class MiscUtils {
 
             assertThat(packageDir.exists()).isTrue();
             assertThat(pythonVersionDir.exists()).isTrue();
-
-            if(OsType.DETECTED == OsType.Windows) {
-                File pythonVersion32Dir = Const.get().getPackagePythonVersionDir(pythonVersion, Architecture.x86);
-                assertThat(pythonVersion32Dir.exists()).isTrue();
-            }
         }
         Path currentVersionFile = Paths.get(String.valueOf(Const.get().getPackagesRootDir()), "version.txt");
         Files.readString(currentVersionFile);

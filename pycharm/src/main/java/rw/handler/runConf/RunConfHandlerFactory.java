@@ -20,7 +20,12 @@ public abstract class RunConfHandlerFactory {
             return null;
         }
 
-        if (PythonSdkUtil.isRemote(sdk)){
+        if (PythonSdkUtil.isRemote(sdk) && (
+                sdk.getHomePath().startsWith("docker-compose://") || sdk.getHomePath().startsWith("docker://"))
+        ) {
+            return new DockerRunConfHandler(runConf);
+        }
+        else if (PythonSdkUtil.isRemote(sdk)){
             return new RemoteRunConfHandler(runConf);
         }
         else {
