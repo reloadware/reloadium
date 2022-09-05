@@ -46,7 +46,7 @@ Details
 
 Sponsors
 #######
-Thanks https://www.you.com/?utm_source=opensource&utm_medium=GitHub&utm_campaign=reloadium for the M1 Mini donation
+Thanks `www.you.com <https://www.you.com/?utm_source=opensource&utm_medium=GitHub&utm_campaign=reloadium>`_ for the M1 Mini donation
 
 Installing
 ##########
