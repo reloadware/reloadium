@@ -2,6 +2,31 @@ Change Log
 ##########
 
 
+0.9.3
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Encoding issues
+    * Import threading issues
+    * Multiprocessing issues
+    * Double popup issue on FrameError
+    
+  Added:
+    * Multiprocessing extension
+    * Manual reload file command
+    * Symlinks and mounted directories support
+    
+**PyCharm**:
+    
+  Added:
+    * Reloadable files highlighting
+    * Manual reload action
+    
+  Fixed:
+    * Too many open files issue
+    
 0.9.2
 -------
 

@@ -1,12 +1,7 @@
-package rw.session;
+package rw.session.events;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
 import rw.dialogs.DialogFactory;
-import rw.dialogs.FirstUserError;
-import rw.dialogs.TipDialog;
-import rw.handler.runConf.PythonRunConfHandler;
 
 public class UserError extends FileError {
     private static final Logger LOGGER = Logger.getInstance(UserError.class);

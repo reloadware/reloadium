@@ -4,7 +4,7 @@ from typing import Tuple
 
 IMPORT_ERROR_MSG = (
     "It seems like your platform or Python version are not supported yet.\n"
-    "Windows, Linux, macOS and Python >= 3.7 (3.8 for M1) are currently supported.\n"
+    "Windows, Linux, macOS and Python >= 3.7 (3.9 for M1) are currently supported.\n"
     "Please submit a github issue if you believe Reloadium should be working on your system at\n"
     "https://github.com/reloadware/reloadium\n"
 )

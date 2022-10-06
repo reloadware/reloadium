@@ -4,18 +4,17 @@ import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import rw.handler.runConf.PythonRunConfHandler;
 import rw.handler.runConf.RunConfHandlerFactory;
 import rw.session.*;
+import rw.session.events.Action;
+import rw.session.events.*;
 import rw.tests.BaseMockedTestCase;
 import rw.tests.fixtures.CakeshopFixture;
 import rw.tests.fixtures.DialogFactoryFixture;
 import rw.tests.fixtures.HighlightManagerFixture;
-import rw.tests.fixtures.StackUpdateFixture;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -92,26 +91,6 @@ public class TestSession extends BaseMockedTestCase {
     }
 
     @Test
-    public void testStackUpdate() throws Exception {
-        PythonRunConfHandler handler = (PythonRunConfHandler) RunConfHandlerFactory.factory(cakeshop.getRunConf());
-        HighlightManagerFixture highlightManagerFixture = new HighlightManagerFixture(handler);
-        highlightManagerFixture.start();
-
-        Session session = new Session(this.getProject(), handler);
-
-        File file = new File(this.cakeshop.getRoot().toString(), "cakeshop.py");
-        FileUtils.write(file, "1\n2\n3\n4", "utf-8");
-        file.createNewFile();
-
-        StackUpdateFixture stackUpdateFixture = new StackUpdateFixture(session, file);
-        StackUpdate stackUpdate = stackUpdateFixture.eventFactory();
-
-        assertThat(stackUpdate).isInstanceOf(StackUpdate.class);
-        assertThat(stackUpdate.getContent().size()).isEqualTo(1);
-        stackUpdate.handle();
-    }
-
-    @Test
     public void testFrameError() throws Exception {
         PythonRunConfHandler handler = (PythonRunConfHandler) RunConfHandlerFactory.factory(cakeshop.getRunConf());
         HighlightManagerFixture highlightManagerFixture = new HighlightManagerFixture(handler);
@@ -122,10 +101,6 @@ public class TestSession extends BaseMockedTestCase {
         File file = new File(this.cakeshop.getRoot().toString(), "cakeshop.py");
         FileUtils.write(file, "1\n2\n3\n4", "utf-8");
         file.createNewFile();
-
-        StackUpdateFixture stackUpdateFixture = new StackUpdateFixture(session, file);
-        StackUpdate stackUpdate = stackUpdateFixture.eventFactory();
-        stackUpdate.handle();
 
         String payload = String.format("{\"ID\": \"FrameError\", \"VERSION\": \"%s\", " +
                         "\"line\": 2, \"path\": \"%s\"," +

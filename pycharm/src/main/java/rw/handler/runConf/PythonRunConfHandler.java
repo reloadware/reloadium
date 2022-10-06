@@ -119,7 +119,7 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
         } else {
             pythonpath = packagePath;
         }
-        this.runConf.getEnvs().put("PYTHONPATH", pythonpath);
+        this.runConf.getEnvs().put("PYTHONPATH", pythonpath);  //  # RwRender: this.runConf.getEnvs().put("PYTHONPATH", {{ ctx.pythonpath }});  //
     }
 
     private List<String> getRemotePaths(List<String> paths) {

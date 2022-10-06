@@ -1,4 +1,4 @@
-package rw.session;
+package rw.session.events;
 
 abstract public class FileError extends FileEvent {
     public static final String ID = "FileError";

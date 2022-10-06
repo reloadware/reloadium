@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.reloadium</id>
     <name>Reloadium - Hot Reloading &#38; Profiling for Python</name>
-    <version>0.8.5</version>
+    <version>0.8.6</version>
     <idea-version since-build="203"/>
     <vendor email="damian@reloadware.com" url="reloadium.io">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
@@ -22,6 +22,45 @@
 
     <change-notes><![CDATA[
     
+        <h3>0.8.6</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>Miscellaneous:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Encoding issues</li>
+                            <li>Import threading issues</li>
+                            <li>Multiprocessing issues</li>
+                            <li>Double popup issue on FrameError</li>
+                        </ul>
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Multiprocessing extension</li>
+                            <li>Manual reload file command</li>
+                            <li>Symlinks and mounted directories support</li>
+                        </ul>
+                    
+                </div>
+                <h4>PyCharm:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Reloadable files highlighting</li>
+                            <li>Manual reload action</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Too many open files issue</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>0.8.5</h3>
             <div style="padding-left: 20px;">
             
@@ -608,6 +647,10 @@
           serviceImplementation="rw.service.Service"
           testServiceImplementation="rw.service.TestService"
           />
+
+        <fileDocumentManagerListener implementation="rw.action.ReloadOnSave"/>
+        <fileIconPatcher implementation="rw.icons.IconPatcher" order="last"/>
+        <projectViewNodeDecorator implementation="rw.icons.IconDecorator"/>
     </extensions>
 
     <actions>
@@ -646,6 +689,14 @@
                 description="Run script with hot reloading enabled"
                 icon="rw.icons.Icons.Run">
             <add-to-group group-id="RunContextGroup" anchor="first"/>
+        </action>
+
+        <action id="ManualReload"
+                class="rw.action.ManualReload"
+                text="Reload File"
+                description="Reload File"
+                icon="rw.icons.Icons.Update">
+            <add-to-group group-id="RunContextGroup" anchor="last"/>
         </action>
 
         <action id="RerunDebugWithReloadium" class="rw.action.RerunDebugWithReloadium">

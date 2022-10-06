@@ -42,11 +42,11 @@ Details
 .. image:: https://img.shields.io/jetbrains/plugin/r/stars/18509-reloadium
     :target: https://plugins.jetbrains.com/plugin/18509-reloadium
 
+
+
+
 | Reloadium adds hot reloading and profiling features to any Python application
 
-Sponsors
-#######
-Thanks `www.you.com <https://www.you.com/?utm_source=opensource&utm_medium=GitHub&utm_campaign=reloadium>`_ for the M1 Mini donation
 
 Installing
 ##########
@@ -155,3 +155,8 @@ Pandas
 .. figure:: media/pandas.gif
     :width: 700
     :alt: Pandas
+
+
+Sponsors
+########
+Thanks `www.you.com <https://www.you.com/?utm_source=opensource&utm_medium=GitHub&utm_campaign=reloadium>`_ for the M1 Mini donation

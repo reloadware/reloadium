@@ -1,7 +1,7 @@
 package rw.profile;
 
 import org.jetbrains.annotations.Nullable;
-import rw.session.LineProfile;
+import rw.session.events.LineProfile;
 
 import java.awt.*;
 import java.io.File;

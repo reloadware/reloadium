@@ -51,4 +51,5 @@ public class HowToUseBody {
     public JPanel getMainPanel() {
         return this.main;
     }
+
 }
