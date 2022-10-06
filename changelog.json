@@ -1,4 +1,66 @@
 {
+  "0.9.3": [
+    {
+      "type": "Fixed",
+      "description": "Encoding issues",
+      "tag": "Miscellaneous",
+      "date": "2022-10-03"
+    },
+    {
+      "type": "Fixed",
+      "description": "Import threading issues",
+      "tag": "Miscellaneous",
+      "date": "2022-10-03"
+    },
+    {
+      "type": "Added",
+      "description": "Multiprocessing extension",
+      "tag": "Miscellaneous",
+      "date": "2022-10-03"
+    },
+    {
+      "type": "Added",
+      "description": "Manual reload file command",
+      "tag": "Miscellaneous",
+      "date": "2022-10-03"
+    },
+    {
+      "type": "Added",
+      "description": "Symlinks and mounted directories support",
+      "tag": "Miscellaneous",
+      "date": "2022-10-03"
+    },
+    {
+      "type": "Added",
+      "description": "Reloadable files highlighting",
+      "tag": "PyCharm",
+      "date": "2022-10-03"
+    },
+    {
+      "type": "Added",
+      "description": "Manual reload action",
+      "tag": "PyCharm",
+      "date": "2022-10-03"
+    },
+    {
+      "type": "Fixed",
+      "description": "Multiprocessing issues",
+      "tag": "Miscellaneous",
+      "date": "2022-10-03"
+    },
+    {
+      "type": "Fixed",
+      "description": "Double popup issue on FrameError",
+      "tag": "Miscellaneous",
+      "date": "2022-10-03"
+    },
+    {
+      "type": "Fixed",
+      "description": "Too many open files issue",
+      "tag": "PyCharm",
+      "date": "2022-10-03"
+    }
+  ],
   "0.9.2": [
     {
       "type": "Added",

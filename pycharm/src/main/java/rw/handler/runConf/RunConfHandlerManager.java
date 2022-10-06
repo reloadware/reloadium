@@ -21,9 +21,7 @@ import rw.pkg.WebPackageManager;
 import rw.service.Service;
 import rw.util.OsType;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class RunConfHandlerManager {
@@ -36,10 +34,13 @@ public class RunConfHandlerManager {
     public static RunConfHandlerManager singleton = null;
 
     Map<ExecutionEnvironment, BaseRunConfHandler> all;
+    @Nullable
+    BaseRunConfHandler last;
 
     @VisibleForTesting
     public RunConfHandlerManager() {
         this.all = new HashMap<>();
+        this.last = null;
     }
 
     public static RunConfHandlerManager get() {
@@ -52,11 +53,23 @@ public class RunConfHandlerManager {
 
     public void register(ExecutionEnvironment executionEnvironment, BaseRunConfHandler baseRunConfHandler) {
         this.all.put(executionEnvironment, baseRunConfHandler);
+        this.last = baseRunConfHandler;
     }
 
     @Nullable
     public BaseRunConfHandler getRunConfHandler(long executionId) {
         return this.all.get(executionId);
+    }
+
+    public List<BaseRunConfHandler> getAllActiveHandlers(Project project) {
+        List<BaseRunConfHandler> ret = new ArrayList<>();
+
+        this.all.forEach((key, value) -> {
+            if(value.getProject() == project && value.getSession().isAlive()) {
+                ret.add(value);
+            }
+        });
+        return ret;
     }
 
     public BaseRunConfHandler getCurrentHandler(Project project) {
@@ -74,6 +87,11 @@ public class RunConfHandlerManager {
 
         BaseRunConfHandler handler = this.all.get(environment);
         return handler;
+    }
+
+    @Nullable
+    public BaseRunConfHandler getLastHandler() {
+        return this.last;
     }
 
     public void deactivateAll() {

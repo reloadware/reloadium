@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.reloadware'
-version '0.8.5' //  # RwRender: version '{{ ctx.version }}' //
+version '0.8.6' //  # RwRender: version '{{ ctx.version }}' //
 
 repositories {
     mavenCentral()
@@ -28,7 +28,7 @@ repositories {
     }
 }
 
-def remoteRobotVersion = "0.11.7"
+def remoteRobotVersion = "0.11.16"
 
 dependencies {
     implementation('io.sentry:sentry:5.6.1') {
@@ -83,21 +83,18 @@ sourceSets {
 }
 
 intellij {
-    version = intellijVersion
-    type = intellijType
+    if (intellijPro.toBoolean()) {
+        version = 'PY-2021.3.2'
+        type = 'PY'
+        plugins = ["python"]
+    } else {
+        version = intellijVersion
+        type = intellijType
+        plugins = [intellijPlugin]
+    }
     downloadSources = intellijDownloadSources as Boolean
-    plugins = [intellijPlugin]
     updateSinceUntilBuild = false
 }
-
-// Pro
-//intellij {
-//    version = 'PY-2021.3.2'
-//    type = 'PY'
-//    downloadSources = true
-//    plugins = ["python"]
-//    updateSinceUntilBuild = false
-//}
 
 test {
     useJUnitPlatform()
@@ -126,11 +123,14 @@ runPluginVerifier {
     ideVersions = ["IU-211.7628.21", "IU-212.5712.43 ", "IU-213.7172.25", "IU-221.5080.93", "IU-203.8084.24"]
 }
 
-tasks.processResources{
+tasks.processResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 runIde {
     jvmArgs '-Xmx8G'
+    intellij {
+        autoReloadPlugins = true
+    }
     maxHeapSize = "8g"
 }

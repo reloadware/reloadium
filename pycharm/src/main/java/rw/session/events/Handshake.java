@@ -1,12 +1,6 @@
-package rw.session;
+package rw.session.events;
 
-import com.google.gson.annotations.SerializedName;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
-import rw.handler.runConf.BaseRunConfHandler;
-import rw.handler.runConf.PythonRunConfHandler;
-
-import java.util.UUID;
 
 
 public class Handshake extends Event {

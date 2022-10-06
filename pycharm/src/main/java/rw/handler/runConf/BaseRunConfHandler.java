@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.action.RunType;
+import rw.icons.IconPatcher;
 import rw.profile.FrameProgressRenderer;
 import rw.profile.LineProfiler;
 import rw.stack.Stack;
@@ -23,6 +24,11 @@ import rw.highlights.ErrorHighlightManager;
 import rw.profile.ProfilePreviewRenderer;
 import rw.service.Service;
 import rw.session.Session;
+
+import java.io.File;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class BaseRunConfHandler implements Disposable {
     AbstractPythonRunConfiguration<?> runConf;
@@ -37,6 +43,7 @@ public abstract class BaseRunConfHandler implements Disposable {
     ProfilePreviewRenderer profilePreviewRenderer;
     Project project;
     MessageBusConnection messageBusConnection;
+    Set<File> watchedFiles;
 
     public BaseRunConfHandler(RunConfiguration runConf) {
         this.runConf = (AbstractPythonRunConfiguration<?>) runConf;
@@ -49,6 +56,8 @@ public abstract class BaseRunConfHandler implements Disposable {
         this.session = new Session(this.project, this);
         this.errorHighlightManager = new ErrorHighlightManager(this.project);
         this.profilePreviewRenderer = new ProfilePreviewRenderer(this.project, this.stack, this.lineProfiler);
+
+        this.watchedFiles = new HashSet<>();
 
         this.handleJbEvents();
     }
@@ -122,12 +131,22 @@ public abstract class BaseRunConfHandler implements Disposable {
         this.errorHighlightManager.activate();
         this.profilePreviewRenderer.activate();
         this.frameProgressRenderer.activate();
+        IconPatcher.refresh(this.getProject());
     }
 
     public void deactivate() {
         this.errorHighlightManager.deactivate();
         this.profilePreviewRenderer.deactivate();
         this.frameProgressRenderer.deactivate();
+    }
+
+    public void addWatched(Set<File> files) {
+        this.watchedFiles.addAll(files);
+    }
+
+    public boolean isWatched(File file) {
+        boolean ret = this.watchedFiles.contains(file);
+        return ret;
     }
 
     @Override
@@ -138,7 +157,6 @@ public abstract class BaseRunConfHandler implements Disposable {
     public ProfilePreviewRenderer getProfilePreviewRenderer() {
         return profilePreviewRenderer;
     }
-
 
     // Test methods ################
     @VisibleForTesting

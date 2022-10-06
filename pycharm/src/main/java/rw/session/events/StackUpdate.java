@@ -1,6 +1,5 @@
-package rw.session;
+package rw.session.events;
 
-import com.google.gson.annotations.SerializedName;
 import com.intellij.openapi.diagnostic.Logger;
 
 import java.util.List;

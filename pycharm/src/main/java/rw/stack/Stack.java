@@ -2,9 +2,8 @@ package rw.stack;
 
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nullable;
-import rw.session.FrameData;
-import rw.session.LineProfile;
-import rw.session.StackUpdate;
+import rw.session.events.FrameData;
+import rw.session.events.StackUpdate;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -1,24 +1,16 @@
 package rw.profile;
 
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.editor.colors.EditorColors;
-import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.project.Project;
 import rw.highlights.Blink;
 import rw.highlights.Blinker;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
-import rw.session.LineProfile;
-import rw.session.StackUpdate;
-import rw.stack.Stack;
+import rw.session.events.LineProfile;
 import rw.highlights.Highlighter;
 
 import java.awt.*;
-import java.io.File;
 import java.util.*;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 
 public class FrameProgressRenderer {

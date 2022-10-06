@@ -1,4 +1,4 @@
-package rw.session;
+package rw.session.events;
 
 import com.intellij.openapi.diagnostic.Logger;
 import rw.highlights.Blink;

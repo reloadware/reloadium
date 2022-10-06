@@ -1,4 +1,4 @@
-package rw.session;
+package rw.session.events;
 
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.VisibleForTesting;

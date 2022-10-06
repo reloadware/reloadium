@@ -1,8 +1,6 @@
-package rw.session;
+package rw.session.events;
 
 import com.intellij.openapi.diagnostic.Logger;
-import rw.dialogs.DialogFactory;
-import rw.stack.Frame;
 
 public class ClearErrors extends FileEvent {
     private static final Logger LOGGER = Logger.getInstance(ClearErrors.class);

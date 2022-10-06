@@ -1,13 +1,8 @@
 package rw.profile;
 
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.colors.EditorColors;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.project.Project;
-import rw.preferences.Preferences;
-import rw.preferences.PreferencesState;
-import rw.session.LineProfile;
-import rw.session.StackUpdate;
 import rw.stack.Stack;
 import rw.highlights.Highlighter;
 
