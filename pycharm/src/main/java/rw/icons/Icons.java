@@ -13,7 +13,8 @@ public interface Icons {
     Icon Debug = IconLoader.getIcon("/icons/debugWithReloadium.svg", Icons.class);
     Icon RestartDebugger = IconLoader.getIcon("/icons/restartDebuggerWithReloadium.svg", Icons.class);
     Icon Update = IconLoader.getIcon("/icons/updateReloadium.svg", Icons.class);
-    Icon Reloadable = IconLoader.getIcon("/icons/reloadable.svg", Icons.class);
+    Icon ReloadableFile = IconLoader.getIcon("/icons/reloadableFile.svg", Icons.class);
+    Icon ReloadableDir = IconLoader.getIcon("/icons/reloadableDir.svg", Icons.class);
     Icon ProductIcon = IconLoader.getIcon("/icons/reloadiumIcon.svg", Icons.class);
     Icon Settings = IconLoader.getIcon("/icons/settings.svg", Icons.class);
     Icon About = IconLoader.getIcon("/icons/about.svg", Icons.class);

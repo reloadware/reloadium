@@ -16,13 +16,6 @@ public class ReloadOnSave implements FileDocumentManagerListener {
 
     @Override
     public void beforeDocumentSaving(@NotNull Document document) {
-        VirtualFile virtualFile = FileDocumentManager.getInstance().getFile(document);
-        Project project = ProjectUtil.guessProjectForFile(virtualFile);
-
-        if (project == null) {
-            return;
-        }
-
-        ManualReload.handleSave(project, new Document[]{document});
+        ManualReload.handleSave(null, new Document[]{document});
     }
 }

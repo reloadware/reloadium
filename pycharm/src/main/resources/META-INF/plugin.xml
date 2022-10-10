@@ -696,6 +696,7 @@
                 text="Reload File"
                 description="Reload File"
                 icon="rw.icons.Icons.Update">
+            <add-to-group group-id="ToolbarRunGroup" anchor="first"/>
             <add-to-group group-id="RunContextGroup" anchor="last"/>
         </action>
 

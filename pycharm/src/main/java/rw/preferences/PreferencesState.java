@@ -15,11 +15,13 @@ public class PreferencesState {
     public String timingColorMap;
     public boolean sentry;
     public boolean telemetry;
+    public boolean markReloadable;
 
     public PreferencesState() {
         this.blinkDuration = 1000;
         this.telemetry = true;
         this.sentry = true;
+        this.markReloadable = true;
         this.timingColorMap = ColorMaps.get().viridis.getName();
     }
 
@@ -33,6 +35,7 @@ public class PreferencesState {
         ret = this.blinkDuration == that.blinkDuration;
         ret &= this.timingColorMap.equals(that.timingColorMap);
         ret &= this.sentry == that.sentry;
+        ret &= this.markReloadable == that.markReloadable;
         ret &= this.telemetry == that.telemetry;
         return ret;
     }

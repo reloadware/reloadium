@@ -61,17 +61,29 @@ public class RunConfHandlerManager {
         return this.all.get(executionId);
     }
 
-    public List<BaseRunConfHandler> getAllActiveHandlers(Project project) {
+    public List<BaseRunConfHandler> getForProject(Project project) {
         List<BaseRunConfHandler> ret = new ArrayList<>();
 
         this.all.forEach((key, value) -> {
-            if(value.getProject() == project && value.getSession().isAlive()) {
+            if(value.getProject() == project) {
                 ret.add(value);
             }
         });
         return ret;
     }
 
+    public List<BaseRunConfHandler> getAllActiveHandlers(@Nullable Project project) {
+        List<BaseRunConfHandler> ret = new ArrayList<>();
+
+        this.all.forEach((key, value) -> {
+            if((project == null || value.getProject() == project) && value.isActive()) {
+                ret.add(value);
+            }
+        });
+        return ret;
+    }
+
+    @Nullable
     public BaseRunConfHandler getCurrentHandler(Project project) {
         XDebugSessionImpl debugSession = ((XDebugSessionImpl) XDebuggerManager.getInstance(project).getCurrentSession());
 
