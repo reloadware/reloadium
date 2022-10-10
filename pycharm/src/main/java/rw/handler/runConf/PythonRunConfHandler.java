@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import rw.action.RunType;
 import rw.audit.RwSentry;
 import rw.consts.Const;
+import rw.icons.IconPatcher;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
 import rw.settings.ProjectState;
@@ -52,8 +53,9 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
     @Override
     public void beforeRun(RunType runType) {
         PreferencesState preferences = Preferences.getInstance().getState();
-
         String command;
+
+        this.runType = runType;
 
         if (runType == RunType.DEBUG) {
             command = "pydev_proxy";
@@ -143,6 +145,7 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
     public void onProcessExit() {
         super.onProcessExit();
         this.session.close();
+        IconPatcher.refresh(this.project);
     }
 
     @Override

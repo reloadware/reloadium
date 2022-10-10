@@ -11,6 +11,7 @@ public class PreferencesForm {
     private JComboBox<ImageIcon> timingColormap;
     private JCheckBox telemetry;
     private JCheckBox sentry;
+    private JCheckBox markReloadable;
 
     private void createUIComponents() {
         this.blinkDuration = new JSpinner(new SpinnerNumberModel(0, 0, 2000, 10));
@@ -29,6 +30,7 @@ public class PreferencesForm {
         state.timingColorMap = ColorMaps.get().getColorMapByImage((ImageIcon) this.timingColormap.getModel().getSelectedItem()).getName();
         state.telemetry = this.telemetry.isSelected();
         state.sentry = this.sentry.isSelected();
+        state.markReloadable = this.markReloadable.isSelected();
         return state;
     }
 
@@ -37,5 +39,6 @@ public class PreferencesForm {
         this.timingColormap.getModel().setSelectedItem(ColorMaps.get().getColorMapByName(state.timingColorMap).getImage());
         this.telemetry.setSelected(state.telemetry);
         this.sentry.setSelected(state.sentry);
+        this.markReloadable.setSelected(state.markReloadable);
     }
 }

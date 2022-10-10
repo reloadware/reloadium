@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+
 <svg
    width="16"
    height="16"
    viewBox="0 0 16 16"
-   fill="none"
    version="1.1"
    id="svg4"
-   sodipodi:docname="reloadable.svg"
+   sodipodi:docname="reloadableDir.svg"
    inkscape:version="1.1.2 (1:1.1+202202050950+0a00cf5339)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -23,21 +24,21 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      showgrid="false"
-     inkscape:zoom="64"
-     inkscape:cx="4.046875"
-     inkscape:cy="7.1328125"
-     inkscape:window-width="1995"
-     inkscape:window-height="1942"
-     inkscape:window-x="1841"
-     inkscape:window-y="216"
+     inkscape:zoom="54.5625"
+     inkscape:cx="8"
+     inkscape:cy="8"
+     inkscape:window-width="2224"
+     inkscape:window-height="1852"
+     inkscape:window-x="1612"
+     inkscape:window-y="306"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg4" />
-  <rect
-     style="fill:#ff7200;fill-opacity:1;fill-rule:evenodd;stroke:#ff7200;stroke-width:2.9278;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
-     id="rect1177"
-     width="3.852246"
-     height="3.8230371"
-     x="-5.3020382"
-     y="-5.3064151"
-     transform="scale(-1)" />
+  <path
+     fill="#9aa7b0"
+     fill-opacity="0.8"
+     fill-rule="evenodd"
+     d="M 1,4.0547624 7.9920514,4.0498461 6.69633,2.71149 C 6.2216196,2.2855944 5.6157012,2.0345799 4.97888,2 H 1.05128 C 1.0229588,2 1,2.0229588 1,2.05128 Z"
+     id="path2"
+     sodipodi:nodetypes="ccccssc"
+     style="fill:#ff7200;fill-opacity:1.0" />
 </svg>

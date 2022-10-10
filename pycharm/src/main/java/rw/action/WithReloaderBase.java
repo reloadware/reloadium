@@ -139,8 +139,8 @@ public abstract class WithReloaderBase extends AnAction {
 
         TimerTask task = new TimerTask() {
             public void run() {
-                if (handler.isReloadiumActivated())
-                    handler.afterRun();
+            if (handler.isReloadiumActivated())
+                handler.afterRun();
             }
         };
 

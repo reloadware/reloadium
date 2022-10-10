@@ -1,21 +1,15 @@
 package rw.action;
 
-import com.intellij.execution.RunnerAndConfigurationSettings;
-import com.intellij.execution.actions.ConfigurationContext;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.diagnostic.SubmittedReportInfo;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.util.TimeoutUtil;
 import com.jetbrains.python.psi.impl.PyFileImpl;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import rw.handler.runConf.BaseRunConfHandler;
 import rw.handler.runConf.RunConfHandlerManager;
 import rw.session.cmds.ReloadFile;
@@ -28,14 +22,16 @@ public class ManualReload extends AnAction implements UpdateInBackground {
 
     public void update(@NotNull AnActionEvent e) {
         List<BaseRunConfHandler> handlers = RunConfHandlerManager.get().getAllActiveHandlers(e.getProject());
-        boolean isEnabled = !handlers.isEmpty();
+        @Nullable Object data = e.getDataContext().getData("psi.File");
+
+        boolean isEnabled = !handlers.isEmpty() && data != null;
 
         Presentation presentation = e.getPresentation();
         presentation.setVisible(true);
         presentation.setEnabled(isEnabled);
     }
 
-    public static void handleSave(@NotNull Project project, @NotNull Document[] documents) {
+    public static void handleSave(@Nullable Project project, @NotNull Document[] documents) {
         ApplicationManager.getApplication().invokeLater(() -> {
             List<BaseRunConfHandler> handlers = RunConfHandlerManager.get().getAllActiveHandlers(project);
             if (handlers.isEmpty()) {
@@ -58,7 +54,19 @@ public class ManualReload extends AnAction implements UpdateInBackground {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        VirtualFile file = ((PyFileImpl)e.getDataContext().getData("psi.File")).getVirtualFile();
+        PyFileImpl data;
+        try {
+            data = (PyFileImpl) e.getDataContext().getData("psi.File");
+        }
+        catch (ClassCastException ignored) {
+            return;
+        }
+
+        if (data == null) {
+            return;
+        }
+
+        VirtualFile file = data.getVirtualFile();
 
         FileDocumentManager fileDocumentManager = FileDocumentManager.getInstance();
 
