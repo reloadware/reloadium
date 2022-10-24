@@ -16,7 +16,6 @@ import rw.audit.RwSentry;
 import rw.consts.Const;
 import rw.handler.runConf.BaseRunConfHandler;
 import rw.pkg.BuiltinPackageManager;
-import rw.pkg.WebPackageManager;
 import rw.util.OsType;
 
 import java.util.HashMap;
@@ -29,15 +28,12 @@ public class Service implements Disposable {
     private static final Logger LOGGER = Logger.getInstance(Service.class);
     @VisibleForTesting
     public BuiltinPackageManager builtinPackageManager;
-    @VisibleForTesting
-    public WebPackageManager webPackageManager;
 
     public static Service singleton = null;
 
     @VisibleForTesting
     public Service() {
         LOGGER.info("Starting service");
-        this.webPackageManager = new WebPackageManager();
         this.builtinPackageManager = new BuiltinPackageManager();
         this.validateOsType();
         this.init();
@@ -46,9 +42,6 @@ public class Service implements Disposable {
     public void init() {
         LOGGER.info("Initializing service");
         this.builtinPackageManager.run(null);
-
-        JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkForUpdate, 1,
-                Const.get().checkForUpdateInterval, TimeUnit.HOURS);
 
         JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkIfStillGood, 2,
                 10, TimeUnit.MINUTES);
@@ -62,12 +55,8 @@ public class Service implements Disposable {
         return singleton;
     }
 
-    public WebPackageManager getPackageManager(){
-        return this.webPackageManager;
-    }
-
     public boolean canRun(RunnerAndConfigurationSettings settings) {
-        return this.webPackageManager.getCurrentVersion() != null;
+        return this.builtinPackageManager.getCurrentVersion() != null;
     }
 
     private void validateOsType() {
@@ -75,12 +64,6 @@ public class Service implements Disposable {
             String osName = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
             RwSentry.get().captureError(String.format("Unsupported os type %s", osName));
         }
-    }
-
-    public void checkForUpdate() {
-        LOGGER.info("Checking for update");
-
-        this.webPackageManager.run(null);
     }
 
     public void checkIfStillGood() {

@@ -23,7 +23,7 @@ public class FirstRunDialogFixture extends CommonContainerFixture {
     public JButtonFixture okButton() {
         return this.find(
             JButtonFixture.class,
-            byXpath("//div[@text.key='button.ok']")
+            byXpath("//div[@text='OK']")
         );
     }
 }

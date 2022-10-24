@@ -1,6 +1,7 @@
 package rw.handler.runConf;
 
 import com.intellij.execution.configurations.RunConfiguration;
+import com.intellij.execution.process.BaseProcessHandler;
 import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.remote.*;
 import com.jetbrains.python.remote.PyRemoteSdkAdditionalDataBase;
@@ -19,7 +20,7 @@ public class RemoteRunConfHandler extends PythonRunConfHandler {
 
     public void onProcessStarted(RunContentDescriptor descriptor) {
         try {
-            RemoteSshProcess process = (RemoteSshProcess) ((BaseRemoteProcessHandler) descriptor.getProcessHandler()).getProcess();
+            RemoteSshProcess process = (RemoteSshProcess)((BaseProcessHandler) descriptor.getProcessHandler()).getProcess();
             PyRemoteSdkAdditionalDataBase additionalData = ((PyRemoteSdkAdditionalDataBase) this.runConf.getSdk().getSdkAdditionalData());
             RemoteSdkCredentials credentials = additionalData.getRemoteSdkCredentials(this.runConf.getProject(), true);
 

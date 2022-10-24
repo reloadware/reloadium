@@ -16,7 +16,7 @@ public final class Const {
     public final String pypiUsername = "user";  //  # RwRender: public final String pypiUsername = "{{ ctx.pypi_username }}";  //
     public final String pypiPassword = "password";  //  # RwRender: public final String pypiPassword = "{{ ctx.pypi_password }}";  //
     public String pypiUrl = "http://pypi.reloadware.local";  //  # RwRender: public String pypiUrl = "{{ ctx.pypi_address }}";  //
-    public final String version = "0.8.6";  //  # RwRender: public final String version = "{{ ctx.version }}";  //
+    public final String version = "0.8.8";  //  # RwRender: public final String version = "{{ ctx.version }}";  //
     public final int checkForUpdateInterval = 3;  //  # RwRender: public final int checkForUpdateInterval = {{ ctx.check_for_update_interval }};  //
     public final String sentryDsn = "http://cd9eecceaa4849d6947b3446ac038c2d@sentry.reloadware.local/5";  //  # RwRender: public final String sentryDsn = "{{ ctx.sentry_dsn }}";  //
     public Stage stage = Stage.LOCAL;  //  # RwRender: public Stage stage = Stage.{{ ctx.stage.upper() }};  //

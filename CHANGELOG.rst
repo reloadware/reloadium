@@ -2,6 +2,28 @@ Change Log
 ##########
 
 
+0.9.4
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Fix adding from import items issue
+    * Fix windows multiprocessing bugs
+    
+**PyCharm**:
+    
+  Added:
+    * Easier downgrading
+    
+  Removed:
+    * Package autoupdater
+    
+  Fixed:
+    * Confusing RELOADIUMPATH message when no files are watched
+    * Remote interpreter issues for new PyCharm versions
+    * View pane null pointer exception
+    
 0.9.3
 -------
 

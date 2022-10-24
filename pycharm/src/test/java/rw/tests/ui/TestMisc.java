@@ -50,6 +50,8 @@ public class TestMisc extends PackageTestBase {
 
         root.runWithReloadium().click();
 
+        MiscUtils.sleep(2.0f);
+
         root.firstRunDialog().okButton().click();
 
         ContainerFixture console = root.console();

@@ -5,6 +5,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.jetbrains.python.psi.impl.PyFileImpl;
@@ -17,7 +18,7 @@ import rw.session.cmds.ReloadFile;
 import java.util.List;
 
 
-public class ManualReload extends AnAction implements UpdateInBackground {
+public class ManualReload extends AnAction implements DumbAware {
     private static final Logger LOGGER = Logger.getInstance(ContextPopupAction.class);
 
     public void update(@NotNull AnActionEvent e) {

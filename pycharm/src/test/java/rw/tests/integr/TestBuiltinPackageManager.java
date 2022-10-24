@@ -54,11 +54,18 @@ public class TestBuiltinPackageManager extends BaseMockedTestCase {
     @Test
     public void testShouldInstallCurentVersionNewer() throws Exception {
         PackageFixture packageFixture = new PackageFixture("1000.0.0");
-        assertThat(this.builtinPackageManager.shouldInstall()).isFalse();
+        assertThat(this.builtinPackageManager.shouldInstall()).isTrue();
     }
 
     @Test
     public void testInstalling() throws Exception {
+        this.builtinPackageManager.install(null);
+        MiscUtils.assertInstalled(this.builtinVersion);
+    }
+
+    @Test
+    public void testDowngrading() throws Exception {
+        PackageFixture packageFixture = new PackageFixture("1000.0.0");
         this.builtinPackageManager.install(null);
         MiscUtils.assertInstalled(this.builtinVersion);
     }

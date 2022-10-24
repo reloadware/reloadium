@@ -1,4 +1,48 @@
 {
+  "0.9.4": [
+    {
+      "type": "Fixed",
+      "description": "Fix adding from import items issue",
+      "tag": "Miscellaneous",
+      "date": "2022-10-23"
+    },
+    {
+      "type": "Fixed",
+      "description": "Fix windows multiprocessing bugs",
+      "tag": "Miscellaneous",
+      "date": "2022-10-23"
+    },
+    {
+      "type": "Added",
+      "description": "Easier downgrading",
+      "tag": "PyCharm",
+      "date": "2022-10-23"
+    },
+    {
+      "type": "Removed",
+      "description": "Package autoupdater",
+      "tag": "PyCharm",
+      "date": "2022-10-23"
+    },
+    {
+      "type": "Fixed",
+      "description": "Confusing RELOADIUMPATH message when no files are watched",
+      "tag": "PyCharm",
+      "date": "2022-10-23"
+    },
+    {
+      "type": "Fixed",
+      "description": "Remote interpreter issues for new PyCharm versions",
+      "tag": "PyCharm",
+      "date": "2022-10-23"
+    },
+    {
+      "type": "Fixed",
+      "description": "View pane null pointer exception",
+      "tag": "PyCharm",
+      "date": "2022-10-23"
+    }
+  ],
   "0.9.3": [
     {
       "type": "Fixed",

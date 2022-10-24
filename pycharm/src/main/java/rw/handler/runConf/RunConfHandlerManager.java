@@ -17,7 +17,6 @@ import org.jetbrains.annotations.VisibleForTesting;
 import rw.audit.RwSentry;
 import rw.consts.Const;
 import rw.pkg.BuiltinPackageManager;
-import rw.pkg.WebPackageManager;
 import rw.service.Service;
 import rw.util.OsType;
 
@@ -29,7 +28,6 @@ public class RunConfHandlerManager {
     @VisibleForTesting
     public BuiltinPackageManager builtinPackageManager;
     @VisibleForTesting
-    public WebPackageManager webPackageManager;
 
     public static RunConfHandlerManager singleton = null;
 

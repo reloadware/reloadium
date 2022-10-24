@@ -47,11 +47,11 @@ public class IconPatcher implements FileIconPatcher, DumbAware {
     }
 
     static public void refresh(Project project) {
-        PreferencesState preferences = Preferences.getInstance().getState();
-
         ProjectView projectView = ProjectView.getInstance(project);
         AbstractProjectViewPane viewPane = projectView.getCurrentProjectViewPane();
-        viewPane.updateFromRoot(true);
+        if (viewPane != null) {
+            viewPane.updateFromRoot(true);
+        }
 
         FileEditorManagerEx.getInstanceEx(project).refreshIcons();
 

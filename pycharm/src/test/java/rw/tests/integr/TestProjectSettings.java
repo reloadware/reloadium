@@ -198,6 +198,19 @@ public class TestProjectSettings extends BaseMockedTestCase {
     }
 
     @Test
+    public void testEmptyWorkingDir() throws Exception {
+        PythonRunConfiguration runConf = this.cakeshop.getRunConf();
+        runConf.setWorkingDirectory("");
+
+        AnActionEvent event = new TestActionEvent();
+        this.action.update(event);
+        this.action.actionPerformed(event);
+
+        String env = runConf.getEnvs().get(PythonRunConfHandler.RELOADIUMPATH_ENV);
+        assertThat(env).isEqualTo(this.getProject().getBasePath());
+    }
+
+    @Test
     public void testRelodiumPath() throws Exception {
         String pathSep = System.getProperty("path.separator");
 

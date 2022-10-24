@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.reloadware'
-version '0.8.6' //  # RwRender: version '{{ ctx.version }}' //
+version '0.8.8' //  # RwRender: version '{{ ctx.version }}' //
 
 repositories {
     mavenCentral()
@@ -29,6 +29,9 @@ repositories {
 }
 
 def remoteRobotVersion = "0.11.16"
+def intellijVersion = "2022.2.3" //  # RwRender: def intellijVersion = "{{ ctx.intellij_version }}" //
+def intellijPro = false  //  # RwRender: def intellijPro = {{ ctx.pro }}  //
+
 
 dependencies {
     implementation('io.sentry:sentry:5.6.1') {
@@ -83,16 +86,16 @@ sourceSets {
 }
 
 intellij {
-    if (intellijPro.toBoolean()) {
-        version = 'PY-2021.3.2'
+    if (intellijPro) {
+        version = 'PY-' + intellijVersion
         type = 'PY'
         plugins = ["python"]
     } else {
         version = intellijVersion
-        type = intellijType
-        plugins = [intellijPlugin]
+        type = "PC"
+        plugins = ["PythonCore"]
     }
-    downloadSources = intellijDownloadSources as Boolean
+    downloadSources = true
     updateSinceUntilBuild = false
 }
 
