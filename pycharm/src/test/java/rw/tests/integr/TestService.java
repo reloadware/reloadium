@@ -27,14 +27,6 @@ public class TestService extends BaseMockedTestCase {
     }
 
     @Test
-    public void testUpdatingPeriodically() throws Exception {
-        this.service.init();
-        MiscUtils.assertInstalled(this.builtinVersion);
-        this.service.checkForUpdate();
-        MiscUtils.assertInstalled(this.webVersion);
-    }
-
-    @Test
     public void testInstallingOnMissing() throws Exception {
         this.service.init();
         PackageFixture packageFixture = new PackageFixture(this.webVersion.toString());

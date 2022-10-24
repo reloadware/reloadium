@@ -9,6 +9,7 @@ import com.intellij.remoterobot.fixtures.ComponentFixture;
 import com.intellij.remoterobot.fixtures.DefaultXpath;
 import com.intellij.remoterobot.fixtures.FixtureName;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.remoterobot.fixtures.*;
 
 import static com.intellij.remoterobot.search.locators.Locators.byXpath;
 import static com.intellij.remoterobot.utils.UtilsKt.hasAnyComponent;
@@ -21,21 +22,10 @@ public class WelcomeFrameFixture extends CommonContainerFixture {
         super(remoteRobot, remoteComponent);
     }
 
-    public ComponentFixture createNewProjectLink() {
-        return welcomeFrameLink("New Project");
-    }
-
-    public ComponentFixture openProjectLink() {
-        return welcomeFrameLink("Open");
-    }
-
-    private ComponentFixture welcomeFrameLink(String text) {
-        if (hasAnyComponent(this, byXpath("//div[@class='NewRecentProjectPanel']"))) {
-            return find(ComponentFixture.class, byXpath("//div[@class='JBOptionButton' and @text='" + text + "']"));
-        }
-        return find(
-                ComponentFixture.class,
-                byXpath("//div[@class='NonOpaquePanel'][./div[@text='" + text + "']]//div[@class='JButton']")
+    public JButtonFixture createNewProjectButton() {
+        return this.find(
+            JButtonFixture.class,
+            byXpath("//div[@defaulticon='createNewProjectTab.svg']")
         );
     }
 }

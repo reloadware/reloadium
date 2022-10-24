@@ -50,7 +50,7 @@ public class AboutDialog extends DialogWrapper {
         box.add(Box.createVerticalStrut(10));
 
         String pluginInfo = String.format("Plugin version: %s", Const.get().version);
-        String packageInfo = String.format("Package version: %s", service.webPackageManager.getCurrentVersion());
+        String packageInfo = String.format("Package version: %s", service.builtinPackageManager.getCurrentVersion());
 
         box.add(label(pluginInfo, getDefaultTextFont()));
         box.add(label(packageInfo, getDefaultTextFont()));

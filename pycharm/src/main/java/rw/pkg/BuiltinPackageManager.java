@@ -61,7 +61,7 @@ public final class BuiltinPackageManager extends BasePackageManager {
         ComparableVersion builtinVersion = new ComparableVersion(this.getBuiltinVersion());
         ComparableVersion currentVersion = new ComparableVersion(this.getCurrentVersion());
 
-        boolean ret = builtinVersion.compareTo(currentVersion) > 0;
+        boolean ret = builtinVersion.compareTo(currentVersion) != 0;
         return ret;
     }
 

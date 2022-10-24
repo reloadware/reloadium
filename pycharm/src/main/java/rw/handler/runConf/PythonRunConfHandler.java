@@ -103,7 +103,12 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
             }
         }
 
+        if (reloadiumPath.isEmpty() && this.runConf.getWorkingDirectory().isEmpty()) {
+            reloadiumPath.add(this.project.getBasePath());
+        }
+
         List<String> reloadiumPathRemote = this.getRemotePaths(reloadiumPath);
+
         this.runConf.getEnvs().put(this.RELOADIUMPATH_ENV, String.join(pathSep, reloadiumPathRemote));
 
         List<String> reloadiumIgnore = new ArrayList<>(state.reloadiumIgnore);
