@@ -21,6 +21,9 @@
         <img src="media/profiling.gif" width="750px" alt="Profiling">
     </p>
 
+**Examples above are run in debug mode with added breakpoint.**
+
+
 
 
 

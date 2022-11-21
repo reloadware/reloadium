@@ -2,6 +2,27 @@ Change Log
 ##########
 
 
+0.9.0
+-------
+
+**PyCharm**:
+    
+  Added:
+    * Quick config
+    * Memory line profiler
+    
+  Fixed:
+    * Detecting rosetta
+    * System PYTHONPATH not persisting issue
+    
+**Miscellaneous**:
+    
+  Fixed:
+    * Future imports and docstring issue
+    * Missing docstrings
+    * Non ascii paths issues
+    * Remote interpreter issues in 2022.2.3
+    
 0.8.8
 -------
 

@@ -4,19 +4,24 @@ import rw.consts.Const;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class PackageFixture {
     public File currentVersionFile;
-    public File packageDir;
-    public File packageDistInfoDir;
+    public Map<String, File> pythonVersionToPackageDirs;
 
     public PackageFixture(String version) throws Exception {
         this.currentVersionFile = new File(String.valueOf(Const.get().getPackagesRootDir()), "version.txt");
 
+        this.pythonVersionToPackageDirs = new HashMap<>();
+
         for (String v : Const.singleton.supportedVersions) {
-            this.packageDir = new File(Const.get().getPackagePythonVersionDir(v).toString(), Const.get().packageName);
-            this.packageDistInfoDir = new File(Const.get().getPackagePythonVersionDir(v).toString(),
+            File packageDir = new File(Const.get().getPackagePythonVersionDir(v).toString(), Const.get().packageName);
+            this.pythonVersionToPackageDirs.put(v, packageDir);
+
+            File packageDistInfoDir = new File(Const.get().getPackagePythonVersionDir(v).toString(),
                     String.format("%s-%s.dist-info", Const.get().packageName, version));
 
             packageDir.mkdirs();

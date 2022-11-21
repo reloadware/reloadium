@@ -2,25 +2,15 @@ package rw.service;
 
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.execution.RunnerAndConfigurationSettings;
-import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
-import com.intellij.xdebugger.XDebuggerManager;
-import com.intellij.xdebugger.impl.XDebugSessionImpl;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
-import org.kohsuke.rngom.parse.host.Base;
 import rw.audit.RwSentry;
-import rw.consts.Const;
-import rw.handler.runConf.BaseRunConfHandler;
 import rw.pkg.BuiltinPackageManager;
 import rw.util.OsType;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -30,6 +20,7 @@ public class Service implements Disposable {
     public BuiltinPackageManager builtinPackageManager;
 
     public static Service singleton = null;
+    private static int runCounter = 0;
 
     @VisibleForTesting
     public Service() {
@@ -51,7 +42,6 @@ public class Service implements Disposable {
         if (singleton == null) {
             singleton = ApplicationManager.getApplication().getService(Service.class);
         }
-
         return singleton;
     }
 
@@ -76,6 +66,13 @@ public class Service implements Disposable {
 
     @Override
     public void dispose() {
+    }
 
+    public void onRun() {
+        runCounter += 1;
+    }
+
+    public int getRunCounter() {
+        return runCounter;
     }
 }

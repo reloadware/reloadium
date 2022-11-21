@@ -1,5 +1,6 @@
 package rw.handler.runConf;
 
+import com.google.gson.Gson;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.application.ApplicationInfo;
@@ -15,6 +16,8 @@ import rw.consts.Const;
 import rw.icons.IconPatcher;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
+import rw.quickconfig.QuickConfigStateFactory;
+import rw.session.cmds.QuickConfigCmd;
 import rw.settings.ProjectState;
 import rw.settings.ProjectSettings;
 import rw.util.EnvUtils;
@@ -43,6 +46,7 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
     public static final String RELOADIUMPATH_ENV = "RELOADIUMPATH";  //  # RwRender: public static final String RELOADIUMPATH_ENV = "{{ ctx.env_vars.misc.reloadiumpath }}";  //
     public static final String RELOADIUMIGNORE_ENV = "RELOADIUMIGNORE";  //  # RwRender: public static final String RELOADIUMIGNORE_ENV = "{{ ctx.env_vars.misc.reloadiumignore }}";  //
     public static final String TIME_PROFILE_ENV = "RW_TIMEPROFILE";  //  # RwRender: public static final String TIME_PROFILE_ENV = "{{ ctx.env_vars.misc.time_profile }}";  //
+    public static final String QUICK_CONFIG_ENV = "RW_QUICKCONFIG";  //  # RwRender: public static final String QUICK_CONFIG_ENV = "{{ ctx.env_vars.misc.quick_config }}";  //
 
     public PythonRunConfHandler(RunConfiguration runConf) {
         super(runConf);
@@ -52,6 +56,8 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
 
     @Override
     public void beforeRun(RunType runType) {
+        super.beforeRun(runType);
+
         PreferencesState preferences = Preferences.getInstance().getState();
         String command;
 
@@ -88,6 +94,10 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
         this.runConf.getEnvs().put(this.TELEMETRY_ENV, EnvUtils.boolToEnv(preferences.telemetry));
         this.runConf.getEnvs().put(this.SENTRY_ENV, EnvUtils.boolToEnv(preferences.sentry));
 
+        Gson gson = new Gson();
+        String quickConfigPayload = gson.toJson(QuickConfigStateFactory.create());
+        this.runConf.getEnvs().put(this.QUICK_CONFIG_ENV, quickConfigPayload);
+
         List<String> reloadiumPath = new ArrayList<>(state.reloadiumPath);
         if (state.watchSourceRoots) {
             @Nullable Module module = this.runConf.getModule();
@@ -118,6 +128,17 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
         // Set PYTHONPATH
         String pythonpath = this.runConf.getEnvs().getOrDefault("PYTHONPATH", "");
 
+        if(!pythonpath.isBlank()) {
+            pythonpath = String.format("%s%s%s", pythonpath, pathSep, System.getenv("PYTHONPATH"));
+        }
+        else {
+            pythonpath = System.getenv("PYTHONPATH");
+
+            if (pythonpath == null) {
+                pythonpath = "";
+            }
+        }
+
         assert this.sdkHandler != null;
         String packagePath = this.sdkHandler.getPackageDir().toString();
 
@@ -140,10 +161,6 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
             }
         }
         return ret;
-    }
-
-    public void onProcessStarted(RunContentDescriptor descriptor) {
-
     }
 
     @Override

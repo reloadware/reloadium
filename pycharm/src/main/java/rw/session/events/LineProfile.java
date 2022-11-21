@@ -1,6 +1,8 @@
 package rw.session.events;
 
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.util.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.Map;
 
@@ -11,7 +13,8 @@ public class LineProfile extends FileEvent {
     public static final String VERSION = "0.1.0";
 
     private Boolean stop;
-    private Map<Integer, Long> timing;
+    private Map<Integer, Long> values;
+    private Map<Integer, String> display;
     private Integer line;
 
     @Override
@@ -27,8 +30,12 @@ public class LineProfile extends FileEvent {
         return this.stop;
     }
 
-    public Map<Integer, Long> getTiming() {
-        return this.timing;
+    public Map<Integer, Long> getValues() {
+        return this.values;
+    }
+
+    public Map<Integer, String> getDisplay() {
+        return this.display;
     }
 
     public Integer getLine() {

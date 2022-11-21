@@ -3,13 +3,13 @@ package rw.handler.runConf;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.process.BaseProcessHandler;
 import com.intellij.execution.ui.RunContentDescriptor;
-import com.intellij.remote.*;
-import com.jetbrains.python.remote.PyRemoteSdkAdditionalDataBase;
 import org.jetbrains.annotations.NotNull;
 import rw.action.RunType;
 import rw.audit.RwSentry;
 import rw.config.Config;
 import rw.config.ConfigManager;
+
+import java.lang.reflect.Method;
 
 
 public class RemoteRunConfHandler extends PythonRunConfHandler {
@@ -20,11 +20,17 @@ public class RemoteRunConfHandler extends PythonRunConfHandler {
 
     public void onProcessStarted(RunContentDescriptor descriptor) {
         try {
-            RemoteSshProcess process = (RemoteSshProcess)((BaseProcessHandler) descriptor.getProcessHandler()).getProcess();
-            PyRemoteSdkAdditionalDataBase additionalData = ((PyRemoteSdkAdditionalDataBase) this.runConf.getSdk().getSdkAdditionalData());
-            RemoteSdkCredentials credentials = additionalData.getRemoteSdkCredentials(this.runConf.getProject(), true);
+            BaseProcessHandler processHandler = ((BaseProcessHandler) descriptor.getProcessHandler());
+            Object process = processHandler.getProcess();
+            Method addRemoteTunnel = process.getClass().getMethod("addRemoteTunnel", int.class, String.class, int.class);
+            Method getSession = process.getClass().getMethod("getSession");
 
-            process.addRemoteTunnel(this.session.getPort(), credentials.getHost(), this.session.getPort());
+            Object session  = getSession.invoke(process);
+            Method getHost = session.getClass().getMethod("getHost");
+
+            String host = (String) getHost.invoke(session);
+
+            addRemoteTunnel.invoke(process, this.session.getPort(), host, this.session.getPort());
         } catch (Exception e) {
             RwSentry.get().captureException(e);
         }

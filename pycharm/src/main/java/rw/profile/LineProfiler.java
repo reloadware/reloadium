@@ -10,65 +10,56 @@ import java.util.Map;
 
 
 public class LineProfiler {
-    Map<File, FileTiming> fileTimings;
+    Map<File, FileValues> fileTimings;
 
     public LineProfiler() {
         this.fileTimings = new HashMap<>();
     }
 
     public void onLineProfileEvent(LineProfile event) {
-        this.fileTimings.putIfAbsent(event.getLocalPath(), new FileTiming());
+        this.fileTimings.putIfAbsent(event.getLocalPath(), new FileValues());
 
-        FileTiming fileTiming = this.fileTimings.get(event.getLocalPath());
-        fileTiming.update(event.getTiming());
+        FileValues fileValues = this.fileTimings.get(event.getLocalPath());
+        fileValues.update(event.getValues(), event.getDisplay());
     }
 
-    public Map<File, FileTiming> getFileTimings() {
+    public Map<File, FileValues> getFileTimings() {
         return fileTimings;
     }
 
     @Nullable
     public Color getLineColor(File path, int line) {
-        FileTiming fileTiming = this.fileTimings.get(path);
-        if (fileTiming == null) {
+        FileValues fileValues = this.fileTimings.get(path);
+        if (fileValues == null) {
             return null;
         }
 
-        return fileTiming.getLineColor(line);
+        return fileValues.getLineColor(line);
     }
 
     @Nullable
-    public Float getLineTimeMs(File path, int line) {
-        FileTiming fileTiming = this.fileTimings.get(path);
-        if (fileTiming == null) {
+    public String getLine(File path, int line) {
+        FileValues fileValues = this.fileTimings.get(path);
+        if (fileValues == null) {
             return null;
         }
 
-        return fileTiming.getLineTimeMs(line);
-    }
-
-    @Nullable public Long getLineTimeNs(File path, int line) {
-        FileTiming fileTiming = this.fileTimings.get(path);
-        if (fileTiming == null) {
-            return null;
-        }
-
-        return fileTiming.getLineTimeNs(line);
+        return fileValues.getLine(line);
     }
 
     public void clearFile(File path) {
-        FileTiming fileTiming = this.fileTimings.get(path);
-        if (fileTiming == null) {
+        FileValues fileValues = this.fileTimings.get(path);
+        if (fileValues == null) {
             return;
         }
-        fileTiming.clear();
+        fileValues.clear();
     }
 
     public void clearLines(File path, int start, int end) {
-        FileTiming fileTiming = this.fileTimings.get(path);
-        if (fileTiming == null) {
+        FileValues fileValues = this.fileTimings.get(path);
+        if (fileValues == null) {
             return;
         }
-        fileTiming.clearLines(start, end);
+        fileValues.clearLines(start, end);
     }
 }

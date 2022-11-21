@@ -16,7 +16,7 @@ public class HowToUseBody {
 
     private JLabel title;
     private JPanel main;
-    private JLabel description;
+    private JEditorPane description;
     private JEditorPane termsAndConditions;
 
     HowToUseBody(Icon image, String description, String title, boolean showTerms) {
@@ -25,12 +25,14 @@ public class HowToUseBody {
         this.descriptionValue = description;
 
         this.description.setText("<html>" + description + "</html>");
+        this.description.addHyperlinkListener(BrowserHyperlinkListener.INSTANCE);
+        this.description.setBackground(ColorUtil.hackBrightness(
+                    JBUI.CurrentTheme.CustomFrameDecorations.paneBackground(), 1, 1 / 1.05f));
 
         String url = String.format("<a href=\"%s\">terms and conditions and privacy policy</a>", Const.get().legalUrl);
         String terms = "<div>By using this software you accept " + url + "</div>";
 
         if (showTerms) {
-
             this.termsAndConditions.setText(terms);
             this.termsAndConditions.addHyperlinkListener(BrowserHyperlinkListener.INSTANCE);
             this.termsAndConditions.setBackground(ColorUtil.hackBrightness(
@@ -51,5 +53,4 @@ public class HowToUseBody {
     public JPanel getMainPanel() {
         return this.main;
     }
-
 }

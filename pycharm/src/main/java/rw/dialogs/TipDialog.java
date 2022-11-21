@@ -109,14 +109,8 @@ public abstract class TipDialog extends DialogWrapper {
     JComponent createCenterPanel() {
         HowToUseBody body = new HowToUseBody(this.image, this.description, this.title, this.showTerms);
 
-        JComponent doNotAskCheckbox = this.createDoNotAskCheckbox();
-
         BorderLayoutPanel ret = JBUI.Panels.simplePanel();
         ret.addToCenter(body.getMainPanel());
-
-        if (doNotAskCheckbox != null) {
-            ret.addToBottom(doNotAskCheckbox);
-        }
 
         return ret;
     }

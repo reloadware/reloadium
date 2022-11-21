@@ -1,6 +1,7 @@
 package rw.preferences;
 
 import com.intellij.openapi.ui.ComboBox;
+import rw.quickconfig.ProfilerType;
 import rw.util.colormap.ColorMaps;
 
 import javax.swing.*;
@@ -12,12 +13,16 @@ public class PreferencesForm {
     private JCheckBox telemetry;
     private JCheckBox sentry;
     private JCheckBox markReloadable;
+    private JComboBox<ProfilerType> defaultProfiler;
 
     private void createUIComponents() {
         this.blinkDuration = new JSpinner(new SpinnerNumberModel(0, 0, 2000, 10));
         this.timingColormap = new ComboBox<>();
-
         this.timingColormap.setModel(new DefaultComboBoxModel(ColorMaps.get().getAllImages().toArray()));
+
+        this.defaultProfiler = new ComboBox<>();
+        this.defaultProfiler.setModel(new DefaultComboBoxModel(ProfilerType.getAll()));
+        this.defaultProfiler.setSelectedItem(ProfilerType.DEFAULT);
     }
 
     public JPanel getMainPanel() {
@@ -31,6 +36,7 @@ public class PreferencesForm {
         state.telemetry = this.telemetry.isSelected();
         state.sentry = this.sentry.isSelected();
         state.markReloadable = this.markReloadable.isSelected();
+        state.defaultProfiler = (ProfilerType) this.defaultProfiler.getModel().getSelectedItem();
         return state;
     }
 
@@ -40,5 +46,6 @@ public class PreferencesForm {
         this.telemetry.setSelected(state.telemetry);
         this.sentry.setSelected(state.sentry);
         this.markReloadable.setSelected(state.markReloadable);
+        this.defaultProfiler.getModel().setSelectedItem(state.defaultProfiler);
     }
 }
