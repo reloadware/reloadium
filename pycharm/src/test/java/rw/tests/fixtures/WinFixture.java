@@ -1,6 +1,6 @@
 package rw.tests.fixtures;
 
-import rw.pkg.Architecture;
+import rw.util.Architecture;
 import rw.util.OsType;
 
 

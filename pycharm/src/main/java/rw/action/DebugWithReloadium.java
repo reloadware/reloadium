@@ -12,6 +12,7 @@ import rw.dialogs.FirstDebugDialog;
 import rw.dialogs.FirstRunDialog;
 import rw.dialogs.TipDialog;
 import rw.icons.Icons;
+import rw.service.Service;
 
 
 public class DebugWithReloadium extends WithReloaderBase implements DumbAware {
@@ -28,6 +29,10 @@ public class DebugWithReloadium extends WithReloaderBase implements DumbAware {
     public void actionPerformed(@NotNull AnActionEvent e) {
         Project project = getEventProject(e);
         boolean result = DialogFactory.get().showFirstDebugDialog(project);
+
+        Service.get().onRun();
+
+        DialogFactory.get().showSurveyDialog(project);
 
         if (!result) {
             return;

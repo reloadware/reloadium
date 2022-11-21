@@ -1,4 +1,48 @@
 {
+  "0.9.5": [
+    {
+      "type": "Added",
+      "description": "Quick config",
+      "tag": "PyCharm",
+      "date": "2022-11-21"
+    },
+    {
+      "type": "Added",
+      "description": "Memory line profiler",
+      "tag": "PyCharm",
+      "date": "2022-11-21"
+    },
+    {
+      "type": "Fixed",
+      "description": "Future imports and docstring issue",
+      "tag": "Miscellaneous",
+      "date": "2022-11-21"
+    },
+    {
+      "type": "Fixed",
+      "description": "Missing docstrings",
+      "tag": "Miscellaneous",
+      "date": "2022-11-21"
+    },
+    {
+      "type": "Fixed",
+      "description": "Non ascii paths issues",
+      "tag": "Miscellaneous",
+      "date": "2022-11-21"
+    },
+    {
+      "type": "Fixed",
+      "description": "Detecting rosetta",
+      "tag": "PyCharm",
+      "date": "2022-11-21"
+    },
+    {
+      "type": "Fixed",
+      "description": "System PYTHONPATH not persisting issue",
+      "tag": "PyCharm",
+      "date": "2022-11-21"
+    }
+  ],
   "0.9.4": [
     {
       "type": "Fixed",

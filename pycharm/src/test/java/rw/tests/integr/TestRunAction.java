@@ -4,33 +4,37 @@ import com.intellij.execution.RunManager;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.testFramework.TestActionEvent;
 import com.jetbrains.python.run.PythonRunConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import rw.action.RunWithReloadium;
-import rw.pkg.Architecture;
 import rw.tests.BaseMockedTestCase;
-import rw.tests.fixtures.*;
+import rw.tests.fixtures.CakeshopFixture;
+import rw.tests.fixtures.PackageFixture;
+import rw.tests.fixtures.SdkFixture;
+import org.junitpioneer.jupiter.ClearEnvironmentVariable;
+import org.junitpioneer.jupiter.SetEnvironmentVariable;
+
+import java.io.File;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-
-import com.intellij.testFramework.TestActionEvent;
 
 
 public class TestRunAction extends BaseMockedTestCase {
     CakeshopFixture cakeshop;
     AnAction action;
     SdkFixture oldSdkFixture;
+    PackageFixture packageFixture;
 
     @BeforeEach
     protected void setUp() throws Exception {
         super.setUp();
 
-        PackageFixture packageFixture = new PackageFixture("0.7.12");
+        this.packageFixture = new PackageFixture("0.7.12");
         this.cakeshop = new CakeshopFixture(this.getProject());
         this.cakeshop.start();
 
@@ -129,8 +133,37 @@ public class TestRunAction extends BaseMockedTestCase {
         assertThat(runConf.getScriptName()).isEqualTo("main.py");
         assertThat(runConf.isModuleMode()).isFalse();
 
+        File packageRootDir = packageFixture.pythonVersionToPackageDirs.get(this.cakeshop.PYTHON_VERSION).getParentFile();
+
         String pythonpath = runConf.getEnvs().get("PYTHONPATH");
-        assertThat(pythonpath.endsWith("3.9")).isTrue();
+        assertThat(pythonpath.equals(packageRootDir.toString())).isTrue();
+
+        assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium run");
+        verify(this.dialogFactoryFixture.dialogFactory, times(1)).showFirstRunDialog(this.getProject());
+    }
+
+    @Test
+    @SetEnvironmentVariable(key = "PYTHONPATH", value = "MyPath")
+    public void testSysPythonpathPersisted() {
+        AnActionEvent event = new TestActionEvent();
+        this.action.update(event);
+        assertThat(event.getPresentation().isVisible()).isTrue();
+        assertThat(event.getPresentation().isEnabled()).isTrue();
+        this.action.actionPerformed(event);
+
+        String pathSep = System.getProperty("path.separator");
+
+        PythonRunConfiguration runConf = this.cakeshop.getRunConf();
+
+        assertThat(runConf.getScriptName()).isEqualTo("main.py");
+        assertThat(runConf.isModuleMode()).isFalse();
+
+        String pythonpath = runConf.getEnvs().get("PYTHONPATH");
+
+        File packageRootDir = packageFixture.pythonVersionToPackageDirs.get(this.cakeshop.PYTHON_VERSION).getParentFile();
+
+        String expected = String.format("%s%sMyPath", packageRootDir, pathSep);
+        assertThat(pythonpath.equals(expected)).isTrue();
 
         assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium run");
         verify(this.dialogFactoryFixture.dialogFactory, times(1)).showFirstRunDialog(this.getProject());

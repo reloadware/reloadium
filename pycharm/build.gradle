@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.reloadware'
-version '0.8.8' //  # RwRender: version '{{ ctx.version }}' //
+version '0.9.0' //  # RwRender: version '{{ ctx.version }}' //
 
 repositories {
     mavenCentral()
@@ -29,37 +29,38 @@ repositories {
 }
 
 def remoteRobotVersion = "0.11.16"
-def intellijVersion = "2022.2.3" //  # RwRender: def intellijVersion = "{{ ctx.intellij_version }}" //
+def intellijVersion = "2022.2.4" //  # RwRender: def intellijVersion = "{{ ctx.intellij_version }}" //
 def intellijPro = false  //  # RwRender: def intellijPro = {{ ctx.pro }}  //
 
 
 dependencies {
-    implementation('io.sentry:sentry:5.6.1') {
+    implementation('io.sentry:sentry:6.7.0') {
         exclude group: 'org.slf4j'
     }
 
     implementation(
-            'net.lingala.zip4j:zip4j:2.9.1',
+            'net.lingala.zip4j:zip4j:2.11.2',
             'commons-io:commons-io:2.11.0',
     )
 
     testImplementation(
             'com.intellij.remoterobot:remote-robot:' + remoteRobotVersion,
             'com.intellij.remoterobot:remote-fixtures:' + remoteRobotVersion,
-            'com.squareup.okhttp3:logging-interceptor:4.9.3',
+            'com.squareup.okhttp3:logging-interceptor:4.10.0',
             "com.redhat.devtools.intellij:intellij-common:1.1.0",
-            'org.junit.jupiter:junit-jupiter-api:5.7.0',
-            'com.redhat.devtools.intellij:intellij-common-ui-test-library:0.0.4',
+            'org.junit.jupiter:junit-jupiter-api:5.9.0',
+            'com.redhat.devtools.intellij:intellij-common-ui-test-library:0.2.0',
             'com.automation-remarks:video-recorder-junit5:2.0',
-            "org.mock-server:mockserver-netty:5.12.0",
-            "org.mock-server:mockserver-client-java:5.12.0:shaded",
-            'org.assertj:assertj-core:3.22.0',
+            'org.mock-server:mockserver-netty:5.14.0',
+            'org.mock-server:mockserver-client-java:5.14.0:shaded',
+            'org.assertj:assertj-core:3.23.1',
             'org.powermock:powermock-core:2.0.9',
-            'org.mockito:mockito-inline:3.12.4',
-            'org.mockito:mockito-junit-jupiter:3.12.4'
+            'org.mockito:mockito-inline:4.8.0',
+            'org.mockito:mockito-junit-jupiter:4.8.0',
+            'org.junit-pioneer:junit-pioneer:1.9.0'
     )
     testRuntimeOnly(
-            'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+            'org.junit.jupiter:junit-jupiter-engine:5.9.0'
     )
 }
 
@@ -123,7 +124,7 @@ publishPlugin {
 }
 
 runPluginVerifier {
-    ideVersions = ["IU-211.7628.21", "IU-212.5712.43 ", "IU-213.7172.25", "IU-221.5080.93", "IU-203.8084.24"]
+    ideVersions = ["IU-213.7172.25", "IU-221.5080.93", "IU-222.4345.14", "IU-223.7571.4"]
 }
 
 tasks.processResources {

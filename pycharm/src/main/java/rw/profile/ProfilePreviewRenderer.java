@@ -39,11 +39,11 @@ public class ProfilePreviewRenderer {
 
         Color emptyColor = EditorColorsManager.getInstance().getGlobalScheme().getColor(EditorColors.GUTTER_BACKGROUND);
 
-        for (Map.Entry<File, FileTiming> pathToFileTiming : this.lineProfiler.getFileTimings().entrySet()) {
+        for (Map.Entry<File, FileValues> pathToFileTiming : this.lineProfiler.getFileTimings().entrySet()) {
             File path = pathToFileTiming.getKey();
-            FileTiming fileTiming = pathToFileTiming.getValue();
+            FileValues fileValues = pathToFileTiming.getValue();
 
-            for (Map.Entry<Integer, Color> lineToColorE : fileTiming.getColors().entrySet()) {
+            for (Map.Entry<Integer, Color> lineToColorE : fileValues.getColors().entrySet()) {
                 Integer line = lineToColorE.getKey();
                 Color color = lineToColorE.getValue();
 
@@ -52,7 +52,7 @@ public class ProfilePreviewRenderer {
             }
 
             // Fill empty spaces
-            Set<Integer> lines = fileTiming.getColors().keySet();
+            Set<Integer> lines = fileValues.getColors().keySet();
             if (lines.isEmpty()) {
                 continue;
             }

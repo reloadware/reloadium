@@ -1,8 +1,6 @@
 package rw.tests.utils;
 
 import rw.consts.Const;
-import rw.pkg.Architecture;
-import rw.util.OsType;
 
 import java.io.BufferedReader;
 import java.io.File;

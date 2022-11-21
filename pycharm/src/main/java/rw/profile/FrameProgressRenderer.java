@@ -36,7 +36,7 @@ public class FrameProgressRenderer {
             highlighter.hide();
         }
 
-        int start = Collections.min(event.getTiming().keySet());
+        int start = Collections.min(event.getValues().keySet());
 
         if (!event.isStop()) {
             this.highlighter = new Highlighter(project,

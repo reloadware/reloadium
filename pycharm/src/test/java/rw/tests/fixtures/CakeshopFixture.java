@@ -42,6 +42,7 @@ public class CakeshopFixture {
     protected Path root;
     protected SdkFixture sdkFixture;
     protected Project project;
+    public String PYTHON_VERSION = "3.9";
 
     public CakeshopFixture(Project project) throws Exception {
         this.project = project;
@@ -50,7 +51,7 @@ public class CakeshopFixture {
     public void start() throws Exception {
         // Create source
         this.root = Path.of(Files.createTempDirectory("cakeshop").toFile().getAbsolutePath());
-        this.sdkFixture = new SdkFixture(this.root.toFile(), "3.9");
+        this.sdkFixture = new SdkFixture(this.root.toFile(), this.PYTHON_VERSION);
 
         this.source = Path.of(root.toString(), "main.py" ).toFile();
         String body = Files.readString(Path.of(this.getClass().getClassLoader().getResource("cakeshop.py").getFile()));

@@ -35,7 +35,7 @@ public final class ProfileResultToggle extends ToggleAction implements DumbAware
     public void update(@NotNull AnActionEvent e) {
         super.update(e);
         Presentation presentation = e.getPresentation();
-        presentation.setText("Timing Details");
+        presentation.setText("Profiling Details");
     }
 
     @Override

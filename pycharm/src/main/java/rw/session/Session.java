@@ -9,6 +9,7 @@ import org.jetbrains.annotations.VisibleForTesting;
 import rw.audit.RwSentry;
 import rw.handler.runConf.BaseRunConfHandler;
 import rw.session.cmds.Cmd;
+import rw.session.cmds.QuickConfigCmd;
 import rw.session.events.Action;
 import rw.session.events.*;
 
@@ -55,9 +56,9 @@ class Client extends Thread {
 
     public void run() {
         try {
-
             this.out = new PrintWriter(this.socket.getOutputStream(), true);
             this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+
             String inputLine;
             try {
                 while ((inputLine = this.in.readLine()) != null) {
@@ -202,6 +203,10 @@ public class Session extends Thread {
         for (Client c : this.clients) {
             c.send(cmd);
         }
+    }
+
+    public BaseRunConfHandler getHandler() {
+        return handler;
     }
 
     public int getPort() {

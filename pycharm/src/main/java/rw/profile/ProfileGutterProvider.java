@@ -47,13 +47,11 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
             return null;
         }
 
-        Float time = lineProfiler.getLineTimeMs(this.path, line);
+        String ret = lineProfiler.getLine(this.path, line);
 
-        if (time == null) {
+        if (ret == null) {
             return empty;
         }
-
-        String ret = String.format("%.3f", time);
         return ret;
     }
 
@@ -82,7 +80,7 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
             return null;
         }
 
-        Color color = lineProfiler.getLineColor(this.path, line+1);
+        Color color = lineProfiler.getLineColor(this.path, line);
 
         if (color == null) {
             return null;
@@ -137,7 +135,6 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
         if (handler == null) {
             return null;
         }
-
 
         return handler.getTimeProfiler();
     }

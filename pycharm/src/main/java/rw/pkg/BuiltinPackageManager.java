@@ -11,6 +11,7 @@ import rw.audit.RwSentry;
 import rw.consts.Const;
 import rw.pkg.wheel.BaseWheel;
 import rw.pkg.wheel.WheelFactory;
+import rw.util.Architecture;
 import rw.util.OsType;
 
 import java.io.File;

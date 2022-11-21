@@ -6,17 +6,23 @@ import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.execution.ui.RunContentManager;
 import com.intellij.execution.ui.RunContentWithExecutorListener;
+import com.intellij.execution.ui.RunnerLayoutUi;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.project.Project;
+import com.intellij.ui.content.Content;
 import com.intellij.util.messages.MessageBusConnection;
+import com.intellij.xdebugger.XDebuggerManager;
+import com.intellij.xdebugger.impl.XDebugSessionImpl;
 import com.jetbrains.python.run.AbstractPythonRunConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.action.RunType;
 import rw.icons.IconPatcher;
+import rw.icons.Icons;
 import rw.profile.FrameProgressRenderer;
 import rw.profile.LineProfiler;
+import rw.quickconfig.QuickConfig;
 import rw.stack.Stack;
 import rw.handler.sdk.SdkHandler;
 import rw.handler.sdk.SdkHandlerFactory;
@@ -27,7 +33,6 @@ import rw.session.Session;
 
 import java.io.File;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public abstract class BaseRunConfHandler implements Disposable {
@@ -47,6 +52,8 @@ public abstract class BaseRunConfHandler implements Disposable {
     boolean active;
     @Nullable
     RunType runType;
+    QuickConfig quickConfig;
+    boolean firstActivate;
 
     public BaseRunConfHandler(RunConfiguration runConf) {
         this.runConf = (AbstractPythonRunConfiguration<?>) runConf;
@@ -62,13 +69,16 @@ public abstract class BaseRunConfHandler implements Disposable {
 
         this.watchedFiles = new HashSet<>();
         this.active = true;
+        this.firstActivate = true;
 
         this.handleJbEvents();
     }
 
-    abstract public void beforeRun(RunType runType);
+    public void beforeRun(RunType runType) {
+    }
 
-    abstract public void onProcessStarted(RunContentDescriptor descriptor);
+    public void onProcessStarted(RunContentDescriptor descriptor) {
+    }
 
     abstract public void afterRun();
 
@@ -154,6 +164,21 @@ public abstract class BaseRunConfHandler implements Disposable {
         this.frameProgressRenderer.activate();
         this.active = true;
         IconPatcher.refresh(this.getProject());
+
+        if (this.firstActivate) {
+            this.onFirstActivate();
+        }
+        this.firstActivate = false;
+    }
+
+    public void onFirstActivate() {
+        XDebugSessionImpl debugSession = ((XDebugSessionImpl) XDebuggerManager.getInstance(project).getCurrentSession());
+        this.quickConfig = new QuickConfig(this);
+        String id = Integer.toString(debugSession.hashCode());
+        RunnerLayoutUi layout = RunnerLayoutUi.Factory.getInstance(this.project).create(id, "re_runner", "re_session",
+                this);
+        Content content = layout.createContent(id, quickConfig.getContent(), "loadium", Icons.ProductIcon, null);
+        debugSession.getUI().addContent(content);
     }
 
     public void deactivate() {
@@ -162,6 +187,10 @@ public abstract class BaseRunConfHandler implements Disposable {
         this.frameProgressRenderer.deactivate();
         this.active = false;
         IconPatcher.refresh(this.getProject());
+    }
+
+    public QuickConfig getQuickConfig() {
+        return this.quickConfig;
     }
 
     public void addWatched(Set<File> files) {

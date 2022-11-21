@@ -13,6 +13,7 @@ public class DialogsState implements PersistentStateComponent<DialogsState> {
     public boolean firstDebug = true;
     public boolean firstUserError = true;
     public boolean firstFrameError = true;
+    public boolean survey = true;
 
     public static DialogsState get() {
         DialogsState singleton = ApplicationManager.getApplication().getService(DialogsState.class);

@@ -1,8 +1,7 @@
 package rw.tests.fixtures;
 
 import org.powermock.reflect.Whitebox;
-import rw.pkg.Architecture;
-import rw.util.OsType;
+import rw.util.Architecture;
 
 
 public class ArchFixture {

@@ -1,6 +1,6 @@
 package rw.pkg.wheel;
 
-import rw.pkg.Architecture;
+import rw.util.Architecture;
 import rw.util.OsType;
 
 public class MacWheel extends BaseWheel {
