@@ -2,6 +2,21 @@ Change Log
 ##########
 
 
+0.9.1
+-------
+
+**Miscellaneous**:
+    
+  Changed:
+    * Incompatible system message
+    
+**PyCharm**:
+    
+  Fixed:
+    * M1 installation compatibility issues
+    * Non ascii paths issues on save
+    * Not cleaning profile information
+    
 0.9.0
 -------
 
