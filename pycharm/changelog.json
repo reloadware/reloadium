@@ -1,4 +1,30 @@
 {
+    "0.9.1": [
+    {
+      "type": "Changed",
+      "description": "Incompatible system message",
+      "tag": "Miscellaneous",
+      "date": "2022-11-29"
+    },
+    {
+      "type": "Fixed",
+      "description": "M1 installation compatibility issues",
+      "tag": "PyCharm",
+      "date": "2022-11-29"
+    },
+    {
+      "type": "Fixed",
+      "description": "Non ascii paths issues on save",
+      "tag": "PyCharm",
+      "date": "2022-11-29"
+    },
+    {
+      "type": "Fixed",
+      "description": "Not cleaning profile information",
+      "tag": "PyCharm",
+      "date": "2022-11-29"
+    }
+  ],
   "0.9.0": [
         {
       "type": "Added",

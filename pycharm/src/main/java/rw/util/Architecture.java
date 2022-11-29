@@ -1,9 +1,5 @@
 package rw.util;
-
-import com.intellij.jna.JnaLoader;
-import com.sun.jna.platform.mac.SystemB;
-import com.sun.jna.ptr.IntByReference;
-import rw.audit.RwSentry;
+import java.io.File;
 
 public enum Architecture {
     X64("x64"),
@@ -19,8 +15,12 @@ public enum Architecture {
 
     static {
         if (OsType.DETECTED == OsType.MacOS) {
+            File rosetta = new File("/usr/libexec/rosetta/");
             String arch = System.getProperty("os.arch");
-            if (isUnderRosetta() || arch.contains("arm")) {
+
+            boolean m1Override = System.getenv("RW_M1") != null;
+
+            if (rosetta.exists() || arch.contains("arm") || m1Override) {
                 DETECTED = ARM64;
             }
             else {
@@ -30,20 +30,5 @@ public enum Architecture {
         else {
             DETECTED = X64;
         }
-    }
-    static private boolean isUnderRosetta() {
-        try {
-            if (JnaLoader.isLoaded()) {
-                IntByReference p = new IntByReference();
-                SystemB.size_t.ByReference size = new SystemB.size_t.ByReference(SystemB.INT_SIZE);
-                if (SystemB.INSTANCE.sysctlbyname("sysctl.proc_translated", p.getPointer(), size, null, SystemB.size_t.ZERO) != -1) {
-                    return p.getValue() == 1;
-                }
-            }
-        }
-        catch (Throwable t) {
-            RwSentry.get().captureException(t);
-        }
-        return false;
     }
 }

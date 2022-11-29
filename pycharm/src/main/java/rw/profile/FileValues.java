@@ -66,11 +66,13 @@ public class FileValues {
     public void clear() {
         this.colors.clear();
         this.values.clear();
+        this.display.clear();
     }
 
     public void clearLines(int start, int end) {
         for(int l: IntStream.rangeClosed(start, end).toArray()) {
             this.values.remove(l);
+            this.display.remove(l);
         }
     }
 }
