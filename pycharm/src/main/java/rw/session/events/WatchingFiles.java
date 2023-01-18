@@ -10,13 +10,16 @@ import java.util.stream.Collectors;
 
 public class WatchingFiles extends FileEvent {
     public static final String ID = "WatchingFiles";
-    public static final String VERSION = "0.1.0";
 
     private Set<String> files;
 
+    public File getLocalPath() {
+        return new File(this.handler.convertPathToLocal(this.path, false));
+    }
+
     @Override
     public void handle() {
-        this.handler.addWatched(this.files.stream().map(e -> new File(this.handler.convertPathToLocal(e))).collect(Collectors.toSet()));
+        this.handler.addWatched(this.files.stream().map(e -> new File(this.handler.convertPathToLocal(e, false))).collect(Collectors.toSet()));
         IconPatcher.refresh(this.handler.getProject());
     }
 }

@@ -1,8 +1,10 @@
 package rw.action;
 
+import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionManager;
 import com.intellij.execution.Executor;
 import com.intellij.execution.RunnerAndConfigurationSettings;
+import com.intellij.execution.executors.DefaultDebugExecutor;
 import com.intellij.execution.impl.ExecutionManagerImpl;
 import com.intellij.execution.impl.RunManagerImpl;
 import com.intellij.execution.process.ProcessAdapter;
@@ -23,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rw.audit.RwSentry;
 import rw.consts.Const;
+import rw.debugger.DebugRunner;
 import rw.handler.runConf.BaseRunConfHandler;
 import rw.handler.runConf.RunConfHandlerFactory;
 import rw.handler.runConf.RunConfHandlerManager;
@@ -125,14 +128,15 @@ public abstract class WithReloaderBase extends AnAction {
         }
     }
 
-    protected ExecutionEnvironment getEnvironment(RunnerAndConfigurationSettings conf) {
-        Executor executor = this.getExecutor();
-        ExecutionEnvironmentBuilder builder = ExecutionEnvironmentBuilder.createOrNull(executor, conf);
-
+    protected ExecutionEnvironment getEnvironment(RunnerAndConfigurationSettings conf) throws ExecutionException {
         BaseRunConfHandler handler = RunConfHandlerFactory.factory(conf.getConfiguration());
+        Executor executor = this.getExecutor();
 
-        if (handler.isReloadiumActivated()) {
-            return builder.build();
+        ExecutionEnvironmentBuilder builder = ExecutionEnvironmentBuilder.create(executor, conf);
+
+        if(executor.getClass().isAssignableFrom(DefaultDebugExecutor.class)) {
+            DebugRunner runner = new DebugRunner(handler);
+            builder = builder.runner(runner);
         }
 
         handler.beforeRun(this.runType);

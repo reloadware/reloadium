@@ -2,6 +2,36 @@ Change Log
 ##########
 
 
+0.9.2
+-------
+
+**Miscellaneous**:
+    
+  Added:
+    * Handle adding and modifying dataclass class variables
+    * Make RW_DEBUG work in prod
+    
+  Fixed:
+    * Flask-sqlalchemy issues
+    
+**PyCharm**:
+    
+  Added:
+    * Error message on missing path mappings
+    * Profiling formatting improvements
+    * Collecting both memory and time information at the same time
+    * Profiling values folding
+    * Profiling color map frame scope
+    * Set as default buttons to quick config page
+    * Profiling cumulate type
+    * Highlighting reloadable frames in the call stack
+    * Add drop frame action (pop, reset frame)
+    * Hot reloading unhandled exceptions without breakpoint
+    
+  Fixed:
+    * Profiling sampling issue (blank values for 100ms lines)
+    * Detecting M1 issues
+    
 0.9.1
 -------
 

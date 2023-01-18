@@ -1,1 +1,1 @@
-version = "0.9.6"  # RwRender: version = "{{ ctx.version }}"
+version = "0.9.7"  # RwRender: version = "{{ ctx.version }}"

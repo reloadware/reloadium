@@ -1,8 +1,8 @@
 <idea-plugin>
     <id>org.reloadium</id>
     <name>Reloadium - Hot Reloading &#38; Profiling for Python</name>
-    <version>0.9.1</version>
-    <idea-version since-build="203"/>
+    <version>0.9.2</version>
+    <idea-version since-build="221"/>
     <vendor email="damian@reloadware.com" url="reloadium.io">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.python</depends>
@@ -22,6 +22,50 @@
 
     <change-notes><![CDATA[
     
+        <h3>0.9.2</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>Miscellaneous:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Handle adding and modifying dataclass class variables</li>
+                            <li>Make RW_DEBUG work in prod</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Flask-sqlalchemy issues</li>
+                        </ul>
+                    
+                </div>
+                <h4>PyCharm:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Error message on missing path mappings</li>
+                            <li>Profiling formatting improvements</li>
+                            <li>Collecting both memory and time information at the same time</li>
+                            <li>Profiling values folding</li>
+                            <li>Profiling color map frame scope</li>
+                            <li>Set as default buttons to quick config page</li>
+                            <li>Profiling cumulate type</li>
+                            <li>Highlighting reloadable frames in the call stack</li>
+                            <li>Add drop frame action (pop, reset frame)</li>
+                            <li>Hot reloading unhandled exceptions without breakpoint</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Profiling sampling issue (blank values for 100ms lines)</li>
+                            <li>Detecting M1 issues</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>0.9.1</h3>
             <div style="padding-left: 20px;">
             
@@ -833,6 +877,15 @@
 
         <action id="Profile" class="rw.profile.ProfileResultToggle" icon="rw.icons.Icons.Timing">
           <add-to-group group-id="EditorGutterVcsPopupMenu" relative-to-action="Annotate" anchor="after"/>
+        </action>
+
+        <action id="DropFrame"
+                class="rw.action.DropFrameAction"
+                text="Reset Frame"
+                icon="rw.icons.Icons.DropFrame">
+            <add-to-group group-id="DebuggingActionsGroup"/>
+            <add-to-group group-id="XDebugger.Frames.Tree.Popup" anchor="first"/>
+            <add-to-group group-id="XDebugger.ToolWindow.TopToolbar3.Extra"/>
         </action>
     </actions>
 

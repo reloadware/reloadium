@@ -1,6 +1,8 @@
 package rw.preferences;
 
 import com.intellij.openapi.ui.ComboBox;
+import rw.quickconfig.CumulateType;
+import rw.quickconfig.ErrorHandlingMode;
 import rw.quickconfig.ProfilerType;
 import rw.util.colormap.ColorMaps;
 
@@ -14,6 +16,8 @@ public class PreferencesForm {
     private JCheckBox sentry;
     private JCheckBox markReloadable;
     private JComboBox<ProfilerType> defaultProfiler;
+    private JComboBox<CumulateType> defaultCumulateType;
+    private JComboBox<ErrorHandlingMode> errorHandlingMode;
 
     private void createUIComponents() {
         this.blinkDuration = new JSpinner(new SpinnerNumberModel(0, 0, 2000, 10));
@@ -23,6 +27,14 @@ public class PreferencesForm {
         this.defaultProfiler = new ComboBox<>();
         this.defaultProfiler.setModel(new DefaultComboBoxModel(ProfilerType.getAll()));
         this.defaultProfiler.setSelectedItem(ProfilerType.DEFAULT);
+
+        this.defaultCumulateType = new ComboBox<>();
+        this.defaultCumulateType.setModel(new DefaultComboBoxModel(CumulateType.getAll()));
+        this.defaultCumulateType.setSelectedItem(CumulateType.DEFAULT);
+
+        this.errorHandlingMode = new ComboBox<>();
+        this.errorHandlingMode.setModel(new DefaultComboBoxModel(ErrorHandlingMode.getAll()));
+        this.errorHandlingMode.setSelectedItem(ErrorHandlingMode.DEFAULT);
     }
 
     public JPanel getMainPanel() {
@@ -37,6 +49,7 @@ public class PreferencesForm {
         state.sentry = this.sentry.isSelected();
         state.markReloadable = this.markReloadable.isSelected();
         state.defaultProfiler = (ProfilerType) this.defaultProfiler.getModel().getSelectedItem();
+        state.defaultCumulateType = (CumulateType) this.defaultCumulateType.getModel().getSelectedItem();
         return state;
     }
 
@@ -47,5 +60,6 @@ public class PreferencesForm {
         this.sentry.setSelected(state.sentry);
         this.markReloadable.setSelected(state.markReloadable);
         this.defaultProfiler.getModel().setSelectedItem(state.defaultProfiler);
+        this.defaultCumulateType.getModel().setSelectedItem(state.defaultCumulateType);
     }
 }

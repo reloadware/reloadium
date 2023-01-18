@@ -16,7 +16,6 @@ public class ProjectState {
     public boolean cache;
     public boolean verbose;
     public boolean debuggerSpeedups;
-    public boolean profile;
 
     public ProjectState() {
         this.reloadiumPath = new ArrayList<String>();
@@ -27,7 +26,6 @@ public class ProjectState {
         this.cache = true;
         this.verbose = true;
         this.debuggerSpeedups = true;
-        this.profile = true;
     }
 
     @Override
@@ -46,7 +44,6 @@ public class ProjectState {
         ret &= this.printLogo == that.printLogo;
         ret &= this.verbose == that.verbose;
         ret &= this.watchSourceRoots == that.watchSourceRoots;
-        ret &= this.profile == that.profile;
         return ret;
     }
 

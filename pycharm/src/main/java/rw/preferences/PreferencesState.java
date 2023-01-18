@@ -1,5 +1,7 @@
 package rw.preferences;
 
+import rw.quickconfig.CumulateType;
+import rw.quickconfig.ErrorHandlingMode;
 import rw.quickconfig.ProfilerType;
 import rw.util.colormap.ColorMaps;
 
@@ -7,6 +9,10 @@ public class PreferencesState {
     public int blinkDuration;
     public String timingColorMap;
     public ProfilerType defaultProfiler;
+    public boolean defaultFrameScope;
+    public CumulateType defaultCumulateType;
+    public ErrorHandlingMode defaultErrorHandlingMode;
+
     public boolean sentry;
     public boolean telemetry;
     public boolean markReloadable;
@@ -17,7 +23,10 @@ public class PreferencesState {
         this.sentry = true;
         this.markReloadable = true;
         this.timingColorMap = ColorMaps.get().viridis.getName();
-        this.defaultProfiler = ProfilerType.TIME;
+        this.defaultProfiler = ProfilerType.DEFAULT;
+        this.defaultFrameScope = true;
+        this.defaultCumulateType = CumulateType.DEFAULT;
+        this.defaultErrorHandlingMode = ErrorHandlingMode.DEFAULT;
     }
 
     @Override
@@ -33,6 +42,9 @@ public class PreferencesState {
         ret &= this.markReloadable == that.markReloadable;
         ret &= this.telemetry == that.telemetry;
         ret &= this.defaultProfiler == that.defaultProfiler;
+        ret &= this.defaultFrameScope == that.defaultFrameScope;
+        ret &= this.defaultCumulateType == that.defaultCumulateType;
+        ret &= this.defaultErrorHandlingMode == that.defaultErrorHandlingMode;
         return ret;
     }
 }

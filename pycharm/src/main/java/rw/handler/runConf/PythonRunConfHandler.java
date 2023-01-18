@@ -17,7 +17,6 @@ import rw.icons.IconPatcher;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
 import rw.quickconfig.QuickConfigStateFactory;
-import rw.session.cmds.QuickConfigCmd;
 import rw.settings.ProjectState;
 import rw.settings.ProjectSettings;
 import rw.util.EnvUtils;
@@ -45,7 +44,6 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
     public static final String WATCHCWD_ENV = "RW_WATCHCWD";  //  # RwRender: public static final String WATCHCWD_ENV = "{{ ctx.env_vars.misc.watch_cwd }}";  //
     public static final String RELOADIUMPATH_ENV = "RELOADIUMPATH";  //  # RwRender: public static final String RELOADIUMPATH_ENV = "{{ ctx.env_vars.misc.reloadiumpath }}";  //
     public static final String RELOADIUMIGNORE_ENV = "RELOADIUMIGNORE";  //  # RwRender: public static final String RELOADIUMIGNORE_ENV = "{{ ctx.env_vars.misc.reloadiumignore }}";  //
-    public static final String TIME_PROFILE_ENV = "RW_TIMEPROFILE";  //  # RwRender: public static final String TIME_PROFILE_ENV = "{{ ctx.env_vars.misc.time_profile }}";  //
     public static final String QUICK_CONFIG_ENV = "RW_QUICKCONFIG";  //  # RwRender: public static final String QUICK_CONFIG_ENV = "{{ ctx.env_vars.misc.quick_config }}";  //
 
     public PythonRunConfHandler(RunConfiguration runConf) {
@@ -89,7 +87,6 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
         this.runConf.getEnvs().put(this.PRINT_LOGO_ENV, EnvUtils.boolToEnv(state.printLogo));
         this.runConf.getEnvs().put(this.WATCHCWD_ENV, EnvUtils.boolToEnv(state.watchCwd));
         this.runConf.getEnvs().put(this.IDE_SERVER_PORT_ENV, String.valueOf(this.session.getPort()));
-        this.runConf.getEnvs().put(this.TIME_PROFILE_ENV, EnvUtils.boolToEnv(state.profile));
         this.runConf.getEnvs().put("PYDEVD_USE_CYTHON", "NO");
         this.runConf.getEnvs().put(this.TELEMETRY_ENV, EnvUtils.boolToEnv(preferences.telemetry));
         this.runConf.getEnvs().put(this.SENTRY_ENV, EnvUtils.boolToEnv(preferences.sentry));
@@ -108,13 +105,13 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
                     if (TempFileSystem.class.isAssignableFrom(f.getFileSystem().getClass())) {
                         continue;
                     }
-                    reloadiumPath.add(f.toNioPath().toString());
+                    reloadiumPath.add(this.convertPathToRemote(f.toNioPath().toString(), false));
                 }
             }
         }
 
-        if (reloadiumPath.isEmpty() && this.runConf.getWorkingDirectory().isEmpty()) {
-            reloadiumPath.add(this.project.getBasePath());
+        if (reloadiumPath.isEmpty() && this.runConf.getWorkingDirectory().isEmpty() && this.project.getBasePath() != null) {
+            reloadiumPath.add(this.convertPathToRemote(this.project.getBasePath(), false));
         }
 
         List<String> reloadiumPathRemote = this.getRemotePaths(reloadiumPath);
@@ -155,7 +152,7 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
 
         for (String p : paths) {
             try {
-                ret.add(this.convertPathToRemote(p));
+                ret.add(this.convertPathToRemote(p, false));
             } catch (Exception e) {
                 RwSentry.get().captureException(e);
             }

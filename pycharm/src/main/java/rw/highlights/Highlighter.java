@@ -154,6 +154,7 @@ public class Highlighter {
         return DebuggerColors.EXECUTION_LINE_HIGHLIGHTERLAYER + this.layer;
     }
 
+    @NotNull
     private TextRange getTextRange(Document document) {
         int correctedLineEnd = this.endLine;
         if (this.endLine == -1) {

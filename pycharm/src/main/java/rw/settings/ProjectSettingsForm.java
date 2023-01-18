@@ -19,7 +19,6 @@ public class ProjectSettingsForm {
     private JCheckBox verboseCB;
     private JCheckBox debuggerSpeedupsCB;
     private JCheckBox watchSourceRootsCB;
-    private JCheckBox profileCB;
     private JComponent reloadiumIgnorePanel;
     private RwPathEditor reloadiumPath;
     private RwPathEditor reloadiumIgnore;
@@ -47,7 +46,6 @@ public class ProjectSettingsForm {
         state.cache = this.cacheEnabledCB.isSelected();
         state.verbose = this.verboseCB.isSelected();
         state.debuggerSpeedups = this.debuggerSpeedupsCB.isSelected();
-        state.profile = this.profileCB.isSelected();
         return state;
     }
 
@@ -61,6 +59,5 @@ public class ProjectSettingsForm {
         this.cacheEnabledCB.setSelected(state.cache);
         this.verboseCB.setSelected(state.verbose);
         this.debuggerSpeedupsCB.setSelected(state.debuggerSpeedups);
-        this.profileCB.setSelected(state.profile);
     }
 }

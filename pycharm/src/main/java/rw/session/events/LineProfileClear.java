@@ -8,7 +8,6 @@ public class LineProfileClear extends FileEvent {
     private static final Logger LOGGER = Logger.getInstance(LineProfileClear.class);
 
     public static final String ID = "LineProfileClear";
-    public static final String VERSION = "0.1.0";
 
     private List<List<Integer>> ranges;
 

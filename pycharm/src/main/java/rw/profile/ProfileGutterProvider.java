@@ -2,8 +2,7 @@ package rw.profile;
 
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.TextAnnotationGutterProvider;
+import com.intellij.openapi.editor.*;
 import com.intellij.openapi.editor.colors.ColorKey;
 import com.intellij.openapi.editor.colors.EditorColors;
 import com.intellij.openapi.editor.colors.EditorFontType;
@@ -19,17 +18,24 @@ import rw.handler.runConf.RunConfHandlerManager;
 import java.awt.*;
 import java.io.File;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ProfileGutterProvider implements TextAnnotationGutterProvider {
     boolean selected;
 
     Editor editor;
     File path;
+    Long maxValue;
+    Long minValue;
 
     ProfileGutterProvider(Editor editor) {
         this.selected = false;
         this.editor = editor;
         this.path = ((EditorImpl) editor).getVirtualFile().toNioPath().toFile();
+
+        this.maxValue = 0L;
+        this.minValue = Long.MAX_VALUE;
     }
 
     @Override
@@ -40,18 +46,31 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
     @Override
     public @Nullable
     String getLineText(int line, Editor editor) {
-        String empty = "       ";
-        LineProfiler lineProfiler = this.getTimeProfiler();
+        LineProfiler lineProfiler = this.getLineProfiler();
 
         if (lineProfiler == null) {
             return null;
         }
 
-        String ret = lineProfiler.getLine(this.path, line);
+        String empty = "       ";
+        Long value = this.getLineValue(line);
 
-        if (ret == null) {
+        if (value == null) {
             return empty;
         }
+
+        String ret = String.format("%10s", lineProfiler.format(value));
+        return ret;
+    }
+
+    @Nullable
+    private Long getLineValue(int line) {
+        LineProfiler lineProfiler = this.getLineProfiler();
+        if (lineProfiler == null) {
+            return null;
+        }
+
+        Long ret = lineProfiler.getValue(this.path, line, this.editor);
         return ret;
     }
 
@@ -75,12 +94,12 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
     @Override
     @Nullable
     public Color getBgColor(int line, Editor editor) {
-        LineProfiler lineProfiler = this.getTimeProfiler();
+        LineProfiler lineProfiler = this.getLineProfiler();
         if (lineProfiler == null) {
             return null;
         }
 
-        Color color = lineProfiler.getLineColor(this.path, line);
+        Color color = lineProfiler.getLineColor(this.path, line, editor);
 
         if (color == null) {
             return null;
@@ -112,7 +131,7 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
     }
 
     @Nullable
-    private LineProfiler getTimeProfiler() {
+    private LineProfiler getLineProfiler() {
         Project project = editor.getProject();
 
         if (project == null) {
@@ -136,6 +155,6 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
             return null;
         }
 
-        return handler.getTimeProfiler();
+        return handler.getActiveProfiler();
     }
 }
