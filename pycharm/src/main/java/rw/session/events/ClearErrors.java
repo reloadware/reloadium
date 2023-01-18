@@ -6,7 +6,6 @@ public class ClearErrors extends FileEvent {
     private static final Logger LOGGER = Logger.getInstance(ClearErrors.class);
 
     public static final String ID = "ClearErrors";
-    public static final String VERSION = "0.1.0";
 
     @Override
     public void handle() {

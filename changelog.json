@@ -1,4 +1,96 @@
 {
+  "0.9.7": [
+    {
+      "type": "Added",
+      "description": "Handle adding and modifying dataclass class variables",
+      "tag": "Miscellaneous",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Added",
+      "description": "Error message on missing path mappings",
+      "tag": "PyCharm",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Added",
+      "description": "Profiling formatting improvements",
+      "tag": "PyCharm",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Fixed",
+      "description": "Profiling sampling issue (blank values for 100ms lines)",
+      "tag": "PyCharm",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Added",
+      "description": "Collecting both memory and time information at the same time",
+      "tag": "PyCharm",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Added",
+      "description": "Profiling values folding",
+      "tag": "PyCharm",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Added",
+      "description": "Profiling color map frame scope",
+      "tag": "PyCharm",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Added",
+      "description": "Set as default buttons to quick config page",
+      "tag": "PyCharm",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Added",
+      "description": "Profiling cumulate type",
+      "tag": "PyCharm",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Fixed",
+      "description": "Flask-sqlalchemy issues",
+      "tag": "Miscellaneous",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Added",
+      "description": "Make RW_DEBUG work in prod",
+      "tag": "Miscellaneous",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Added",
+      "description": "Highlighting reloadable frames in the call stack",
+      "tag": "PyCharm",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Added",
+      "description": "Add drop frame action (pop, reset frame)",
+      "tag": "PyCharm",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Fixed",
+      "description": "Detecting M1 issues",
+      "tag": "PyCharm",
+      "date": "2023-01-17"
+    },
+    {
+      "type": "Added",
+      "description": "Hot reloading unhandled exceptions without breakpoint",
+      "tag": "PyCharm",
+      "date": "2023-01-17"
+    }
+  ],
   "0.9.6": [
     {
       "type": "Changed",

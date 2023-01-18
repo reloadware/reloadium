@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.reloadware'
-version '0.9.1' //  # RwRender: version '{{ ctx.version }}' //
+version '0.9.2' //  # RwRender: version '{{ ctx.version }}' //
 
 repositories {
     mavenCentral()
@@ -124,8 +124,7 @@ publishPlugin {
 }
 
 runPluginVerifier {
-    ideVersions = ["IU-223.7571.4", "IU-222.4345.14", "IU-221.5080.93", "IU-213.7172.25", "IU-212.5712.43",
-                   "IU-211.7628.21", "IU-203.8084.24"]
+    ideVersions = ["IU-223.7571.4", "IU-222.4345.14", "IU-221.5080.93"]
 }
 
 tasks.processResources {

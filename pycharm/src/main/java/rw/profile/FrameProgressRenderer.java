@@ -36,7 +36,7 @@ public class FrameProgressRenderer {
             highlighter.hide();
         }
 
-        int start = Collections.min(event.getValues().keySet());
+        int start = Collections.min(event.getTimeValues().keySet());
 
         if (!event.isStop()) {
             this.highlighter = new Highlighter(project,
@@ -49,8 +49,6 @@ public class FrameProgressRenderer {
         }
 
         LOGGER.info("Rendering frame progress");
-
-        PreferencesState state = Preferences.getInstance().getState();
 
         Blink blink = new Blink(project, event.getLocalPath(), start, event.getLine(), FRAME_PROGRESS_COLOR, -1,
                 this.BLINK_DURATION);

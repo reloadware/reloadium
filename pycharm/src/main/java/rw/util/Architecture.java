@@ -7,7 +7,7 @@ public enum Architecture {
 
     public final String value;
 
-    public static final Architecture DETECTED;
+    public static Architecture DETECTED;
 
     Architecture(String value) {
         this.value = value;
@@ -15,20 +15,32 @@ public enum Architecture {
 
     static {
         if (OsType.DETECTED == OsType.MacOS) {
-            File rosetta = new File("/usr/libexec/rosetta/");
-            String arch = System.getProperty("os.arch");
-
-            boolean m1Override = System.getenv("RW_M1") != null;
-
-            if (rosetta.exists() || arch.contains("arm") || m1Override) {
-                DETECTED = ARM64;
+            try {
+                String brand = getBrandString();
+                if (brand.contains("M1")) {
+                    DETECTED = ARM64;
+                }
+                else {
+                    DETECTED = X64;
+                }
             }
-            else {
-                DETECTED = X64;
+            catch (java.io.IOException exception) {
+                File rosetta = new File("/usr/libexec/rosetta/");
+                String arch = System.getProperty("os.arch");
+                if (rosetta.exists() || arch.contains("arm")) {
+                    DETECTED = ARM64;
+                } else {
+                    DETECTED = X64;
+                }
             }
         }
         else {
             DETECTED = X64;
         }
+    }
+
+    private static String getBrandString() throws java.io.IOException {
+            java.util.Scanner s = new java.util.Scanner(Runtime.getRuntime().exec("sysctl -n machdep.cpu.brand_string").getInputStream()).useDelimiter("\\A");
+            return s.hasNext() ? s.next() : "";
     }
 }

@@ -227,20 +227,4 @@ public class TestProjectSettings extends BaseMockedTestCase {
         String env = runConf.getEnvs().get(PythonRunConfHandler.RELOADIUMPATH_ENV);
         assertThat(env).isEqualTo(String.join(pathSep, stateIn.reloadiumPath));
     }
-
-    @Test
-    public void testProfile() throws Exception {
-        ProjectState stateIn = new ProjectState();
-        stateIn.profile = !stateIn.profile;
-        ProjectSettings.getInstance(this.getProject()).loadState(stateIn);
-
-        AnActionEvent event = new TestActionEvent();
-        this.action.update(event);
-        this.action.actionPerformed(event);
-
-        PythonRunConfiguration runConf = this.cakeshop.getRunConf();
-
-        String env = runConf.getEnvs().get(PythonRunConfHandler.TIME_PROFILE_ENV);
-        assertThat(env).isEqualTo(EnvUtils.boolToEnv(stateIn.profile));
-    }
 }

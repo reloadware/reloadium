@@ -13,7 +13,6 @@ public class ModuleUpdate extends FileEvent {
     private static final Logger LOGGER = Logger.getInstance(ModuleUpdate.class);
 
     public static final String ID = "ModuleUpdate";
-    public static final String VERSION = "0.1.0";
 
     public List<Action> actions;
 
@@ -21,8 +20,6 @@ public class ModuleUpdate extends FileEvent {
     public void handle() {
         LOGGER.info("Handling ModuleUpdate " + String.format("(%s)", this.getLocalPath()));
         PreferencesState state = Preferences.getInstance().getState();
-
-        this.handler.getProfilePreviewRenderer().update();
 
         Color BLINK_COLOR = new Color(255, 114, 0, 60);
 

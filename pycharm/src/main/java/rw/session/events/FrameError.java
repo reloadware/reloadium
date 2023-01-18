@@ -7,7 +7,6 @@ public class FrameError extends FileError {
     private static final Logger LOGGER = Logger.getInstance(FrameError.class);
 
     public static final String ID = "FrameError";
-    public static final String VERSION = "0.1.2";
 
     @Override
     public void handle() {

@@ -1,6 +1,7 @@
 package rw.stack;
 
 import com.intellij.openapi.diagnostic.Logger;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 
@@ -14,10 +15,11 @@ public class Frame {
     final private Integer endLineno;
     final private Integer handlerLineno;
     final private String fullname;
+    @Nullable final private Frame back;
 
     static private Integer counter = 0;
 
-    public Frame(Long id, Long threadId, File path, Integer bodyLineno, Integer endLineno, Integer handlerLineno, String fullname) {
+    public Frame(Long id, Long threadId, File path, Integer bodyLineno, Integer endLineno, Integer handlerLineno, String fullname, @Nullable Frame back) {
         this.id = id;
         this.threadId = threadId;
         this.path = path;
@@ -25,6 +27,7 @@ public class Frame {
         this.endLineno = endLineno;
         this.handlerLineno = handlerLineno;
         this.fullname = fullname;
+        this.back = back;
     }
 
     public Long getId() {
@@ -48,7 +51,7 @@ public class Frame {
     }
 
     public Long getThreadId() {
-        return threadId;
+        return this.threadId;
     }
 
     public Integer getEndLineno() {
@@ -64,6 +67,11 @@ public class Frame {
     }
 
     public String getFullname() {
-        return fullname;
+        return this.fullname;
+    }
+
+    @Nullable
+    public Frame getBack() {
+        return this.back;
     }
 }

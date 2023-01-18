@@ -7,8 +7,9 @@ public class QuickConfigStateFactory {
     public static QuickConfigState create() {
         PreferencesState preferences = Preferences.getInstance().getState();
 
-        QuickConfigState state = new QuickConfigState();
-        state.profiler = preferences.defaultProfiler;
-        return state;
+        QuickConfigState state = new QuickConfigState(preferences.defaultProfiler,
+                preferences.defaultFrameScope, preferences.defaultCumulateType,
+                preferences.defaultErrorHandlingMode);
+       return state;
     }
 }

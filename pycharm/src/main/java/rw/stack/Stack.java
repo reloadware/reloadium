@@ -6,10 +6,7 @@ import rw.session.events.FrameData;
 import rw.session.events.StackUpdate;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Stack {
     private final Map<Long, List<Frame>> content;  // thread_id to frames
@@ -33,7 +30,11 @@ public class Stack {
             List<Frame> frames = new ArrayList<>();
             Long threadId = entry.getKey();
 
-            for (FrameData f : entry.getValue()) {
+            List<FrameData> reverseFrames = new ArrayList<>(entry.getValue());
+            Collections.reverse(reverseFrames);
+
+            Frame backFrame = null;
+            for (FrameData f: reverseFrames) {
                 Frame frame = this.frameIdToFrame.getOrDefault(f.getFrameId(),
                         new Frame(f.getFrameId(),
                                 threadId,
@@ -41,8 +42,11 @@ public class Stack {
                                 f.getBodyLineno(),
                                 f.getEndLineno(),
                                 f.getHandlerLineno(),
-                                f.getFullname()));
-                frames.add(frame);
+                                f.getFullname(),
+                                backFrame));
+                frames.add(0, frame);
+
+                backFrame = frame;
 
                 this.pathToFrames.putIfAbsent(f.getLocalPath(), new ArrayList<>());
                 this.pathToFrames.get(f.getLocalPath()).add(frame);

@@ -23,14 +23,14 @@ A clear and concise description of what you expected to happen.
 ## Screenshots
 If applicable, add screenshots to help explain your problem.
 
-## Desktop (please complete the following information):**
+## Desktop or remote (please complete the following information):**
  - OS: [e.g. Windows]
  - OS version: [e.g. 22]
  - M1 chip: [yes/no]
  - Reloadium package version: [e.g 0.8.6]
  - PyCharm plugin version: [e.g 0.8.0 or None]
  - Editor: [e.g PyCharm]
- - Python Version: [eg. 3.9]
+ - Python Version: [eg. 3.9.1]
  - Python Architecture: [eg. 32bit, 64bit]
  - Run mode: [e.g Run/Debug]
 

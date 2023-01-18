@@ -7,7 +7,6 @@ import rw.handler.runConf.BaseRunConfHandler;
 
 public class Event {
     public static final String ID = null;
-    public static final String VERSION = null;
 
     transient BaseRunConfHandler handler;
 

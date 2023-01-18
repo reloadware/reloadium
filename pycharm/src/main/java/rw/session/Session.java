@@ -9,7 +9,6 @@ import org.jetbrains.annotations.VisibleForTesting;
 import rw.audit.RwSentry;
 import rw.handler.runConf.BaseRunConfHandler;
 import rw.session.cmds.Cmd;
-import rw.session.cmds.QuickConfigCmd;
 import rw.session.events.Action;
 import rw.session.events.*;
 
@@ -26,7 +25,6 @@ import static java.util.Map.entry;
 
 class RawEvent {
     public String ID;
-    public String VERSION;
 }
 
 class Client extends Thread {
@@ -120,7 +118,6 @@ public class Session extends Thread {
     private Integer port = null;
     private final BaseRunConfHandler handler;
     private Map<String, Class<? extends Event>> events;
-    private Map<String, String> eventVersions;
     private List<Client> clients;
 
     public Session(Project project, BaseRunConfHandler handler) {
@@ -137,19 +134,8 @@ public class Session extends Thread {
                 entry(UserError.ID, UserError.class),
                 entry(ClearErrors.ID, ClearErrors.class),
                 entry(LineProfileClear.ID, LineProfileClear.class),
-                entry(WatchingFiles.ID, WatchingFiles.class)
-        );
-
-        this.eventVersions = Map.ofEntries(
-                entry(Handshake.ID, Handshake.VERSION),
-                entry(ModuleUpdate.ID, ModuleUpdate.VERSION),
-                entry(FrameError.ID, FrameError.VERSION),
-                entry(LineProfile.ID, LineProfile.VERSION),
-                entry(UserError.ID, UserError.VERSION),
-                entry(StackUpdate.ID, StackUpdate.VERSION),
-                entry(ClearErrors.ID, ClearErrors.VERSION),
-                entry(LineProfileClear.ID, LineProfileClear.VERSION),
-                entry(WatchingFiles.ID, WatchingFiles.VERSION)
+                entry(WatchingFiles.ID, WatchingFiles.class),
+                entry(FrameDropped.ID, FrameDropped.class)
         );
 
         try {
@@ -172,13 +158,7 @@ public class Session extends Thread {
             LOGGER.warn("Unknown event " + event.ID);
             return null;
         }
-        String expectedVersion = this.eventVersions.get(event.ID);
 
-        if (!expectedVersion.equals(event.VERSION)) {
-            LOGGER.warn(String.format("Incompatible event versions for event type \"%s\" (expected=%s, got=%s)",
-                    event.ID, expectedVersion, event.VERSION));
-            return null;
-        }
         ret = g.fromJson(payload, eventClass);
         ret.setHandler(this.handler);
 

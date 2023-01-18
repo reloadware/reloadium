@@ -7,7 +7,6 @@ public class Handshake extends Event {
     private static final Logger LOGGER = Logger.getInstance(Handshake.class);
 
     public static final String ID = "Handshake";
-    public static final String VERSION = "0.1.0";
 
     private String version;
 

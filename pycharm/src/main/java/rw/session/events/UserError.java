@@ -7,7 +7,6 @@ public class UserError extends FileError {
     private static final Logger LOGGER = Logger.getInstance(UserError.class);
 
     public static final String ID = "UserError";
-    public static final String VERSION = "0.1.1";
 
     @Override
     public void handle() {

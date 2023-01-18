@@ -12,6 +12,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.ui.content.Content;
 import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.xdebugger.XDebuggerManager;
+import com.intellij.xdebugger.frame.XStackFrame;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
 import com.jetbrains.python.run.AbstractPythonRunConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -20,20 +21,28 @@ import org.jetbrains.annotations.VisibleForTesting;
 import rw.action.RunType;
 import rw.icons.IconPatcher;
 import rw.icons.Icons;
-import rw.profile.FrameProgressRenderer;
-import rw.profile.LineProfiler;
+import rw.profile.*;
+import rw.quickconfig.ProfilerType;
 import rw.quickconfig.QuickConfig;
+import rw.quickconfig.QuickConfigCallback;
+import rw.quickconfig.QuickConfigState;
+import rw.session.cmds.QuickConfigCmd;
+import rw.session.events.Event;
+import rw.session.events.Handshake;
+import rw.session.events.ModuleUpdate;
 import rw.stack.Stack;
 import rw.handler.sdk.SdkHandler;
 import rw.handler.sdk.SdkHandlerFactory;
 import rw.highlights.ErrorHighlightManager;
-import rw.profile.ProfilePreviewRenderer;
 import rw.service.Service;
 import rw.session.Session;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
+import static java.util.Map.entry;
 
 public abstract class BaseRunConfHandler implements Disposable {
     AbstractPythonRunConfiguration<?> runConf;
@@ -42,10 +51,12 @@ public abstract class BaseRunConfHandler implements Disposable {
     ExecutionEnvironment executionEnvironment;
     Stack stack;
     FrameProgressRenderer frameProgressRenderer;
-    LineProfiler lineProfiler;
+    TimeProfiler timeProfiler;
+    MemoryProfiler memoryProfiler;
+    LineProfiler activeProfiler;
+
     Session session;
     ErrorHighlightManager errorHighlightManager;
-    ProfilePreviewRenderer profilePreviewRenderer;
     Project project;
     MessageBusConnection messageBusConnection;
     Set<File> watchedFiles;
@@ -54,22 +65,38 @@ public abstract class BaseRunConfHandler implements Disposable {
     RunType runType;
     QuickConfig quickConfig;
     boolean firstActivate;
+    Map<ProfilerType, LineProfiler> profilerTypeToProfiler;
 
     public BaseRunConfHandler(RunConfiguration runConf) {
         this.runConf = (AbstractPythonRunConfiguration<?>) runConf;
         this.project = this.runConf.getProject();
 
+        BaseRunConfHandler This = this;
+        this.quickConfig = new QuickConfig(new QuickConfigCallback() {
+            @Override
+            public void onChange(QuickConfigState state) {
+                This.onQuickConfigChange(state);
+            }
+        });
+
         this.sdkHandler = SdkHandlerFactory.factory(this.runConf.getSdk());
         this.stack = new Stack(this.project);
         this.frameProgressRenderer = new FrameProgressRenderer(this.project);
-        this.lineProfiler = new LineProfiler();
+        this.timeProfiler = new TimeProfiler(this.project, this.quickConfig);
+
+        this.memoryProfiler = new MemoryProfiler(this.project, this.quickConfig);
         this.session = new Session(this.project, this);
         this.errorHighlightManager = new ErrorHighlightManager(this.project);
-        this.profilePreviewRenderer = new ProfilePreviewRenderer(this.project, this.stack, this.lineProfiler);
 
         this.watchedFiles = new HashSet<>();
         this.active = true;
         this.firstActivate = true;
+
+        this.profilerTypeToProfiler = Map.ofEntries(
+                entry(ProfilerType.TIME, this.timeProfiler),
+                entry(ProfilerType.MEMORY, this.memoryProfiler));
+
+        this.activeProfiler = this.profilerTypeToProfiler.get(this.quickConfig.getState().getProfiler());
 
         this.handleJbEvents();
     }
@@ -89,12 +116,12 @@ public abstract class BaseRunConfHandler implements Disposable {
     }
 
     public @NotNull
-    String convertPathToLocal(@NotNull String remotePath) {
+    String convertPathToLocal(@NotNull String remotePath, boolean warnMissing) {
         return remotePath;
     }
 
     public @NotNull
-    String convertPathToRemote(@NotNull String localPath) {
+    String convertPathToRemote(@NotNull String localPath, boolean warnMissing) {
         return localPath;
     }
 
@@ -132,7 +159,6 @@ public abstract class BaseRunConfHandler implements Disposable {
 
     private void handleJbEvents() {
         this.messageBusConnection = this.project.getMessageBus().connect(Service.get());
-
         BaseRunConfHandler This = this;
 
         this.messageBusConnection.subscribe(RunContentManager.TOPIC, new RunContentWithExecutorListener() {
@@ -160,7 +186,7 @@ public abstract class BaseRunConfHandler implements Disposable {
 
     public void activate() {
         this.errorHighlightManager.activate();
-        this.profilePreviewRenderer.activate();
+        this.activeProfiler.activate();
         this.frameProgressRenderer.activate();
         this.active = true;
         IconPatcher.refresh(this.getProject());
@@ -173,7 +199,6 @@ public abstract class BaseRunConfHandler implements Disposable {
 
     public void onFirstActivate() {
         XDebugSessionImpl debugSession = ((XDebugSessionImpl) XDebuggerManager.getInstance(project).getCurrentSession());
-        this.quickConfig = new QuickConfig(this);
         String id = Integer.toString(debugSession.hashCode());
         RunnerLayoutUi layout = RunnerLayoutUi.Factory.getInstance(this.project).create(id, "re_runner", "re_session",
                 this);
@@ -183,7 +208,7 @@ public abstract class BaseRunConfHandler implements Disposable {
 
     public void deactivate() {
         this.errorHighlightManager.deactivate();
-        this.profilePreviewRenderer.deactivate();
+        this.activeProfiler.deactivate();
         this.frameProgressRenderer.deactivate();
         this.active = false;
         IconPatcher.refresh(this.getProject());
@@ -207,21 +232,38 @@ public abstract class BaseRunConfHandler implements Disposable {
         this.messageBusConnection.dispose();
     }
 
-    public ProfilePreviewRenderer getProfilePreviewRenderer() {
-        return profilePreviewRenderer;
-    }
-
     // Test methods ################
     @VisibleForTesting
     public void __setErrorHighlightManager(ErrorHighlightManager errorHighlightManager) {
         this.errorHighlightManager = errorHighlightManager;
     }
 
-    public LineProfiler getTimeProfiler() {
-        return this.lineProfiler;
+    public LineProfiler getActiveProfiler() {
+        return this.activeProfiler;
     }
 
-    public Session getSession() {
+    @NotNull public Session getSession() {
         return this.session;
+    }
+
+    private void onQuickConfigChange(QuickConfigState state) {
+        QuickConfigCmd cmd = new QuickConfigCmd(state);
+        this.getSession().send(cmd);
+        if (this.activeProfiler != null) {
+            this.activeProfiler.deactivate();
+        }
+        this.activeProfiler = this.profilerTypeToProfiler.getOrDefault(state.getProfiler(), null);
+
+        if (this.activeProfiler != null) {
+            this.activeProfiler.activate();
+        }
+    }
+
+    public TimeProfiler getTimeProfiler() {
+        return this.timeProfiler;
+    }
+
+    public MemoryProfiler getMemoryProfiler() {
+        return this.memoryProfiler;
     }
 }
