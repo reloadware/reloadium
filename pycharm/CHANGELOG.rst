@@ -2,6 +2,23 @@ Change Log
 ##########
 
 
+0.9.4
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Dropping multiple frames after frame restarting issues
+    * Reloading flask views
+    
+  Added:
+    * Async generators support
+    
+**PyCharm**:
+    
+  Fixed:
+    * Jittery frame dropping visualisation
+    
 0.9.3
 -------
 

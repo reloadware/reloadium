@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.reloadium</id>
     <name>Reloadium - Hot Reloading &#38; Profiling for Python</name>
-    <version>0.9.3</version>
+    <version>0.9.4</version>
     <idea-version since-build="221"/>
     <vendor email="damian@reloadware.com" url="reloadium.io">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
@@ -22,6 +22,35 @@
 
     <change-notes><![CDATA[
     
+        <h3>0.9.4</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>Miscellaneous:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Dropping multiple frames after frame restarting issues</li>
+                            <li>Reloading flask views</li>
+                        </ul>
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Async generators support</li>
+                        </ul>
+                    
+                </div>
+                <h4>PyCharm:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Jittery frame dropping visualisation</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>0.9.3</h3>
             <div style="padding-left: 20px;">
             
