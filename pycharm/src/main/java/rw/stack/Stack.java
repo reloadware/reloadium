@@ -37,12 +37,9 @@ public class Stack {
             for (FrameData f: reverseFrames) {
                 Frame frame = this.frameIdToFrame.getOrDefault(f.getFrameId(),
                         new Frame(f.getFrameId(),
-                                threadId,
                                 f.getLocalPath(),
-                                f.getBodyLineno(),
-                                f.getEndLineno(),
-                                f.getHandlerLineno(),
                                 f.getFullname(),
+                                f.isReloadable(),
                                 backFrame));
                 frames.add(0, frame);
 

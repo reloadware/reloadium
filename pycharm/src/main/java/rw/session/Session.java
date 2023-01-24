@@ -1,7 +1,6 @@
 package rw.session;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +8,6 @@ import org.jetbrains.annotations.VisibleForTesting;
 import rw.audit.RwSentry;
 import rw.handler.runConf.BaseRunConfHandler;
 import rw.session.cmds.Cmd;
-import rw.session.events.Action;
 import rw.session.events.*;
 
 import java.io.*;
@@ -135,7 +133,8 @@ public class Session extends Thread {
                 entry(ClearErrors.ID, ClearErrors.class),
                 entry(LineProfileClear.ID, LineProfileClear.class),
                 entry(WatchingFiles.ID, WatchingFiles.class),
-                entry(FrameDropped.ID, FrameDropped.class)
+                entry(FrameDropped.ID, FrameDropped.class),
+                entry(UpdateDebugger.ID, UpdateDebugger.class)
         );
 
         try {

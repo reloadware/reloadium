@@ -17,7 +17,7 @@ public enum Architecture {
         if (OsType.DETECTED == OsType.MacOS) {
             try {
                 String brand = getBrandString();
-                if (brand.contains("M1")) {
+                if (brand.contains("M1") || brand.contains("M2") || brand.contains("M3")) {
                     DETECTED = ARM64;
                 }
                 else {

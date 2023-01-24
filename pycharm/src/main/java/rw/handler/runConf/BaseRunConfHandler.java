@@ -197,8 +197,14 @@ public abstract class BaseRunConfHandler implements Disposable {
         this.firstActivate = false;
     }
 
+    public @Nullable XDebugSessionImpl getDebugSession() {
+        XDebugSessionImpl ret = ((XDebugSessionImpl) XDebuggerManager.getInstance(project).getCurrentSession());
+        return ret;
+    }
+
     public void onFirstActivate() {
-        XDebugSessionImpl debugSession = ((XDebugSessionImpl) XDebuggerManager.getInstance(project).getCurrentSession());
+        XDebugSessionImpl debugSession = this.getDebugSession();
+        assert debugSession != null;
         String id = Integer.toString(debugSession.hashCode());
         RunnerLayoutUi layout = RunnerLayoutUi.Factory.getInstance(this.project).create(id, "re_runner", "re_session",
                 this);

@@ -7,34 +7,17 @@ import java.io.File;
 public class FrameData {
     @SerializedName("frame_id")
     private Long frameId;
-    @SerializedName("body_lineno")
-    private Integer bodyLineno;
 
-    @SerializedName("end_lineno")
-    private Integer endLineno;
+    @SerializedName("reloadable")
+    private boolean reloadable;
 
     private String path;
     transient public String localPath;
-
-    @SerializedName("handler_lineno")
-    private Integer handlerLineno;
 
     private String fullname;
 
     public Long getFrameId() {
         return frameId;
-    }
-
-    public Integer getBodyLineno() {
-        return this.bodyLineno;
-    }
-
-    public Integer getEndLineno() {
-        return this.endLineno;
-    }
-
-    public Integer getHandlerLineno() {
-        return this.handlerLineno;
     }
 
     public String getFullname() {
@@ -47,5 +30,9 @@ public class FrameData {
 
     public File getLocalPath() {
         return new File(this.localPath);
+    }
+
+    public boolean isReloadable() {
+        return this.reloadable;
     }
 }

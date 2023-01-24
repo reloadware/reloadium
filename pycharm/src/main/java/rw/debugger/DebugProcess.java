@@ -26,7 +26,6 @@ public class DebugProcess extends PyDebugProcess {
     public PyStackFrame createStackFrame(PyStackFrameInfo frameInfo) {
     final PyStackFrame frame = new StackFrame(this.handler.getStack(), getSession().getProject(), this, frameInfo,
                                                 getPositionConverter().convertFromPython(frameInfo.getPosition(), frameInfo.getName()));
-//    frame.restoreChildrenDescriptors(myDescriptorsCache);
     return frame;
   }
     public XDropFrameHandler getDropFrameHandler() {
