@@ -1,4 +1,56 @@
 {
+  "0.9.9": [
+    {
+      "type": "Fixed",
+      "description": "Dropping multiple frames after frame restarting issues",
+      "tag": "Miscellaneous",
+      "date": "2023-01-24"
+    },
+    {
+      "type": "Fixed",
+      "description": "Jittery frame dropping visualisation",
+      "tag": "PyCharm",
+      "date": "2023-01-24"
+    },
+    {
+      "type": "Added",
+      "description": "Async generators support",
+      "tag": "Miscellaneous",
+      "date": "2023-01-24"
+    },
+    {
+      "type": "Fixed",
+      "description": "Reloading flask views",
+      "tag": "Miscellaneous",
+      "date": "2023-01-24"
+    }
+  ],
+  "0.9.8": [
+    {
+      "type": "Fixed",
+      "description": "Error handling preferences issues",
+      "tag": "PyCharm",
+      "date": "2023-01-22"
+    },
+    {
+      "type": "Fixed",
+      "description": "M2 Chip issues",
+      "tag": "PyCharm",
+      "date": "2023-01-22"
+    },
+    {
+      "type": "Fixed",
+      "description": "Debugger in suspend mode after fixing an error",
+      "tag": "PyCharm",
+      "date": "2023-01-22"
+    },
+    {
+      "type": "Fixed",
+      "description": "Marking reloadable frames if non reloadable between",
+      "tag": "PyCharm",
+      "date": "2023-01-22"
+    }
+  ],
   "0.9.7": [
     {
       "type": "Added",
