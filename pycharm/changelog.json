@@ -1,5 +1,31 @@
 {
-    "0.9.2": [
+  "0.9.3": [
+    {
+      "type": "Fixed",
+      "description": "Error handling preferences issues",
+      "tag": "PyCharm",
+      "date": "2023-01-22"
+    },
+    {
+      "type": "Fixed",
+      "description": "M2 Chip issues",
+      "tag": "PyCharm",
+      "date": "2023-01-22"
+    },
+    {
+      "type": "Fixed",
+      "description": "Debugger in suspend mode after fixing an error",
+      "tag": "PyCharm",
+      "date": "2023-01-22"
+    },
+    {
+      "type": "Fixed",
+      "description": "Marking reloadable frames if non reloadable between",
+      "tag": "PyCharm",
+      "date": "2023-01-22"
+    }
+  ],
+  "0.9.2": [
     {
       "type": "Added",
       "description": "Handle adding and modifying dataclass class variables",
@@ -90,8 +116,8 @@
       "tag": "PyCharm",
       "date": "2023-01-17"
     }
-    ],
-    "0.9.1": [
+  ],
+  "0.9.1": [
     {
       "type": "Changed",
       "description": "Incompatible system message",
@@ -118,7 +144,7 @@
     }
   ],
   "0.9.0": [
-        {
+    {
       "type": "Added",
       "description": "Quick config",
       "tag": "PyCharm",

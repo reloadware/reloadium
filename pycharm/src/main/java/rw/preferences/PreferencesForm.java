@@ -50,6 +50,7 @@ public class PreferencesForm {
         state.markReloadable = this.markReloadable.isSelected();
         state.defaultProfiler = (ProfilerType) this.defaultProfiler.getModel().getSelectedItem();
         state.defaultCumulateType = (CumulateType) this.defaultCumulateType.getModel().getSelectedItem();
+        state.defaultErrorHandlingMode = (ErrorHandlingMode) this.errorHandlingMode.getModel().getSelectedItem();
         return state;
     }
 
@@ -61,5 +62,6 @@ public class PreferencesForm {
         this.markReloadable.setSelected(state.markReloadable);
         this.defaultProfiler.getModel().setSelectedItem(state.defaultProfiler);
         this.defaultCumulateType.getModel().setSelectedItem(state.defaultCumulateType);
+        this.errorHandlingMode.getModel().setSelectedItem(state.defaultErrorHandlingMode);
     }
 }

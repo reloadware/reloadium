@@ -23,7 +23,7 @@ public class StackFrame extends PyStackFrame {
     @Override
     public void customizePresentation(@NotNull ColoredTextContainer component) {
         super.customizePresentation(component);
-        if( this.reFrame != null ){
+        if( this.reFrame != null && this.reFrame.isReloadable()){
             component.setIcon(Icons.Frame);
         }
     }

@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.reloadium</id>
     <name>Reloadium - Hot Reloading &#38; Profiling for Python</name>
-    <version>0.9.2</version>
+    <version>0.9.3</version>
     <idea-version since-build="221"/>
     <vendor email="damian@reloadware.com" url="reloadium.io">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
@@ -22,6 +22,23 @@
 
     <change-notes><![CDATA[
     
+        <h3>0.9.3</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>PyCharm:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Error handling preferences issues</li>
+                            <li>M2 Chip issues</li>
+                            <li>Debugger in suspend mode after fixing an error</li>
+                            <li>Marking reloadable frames if non reloadable between</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>0.9.2</h3>
             <div style="padding-left: 20px;">
             

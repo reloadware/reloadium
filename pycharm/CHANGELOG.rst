@@ -2,6 +2,17 @@ Change Log
 ##########
 
 
+0.9.3
+-------
+
+**PyCharm**:
+    
+  Fixed:
+    * Error handling preferences issues
+    * M2 Chip issues
+    * Debugger in suspend mode after fixing an error
+    * Marking reloadable frames if non reloadable between
+    
 0.9.2
 -------
 
