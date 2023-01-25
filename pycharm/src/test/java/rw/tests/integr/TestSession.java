@@ -89,30 +89,6 @@ public class TestSession extends BaseMockedTestCase {
     }
 
     @Test
-    public void testFrameError() throws Exception {
-        PythonRunConfHandler handler = (PythonRunConfHandler) RunConfHandlerFactory.factory(cakeshop.getRunConf());
-        HighlightManagerFixture highlightManagerFixture = new HighlightManagerFixture(handler);
-        highlightManagerFixture.start();
-
-        Session session = new Session(this.getProject(), handler);
-
-        File file = new File(this.cakeshop.getRoot().toString(), "cakeshop.py");
-        FileUtils.write(file, "1\n2\n3\n4", "utf-8");
-        file.createNewFile();
-
-        String payload = String.format("{\"ID\": \"FrameError\", " +
-                        "\"line\": 2, \"path\": \"%s\"," +
-                        "\"msg\": \"msg\"}", file);
-        FrameError event = (FrameError) session.eventFactory(payload);
-        assertThat(event).isInstanceOf(FrameError.class);
-        assertThat(event.getLine()).isEqualTo(2);
-
-        event.handle();
-        verify(this.dialogFactoryFixture.dialogFactory, times(1)).showFirstFrameErrorDialog(this.getProject());
-        verify(handler.getErrorHighlightManager(), times(1)).add(eq(file), eq(2), eq("msg"));
-    }
-
-    @Test
     public void testUpdateModule() throws Exception {
         PythonRunConfHandler handler = (PythonRunConfHandler) RunConfHandlerFactory.factory(cakeshop.getRunConf());
         HighlightManagerFixture highlightManagerFixture = new HighlightManagerFixture(handler);

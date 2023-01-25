@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SurveyDialog extends TipDialog {
     private static final Logger LOGGER = Logger.getInstance(SurveyDialog.class);
-    private static List<Integer> onRuns = List.of(5, 25, 100, 200);
+    private static List<Integer> onRuns = List.of(20, 50, 100);
 
     public SurveyDialog(@Nullable Project project) {
         super(project,

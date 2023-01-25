@@ -16,7 +16,6 @@ import com.intellij.xdebugger.XDebuggerManager;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
 import com.intellij.xdebugger.impl.frame.XDebuggerFramesList;
 import com.jetbrains.python.debugger.PyStackFrame;
-import com.jetbrains.python.debugger.PyThreadInfo;
 import org.jetbrains.annotations.NotNull;
 import rw.debugger.DropFrameActionHandler;
 import rw.debugger.StackFrame;

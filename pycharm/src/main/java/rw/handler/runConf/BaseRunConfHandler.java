@@ -54,6 +54,7 @@ public abstract class BaseRunConfHandler implements Disposable {
     TimeProfiler timeProfiler;
     MemoryProfiler memoryProfiler;
     LineProfiler activeProfiler;
+    NoneProfiler noneProfiler;
 
     Session session;
     ErrorHighlightManager errorHighlightManager;
@@ -80,11 +81,13 @@ public abstract class BaseRunConfHandler implements Disposable {
         });
 
         this.sdkHandler = SdkHandlerFactory.factory(this.runConf.getSdk());
-        this.stack = new Stack(this.project);
+        this.stack = new Stack(this.project, this);
         this.frameProgressRenderer = new FrameProgressRenderer(this.project);
-        this.timeProfiler = new TimeProfiler(this.project, this.quickConfig);
 
+        this.timeProfiler = new TimeProfiler(this.project, this.quickConfig);
         this.memoryProfiler = new MemoryProfiler(this.project, this.quickConfig);
+        this.noneProfiler = new NoneProfiler(this.project, this.quickConfig);
+
         this.session = new Session(this.project, this);
         this.errorHighlightManager = new ErrorHighlightManager(this.project);
 
@@ -94,7 +97,8 @@ public abstract class BaseRunConfHandler implements Disposable {
 
         this.profilerTypeToProfiler = Map.ofEntries(
                 entry(ProfilerType.TIME, this.timeProfiler),
-                entry(ProfilerType.MEMORY, this.memoryProfiler));
+                entry(ProfilerType.MEMORY, this.memoryProfiler),
+                entry(ProfilerType.NONE, this.noneProfiler));
 
         this.activeProfiler = this.profilerTypeToProfiler.get(this.quickConfig.getState().getProfiler());
 
@@ -186,7 +190,9 @@ public abstract class BaseRunConfHandler implements Disposable {
 
     public void activate() {
         this.errorHighlightManager.activate();
-        this.activeProfiler.activate();
+        if (this.activeProfiler != null) {
+            this.activeProfiler.activate();
+        }
         this.frameProgressRenderer.activate();
         this.active = true;
         IconPatcher.refresh(this.getProject());
@@ -255,14 +261,9 @@ public abstract class BaseRunConfHandler implements Disposable {
     private void onQuickConfigChange(QuickConfigState state) {
         QuickConfigCmd cmd = new QuickConfigCmd(state);
         this.getSession().send(cmd);
-        if (this.activeProfiler != null) {
-            this.activeProfiler.deactivate();
-        }
-        this.activeProfiler = this.profilerTypeToProfiler.getOrDefault(state.getProfiler(), null);
-
-        if (this.activeProfiler != null) {
-            this.activeProfiler.activate();
-        }
+        this.activeProfiler.deactivate();
+        this.activeProfiler = this.profilerTypeToProfiler.get(state.getProfiler());
+        this.activeProfiler.activate();
     }
 
     public TimeProfiler getTimeProfiler() {

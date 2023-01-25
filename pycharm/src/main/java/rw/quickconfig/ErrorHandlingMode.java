@@ -17,7 +17,7 @@ public enum ErrorHandlingMode {
     }
 
     static public ErrorHandlingMode[] getAll() {
-        return new ErrorHandlingMode[]{ErrorHandlingMode.BREAKPOINT_PRESENT, ErrorHandlingMode.ALWAYS};
+        return new ErrorHandlingMode[]{ErrorHandlingMode.ALWAYS, ErrorHandlingMode.BREAKPOINT_PRESENT};
     }
 
     public String toString() {

@@ -10,7 +10,7 @@ public class StackUpdate extends Event {
 
     public static final String ID = "StackUpdate";
 
-    private Map<Long, List<FrameData>> content;
+    private Map<String, List<FrameData>> content;
 
     @Override
     public void handle() {
@@ -26,7 +26,7 @@ public class StackUpdate extends Event {
         this.handler.getStack().onStackUpdateEvent(this);
     }
 
-    public Map<Long, List<FrameData>> getContent() {
+    public Map<String, List<FrameData>> getContent() {
         return content;
     }
 }
