@@ -126,7 +126,7 @@ public class Session extends Thread {
         this.events = Map.ofEntries(
                 entry(Handshake.ID, Handshake.class),
                 entry(ModuleUpdate.ID, ModuleUpdate.class),
-                entry(FrameError.ID, FrameError.class),
+                entry(ThreadErrorEvent.ID, ThreadErrorEvent.class),
                 entry(LineProfile.ID, LineProfile.class),
                 entry(StackUpdate.ID, StackUpdate.class),
                 entry(UserError.ID, UserError.class),
@@ -134,7 +134,8 @@ public class Session extends Thread {
                 entry(LineProfileClear.ID, LineProfileClear.class),
                 entry(WatchingFiles.ID, WatchingFiles.class),
                 entry(FrameDropped.ID, FrameDropped.class),
-                entry(UpdateDebugger.ID, UpdateDebugger.class)
+                entry(UpdateDebugger.ID, UpdateDebugger.class),
+                entry(ClearThreadError.ID, ClearThreadError.class)
         );
 
         try {

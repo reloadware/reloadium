@@ -8,7 +8,6 @@ import com.jetbrains.python.debugger.PyStackFrame;
 import com.jetbrains.python.debugger.PyStackFrameInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rw.handler.runConf.BaseRunConfHandler;
 import rw.icons.Icons;
 import rw.stack.Frame;
 import rw.stack.Stack;
@@ -17,7 +16,7 @@ public class StackFrame extends PyStackFrame {
     @Nullable private final Frame reFrame;
     public StackFrame(Stack stack, @NotNull Project project, @NotNull PyFrameAccessor debugProcess, @NotNull PyStackFrameInfo frameInfo, XSourcePosition position) {
         super(project, debugProcess, frameInfo, position);
-        this.reFrame = stack.getById(Long.valueOf(this.getFrameId()));
+        this.reFrame = stack.getFrameById(Long.valueOf(this.getFrameId()));
     }
 
     @Override

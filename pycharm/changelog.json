@@ -1,4 +1,42 @@
 {
+  "0.9.5": [
+    {
+      "type": "Added",
+      "description": "Restarting non top frames",
+      "tag": "Miscellaneous",
+      "date": "2023-01-25"
+    },
+    {
+      "type": "Fixed",
+      "description": "Not restarting frame on related files changes",
+      "tag": "Miscellaneous",
+      "date": "2023-01-25"
+    },
+    {
+      "type": "Fixed",
+      "description": "Crashing on None profiler",
+      "tag": "PyCharm",
+      "date": "2023-01-25"
+    },
+    {
+      "type": "Added",
+      "description": "Tooltip for profiler preview renderer",
+      "tag": "PyCharm",
+      "date": "2023-01-25"
+    },
+    {
+      "type": "Fixed",
+      "description": "Error message and highlighter not disappearing",
+      "tag": "PyCharm",
+      "date": "2023-01-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Execution highlighter not disappearing",
+      "tag": "PyCharm",
+      "date": "2023-01-26"
+    }
+  ],
   "0.9.4": [
     {
       "type": "Fixed",

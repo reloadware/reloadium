@@ -29,7 +29,6 @@ public class LineProfile extends FileEvent {
         this.handler.getStackRenderer().onFrameProgressEvent(this);
         this.handler.getTimeProfiler().onLineProfileEvent(this);
         this.handler.getMemoryProfiler().onLineProfileEvent(this);
-
         this.handler.getActiveProfiler().update();
     }
 

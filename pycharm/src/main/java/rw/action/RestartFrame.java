@@ -24,7 +24,6 @@ import com.intellij.xdebugger.impl.ui.XDebugSessionTab;
 import com.jetbrains.python.debugger.PyDebugProcess;
 import com.jetbrains.python.debugger.PyExecutionStack;
 import com.jetbrains.python.debugger.PyStackFrame;
-import com.jetbrains.python.debugger.PyThreadInfo;
 import com.jetbrains.python.psi.impl.PyFileImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

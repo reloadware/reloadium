@@ -2,6 +2,27 @@ Change Log
 ##########
 
 
+0.9.10
+-------
+
+**Miscellaneous**:
+    
+  Added:
+    * Restarting non top frames
+    
+  Fixed:
+    * Not restarting frame on related files changes
+    
+**PyCharm**:
+    
+  Fixed:
+    * Crashing on None profiler
+    * Error message and highlighter not disappearing
+    * Execution highlighter not disappearing
+    
+  Added:
+    * Tooltip for profiler preview renderer
+    
 0.9.9
 -------
 
