@@ -12,10 +12,12 @@ public class PreferencesState {
     public boolean defaultFrameScope;
     public CumulateType defaultCumulateType;
     public ErrorHandlingMode defaultErrorHandlingMode;
+    public boolean alwaysCollectMemory;
 
     public boolean sentry;
     public boolean telemetry;
     public boolean markReloadable;
+    public boolean runtimeCompletion;
 
     public PreferencesState() {
         this.blinkDuration = 1000;
@@ -27,6 +29,8 @@ public class PreferencesState {
         this.defaultFrameScope = true;
         this.defaultCumulateType = CumulateType.DEFAULT;
         this.defaultErrorHandlingMode = ErrorHandlingMode.DEFAULT;
+        this.alwaysCollectMemory = false;
+        this.runtimeCompletion = true;
     }
 
     @Override
@@ -45,6 +49,8 @@ public class PreferencesState {
         ret &= this.defaultFrameScope == that.defaultFrameScope;
         ret &= this.defaultCumulateType == that.defaultCumulateType;
         ret &= this.defaultErrorHandlingMode == that.defaultErrorHandlingMode;
+        ret &= this.alwaysCollectMemory == that.alwaysCollectMemory;
+        ret &= this.runtimeCompletion == that.runtimeCompletion;
         return ret;
     }
 }

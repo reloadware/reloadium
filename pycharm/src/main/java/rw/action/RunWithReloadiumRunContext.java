@@ -22,7 +22,7 @@ public class RunWithReloadiumRunContext extends ContextPopupAction {
         e.getPresentation().setIcon(Icons.Run);
     }
 
-    protected Executor getExecutor() {
+    public Executor getExecutor() {
         return DefaultRunExecutor.getRunExecutorInstance();
     }
 }

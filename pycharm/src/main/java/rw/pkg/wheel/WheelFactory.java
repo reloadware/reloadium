@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 
 abstract public class WheelFactory {
-    public static @Nullable BaseWheel factory(String input) {
+    public static BaseWheel factory(String input) {
         if (input.contains("linux")) {
             return new UnixWheel(input);
         }

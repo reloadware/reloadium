@@ -1,5 +1,6 @@
 import os
 import sys
+from pathlib import Path
 from typing import Tuple
 
 IMPORT_ERROR_MSG = (
@@ -9,6 +10,8 @@ IMPORT_ERROR_MSG = (
     "https://github.com/reloadware/reloadium\n"
     "To see the exception run reloadium with environmental variable RW_DEBUG=True\n"
 )
+
+__RELOADIUM__ = True
 
 
 def colored(inp: str, color: Tuple[int, int, int]) -> str:

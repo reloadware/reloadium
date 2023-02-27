@@ -72,20 +72,4 @@ abstract public class BaseWheel {
     public String getVersion() {
         return this.version;
     }
-
-    public File getPackageDir() {
-        return Const.get().getPackagePythonVersionDir(this.getPythonVersion());
-    }
-
-    public void initPackageDir() {
-        File packageDir = this.getPackageDir();
-
-        if (packageDir.exists()) {
-            try {
-                FileUtils.deleteDirectory(packageDir);
-            } catch (IOException ignored) {
-            }
-        }
-        packageDir.mkdirs();
-    }
 }

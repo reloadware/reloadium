@@ -7,7 +7,6 @@ import rw.tests.BaseMockedTestCase;
 import rw.tests.fixtures.PackageFixture;
 import rw.tests.utils.MiscUtils;
 
-import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,7 @@ public class TestBuiltinPackageManager extends BaseMockedTestCase {
 
     @Test
     public void testGetWheelFiles() throws Exception {
-        List<String> filenames = this.builtinPackageManager.getWheelFiles().stream().map(f -> f.getName()).collect(Collectors.toList());
+        List<String> filenames = this.packageManager.getWheelFiles().stream().map(f -> f.getName()).collect(Collectors.toList());
 
         assertThat(filenames).isEqualTo(List.of(
                 "reloadium-0.7.13-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
@@ -41,32 +40,32 @@ public class TestBuiltinPackageManager extends BaseMockedTestCase {
 
     @Test
     public void testShouldInstallAlreadyInstalled() throws Exception {
-        PackageFixture packageFixture = new PackageFixture(this.builtinPackageManager.getBuiltinVersion());
-        assertThat(this.builtinPackageManager.shouldInstall()).isFalse();
+        PackageFixture packageFixture = new PackageFixture(this.packageManager, this.packageManager.getBuiltinVersion());
+        assertThat(this.packageManager.shouldInstall()).isFalse();
     }
 
     @Test
     public void testShouldInstallCurentVersionOld() throws Exception {
-        PackageFixture packageFixture = new PackageFixture("0.0.0");
-        assertThat(this.builtinPackageManager.shouldInstall()).isTrue();
+        PackageFixture packageFixture = new PackageFixture(this.packageManager, "0.0.0");
+        assertThat(this.packageManager.shouldInstall()).isTrue();
     }
 
     @Test
     public void testShouldInstallCurentVersionNewer() throws Exception {
-        PackageFixture packageFixture = new PackageFixture("1000.0.0");
-        assertThat(this.builtinPackageManager.shouldInstall()).isTrue();
+        PackageFixture packageFixture = new PackageFixture(this.packageManager,"1000.0.0");
+        assertThat(this.packageManager.shouldInstall()).isTrue();
     }
 
     @Test
     public void testInstalling() throws Exception {
-        this.builtinPackageManager.install(null);
-        MiscUtils.assertInstalled(this.builtinVersion);
+        this.packageManager.install(null);
+        MiscUtils.assertInstalled(this.packageManager, this.builtinVersion);
     }
 
     @Test
     public void testDowngrading() throws Exception {
-        PackageFixture packageFixture = new PackageFixture("1000.0.0");
-        this.builtinPackageManager.install(null);
-        MiscUtils.assertInstalled(this.builtinVersion);
+        PackageFixture packageFixture = new PackageFixture(this.packageManager,"1000.0.0");
+        this.packageManager.install(null);
+        MiscUtils.assertInstalled(this.packageManager, this.builtinVersion);
     }
 }

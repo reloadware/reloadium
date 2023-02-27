@@ -7,7 +7,8 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.audit.RwSentry;
-import rw.pkg.BuiltinPackageManager;
+import rw.pkg.PackageManager;
+import rw.remote.RemoteSdkChecker;
 import rw.util.OsType;
 
 import java.util.Locale;
@@ -17,7 +18,9 @@ import java.util.concurrent.TimeUnit;
 public class Service implements Disposable {
     private static final Logger LOGGER = Logger.getInstance(Service.class);
     @VisibleForTesting
-    public BuiltinPackageManager builtinPackageManager;
+    public PackageManager packageManager;
+
+    private RemoteSdkChecker remoteSdkChecker;
 
     public static Service singleton = null;
     private static int runCounter = 0;
@@ -25,17 +28,21 @@ public class Service implements Disposable {
     @VisibleForTesting
     public Service() {
         LOGGER.info("Starting service");
-        this.builtinPackageManager = new BuiltinPackageManager();
+        this.packageManager = new PackageManager();
+        this.remoteSdkChecker =new RemoteSdkChecker();
         this.validateOsType();
         this.init();
     }
 
     public void init() {
         LOGGER.info("Initializing service");
-        this.builtinPackageManager.run(null);
+        this.packageManager.run(null);
 
         JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkIfStillGood, 2,
                 10, TimeUnit.MINUTES);
+
+        JobScheduler.getScheduler().scheduleWithFixedDelay(this.remoteSdkChecker::check, 10,
+                30, TimeUnit.SECONDS);
     }
 
     public static Service get() {
@@ -46,7 +53,7 @@ public class Service implements Disposable {
     }
 
     public boolean canRun(RunnerAndConfigurationSettings settings) {
-        return this.builtinPackageManager.getCurrentVersion() != null;
+        return this.packageManager.getCurrentVersion() != null;
     }
 
     private void validateOsType() {
@@ -58,10 +65,17 @@ public class Service implements Disposable {
 
     public void checkIfStillGood() {
         LOGGER.info("Checking if still good");
-        if (this.builtinPackageManager.shouldInstall() && !this.builtinPackageManager.isInstalling()) {
+        if (this.packageManager.shouldInstall() && !this.packageManager.isInstalling()) {
             LOGGER.info("Not good, installing builtin package");
-            this.builtinPackageManager.run(null);
+            this.packageManager.run(null);
         }
+    }
+
+    public PackageManager getPackageManager() {
+        return this.packageManager;
+    }
+    public RemoteSdkChecker getRemoteSdkChecker() {
+        return this.remoteSdkChecker;
     }
 
     @Override

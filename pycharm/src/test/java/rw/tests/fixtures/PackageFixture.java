@@ -1,6 +1,7 @@
 package rw.tests.fixtures;
 
 import rw.consts.Const;
+import rw.pkg.PackageManager;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -12,16 +13,16 @@ public class PackageFixture {
     public File currentVersionFile;
     public Map<String, File> pythonVersionToPackageDirs;
 
-    public PackageFixture(String version) throws Exception {
-        this.currentVersionFile = new File(String.valueOf(Const.get().getPackagesRootDir()), "version.txt");
+    public PackageFixture(PackageManager packageManager, String version) throws Exception {
+        this.currentVersionFile = new File(String.valueOf(packageManager.getFs().getPackagesRootDir()), "version.txt");
 
         this.pythonVersionToPackageDirs = new HashMap<>();
 
         for (String v : Const.singleton.supportedVersions) {
-            File packageDir = new File(Const.get().getPackagePythonVersionDir(v).toString(), Const.get().packageName);
+            File packageDir = new File(packageManager.getFs().getPackagePythonVersionDir(v).toString(), Const.get().packageName);
             this.pythonVersionToPackageDirs.put(v, packageDir);
 
-            File packageDistInfoDir = new File(Const.get().getPackagePythonVersionDir(v).toString(),
+            File packageDistInfoDir = new File(packageManager.getFs().getPackagePythonVersionDir(v).toString(),
                     String.format("%s-%s.dist-info", Const.get().packageName, version));
 
             packageDir.mkdirs();

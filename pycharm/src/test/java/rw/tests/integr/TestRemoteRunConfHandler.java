@@ -6,12 +6,12 @@ import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
+import org.mockito.junit.jupiter.MockitoExtension;
 import rw.action.RunType;
 import rw.action.RunWithReloadium;
-import rw.consts.Const;
-import rw.handler.runConf.RemoteRunConfHandler;
+import rw.handler.RemoteRunConfHandler;
 import rw.tests.BaseMockedTestCase;
 import rw.tests.fixtures.CakeshopFixture;
 import rw.tests.fixtures.PackageFixture;
@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 
+@ExtendWith(MockitoExtension.class)
 public class TestRemoteRunConfHandler extends BaseMockedTestCase {
     CakeshopFixture cakeshop;
     AnAction action;
@@ -31,7 +32,7 @@ public class TestRemoteRunConfHandler extends BaseMockedTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        PackageFixture packageFixture = new PackageFixture("0.7.12");
+        PackageFixture packageFixture = new PackageFixture(this.packageManager,"0.7.12");
         this.cakeshop = new CakeshopFixture(this.getProject());
         this.cakeshop.start();
 
@@ -49,7 +50,7 @@ public class TestRemoteRunConfHandler extends BaseMockedTestCase {
     @Test
     public void testSetsUserId() {
         String randomUuidValue = "8fcb78db-229d-40ee-b4ef-86d415755ec0";
-        UUID randomUuid = UUID.fromString("8fcb78db-229d-40ee-b4ef-86d415755ec0");
+        UUID randomUuid = UUID.fromString(randomUuidValue);
 
         try (MockedStatic<UUID> uuid = mockStatic(UUID.class)) {
             uuid.when(UUID::randomUUID).thenReturn(randomUuid);
@@ -67,7 +68,7 @@ public class TestRemoteRunConfHandler extends BaseMockedTestCase {
     public void testCreatesConfig() throws IOException {
         UUID randomUuid = UUID.fromString("8fcb78db-229d-40ee-b4ef-86d415755ec0");
 
-        assertThat(!Const.get().getConfigFile().exists());
+        assertThat(!this.packageManager.getFs().getConfigFile().exists());
 
         try (MockedStatic<UUID> uuid = mockStatic(UUID.class)) {
             uuid.when(UUID::randomUUID).thenReturn(randomUuid);
@@ -75,9 +76,9 @@ public class TestRemoteRunConfHandler extends BaseMockedTestCase {
 
             remoteRunConfHandler.beforeRun(RunType.RUN);
 
-            assertThat(Const.get().getConfigFile().exists());
+            assertThat(this.packageManager.getFs().getConfigFile().exists());
 
-            assertThat(FileUtils.readFileToString(Const.get().getConfigFile(), "utf-8")).isEqualTo(
+            assertThat(FileUtils.readFileToString(this.packageManager.getFs().getConfigFile(), "utf-8")).isEqualTo(
                     "{\n" +
                             "  \"user\": {\n" +
                             "    \"uuid\": \"8fcb78db-229d-40ee-b4ef-86d415755ec0\"\n" +
@@ -97,7 +98,7 @@ public class TestRemoteRunConfHandler extends BaseMockedTestCase {
                             "  }\n" +
                             "}";
 
-        FileUtils.writeStringToFile(Const.get().getConfigFile(), content,"utf-8");
+        FileUtils.writeStringToFile(this.packageManager.getFs().getConfigFile(), content,"utf-8");
 
         try (MockedStatic<UUID> uuid = mockStatic(UUID.class)) {
             uuid.when(UUID::randomUUID).thenReturn(randomUuid);
@@ -105,8 +106,8 @@ public class TestRemoteRunConfHandler extends BaseMockedTestCase {
 
             remoteRunConfHandler.beforeRun(RunType.RUN);
 
-            assertThat(Const.get().getConfigFile().exists());
-            assertThat(FileUtils.readFileToString(Const.get().getConfigFile(), "utf-8")).isEqualTo(content);
+            assertThat(this.packageManager.getFs().getConfigFile().exists());
+            assertThat(FileUtils.readFileToString(this.packageManager.getFs().getConfigFile(), "utf-8")).isEqualTo(content);
         }
     }
 }

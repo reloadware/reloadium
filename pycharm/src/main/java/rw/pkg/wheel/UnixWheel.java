@@ -18,9 +18,4 @@ public class UnixWheel extends BaseWheel {
         this.osType = OsType.Linux;
         this.architecture = Architecture.X64;
     }
-
-    @Override
-    public File getPackageDir() {
-        return Const.get().getPackagePythonVersionDir(this.getPythonVersion());
-    }
 }

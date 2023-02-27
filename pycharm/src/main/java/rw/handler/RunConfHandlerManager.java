@@ -1,32 +1,20 @@
-package rw.handler.runConf;
+package rw.handler;
 
-import com.intellij.concurrency.JobScheduler;
-import com.intellij.execution.RunnerAndConfigurationSettings;
-import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.xdebugger.XDebuggerManager;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
-import com.jetbrains.python.run.AbstractPythonRunConfiguration;
-import com.jetbrains.python.sdk.PythonSdkUtil;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
-import rw.audit.RwSentry;
-import rw.consts.Const;
-import rw.pkg.BuiltinPackageManager;
-import rw.service.Service;
-import rw.util.OsType;
+import rw.pkg.PackageManager;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class RunConfHandlerManager {
     private static final Logger LOGGER = Logger.getInstance(RunConfHandlerManager.class);
     @VisibleForTesting
-    public BuiltinPackageManager builtinPackageManager;
+    public PackageManager builtinPackageManager;
     @VisibleForTesting
 
     public static RunConfHandlerManager singleton = null;
@@ -57,17 +45,6 @@ public class RunConfHandlerManager {
     @Nullable
     public BaseRunConfHandler getRunConfHandler(long executionId) {
         return this.all.get(executionId);
-    }
-
-    public List<BaseRunConfHandler> getForProject(Project project) {
-        List<BaseRunConfHandler> ret = new ArrayList<>();
-
-        this.all.forEach((key, value) -> {
-            if(value.getProject() == project) {
-                ret.add(value);
-            }
-        });
-        return ret;
     }
 
     public List<BaseRunConfHandler> getAllActiveHandlers(@Nullable Project project) {

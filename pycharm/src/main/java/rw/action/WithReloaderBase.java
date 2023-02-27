@@ -26,11 +26,9 @@ import org.jetbrains.annotations.Nullable;
 import rw.audit.RwSentry;
 import rw.consts.Const;
 import rw.debugger.DebugRunner;
-import rw.handler.runConf.BaseRunConfHandler;
-import rw.handler.runConf.RunConfHandlerFactory;
-import rw.handler.runConf.RunConfHandlerManager;
-import rw.handler.sdk.SdkHandler;
-import rw.handler.sdk.SdkHandlerFactory;
+import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandlerFactory;
+import rw.handler.RunConfHandlerManager;
 import rw.service.Service;
 
 import java.util.TimerTask;
@@ -63,6 +61,7 @@ public abstract class WithReloaderBase extends AnAction {
     }
 
     public boolean canRun(@NotNull AnActionEvent e) {
+        Presentation presentation = e.getPresentation();
         Service service = Service.get();
         RunnerAndConfigurationSettings conf = this.getConfiguration(e);
 
@@ -79,57 +78,58 @@ public abstract class WithReloaderBase extends AnAction {
             return false;
         }
 
-        SdkHandler sdkHandler = SdkHandlerFactory.factory(sdk);
-
-        if (sdkHandler == null) {
-            return false;
-        }
-
-        if (!sdkHandler.isValid()) {
-            return false;
-        }
-
         return service.canRun(conf);
     }
 
-    public void setEnabledText(@NotNull AnActionEvent e, RunnerAndConfigurationSettings conf) {
+    protected String getEnabledText(@NotNull AnActionEvent e, RunnerAndConfigurationSettings conf) {
         String text = String.format("%s '%s' with %s", this.getExecutor().getActionName(),
                 conf.getName(),
                 StringUtil.capitalize(Const.get().packageName));
-        e.getPresentation().setText(text);
+        text = StringUtil.escapeMnemonics(text);
+        return text;
     }
 
-    public void actionPerformed(@NotNull AnActionEvent e) {
-        LOGGER.info("Performing action");
+    public void setEnabledText(@NotNull AnActionEvent e, RunnerAndConfigurationSettings conf) {
+        e.getPresentation().setText(this.getEnabledText(e, conf));
+    }
+
+    public void start(@NotNull Project project, RunnerAndConfigurationSettings conf) {
         try {
-            Project project = getEventProject(e);
-
-            if (project == null)
-                return;
-
             RunManagerImpl runManager = RunManagerImpl.getInstanceImpl(project);
-            RunnerAndConfigurationSettings conf = this.getConfiguration(e);
-
             ExecutionEnvironment environment = this.getEnvironment(conf);
 
-            RunnerAndConfigurationSettings settings = environment.getRunnerAndConfigurationSettings();
-
-            if (!runManager.hasSettings(settings)) {
-                runManager.addConfiguration(settings);
+            if (!runManager.hasSettings(conf)) {
+                runManager.addConfiguration(conf);
             }
-            runManager.setSelectedConfiguration(settings);
+            runManager.setSelectedConfiguration(conf);
 
             if (ExecutionManager.getInstance(project).isStarting(environment))
                 return;
 
             ExecutionManager.getInstance(project).restartRunProfile(environment);
         } catch (Exception exception) {
-            RwSentry.get().captureException(exception);
+            RwSentry.get().captureException(exception, true);
         }
     }
 
+    public void actionPerformed(@NotNull AnActionEvent e) {
+        LOGGER.info("Performing action");
+        Project project = getEventProject(e);
+        if (project == null) {
+            return;
+        }
+
+        RunnerAndConfigurationSettings conf = this.getConfiguration(e);
+        this.start(project, conf);
+    }
+
+    protected BaseRunConfHandler handlerFactory(RunnerAndConfigurationSettings conf) {
+        BaseRunConfHandler ret = RunConfHandlerFactory.factory(conf.getConfiguration());
+        return ret;
+    }
+
     protected ExecutionEnvironment getEnvironment(RunnerAndConfigurationSettings conf) throws ExecutionException {
-        BaseRunConfHandler handler = RunConfHandlerFactory.factory(conf.getConfiguration());
+        BaseRunConfHandler handler = this.handlerFactory(conf);
         Executor executor = this.getExecutor();
 
         ExecutionEnvironmentBuilder builder = ExecutionEnvironmentBuilder.create(executor, conf);
@@ -138,8 +138,6 @@ public abstract class WithReloaderBase extends AnAction {
             DebugRunner runner = new DebugRunner(handler);
             builder = builder.runner(runner);
         }
-
-        handler.beforeRun(this.runType);
 
         TimerTask task = new TimerTask() {
             public void run() {
@@ -166,15 +164,22 @@ public abstract class WithReloaderBase extends AnAction {
 
         handler.setExecutionEnvironment(ret);
         RunConfHandlerManager.get().register(ret, handler);
+
+        handler.beforeRun(this.runType);
         return ret;
+    }
+
+    @Nullable
+    protected RunnerAndConfigurationSettings getConfiguration(Project project) {
+        RunManagerImpl runManager = RunManagerImpl.getInstanceImpl(project);
+        RunnerAndConfigurationSettings conf = runManager.getSelectedConfiguration();
+        return conf;
     }
 
     @Nullable
     protected RunnerAndConfigurationSettings getConfiguration(@NotNull AnActionEvent e) {
         Project project = getEventProject(e);
-        RunManagerImpl runManager = RunManagerImpl.getInstanceImpl(project);
-        RunnerAndConfigurationSettings conf = runManager.getSelectedConfiguration();
-        return conf;
+        return this.getConfiguration(project);
     }
 
 
@@ -199,7 +204,7 @@ public abstract class WithReloaderBase extends AnAction {
         }
     }
 
-    abstract Executor getExecutor();
+    public abstract Executor getExecutor();
 
     abstract void setRunningIcon(AnActionEvent e);
 

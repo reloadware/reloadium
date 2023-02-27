@@ -18,6 +18,8 @@ public class PreferencesForm {
     private JComboBox<ProfilerType> defaultProfiler;
     private JComboBox<CumulateType> defaultCumulateType;
     private JComboBox<ErrorHandlingMode> errorHandlingMode;
+    private JCheckBox alwaysCollectMemory;
+    private JCheckBox runtimeCompletion;
 
     private void createUIComponents() {
         this.blinkDuration = new JSpinner(new SpinnerNumberModel(0, 0, 2000, 10));
@@ -45,12 +47,14 @@ public class PreferencesForm {
         PreferencesState state = new PreferencesState();
         state.blinkDuration = ((SpinnerNumberModel)this.blinkDuration.getModel()).getNumber().intValue();
         state.timingColorMap = ColorMaps.get().getColorMapByImage((ImageIcon) this.timingColormap.getModel().getSelectedItem()).getName();
+        state.alwaysCollectMemory = this.alwaysCollectMemory.isSelected();
         state.telemetry = this.telemetry.isSelected();
         state.sentry = this.sentry.isSelected();
         state.markReloadable = this.markReloadable.isSelected();
         state.defaultProfiler = (ProfilerType) this.defaultProfiler.getModel().getSelectedItem();
         state.defaultCumulateType = (CumulateType) this.defaultCumulateType.getModel().getSelectedItem();
         state.defaultErrorHandlingMode = (ErrorHandlingMode) this.errorHandlingMode.getModel().getSelectedItem();
+        state.runtimeCompletion = this.runtimeCompletion.isSelected();
         return state;
     }
 
@@ -58,10 +62,12 @@ public class PreferencesForm {
         this.blinkDuration.setValue(state.blinkDuration);
         this.timingColormap.getModel().setSelectedItem(ColorMaps.get().getColorMapByName(state.timingColorMap).getImage());
         this.telemetry.setSelected(state.telemetry);
+        this.alwaysCollectMemory.setSelected(state.alwaysCollectMemory);
         this.sentry.setSelected(state.sentry);
         this.markReloadable.setSelected(state.markReloadable);
         this.defaultProfiler.getModel().setSelectedItem(state.defaultProfiler);
         this.defaultCumulateType.getModel().setSelectedItem(state.defaultCumulateType);
         this.errorHandlingMode.getModel().setSelectedItem(state.defaultErrorHandlingMode);
+        this.runtimeCompletion.setSelected(state.runtimeCompletion);
     }
 }

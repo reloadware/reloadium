@@ -21,7 +21,6 @@ public class RerunDebugWithReloadium extends WithReloaderBase {
         super();
         this.runType = RunType.DEBUG;
     }
-
     @Override
     @Nullable
     protected RunnerAndConfigurationSettings getConfiguration(@NotNull AnActionEvent e) {
@@ -44,7 +43,7 @@ public class RerunDebugWithReloadium extends WithReloaderBase {
     }
 
     @Override
-    protected Executor getExecutor() {
+    public Executor getExecutor() {
         return DefaultDebugExecutor.getDebugExecutorInstance();
     }
 }

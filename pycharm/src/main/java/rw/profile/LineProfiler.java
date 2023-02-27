@@ -4,6 +4,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
+import rw.handler.Activable;
 import rw.quickconfig.QuickConfig;
 import rw.session.events.LineProfile;
 
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-abstract public class LineProfiler {
+abstract public class LineProfiler implements Activable {
     Project project;
     QuickConfig quickConfig;
 

@@ -12,14 +12,12 @@ import com.intellij.openapi.util.NlsContexts;
 import com.intellij.xdebugger.XDebuggerManager;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
 import org.jetbrains.annotations.Nullable;
-import rw.handler.runConf.BaseRunConfHandler;
-import rw.handler.runConf.RunConfHandlerManager;
+import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandlerManager;
 
 import java.awt.*;
 import java.io.File;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class ProfileGutterProvider implements TextAnnotationGutterProvider {
     boolean selected;

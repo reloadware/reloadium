@@ -36,23 +36,24 @@ public class FrameProgressRenderer {
             highlighter.hide();
         }
 
-        int start = Collections.min(event.getTimeValues().keySet());
-
         if (!event.isStop()) {
             this.highlighter = new Highlighter(project,
-                            event.getLocalPath(),
-                            event.getLine(),
-                            this.CURR_LINE_COLOR,
-                            -1,
-                            false);
+                    event.getLocalPath(),
+                    event.getLine(),
+                    this.CURR_LINE_COLOR,
+                    -1,
+                    false);
             this.highlighter.show();
         }
 
         LOGGER.info("Rendering frame progress");
 
-        Blink blink = new Blink(project, event.getLocalPath(), start, event.getLine(), FRAME_PROGRESS_COLOR, -1,
-                this.BLINK_DURATION);
-        Blinker.get().blink(blink);
+        if (!event.getTimeValues().isEmpty()) {
+            int start = Collections.min(event.getTimeValues().keySet());
+            Blink blink = new Blink(project, event.getLocalPath(), start, event.getLine(), FRAME_PROGRESS_COLOR, -1,
+                    this.BLINK_DURATION);
+            Blinker.get().blink(blink);
+        }
     }
 
 

@@ -59,7 +59,7 @@ class GutterRenderer implements ActiveGutterRenderer {
     @Override
     public void paint(@NotNull Editor editor, @NotNull Graphics g, @NotNull Rectangle r) {
         CumulateType cumulateType = this.lineProfiler.getQuickConfig().getState().getComulateType();
-        Set<Integer> lines = this.fileValues.getValues(cumulateType).keySet();
+        Set<Integer> lines = new HashSet<>(this.fileValues.getValues(cumulateType).keySet());
 
         if (lines.isEmpty()) {
             return;

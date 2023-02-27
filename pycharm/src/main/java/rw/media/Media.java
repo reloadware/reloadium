@@ -26,7 +26,7 @@ public class Media {
             plasma = new ImageIcon(Media.class.getClassLoader().getResourceAsStream("META-INF/media/plasma.png").readAllBytes());
             viridis = new ImageIcon(Media.class.getClassLoader().getResourceAsStream("META-INF/media/viridis.png").readAllBytes());
         } catch (IOException e) {
-            RwSentry.get().captureException(e);
+            RwSentry.get().captureException(e, true);
         }
     }
 }

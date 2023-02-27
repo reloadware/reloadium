@@ -8,9 +8,8 @@ import com.jetbrains.python.run.PythonRunConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import rw.action.RunWithReloadium;
-import rw.handler.runConf.PythonRunConfHandler;
+import rw.handler.PythonRunConfHandler;
 import rw.settings.ProjectState;
 import rw.settings.ProjectSettings;
 import rw.tests.BaseMockedTestCase;
@@ -31,7 +30,7 @@ public class TestProjectSettings extends BaseMockedTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        PackageFixture packageFixture = new PackageFixture("0.7.12");
+        PackageFixture packageFixture = new PackageFixture(this.packageManager,"0.7.12");
         this.cakeshop = new CakeshopFixture(this.getProject());
         this.cakeshop.start();
         this.sourceRootFixture = new SourceRootFixture(this.cakeshop.getRunConf().getModule());

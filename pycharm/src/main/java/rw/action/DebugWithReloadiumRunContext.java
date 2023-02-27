@@ -25,7 +25,7 @@ public class DebugWithReloadiumRunContext extends ContextPopupAction {
     }
 
     @Override
-    protected Executor getExecutor() {
+    public Executor getExecutor() {
         return DefaultDebugExecutor.getDebugExecutorInstance();
     }
 }

@@ -47,7 +47,7 @@ public class RunWithReloadium extends WithReloaderBase implements DumbAware {
         e.getPresentation().setIcon(Icons.Run);
     }
 
-    protected Executor getExecutor() {
+    public Executor getExecutor() {
         return DefaultRunExecutor.getRunExecutorInstance();
     }
 }

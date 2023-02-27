@@ -6,10 +6,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import rw.audit.RwSentry;
-import rw.pkg.BuiltinPackageManager;
+import rw.pkg.PackageManager;
 import rw.service.TestService;
 import rw.tests.fixtures.ConstFixture;
 import rw.tests.fixtures.DialogFactoryFixture;
+import rw.tests.fixtures.NativeFileSystemFixture;
 import rw.tests.fixtures.SentryFixture;
 
 import static org.mockito.Mockito.spy;
@@ -21,7 +22,8 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
     public String webVersion = null;
     public String builtinVersion = null;
 
-    public BuiltinPackageManager builtinPackageManager;
+    public PackageManager packageManager;
+    public NativeFileSystemFixture nativeFileSystemFixture;
     public DialogFactoryFixture dialogFactoryFixture;
 
     public ConstFixture constFixture;
@@ -35,6 +37,9 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
+        this.nativeFileSystemFixture = new NativeFileSystemFixture();
+        this.nativeFileSystemFixture.start();
+
         this.dialogFactoryFixture = new DialogFactoryFixture(this.getProject());
         this.dialogFactoryFixture.start();
 
@@ -47,8 +52,8 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
         this.service = new TestService();
         TestService.singleton = this.service;
 
-        this.builtinPackageManager = spy(this.service.builtinPackageManager);
-        this.service.builtinPackageManager = this.builtinPackageManager;
+        this.packageManager = spy(this.service.packageManager);
+        this.service.packageManager = this.packageManager;
 
         this.builtinVersion = "0.7.10";
         this.webVersion = "0.7.13";
@@ -58,6 +63,7 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
     protected void tearDown() throws Exception {
         this.constFixture.stop();
         this.dialogFactoryFixture.stop();
+        this.nativeFileSystemFixture.stop();
         super.tearDown();
     }
 
