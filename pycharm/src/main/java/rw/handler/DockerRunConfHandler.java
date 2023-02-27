@@ -1,4 +1,4 @@
-package rw.handler.runConf;
+package rw.handler;
 
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.ui.RunContentDescriptor;

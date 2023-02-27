@@ -1,6 +1,5 @@
-package rw.handler.runConf;
+package rw.handler;
 
-import com.intellij.CommonBundle;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.process.BaseProcessHandler;
 import com.intellij.execution.ui.RunContentDescriptor;
@@ -11,11 +10,16 @@ import rw.action.RunType;
 import rw.audit.RwSentry;
 import rw.config.Config;
 import rw.config.ConfigManager;
+import rw.consts.Const;
+import rw.consts.Stage;
+import rw.handler.PythonRunConfHandler;
 
+import java.io.File;
 import java.lang.reflect.Method;
 
 
 public class RemoteRunConfHandler extends PythonRunConfHandler {
+    public static final String USER_ID_ENV = "RW_USERID";  //  # RwRender: public static final String USER_ID_ENV = "{{ ctx.env_vars.user_id }}";  //
 
     public RemoteRunConfHandler(RunConfiguration runConf) {
         super(runConf);
@@ -23,8 +27,10 @@ public class RemoteRunConfHandler extends PythonRunConfHandler {
 
     public void onProcessStarted(RunContentDescriptor descriptor) {
         try {
-            BaseProcessHandler processHandler = ((BaseProcessHandler) descriptor.getProcessHandler());
+            BaseProcessHandler<?> processHandler = (BaseProcessHandler<?>) descriptor.getProcessHandler();
+            assert processHandler != null;
             Object process = processHandler.getProcess();
+
             Method addRemoteTunnel = process.getClass().getMethod("addRemoteTunnel", int.class, String.class, int.class);
             Method getSession = process.getClass().getMethod("getSession");
 
@@ -35,8 +41,18 @@ public class RemoteRunConfHandler extends PythonRunConfHandler {
 
             addRemoteTunnel.invoke(process, this.session.getPort(), host, this.session.getPort());
         } catch (Exception e) {
-            RwSentry.get().captureException(e);
+            RwSentry.get().captureException(e, true);
         }
+    }
+
+    protected File getPackagesRootDir() {
+        String ret = "/root/.reloadium/package";
+
+        if(Const.get().stage != Stage.PROD) {
+            ret += "_" + Const.get().stage.value;
+        }
+
+        return new File(ret);
     }
 
     @Override
@@ -46,7 +62,7 @@ public class RemoteRunConfHandler extends PythonRunConfHandler {
         ConfigManager.get().createIfNotExists();
         Config config = ConfigManager.get().getConfig();
 
-        this.runConf.getEnvs().put("RW_USERID", config.user.uuid);
+        this.runConf.getEnvs().put(USER_ID_ENV, config.user.uuid);
     }
 
     @NotNull

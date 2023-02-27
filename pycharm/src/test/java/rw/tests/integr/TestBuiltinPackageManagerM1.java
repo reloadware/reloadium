@@ -5,8 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import rw.tests.BaseMockedTestCase;
 import rw.tests.fixtures.M1Fixture;
-import rw.tests.fixtures.PackageFixture;
-import rw.tests.utils.MiscUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +32,7 @@ public class TestBuiltinPackageManagerM1 extends BaseMockedTestCase {
 
     @Test
     public void testGetWheelFiles() throws Exception {
-        List<String> filenames = this.builtinPackageManager.getWheelFiles().stream().map(f -> f.getName()).collect(Collectors.toList());
+        List<String> filenames = this.packageManager.getWheelFiles().stream().map(f -> f.getName()).collect(Collectors.toList());
 
         assertThat(filenames).isEqualTo(List.of(
                 "reloadium-0.7.13-cp38-cp38-macosx_11_0_arm64.whl",

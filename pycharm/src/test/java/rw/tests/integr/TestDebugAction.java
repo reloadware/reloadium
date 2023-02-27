@@ -28,7 +28,7 @@ public class TestDebugAction extends BaseMockedTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        PackageFixture packageFixture = new PackageFixture("0.7.12");
+        PackageFixture packageFixture = new PackageFixture(this.packageManager,"0.7.12");
         this.cakeshop = new CakeshopFixture(this.getProject());
         this.cakeshop.start();
 
@@ -82,7 +82,7 @@ public class TestDebugAction extends BaseMockedTestCase {
         assertThat(runConf.getScriptName()).isEqualTo("main.py");
         assertThat(runConf.isModuleMode()).isFalse();
         assertThat(runConf.getEnvs().get("PYTHONPATH").isBlank()).isFalse();
-        assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium pydev_proxy");
+        assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium_launcher pydev_proxy");
 
         verify(this.dialogFactoryFixture.dialogFactory, times(1)).showFirstDebugDialog(this.getProject());
     }

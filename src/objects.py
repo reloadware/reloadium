@@ -8,6 +8,8 @@ else:
 
 dataclass = dataclass(repr=False)  # type: ignore
 
+__RELOADIUM__ = True
+
 __all__ = [
     "Object",
     "Variable",

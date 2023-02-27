@@ -24,10 +24,6 @@ public class ConstFixture {
         this.device = spy(new Const());
         Const.singleton = this.device;
 
-        File dotDir = new File(Files.createTempDirectory(".reloadium").toFile().getAbsolutePath());
-
-        Mockito.lenient().doReturn(dotDir).when(this.device).getDotDir();
-
         if (this.makeProd) {
             this.device.stage = Stage.PROD;
         }

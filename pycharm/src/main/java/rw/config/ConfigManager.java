@@ -6,6 +6,8 @@ import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.audit.RwSentry;
 import rw.consts.Const;
+import rw.pkg.FileSystem;
+import rw.pkg.NativeFileSystem;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -27,7 +29,9 @@ public class ConfigManager {
     }
 
     public void createIfNotExists() {
-        if (Const.get().getConfigFile().exists()) {
+        NativeFileSystem fs = NativeFileSystem.get();
+
+        if (fs.getConfigFile().exists()) {
             return;
         }
 
@@ -37,21 +41,23 @@ public class ConfigManager {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         try {
-            FileUtils.writeStringToFile(Const.get().getConfigFile(), gson.toJson(config), "utf-8");
+            FileUtils.writeStringToFile(fs.getConfigFile(), gson.toJson(config), "utf-8");
         } catch (IOException e) {
-            RwSentry.get().captureException(e);
+            RwSentry.get().captureException(e, false);
         }
     }
 
     public Config getConfig() {
+        NativeFileSystem fs = NativeFileSystem.get();
+
         ConfigManager.get().createIfNotExists();
 
         Gson g = new Gson();
         Config ret = null;
         try {
-            ret = g.fromJson(FileUtils.readFileToString(Const.get().getConfigFile(), "utf-8"), Config.class);
+            ret = g.fromJson(FileUtils.readFileToString(fs.getConfigFile(), "utf-8"), Config.class);
         } catch (IOException e) {
-            RwSentry.get().captureException(e);
+            RwSentry.get().captureException(e, false);
         }
         return ret;
     }

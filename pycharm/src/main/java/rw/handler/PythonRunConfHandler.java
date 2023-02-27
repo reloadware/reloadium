@@ -1,8 +1,7 @@
-package rw.handler.runConf;
+package rw.handler;
 
 import com.google.gson.Gson;
 import com.intellij.execution.configurations.RunConfiguration;
-import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.ModuleRootManager;
@@ -13,14 +12,18 @@ import org.jetbrains.annotations.Nullable;
 import rw.action.RunType;
 import rw.audit.RwSentry;
 import rw.consts.Const;
+import rw.handler.BaseRunConfHandler;
 import rw.icons.IconPatcher;
+import rw.pkg.NativeFileSystem;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
 import rw.quickconfig.QuickConfigStateFactory;
+import rw.service.Service;
 import rw.settings.ProjectState;
 import rw.settings.ProjectSettings;
 import rw.util.EnvUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +72,7 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
 
         String pathSep = System.getProperty("path.separator");
 
-        this.runConf.setInterpreterOptions(String.format("-m %s %s", Const.get().packageName, command));
+        this.runConf.setInterpreterOptions(String.format("-m %s %s", Const.get().launcherName, command));
 
         this.session.start();
 
@@ -90,6 +93,11 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
         this.runConf.getEnvs().put("PYDEVD_USE_CYTHON", "NO");
         this.runConf.getEnvs().put(this.TELEMETRY_ENV, EnvUtils.boolToEnv(preferences.telemetry));
         this.runConf.getEnvs().put(this.SENTRY_ENV, EnvUtils.boolToEnv(preferences.sentry));
+        this.runConf.getEnvs().put("RW_STAGE", Const.get().stage.value);
+
+        if(this.extraEnvsSetter != null) {
+            this.extraEnvsSetter.setEnvs(this.runConf.getEnvs());
+        }
 
         Gson gson = new Gson();
         String quickConfigPayload = gson.toJson(QuickConfigStateFactory.create());
@@ -136,15 +144,16 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
             }
         }
 
-        assert this.sdkHandler != null;
-        String packagePath = this.sdkHandler.getPackageDir().toString();
+        pythonpath = pythonpath; //  # RwRender: pythonpath = {{ ctx.pythonpath }}; //
+
+        String launcherPath = String.valueOf(this.getPackagesRootDir());
 
         if (!pythonpath.isBlank()) {
-            pythonpath = String.format("%s%s%s", packagePath, pathSep, pythonpath);
+            pythonpath = String.format("%s%s%s", launcherPath, pathSep, pythonpath);
         } else {
-            pythonpath = packagePath;
+            pythonpath = launcherPath;
         }
-        this.runConf.getEnvs().put("PYTHONPATH", pythonpath);  //  # RwRender: this.runConf.getEnvs().put("PYTHONPATH", {{ ctx.pythonpath }});  //
+        this.runConf.getEnvs().put("PYTHONPATH", pythonpath);
     }
 
     private List<String> getRemotePaths(List<String> paths) {
@@ -154,10 +163,14 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
             try {
                 ret.add(this.convertPathToRemote(p, false));
             } catch (Exception e) {
-                RwSentry.get().captureException(e);
+                RwSentry.get().captureException(e, true);
             }
         }
         return ret;
+    }
+
+    protected File getPackagesRootDir() {
+        return NativeFileSystem.get().getPackagesRootDir();
     }
 
     @Override
@@ -174,7 +187,7 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
     }
 
     public boolean isReloadiumActivated() {
-        boolean ret = this.runConf.getInterpreterOptions().contains("reloadium");
+        boolean ret = this.runConf.getInterpreterOptions().contains(Const.get().launcherName);
         return ret;
     }
 }

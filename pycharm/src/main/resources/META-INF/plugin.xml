@@ -1,8 +1,8 @@
 <idea-plugin>
     <id>org.reloadium</id>
     <name>Reloadium - Hot Reloading &#38; Profiling for Python</name>
-    <version>0.9.5</version>
-    <idea-version since-build="221"/>
+    <version>0.9.6</version>
+    <idea-version since-build="222"/>
     <vendor email="damian@reloadware.com" url="reloadium.io">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.python</depends>
@@ -22,6 +22,46 @@
 
     <change-notes><![CDATA[
     
+        <h3>0.9.6</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>Miscellaneous:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>No reload decorator in function and module frames issues</li>
+                        </ul>
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Fast debug</li>
+                            <li>Async mementos support</li>
+                        </ul>
+                    
+                </div>
+                <h4>PyCharm:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Always collect memory info option</li>
+                            <li>New UI support</li>
+                            <li>Multithreaded frame errors support </li>
+                            <li>Runtime completion</li>
+                            <li>Remote development automatic package upload</li>
+                            <li>Centering editor on errors</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Frame progress not showing on first slow line</li>
+                            <li>Null pointer exception when dropping frames</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>0.9.5</h3>
             <div style="padding-left: 20px;">
             
@@ -884,9 +924,30 @@
         <fileDocumentManagerListener implementation="rw.action.ReloadOnSave"/>
         <fileIconPatcher implementation="rw.icons.IconPatcher" order="last"/>
         <projectViewNodeDecorator implementation="rw.icons.IconDecorator"/>
+        <completion.contributor language="Python"
+                            implementationClass="rw.completion.LocalCompletionContributor"/>
+        <completion.contributor language="Python"
+                            implementationClass="rw.completion.GlobalCompletionContributor"/>
+        <completion.contributor language="Python"
+                            implementationClass="rw.completion.ImportCompletionContributor"/>
+        <completion.contributor language="Python"
+                            implementationClass="rw.completion.FromImportCompletionContributor"/>
+        <codeInsight.lineMarkerProvider language="Python" implementationClass="rw.completion.CompletableFunctionsLineMarker"/>
     </extensions>
 
     <actions>
+        <action id="FastDebugWithReloadium"
+                class="rw.action.FastDebugWithReloadium"
+                text="Fast Debug with Reloadium"
+                description="Fast Debug script with hot reloading enabled"
+                icon="rw.icons.Icons.FastDebug"
+        >
+            <add-to-group group-id="ToolbarRunGroup" anchor="first"/>
+            <add-to-group group-id="RunToolbarMainActionGroup" anchor="first"/>
+            <add-to-group group-id="RunMenu" anchor="first"/>
+            <add-to-group group-id="RunDashboardContentToolbar" anchor="first"/>
+        </action>
+
         <action id="DebugWithReloadium"
                 class="rw.action.DebugWithReloadium"
                 text="Debug with Reloadium"
@@ -894,6 +955,7 @@
                 icon="rw.icons.Icons.Debug"
         >
             <add-to-group group-id="ToolbarRunGroup" anchor="first"/>
+            <add-to-group group-id="RunToolbarMainActionGroup" anchor="first"/>
             <add-to-group group-id="RunMenu" anchor="first"/>
             <add-to-group group-id="RunDashboardContentToolbar" anchor="first"/>
         </action>
@@ -904,8 +966,17 @@
                 description="Run script with hot reloading enabled"
                 icon="rw.icons.Icons.Run">
             <add-to-group group-id="ToolbarRunGroup" anchor="first"/>
+            <add-to-group group-id="RunToolbarMainActionGroup" anchor="first"/>
             <add-to-group group-id="RunMenu" anchor="first"/>
             <add-to-group group-id="RunDashboardContentToolbar" anchor="first"/>
+        </action>
+
+        <action id="FastDebugWithReloadiumRunContextPopup"
+                class="rw.action.FastDebugWithReloadiumRunContext"
+                text="Fast Debug with Reloadium"
+                description="Fast Debug script with hot reloading enabled"
+                icon="rw.icons.Icons.FastDebug">
+            <add-to-group group-id="RunContextGroup" anchor="first"/>
         </action>
 
         <action id="DebugWithReloadiumRunContextPopup"

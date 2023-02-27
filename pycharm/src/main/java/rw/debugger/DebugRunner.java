@@ -6,13 +6,13 @@ import com.jetbrains.python.debugger.PyDebugProcess;
 import com.jetbrains.python.debugger.PyDebugRunner;
 import com.jetbrains.python.run.PythonCommandLineState;
 import org.jetbrains.annotations.NotNull;
-import rw.handler.runConf.BaseRunConfHandler;
-import rw.session.Session;
+import rw.handler.BaseRunConfHandler;
 
 import java.net.ServerSocket;
 
 public class DebugRunner extends PyDebugRunner {
     private BaseRunConfHandler handler;
+
     public DebugRunner(BaseRunConfHandler handler) {
         this.handler = handler;
     }

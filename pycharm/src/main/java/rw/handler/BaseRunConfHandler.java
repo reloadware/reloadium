@@ -1,5 +1,6 @@
-package rw.handler.runConf;
+package rw.handler;
 
+import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.execution.Executor;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.runners.ExecutionEnvironment;
@@ -11,14 +12,15 @@ import com.intellij.openapi.Disposable;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.content.Content;
 import com.intellij.util.messages.MessageBusConnection;
+import com.intellij.xdebugger.XDebugSessionListener;
 import com.intellij.xdebugger.XDebuggerManager;
-import com.intellij.xdebugger.frame.XStackFrame;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
 import com.jetbrains.python.run.AbstractPythonRunConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.action.RunType;
+import rw.debugger.FastDebug;
 import rw.icons.IconPatcher;
 import rw.icons.Icons;
 import rw.profile.*;
@@ -27,15 +29,11 @@ import rw.quickconfig.QuickConfig;
 import rw.quickconfig.QuickConfigCallback;
 import rw.quickconfig.QuickConfigState;
 import rw.session.cmds.QuickConfigCmd;
-import rw.session.events.Event;
-import rw.session.events.Handshake;
-import rw.session.events.ModuleUpdate;
 import rw.stack.Stack;
-import rw.handler.sdk.SdkHandler;
-import rw.handler.sdk.SdkHandlerFactory;
 import rw.highlights.ErrorHighlightManager;
 import rw.service.Service;
 import rw.session.Session;
+import rw.stack.ThreadErrorManager;
 
 import java.io.File;
 import java.util.HashSet;
@@ -46,8 +44,6 @@ import static java.util.Map.entry;
 
 public abstract class BaseRunConfHandler implements Disposable {
     AbstractPythonRunConfiguration<?> runConf;
-    @Nullable
-    SdkHandler sdkHandler;
     ExecutionEnvironment executionEnvironment;
     Stack stack;
     FrameProgressRenderer frameProgressRenderer;
@@ -55,9 +51,11 @@ public abstract class BaseRunConfHandler implements Disposable {
     MemoryProfiler memoryProfiler;
     LineProfiler activeProfiler;
     NoneProfiler noneProfiler;
+    FastDebug fastDebug;
 
     Session session;
     ErrorHighlightManager errorHighlightManager;
+    ThreadErrorManager threadErrorManager;
     Project project;
     MessageBusConnection messageBusConnection;
     Set<File> watchedFiles;
@@ -67,6 +65,7 @@ public abstract class BaseRunConfHandler implements Disposable {
     QuickConfig quickConfig;
     boolean firstActivate;
     Map<ProfilerType, LineProfiler> profilerTypeToProfiler;
+    @Nullable ExtraEnvsSetter extraEnvsSetter;
 
     public BaseRunConfHandler(RunConfiguration runConf) {
         this.runConf = (AbstractPythonRunConfiguration<?>) runConf;
@@ -80,9 +79,9 @@ public abstract class BaseRunConfHandler implements Disposable {
             }
         });
 
-        this.sdkHandler = SdkHandlerFactory.factory(this.runConf.getSdk());
         this.stack = new Stack(this.project, this);
         this.frameProgressRenderer = new FrameProgressRenderer(this.project);
+        this.fastDebug = new FastDebug(this.project);
 
         this.timeProfiler = new TimeProfiler(this.project, this.quickConfig);
         this.memoryProfiler = new MemoryProfiler(this.project, this.quickConfig);
@@ -90,6 +89,7 @@ public abstract class BaseRunConfHandler implements Disposable {
 
         this.session = new Session(this.project, this);
         this.errorHighlightManager = new ErrorHighlightManager(this.project);
+        this.threadErrorManager = new ThreadErrorManager(this.project);
 
         this.watchedFiles = new HashSet<>();
         this.active = true;
@@ -105,6 +105,15 @@ public abstract class BaseRunConfHandler implements Disposable {
         this.handleJbEvents();
     }
 
+    public AbstractPythonRunConfiguration<?> getRunConf() {
+        return this.runConf;
+    }
+
+
+    public void setExtraEnvsSetter(ExtraEnvsSetter extraEnvsSetter) {
+        this.extraEnvsSetter = extraEnvsSetter;
+    }
+
     public void beforeRun(RunType runType) {
     }
 
@@ -114,6 +123,7 @@ public abstract class BaseRunConfHandler implements Disposable {
     abstract public void afterRun();
 
     abstract public boolean isReloadiumActivated();
+    abstract protected File getPackagesRootDir();
 
     public RunType getRunType() {
         return this.runType;
@@ -145,12 +155,19 @@ public abstract class BaseRunConfHandler implements Disposable {
         return stack;
     }
 
+    public FastDebug getFastDebug() {
+        return this.fastDebug;
+    }
+
     public FrameProgressRenderer getStackRenderer() {
         return frameProgressRenderer;
     }
+    public ThreadErrorManager getThreadErrorManager() {
+        return this.threadErrorManager;
+    }
 
     public ErrorHighlightManager getErrorHighlightManager() {
-        return errorHighlightManager;
+        return this.errorHighlightManager;
     }
 
     public Project getProject() {
@@ -189,17 +206,20 @@ public abstract class BaseRunConfHandler implements Disposable {
     }
 
     public void activate() {
-        this.errorHighlightManager.activate();
         if (this.activeProfiler != null) {
             this.activeProfiler.activate();
         }
         this.frameProgressRenderer.activate();
-        this.active = true;
-        IconPatcher.refresh(this.getProject());
 
         if (this.firstActivate) {
             this.onFirstActivate();
         }
+
+        this.threadErrorManager.activate();
+        this.fastDebug.activate();
+        this.active = true;
+        IconPatcher.refresh(this.getProject());
+        this.refreshLineMarkers();
         this.firstActivate = false;
     }
 
@@ -211,19 +231,35 @@ public abstract class BaseRunConfHandler implements Disposable {
     public void onFirstActivate() {
         XDebugSessionImpl debugSession = this.getDebugSession();
         assert debugSession != null;
+        this.threadErrorManager.onSessionStarted(debugSession);
+
         String id = Integer.toString(debugSession.hashCode());
         RunnerLayoutUi layout = RunnerLayoutUi.Factory.getInstance(this.project).create(id, "re_runner", "re_session",
                 this);
         Content content = layout.createContent(id, quickConfig.getContent(), "loadium", Icons.ProductIcon, null);
         debugSession.getUI().addContent(content);
+
+        debugSession.addSessionListener(new XDebugSessionListener() {
+            @Override
+            public void stackFrameChanged() {
+                refreshLineMarkers();
+            }
+        });
+    }
+
+    private void refreshLineMarkers() {
+        DaemonCodeAnalyzer.getInstance(project).restart();
     }
 
     public void deactivate() {
         this.errorHighlightManager.deactivate();
+        this.threadErrorManager.deactivate();
         this.activeProfiler.deactivate();
         this.frameProgressRenderer.deactivate();
+        this.fastDebug.deactivate();
         this.active = false;
         IconPatcher.refresh(this.getProject());
+        this.refreshLineMarkers();
     }
 
     public QuickConfig getQuickConfig() {

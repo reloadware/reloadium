@@ -1,4 +1,72 @@
 {
+  "0.9.11": [
+    {
+      "type": "Fixed",
+      "description": "No reload decorator in function and module frames issues",
+      "tag": "Miscellaneous",
+      "date": "2023-02-26"
+    },
+    {
+      "type": "Added",
+      "description": "Fast debug",
+      "tag": "Miscellaneous",
+      "date": "2023-02-26"
+    },
+    {
+      "type": "Added",
+      "description": "Always collect memory info option",
+      "tag": "PyCharm",
+      "date": "2023-02-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Frame progress not showing on first slow line",
+      "tag": "PyCharm",
+      "date": "2023-02-26"
+    },
+    {
+      "type": "Added",
+      "description": "New UI support",
+      "tag": "PyCharm",
+      "date": "2023-02-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Null pointer exception when dropping frames",
+      "tag": "PyCharm",
+      "date": "2023-02-26"
+    },
+    {
+      "type": "Added",
+      "description": "Async mementos support",
+      "tag": "Miscellaneous",
+      "date": "2023-02-26"
+    },
+    {
+      "type": "Added",
+      "description": "Multithreaded frame errors support ",
+      "tag": "PyCharm",
+      "date": "2023-02-26"
+    },
+    {
+      "type": "Added",
+      "description": "Runtime completion",
+      "tag": "PyCharm",
+      "date": "2023-02-26"
+    },
+    {
+      "type": "Added",
+      "description": "Remote development automatic package upload",
+      "tag": "PyCharm",
+      "date": "2023-02-26"
+    },
+    {
+      "type": "Added",
+      "description": "Centering editor on errors",
+      "tag": "PyCharm",
+      "date": "2023-02-27"
+    }
+  ],
   "0.9.10": [
     {
       "type": "Added",

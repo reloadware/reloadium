@@ -2,6 +2,32 @@ Change Log
 ##########
 
 
+0.9.6
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * No reload decorator in function and module frames issues
+    
+  Added:
+    * Fast debug
+    * Async mementos support
+    
+**PyCharm**:
+    
+  Added:
+    * Always collect memory info option
+    * New UI support
+    * Multithreaded frame errors support 
+    * Runtime completion
+    * Remote development automatic package upload
+    * Centering editor on errors
+    
+  Fixed:
+    * Frame progress not showing on first slow line
+    * Null pointer exception when dropping frames
+    
 0.9.5
 -------
 

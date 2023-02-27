@@ -2,12 +2,9 @@ package rw.stack;
 
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nullable;
-import rw.handler.runConf.BaseRunConfHandler;
-import rw.highlights.ErrorHighlightManager;
-import rw.session.events.ClearThreadError;
+import rw.handler.BaseRunConfHandler;
 import rw.session.events.FrameData;
 import rw.session.events.StackUpdate;
-import rw.session.events.ThreadErrorEvent;
 
 import java.io.File;
 import java.util.*;
@@ -62,23 +59,6 @@ public class Stack {
             }
 
             this.content.put(threadId, frames);
-        }
-    }
-
-    public void onThreadError(ThreadErrorEvent threadErrorEvent) {
-        Thread thread = this.threads.get(threadErrorEvent.getThreadId());
-        Frame frame = this.getFrameById(threadErrorEvent.getFramenId());
-        thread.makeErrored(frame, threadErrorEvent.getMsg(), threadErrorEvent.getLine());
-        this.handler.getErrorHighlightManager().add(threadErrorEvent.getLocalPath(),
-                threadErrorEvent.getLine(), threadErrorEvent.getMsg());
-    }
-
-    public void onClearThreadError(ClearThreadError clearThreadError) {
-        Thread thread = this.threads.get(clearThreadError.getThreadId());
-
-        if(thread.getThreadError() != null) {
-            this.handler.getErrorHighlightManager().clearFile(thread.getThreadError().getPath());
-            thread.clearErrored();
         }
     }
 

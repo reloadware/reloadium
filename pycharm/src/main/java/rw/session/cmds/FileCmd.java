@@ -1,9 +1,9 @@
 package rw.session.cmds;
 
 abstract public class FileCmd extends Cmd {
-    private String path;
+    private String file;
 
-    public FileCmd(String path) {
-        this.path = path;
+    public FileCmd(String file) {
+        this.file = file;
     }
 }

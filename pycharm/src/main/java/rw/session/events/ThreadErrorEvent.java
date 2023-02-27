@@ -18,7 +18,7 @@ public class ThreadErrorEvent extends FileError {
     @Override
     public void handle() {
         LOGGER.info("Handling ThreadErrorEvent");
-        this.handler.getStack().onThreadError(this);
+        this.handler.getThreadErrorManager().onThreadError(this);
         DialogFactory.get().showFirstThreadErrorDialog(this.handler.getProject());
     }
 

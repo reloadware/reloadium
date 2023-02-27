@@ -11,6 +11,6 @@ public class ClearThreadError extends ThreadEvent {
     public void handle() {
         LOGGER.info("Handling ClearThreadError ");
         super.handle();
-        this.handler.getStack().onClearThreadError(this);
+        this.handler.getThreadErrorManager().onThreadErrorClear(this);
     }
 }

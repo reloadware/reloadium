@@ -84,6 +84,6 @@ public class TestRerunDebugAction extends BaseMockedTestCase {
         assertThat(runConf.getScriptName()).isEqualTo("main.py");
         assertThat(runConf.isModuleMode()).isFalse();
         assertThat(runConf.getEnvs().get("PYTHONPATH").isBlank()).isFalse();
-        assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium pydev_proxy");
+        assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium_launcher pydev_proxy");
     }
 }

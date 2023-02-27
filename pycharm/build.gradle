@@ -1,12 +1,14 @@
 plugins {
     id('java')
-    id('org.jetbrains.intellij') version '1.5.2'
-    id("org.jetbrains.kotlin.jvm") version "1.6.20"
+    id('org.jetbrains.intellij') version '1.13.0'
+    id("org.jetbrains.kotlin.jvm") version "1.8.10"
     id('com.adarshr.test-logger') version '3.1.0'
 }
 
+
 group 'com.reloadware'
-version '0.9.5' //  # RwRender: version '{{ ctx.version }}' //
+version '0.9.6' //  # RwRender: version '{{ ctx.version }}' //
+
 
 repositories {
     mavenCentral()
@@ -28,8 +30,9 @@ repositories {
     }
 }
 
+sourceCompatibility=17
 def remoteRobotVersion = "0.11.16"
-def intellijVersion = "2022.2.4" //  # RwRender: def intellijVersion = "{{ ctx.intellij_version }}" //
+def intellijVersion = "2022.3.2" //  # RwRender: def intellijVersion = "{{ ctx.intellij_version }}" //
 def intellijPro = false  //  # RwRender: def intellijPro = {{ ctx.pro }}  //
 
 
@@ -124,7 +127,7 @@ publishPlugin {
 }
 
 runPluginVerifier {
-    ideVersions = ["IU-223.7571.4", "IU-222.4345.14", "IU-221.5080.93"]
+    ideVersions = ["IU-223.8836.14", "IU-222.4345.14"]
 }
 
 tasks.processResources {

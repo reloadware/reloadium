@@ -11,8 +11,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.jetbrains.python.psi.impl.PyFileImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rw.handler.runConf.BaseRunConfHandler;
-import rw.handler.runConf.RunConfHandlerManager;
+import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandlerManager;
 import rw.session.cmds.ReloadFile;
 
 import java.util.List;

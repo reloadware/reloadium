@@ -11,7 +11,10 @@ public interface Icons {
     Icon Run = IconLoader.getIcon("/icons/runWithReloadium.svg", Icons.class);
     Icon Restart = IconLoader.getIcon("/icons/restartWithReloadium.svg", Icons.class);
     Icon Debug = IconLoader.getIcon("/icons/debugWithReloadium.svg", Icons.class);
+    Icon FastDebug = IconLoader.getIcon("/icons/fastDebug.svg", Icons.class);
+    Icon CompletableFunction = IconLoader.getIcon("/icons/completableFunction.svg", Icons.class);
     Icon RestartDebugger = IconLoader.getIcon("/icons/restartDebuggerWithReloadium.svg", Icons.class);
+    Icon RestartFastDebugger = IconLoader.getIcon("/icons/restartFastDebugger.svg", Icons.class);
     Icon Update = IconLoader.getIcon("/icons/updateReloadium.svg", Icons.class);
     Icon Frame = IconLoader.getIcon("/icons/frame.svg", Icons.class);
     Icon ReloadableFile = IconLoader.getIcon("/icons/reloadableFile.svg", Icons.class);

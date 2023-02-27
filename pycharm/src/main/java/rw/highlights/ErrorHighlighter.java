@@ -27,7 +27,7 @@ public class ErrorHighlighter {
     Project project;
     List<Inlay<ErrorRenderer>> inlays;
 
-    ErrorHighlighter(Project project, File file, int line, String msg) {
+    public ErrorHighlighter(Project project, File file, int line, String msg) {
         this.file = file;
         this.msg = msg;
         this.project = project;
@@ -48,9 +48,13 @@ public class ErrorHighlighter {
         for (Editor e : EditorFactory.getInstance().getEditors(document)) {
             InlayModel inlayModel = e.getInlayModel();
 
+            int line = this.line-1;
+
             ErrorRenderer renderer = new ErrorRenderer(this.msg);
             ApplicationManager.getApplication().invokeLater(() -> {
-                int offset = e.logicalPositionToOffset(new LogicalPosition(this.line-1, 0));
+                e.getCaretModel().moveToLogicalPosition(new LogicalPosition(line, 0));
+                e.getScrollingModel().scrollToCaret(ScrollType.CENTER);
+                int offset = e.logicalPositionToOffset(new LogicalPosition(line, 0));
                 Inlay<ErrorRenderer> inlay = inlayModel.addBlockElement(offset, true, false, 100, renderer);
                 this.inlays.add(inlay);
             });

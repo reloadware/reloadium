@@ -1,35 +1,18 @@
 package rw.highlights;
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ReadAction;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.impl.DocumentMarkupModel;
-import com.intellij.openapi.editor.markup.MarkupModel;
-import com.intellij.openapi.editor.markup.RangeHighlighter;
-import com.intellij.openapi.editor.markup.TextAttributes;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileWrapper;
-import com.intellij.xdebugger.ui.DebuggerColors;
 import org.jetbrains.annotations.VisibleForTesting;
+import rw.handler.Activable;
 
-import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.intellij.codeInsight.hint.HintUtil.ERROR_COLOR_KEY;
-import static com.intellij.openapi.editor.colors.EditorColorsUtil.getGlobalOrDefaultColor;
 
-
-public class ErrorHighlightManager {
+public class ErrorHighlightManager implements Activable {
     Map<File, List<ErrorHighlighter>> all;
-
-    @VisibleForTesting
-    public static ErrorHighlightManager singleton;
 
     Project project;
 

@@ -9,8 +9,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.IconManager;
 import com.intellij.ui.LayeredIcon;
-import rw.handler.runConf.BaseRunConfHandler;
-import rw.handler.runConf.RunConfHandlerManager;
+import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandlerManager;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
 

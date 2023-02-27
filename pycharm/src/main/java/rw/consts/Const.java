@@ -1,11 +1,13 @@
 package rw.consts;
 
 
+import com.intellij.ui.JBColor;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.util.Architecture;
 import rw.util.OsType;
 
+import java.awt.*;
 import java.io.File;
 
 public final class Const {
@@ -16,7 +18,7 @@ public final class Const {
     public final String pypiUsername = "user";  //  # RwRender: public final String pypiUsername = "{{ ctx.pypi_username }}";  //
     public final String pypiPassword = "password";  //  # RwRender: public final String pypiPassword = "{{ ctx.pypi_password }}";  //
     public String pypiUrl = "http://pypi.reloadware.local";  //  # RwRender: public String pypiUrl = "{{ ctx.pypi_address }}";  //
-    public final String version = "0.9.5";  //  # RwRender: public final String version = "{{ ctx.version }}";  //
+    public final String version = "0.9.6";  //  # RwRender: public final String version = "{{ ctx.version }}";  //
     public final int checkForUpdateInterval = 3;  //  # RwRender: public final int checkForUpdateInterval = {{ ctx.check_for_update_interval }};  //
     public final String sentryDsn = "http://cd9eecceaa4849d6947b3446ac038c2d@sentry.reloadware.local/5";  //  # RwRender: public final String sentryDsn = "{{ ctx.sentry_dsn }}";  //
     public Stage stage = Stage.LOCAL;  //  # RwRender: public Stage stage = Stage.{{ ctx.stage.upper() }};  //
@@ -31,34 +33,14 @@ public final class Const {
     public final String legalUrl = "https://reloadium.io/legal/";
     public final String privacyPolicyUrl = "https://reloadium.io/privacy-policy/";
 
+    public final String launcherName = "reloadium_launcher";
+
     public final String pycharm = "PyCharm";  //  # RwRender: public final String pycharm = "{{ ctx.ide_type.pycharm }}";  //
+
+    public final Color brandColor = new JBColor(new Color(255, 114, 0), new Color(255, 114, 0));
 
     @VisibleForTesting
     public Const() {
-    }
-
-    public File getDotDir() {
-        return new File(FileUtils.getUserDirectory().toString(), this.getDotDirName());
-    }
-
-    public File getConfigFile() {
-        return new File(this.getDotDir().toString(), this.configFilename);
-    }
-
-    public File getPackagesRootDir() {
-        return new File(this.getDotDir().toString(), this.packageDirName);
-    }
-
-    public File getPackagePythonVersionDir(String version) {
-        return new File(getPackagesRootDir().toString(), version);
-    }
-
-    public File getPackagePythonVersionDir(String pythonVersion, Architecture architecture) {
-        return new File(getPackagesRootDir().toString(), pythonVersion + "_" + architecture.value);
-    }
-
-    private String getDotDirName() {
-        return "." + this.packageName;
     }
 
     public static Const get()

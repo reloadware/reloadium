@@ -1,6 +1,7 @@
 package rw.tests.utils;
 
 import rw.consts.Const;
+import rw.pkg.PackageManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -71,17 +72,17 @@ public class MiscUtils {
         return ret;
     }
 
-    public static void assertInstalled(String version) throws Exception {
-        assertThat(Const.get().getPackagesRootDir().exists()).isTrue();
+    public static void assertInstalled(PackageManager packageManager, String version) throws Exception {
+        assertThat(packageManager.getFs().getPackagesRootDir().exists()).isTrue();
 
         for (String pythonVersion: Const.get().supportedVersions) {
-            File pythonVersionDir = Const.get().getPackagePythonVersionDir(pythonVersion);
+            File pythonVersionDir = packageManager.getFs().getPackagePythonVersionDir(pythonVersion);
             File packageDir = new File(String.valueOf(pythonVersionDir), Const.get().packageName);
 
             assertThat(packageDir.exists()).isTrue();
             assertThat(pythonVersionDir.exists()).isTrue();
         }
-        Path currentVersionFile = Paths.get(String.valueOf(Const.get().getPackagesRootDir()), "version.txt");
+        Path currentVersionFile = Paths.get(String.valueOf(packageManager.getFs().getPackagesRootDir()), "version.txt");
         Files.readString(currentVersionFile);
     }
 

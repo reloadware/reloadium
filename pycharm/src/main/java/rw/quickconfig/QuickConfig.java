@@ -1,5 +1,6 @@
 package rw.quickconfig;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.colors.CodeInsightColors;
 import com.intellij.openapi.ui.ComboBox;
 import rw.preferences.Preferences;
@@ -26,7 +27,16 @@ public class QuickConfig {
     private JPanel Other;
     private JComboBox errorHandlingMode;
     private JLabel setErrorHandlingModeAsDefault;
+    private JCheckBox alwaysCollectMemory;
+    private JLabel setAlwaysCollectMemoryAsDefault;
     QuickConfigCallback onQuickConfigChange;
+
+    public QuickConfig(QuickConfigCallback onQuickConfigChange) {
+        this.onQuickConfigChange = onQuickConfigChange;
+        if(ApplicationManager.getApplication().isUnitTestMode()) {
+            this.createUIComponents();
+        }
+    }
 
     private void createUIComponents() {
         Preferences preferences = Preferences.getInstance();
@@ -60,6 +70,19 @@ public class QuickConfig {
 
         this.frameScope = new JCheckBox();
         this.frameScope.setSelected(state.getFrameScope());
+
+        // Always Collect Memory
+        this.alwaysCollectMemory = new JCheckBox();
+        this.alwaysCollectMemory.setSelected(state.getAlwaysCollectMemory());
+
+        this.setAlwaysCollectMemoryAsDefault = this.setAsDefaultFactory(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                PreferencesState state = preferences.getState();
+                state.alwaysCollectMemory = This.getState().getAlwaysCollectMemory();
+                Preferences.getInstance().loadState(state);
+            }
+        });
 
         // Cumulate values
         this.setCumulateTypeAsDefault = this.setAsDefaultFactory(new MouseAdapter() {
@@ -97,13 +120,10 @@ public class QuickConfig {
         this.errorHandlingMode.setSelectedItem(state.getErrorHandlingMode());
 
         this.frameScope.addActionListener(actionListener);
+        this.alwaysCollectMemory.addActionListener(actionListener);
         this.profiler.addActionListener(actionListener);
         this.cumulateType.addActionListener(actionListener);
         this.errorHandlingMode.addActionListener(actionListener);
-    }
-
-    public QuickConfig(QuickConfigCallback onQuickConfigChange) {
-        this.onQuickConfigChange = onQuickConfigChange;
     }
 
     public JPanel getContent() {
@@ -113,7 +133,8 @@ public class QuickConfig {
     public QuickConfigState getState() {
         QuickConfigState state = new QuickConfigState((ProfilerType) this.profiler.getModel().getSelectedItem(),
                 this.frameScope.isSelected(), (CumulateType) this.cumulateType.getModel().getSelectedItem(),
-                (ErrorHandlingMode) this.errorHandlingMode.getModel().getSelectedItem());
+                (ErrorHandlingMode) this.errorHandlingMode.getModel().getSelectedItem(),
+                this.alwaysCollectMemory.isSelected());
         return state;
     }
 
