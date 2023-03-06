@@ -26,6 +26,7 @@ public class RemoteRunConfHandler extends PythonRunConfHandler {
     }
 
     public void onProcessStarted(RunContentDescriptor descriptor) {
+        super.onProcessStarted(descriptor);
         try {
             BaseProcessHandler<?> processHandler = (BaseProcessHandler<?>) descriptor.getProcessHandler();
             assert processHandler != null;

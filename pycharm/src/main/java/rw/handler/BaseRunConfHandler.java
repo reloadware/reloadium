@@ -9,6 +9,7 @@ import com.intellij.execution.ui.RunContentManager;
 import com.intellij.execution.ui.RunContentWithExecutorListener;
 import com.intellij.execution.ui.RunnerLayoutUi;
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.content.Content;
 import com.intellij.util.messages.MessageBusConnection;
@@ -43,6 +44,8 @@ import java.util.Set;
 import static java.util.Map.entry;
 
 public abstract class BaseRunConfHandler implements Disposable {
+    private final Logger logger;
+
     AbstractPythonRunConfiguration<?> runConf;
     ExecutionEnvironment executionEnvironment;
     Stack stack;
@@ -68,6 +71,8 @@ public abstract class BaseRunConfHandler implements Disposable {
     @Nullable ExtraEnvsSetter extraEnvsSetter;
 
     public BaseRunConfHandler(RunConfiguration runConf) {
+        this.logger = Logger.getInstance(this.getClass());
+
         this.runConf = (AbstractPythonRunConfiguration<?>) runConf;
         this.project = this.runConf.getProject();
 
@@ -118,6 +123,7 @@ public abstract class BaseRunConfHandler implements Disposable {
     }
 
     public void onProcessStarted(RunContentDescriptor descriptor) {
+        this.logger.info("On Process Started");
     }
 
     abstract public void afterRun();
@@ -189,7 +195,7 @@ public abstract class BaseRunConfHandler implements Disposable {
                     return;
                 }
 
-                BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentHandler(project);
+                BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(project);
 
                 if (handler == null) {
                     return;
@@ -206,6 +212,7 @@ public abstract class BaseRunConfHandler implements Disposable {
     }
 
     public void activate() {
+        this.logger.info("Activating " + this.runConf.getName());
         if (this.activeProfiler != null) {
             this.activeProfiler.activate();
         }
@@ -252,6 +259,7 @@ public abstract class BaseRunConfHandler implements Disposable {
     }
 
     public void deactivate() {
+        this.logger.info("Deactivating " + this.runConf.getName());
         this.errorHighlightManager.deactivate();
         this.threadErrorManager.deactivate();
         this.activeProfiler.deactivate();

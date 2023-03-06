@@ -72,7 +72,7 @@ public class RwSentry {
         this.disable();
 
         if(fail) {
-            throw new RuntimeException(throwable.getMessage());
+            throw new RuntimeException(throwable);
         }
     }
 

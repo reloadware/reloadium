@@ -61,7 +61,7 @@ public class FileValues {
         Document document = editor.getDocument();
 
         Map<Integer, Long> ret = new HashMap<>();
-        Map<Integer, Long> cumulateValues = this.values.get(cumulateType);
+        Map<Integer, Long> cumulateValues = new HashMap<>(this.values.get(cumulateType));
 
         for (Map.Entry<Integer, Long> entry : cumulateValues.entrySet()) {
             int line = entry.getKey() - 1;
@@ -164,5 +164,9 @@ public class FileValues {
                 this.values.get(c).remove(l);
             }
         }
+    }
+
+    public boolean isEmpty(){
+        return this.values.get(CumulateType.DEFAULT).isEmpty();
     }
 }

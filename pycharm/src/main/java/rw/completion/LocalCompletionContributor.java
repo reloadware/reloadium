@@ -4,10 +4,13 @@ import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.python.psi.PyFunction;
 import org.jetbrains.annotations.Nullable;
+import rw.action.RunType;
 import rw.handler.BaseRunConfHandler;
 import rw.session.cmds.completion.GetCtxCompletion;
 import rw.session.cmds.completion.GetLocalCompletion;
@@ -16,15 +19,23 @@ import static com.intellij.patterns.PlatformPatterns.psiElement;
 
 public class LocalCompletionContributor extends CtxCompletionContributor {
     protected static class Provider extends CtxCompletionContributor.Provider {
-        protected GetCtxCompletion cmdFactory(PsiElement element,
+        @Nullable protected GetCtxCompletion cmdFactory(PsiElement element,
+                                              String prompt,
+                                              VirtualFile virtualFile,
                                               BaseRunConfHandler handler,
                                               @Nullable String parent,
                                               CompletionMode mode) {
-            VirtualFile virtualFile = element.getContainingFile().getOriginalFile().getVirtualFile();
             Document document = FileDocumentManager.getInstance().getDocument(virtualFile);
             String file = virtualFile.toNioPath().toFile().toString();
             file = handler.convertPathToRemote(file, false);
-            String threadId = handler.getThreadErrorManager().getActiveThread();
+
+            String threadId;
+            if(handler.getRunType() == RunType.DEBUG) {
+                threadId = handler.getThreadErrorManager().getActiveThread();
+            }
+            else {
+                threadId = null;
+            }
 
             PyFunction function = PsiTreeUtil.getParentOfType(element, PyFunction.class);
             
@@ -35,7 +46,8 @@ public class LocalCompletionContributor extends CtxCompletionContributor {
             assert document != null;
 
             int promptLine = document.getLineNumber(element.getTextOffset()) + 1;
-            return new GetLocalCompletion(file, threadId, function.getName(), promptLine, parent, mode);
+            file = handler.convertPathToRemote(file, false);
+            return new GetLocalCompletion(file, threadId, function.getName(), promptLine, parent, prompt, mode);
         }
     }
 

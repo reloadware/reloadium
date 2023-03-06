@@ -14,17 +14,28 @@ public class InstallTask extends Task.Backgroundable {
     @Nullable
     PackageManager.Listener listener;
 
+    boolean fail;
+
     InstallTask(@NotNull PackageManager packageManager,
-                @Nullable PackageManager.Listener listener) {
+                @Nullable PackageManager.Listener listener,
+                boolean fail) {
         super(null, Const.get().msgs.INSTALLING_PACKAGE);
         this.packageManager = packageManager;
         this.listener = listener;
+        this.fail = fail;
     }
 
     @Override
     public void run(@NotNull ProgressIndicator indicator) {
         indicator.setText(this.getTaskText());
         runTask(indicator);
+    }
+
+    @Override
+    public void onCancel() {
+        if (this.listener != null) {
+            this.listener.cancelled();
+        }
     }
 
     @NotNull
@@ -38,13 +49,15 @@ public class InstallTask extends Task.Backgroundable {
             return;
         }
         try {
-            this.packageManager.install(null);
-            if (this.listener != null)
+            this.packageManager.install();
+            if (this.listener != null) {
                 this.listener.success();
+            }
         } catch (Exception e) {
-            RwSentry.get().captureException(e, true);
-            if (this.listener != null)
+            if (this.listener != null) {
                 this.listener.fail(e);
+            }
+            RwSentry.get().captureException(e, this.fail);
         } finally {
             this.packageManager.installing = false;
         }

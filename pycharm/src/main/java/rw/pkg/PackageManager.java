@@ -55,6 +55,9 @@ public class PackageManager {
 
         public void fail(Exception exception) {
         }
+
+        public void cancelled() {
+        }
     }
 
     public PackageManager() {
@@ -93,11 +96,11 @@ public class PackageManager {
         return this.installing;
     }
 
-    public void run(@Nullable Listener listener) {
+    public void run(@Nullable Listener listener, boolean fail) {
         try {
             this.installing = true;
             LOGGER.info("Installing");
-            ProgressManager.getInstance().run(new InstallTask(this, listener));
+            ProgressManager.getInstance().run(new InstallTask(this, listener, fail));
         } catch (Exception e) {
             RwSentry.get().captureException(e, true);
         }
@@ -139,10 +142,7 @@ public class PackageManager {
         }
     }
 
-    protected void installVersion(@Nullable Listener listener, String version) throws Exception {
-        if (listener != null)
-            listener.started();
-
+    protected void installVersion(String version) throws Exception {
         List<File> wheels = this.getWheelFiles();
         if (wheels.isEmpty()) {
             return;
@@ -166,9 +166,9 @@ public class PackageManager {
         return this.builtinVersion;
     }
 
-    public void install(@Nullable Listener listener) throws Exception {
+    public void install() throws Exception {
         LOGGER.info("Installing");
-        this.installVersion(listener, this.builtinVersion);
+        this.installVersion(this.builtinVersion);
     }
 
     public boolean shouldInstall() {

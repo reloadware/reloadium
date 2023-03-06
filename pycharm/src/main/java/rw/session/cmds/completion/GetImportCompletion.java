@@ -19,9 +19,11 @@ public class GetImportCompletion extends Cmd {
     }
 
     @Nullable String parent;
+    String prompt;
 
-    public GetImportCompletion(@Nullable String parent) {
+    public GetImportCompletion(@Nullable String parent, String prompt) {
         this.parent = parent;
+        this.prompt = prompt;
     }
 
     @Override

@@ -41,8 +41,6 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
     public static final String DEBUGGER_SPEEDUPS_ENV = "RW_DEBUGGERSPEEDUPS";  //  # RwRender: public static final String DEBUGGER_SPEEDUPS_ENV = "{{ ctx.env_vars.misc.debugger_speedups }}";  //
     public static final String VERBOSE_ENV = "RW_VERBOSE";  //  # RwRender: public static final String VERBOSE_ENV = "{{ ctx.env_vars.misc.verbose }}";  //
     public static final String CACHE_ENV = "RW_CACHE";  //  # RwRender: public static final String CACHE_ENV = "{{ ctx.env_vars.misc.cache }}";  //
-    public static final String TELEMETRY_ENV = "RW_TELEMETRY";  //  # RwRender: public static final String TELEMETRY_ENV = "{{ ctx.env_vars.misc.telemetry }}";  //
-    public static final String SENTRY_ENV = "RW_SENTRY";  //  # RwRender: public static final String SENTRY_ENV = "{{ ctx.env_vars.misc.sentry }}";  //
     public static final String PRINT_LOGO_ENV = "RW_PRINTLOGO";  //  # RwRender: public static final String PRINT_LOGO_ENV = "{{ ctx.env_vars.misc.print_logo }}";  //
     public static final String WATCHCWD_ENV = "RW_WATCHCWD";  //  # RwRender: public static final String WATCHCWD_ENV = "{{ ctx.env_vars.misc.watch_cwd }}";  //
     public static final String RELOADIUMPATH_ENV = "RELOADIUMPATH";  //  # RwRender: public static final String RELOADIUMPATH_ENV = "{{ ctx.env_vars.misc.reloadiumpath }}";  //
@@ -91,8 +89,6 @@ public class PythonRunConfHandler extends BaseRunConfHandler {
         this.runConf.getEnvs().put(this.WATCHCWD_ENV, EnvUtils.boolToEnv(state.watchCwd));
         this.runConf.getEnvs().put(this.IDE_SERVER_PORT_ENV, String.valueOf(this.session.getPort()));
         this.runConf.getEnvs().put("PYDEVD_USE_CYTHON", "NO");
-        this.runConf.getEnvs().put(this.TELEMETRY_ENV, EnvUtils.boolToEnv(preferences.telemetry));
-        this.runConf.getEnvs().put(this.SENTRY_ENV, EnvUtils.boolToEnv(preferences.sentry));
         this.runConf.getEnvs().put("RW_STAGE", Const.get().stage.value);
 
         if(this.extraEnvsSetter != null) {

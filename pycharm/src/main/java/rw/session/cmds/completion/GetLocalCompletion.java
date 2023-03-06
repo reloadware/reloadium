@@ -16,8 +16,8 @@ public class GetLocalCompletion extends GetCtxCompletion {
     @SerializedName("prompt_line")
     int promptLine;
 
-    public GetLocalCompletion(String file, String threadId, String frameName, int promptLine, @Nullable String parent, CompletionMode mode) {
-        super(file, parent, mode);
+    public GetLocalCompletion(String file, String threadId, String frameName, int promptLine, @Nullable String parent, String prompt, CompletionMode mode) {
+        super(file, parent, prompt, mode);
         this.threadId = threadId;
         this.frameName = frameName;
         this.promptLine = promptLine;

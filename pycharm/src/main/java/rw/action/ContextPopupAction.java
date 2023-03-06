@@ -14,13 +14,7 @@ abstract public class ContextPopupAction extends WithReloaderBase implements Upd
     private static final Logger LOGGER = Logger.getInstance(ContextPopupAction.class);
 
     public void update(@NotNull AnActionEvent e) {
-        if(this.canRun(e)) {
-            super.update(e);
-        }
-        else {
-            Presentation presentation = e.getPresentation();
-            presentation.setVisible(false);
-        }
+        super.update(e);
     }
 
     protected RunnerAndConfigurationSettings getConfiguration(@NotNull AnActionEvent e) {

@@ -1,4 +1,102 @@
 {
+  "1.0.0": [
+    {
+      "type": "Added",
+      "description": "Dropping module frames for M1",
+      "tag": "Miscellaneous",
+      "date": "2023-03-03"
+    },
+    {
+      "type": "Fixed",
+      "description": "Assertion error in fast debug mode when no brekpoints present",
+      "tag": "Miscellaneous",
+      "date": "2023-03-04"
+    },
+    {
+      "type": "Fixed",
+      "description": "Completion issues when not suspended",
+      "tag": "PyCharm",
+      "date": "2023-03-04"
+    },
+    {
+      "type": "Added",
+      "description": "Completion in run mode",
+      "tag": "PyCharm",
+      "date": "2023-03-04"
+    },
+    {
+      "type": "Fixed",
+      "description": "Slow action on EDT issues",
+      "tag": "PyCharm",
+      "date": "2023-03-04"
+    },
+    {
+      "type": "Fixed",
+      "description": "Wrong error lines in fast debug mode",
+      "tag": "Miscellaneous",
+      "date": "2023-03-04"
+    },
+    {
+      "type": "Added",
+      "description": "Add __doc__ to function calls completion",
+      "tag": "Miscellaneous",
+      "date": "2023-03-04"
+    },
+    {
+      "type": "Added",
+      "description": "Runtime completion for evaluate mode",
+      "tag": "Miscellaneous",
+      "date": "2023-03-04"
+    },
+    {
+      "type": "Fixed",
+      "description": "Reloading issues when using snoop library",
+      "tag": "Miscellaneous",
+      "date": "2023-03-04"
+    },
+    {
+      "type": "Fixed",
+      "description": "Celery noreload flag issue",
+      "tag": "Miscellaneous",
+      "date": "2023-03-04"
+    },
+    {
+      "type": "Fixed",
+      "description": "Cannot retrieve frame symbol issues",
+      "tag": "Miscellaneous",
+      "date": "2023-03-04"
+    },
+    {
+      "type": "Added",
+      "description": "Numpy __doc__ style completion support",
+      "tag": "Miscellaneous",
+      "date": "2023-03-04"
+    },
+    {
+      "type": "Added",
+      "description": "FastApi support",
+      "tag": "Miscellaneous",
+      "date": "2023-03-04"
+    },
+    {
+      "type": "Fixed",
+      "description": "Cannot drop module frame on M1",
+      "tag": "Miscellaneous",
+      "date": "2023-03-04"
+    },
+    {
+      "type": "Added",
+      "description": "Hot reloading docstrings",
+      "tag": "Miscellaneous",
+      "date": "2023-03-06"
+    },
+    {
+      "type": "Removed",
+      "description": "Telemetry, sentry opt out",
+      "tag": "Miscellaneous",
+      "date": "2023-03-06"
+    }
+  ],
   "0.9.11": [
     {
       "type": "Fixed",

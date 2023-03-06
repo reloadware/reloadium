@@ -8,8 +8,8 @@ import java.io.File;
 public class GetGlobalCompletion extends GetCtxCompletion {
     public final String ID = "GetGlobalCompletion";
 
-    public GetGlobalCompletion(String file, @Nullable String parent, CompletionMode mode) {
-        super(file, parent, mode);
+    public GetGlobalCompletion(String file, @Nullable String parent, String prompt, CompletionMode mode) {
+        super(file, parent, prompt, mode);
     }
 
     @Override

@@ -164,13 +164,17 @@ class FileValuesRenderer {
                 return;
             }
             this.markupModel.removeHighlighter(this.device);
-
             this.device = null;
         });
     }
 
     public void activate() {
         this.deactivate();
+
+        if(this.fileValues.isEmpty()) {
+            return;
+        }
+
         Integer minLine = Collections.min(this.fileValues.getValues(CumulateType.DEFAULT).keySet());
         Integer maxLine = Collections.max(this.fileValues.getValues(CumulateType.DEFAULT).keySet());
 

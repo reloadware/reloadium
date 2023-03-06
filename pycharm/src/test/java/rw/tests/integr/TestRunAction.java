@@ -96,17 +96,6 @@ public class TestRunAction extends BaseMockedTestCase {
     }
 
     @Test
-    public void testBadSdk() {
-        this.cakeshop.getRunConf().setSdkHome("BadDir/python");
-
-        AnActionEvent event = new TestActionEvent();
-        this.action.update(event);
-
-        assertThat(event.getPresentation().isVisible()).isTrue();
-        assertThat(event.getPresentation().isEnabled()).isFalse();
-    }
-
-    @Test
     public void testActionPerformedNonSupportedSdkVersion() {
         this.cakeshop.getRunConf().setSdkHome(this.oldSdkFixture.getSdkHome().toString());
 

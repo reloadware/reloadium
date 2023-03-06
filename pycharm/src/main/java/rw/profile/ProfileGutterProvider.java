@@ -147,7 +147,7 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
         if (environment == null) {
             return null;
         }
-        BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentHandler(project);
+        BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(project);
 
         if (handler == null) {
             return null;

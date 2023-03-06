@@ -24,7 +24,7 @@ public class DropFrameAction extends AnAction implements DumbAware {
         assert e.getProject() != null;
 
         Project project = this.getEventProject(e);
-        BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentHandler(project);
+        BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(project);
 
         boolean visible = handler != null;
         presentation.setVisible(visible);
@@ -57,7 +57,7 @@ public class DropFrameAction extends AnAction implements DumbAware {
         PyStackFrame frame = (PyStackFrame) debugSession.getCurrentStackFrame();
         assert frame != null;
         Project project = this.getEventProject(e);
-        BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentHandler(project);
+        BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(project);
 
         assert handler != null;
         DropFrame cmd = new DropFrame(frame.getFrameId());

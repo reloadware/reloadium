@@ -13,7 +13,6 @@ import com.jetbrains.python.psi.PyImportStatement;
 import com.jetbrains.python.psi.PyImportStatementBase;
 import icons.PythonPsiApiIcons;
 import org.jetbrains.annotations.NotNull;
-import rw.consts.Const;
 import rw.handler.BaseRunConfHandler;
 import rw.handler.RunConfHandlerManager;
 import rw.preferences.Preferences;
@@ -57,7 +56,7 @@ public class ImportCompletionContributor extends BaseCompletionContributor {
                 return;
             }
 
-            BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentHandler(parameters.getPosition().getProject());
+            BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(parameters.getPosition().getProject());
             if (handler == null) {
                 return;
             }
@@ -87,7 +86,9 @@ public class ImportCompletionContributor extends BaseCompletionContributor {
                 parent = null;
             }
 
-            GetImportCompletion cmd = new GetImportCompletion(parent);
+            String prompt = element.getText().replace(DUMMY_IDENTIFIER_TRIMMED, "");
+
+            GetImportCompletion cmd = new GetImportCompletion(parent, prompt);
             GetImportCompletion.Return completion = (GetImportCompletion.Return) handler.getSession().send(cmd);
 
             List<Suggestion> suggestions = completion.getSuggestions();
@@ -101,7 +102,7 @@ public class ImportCompletionContributor extends BaseCompletionContributor {
                 Icon icon = CompletionUtils.TYPE_TO_ICON.getOrDefault(s.getPyType(), PythonPsiApiIcons.PythonFile);
 
                 String name = s.getName();
-                LookupElementBuilder builder = LookupElementBuilder.create(name).withItemTextForeground(Const.get().brandColor).withIcon(icon);
+                LookupElementBuilder builder = LookupElementBuilder.create(name).withItemTextForeground(COMPLETION_COLOR).withIcon(icon);
 
                 result.addElement(builder);
             }

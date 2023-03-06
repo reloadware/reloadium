@@ -19,8 +19,10 @@ public class GetFromImportCompletion extends Cmd {
 
     @SerializedName("from_module")
     @Nullable String fromModule;
+    String prompt;
 
-    public GetFromImportCompletion(@Nullable String fromModule) {
+    public GetFromImportCompletion(@Nullable String fromModule, String prompt) {
+        this.prompt = prompt;
         this.fromModule = fromModule;
     }
 

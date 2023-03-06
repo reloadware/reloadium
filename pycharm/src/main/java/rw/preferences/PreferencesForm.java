@@ -1,6 +1,7 @@
 package rw.preferences;
 
 import com.intellij.openapi.ui.ComboBox;
+import com.intellij.ui.BrowserHyperlinkListener;
 import rw.quickconfig.CumulateType;
 import rw.quickconfig.ErrorHandlingMode;
 import rw.quickconfig.ProfilerType;
@@ -12,14 +13,16 @@ public class PreferencesForm {
     private JPanel mainPanel;
     private JSpinner blinkDuration;
     private JComboBox<ImageIcon> timingColormap;
-    private JCheckBox telemetry;
-    private JCheckBox sentry;
     private JCheckBox markReloadable;
     private JComboBox<ProfilerType> defaultProfiler;
     private JComboBox<CumulateType> defaultCumulateType;
     private JComboBox<ErrorHandlingMode> errorHandlingMode;
     private JCheckBox alwaysCollectMemory;
     private JCheckBox runtimeCompletion;
+    private JCheckBox telemetry;
+    private JPanel Miscellaneous;
+    private JTextPane privacyLink;
+    private JTextPane toEnhanceYourExperienceTextPane;
 
     private void createUIComponents() {
         this.blinkDuration = new JSpinner(new SpinnerNumberModel(0, 0, 2000, 10));
@@ -37,6 +40,14 @@ public class PreferencesForm {
         this.errorHandlingMode = new ComboBox<>();
         this.errorHandlingMode.setModel(new DefaultComboBoxModel(ErrorHandlingMode.getAll()));
         this.errorHandlingMode.setSelectedItem(ErrorHandlingMode.DEFAULT);
+
+        this.privacyLink = new JTextPane();
+        this.privacyLink.addHyperlinkListener(BrowserHyperlinkListener.INSTANCE);
+        this.privacyLink.setContentType("text/html");
+        this.privacyLink.setText(
+                "<html><head></head><body>" +
+                        "<p><a href=\"https://reloadium.io/legal/privacy-policy\">reloadium.io/legal/privacy-policy</a></p>" +
+                        "</body> </html>");
     }
 
     public JPanel getMainPanel() {
@@ -48,8 +59,6 @@ public class PreferencesForm {
         state.blinkDuration = ((SpinnerNumberModel)this.blinkDuration.getModel()).getNumber().intValue();
         state.timingColorMap = ColorMaps.get().getColorMapByImage((ImageIcon) this.timingColormap.getModel().getSelectedItem()).getName();
         state.alwaysCollectMemory = this.alwaysCollectMemory.isSelected();
-        state.telemetry = this.telemetry.isSelected();
-        state.sentry = this.sentry.isSelected();
         state.markReloadable = this.markReloadable.isSelected();
         state.defaultProfiler = (ProfilerType) this.defaultProfiler.getModel().getSelectedItem();
         state.defaultCumulateType = (CumulateType) this.defaultCumulateType.getModel().getSelectedItem();
@@ -61,9 +70,7 @@ public class PreferencesForm {
     public void setState(PreferencesState state) {
         this.blinkDuration.setValue(state.blinkDuration);
         this.timingColormap.getModel().setSelectedItem(ColorMaps.get().getColorMapByName(state.timingColorMap).getImage());
-        this.telemetry.setSelected(state.telemetry);
         this.alwaysCollectMemory.setSelected(state.alwaysCollectMemory);
-        this.sentry.setSelected(state.sentry);
         this.markReloadable.setSelected(state.markReloadable);
         this.defaultProfiler.getModel().setSelectedItem(state.defaultProfiler);
         this.defaultCumulateType.getModel().setSelectedItem(state.defaultCumulateType);

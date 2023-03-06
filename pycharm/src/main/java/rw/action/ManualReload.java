@@ -31,6 +31,10 @@ public class ManualReload extends AnAction implements DumbAware {
         presentation.setVisible(true);
         presentation.setEnabled(isEnabled);
     }
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+    return ActionUpdateThread.BGT;
+  }
 
     public static void handleSave(@Nullable Project project, @NotNull Document[] documents) {
         ApplicationManager.getApplication().invokeLater(() -> {

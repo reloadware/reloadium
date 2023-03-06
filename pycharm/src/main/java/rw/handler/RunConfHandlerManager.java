@@ -1,5 +1,7 @@
 package rw.handler;
 
+import com.intellij.execution.RunManager;
+import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -51,7 +53,7 @@ public class RunConfHandlerManager {
         List<BaseRunConfHandler> ret = new ArrayList<>();
 
         this.all.forEach((key, value) -> {
-            if((project == null || value.getProject() == project) && value.isActive()) {
+            if ((project == null || value.getProject() == project) && value.isActive()) {
                 ret.add(value);
             }
         });
@@ -59,7 +61,7 @@ public class RunConfHandlerManager {
     }
 
     @Nullable
-    public BaseRunConfHandler getCurrentHandler(Project project) {
+    public BaseRunConfHandler getCurrentDebugHandler(Project project) {
         XDebugSessionImpl debugSession = ((XDebugSessionImpl) XDebuggerManager.getInstance(project).getCurrentSession());
 
         if (debugSession == null) {
@@ -77,12 +79,25 @@ public class RunConfHandlerManager {
     }
 
     @Nullable
-    public BaseRunConfHandler getLastHandler() {
-        return this.last;
+    public BaseRunConfHandler getCurrentRunHandler(Project project) {
+        RunManager runManager = RunManager.getInstance(project);
+
+        if (runManager.getSelectedConfiguration() == null) {
+            return null;
+        }
+
+        RunConfiguration configuration = runManager.getSelectedConfiguration().getConfiguration();
+
+        for (BaseRunConfHandler h : this.all.values()) {
+            if (h.runConf == configuration && h.isActive()) {
+                return h;
+            }
+        }
+        return null;
     }
 
     public void deactivateAll() {
-        for(BaseRunConfHandler runConfHandler: this.all.values()) {
+        for (BaseRunConfHandler runConfHandler : this.all.values()) {
             runConfHandler.deactivate();
         }
     }
