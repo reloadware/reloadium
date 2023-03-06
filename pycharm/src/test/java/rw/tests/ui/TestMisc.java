@@ -46,7 +46,6 @@ public class TestMisc extends PackageTestBase {
         }
 
         final Root root = remoteRobot.find(Root.class, ofSeconds(5));
-        root.assertButtonsEnabled();
 
         root.runWithReloadium().click();
 

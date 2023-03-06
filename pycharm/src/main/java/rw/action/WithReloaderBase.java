@@ -1,9 +1,6 @@
 package rw.action;
 
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.ExecutionManager;
-import com.intellij.execution.Executor;
-import com.intellij.execution.RunnerAndConfigurationSettings;
+import com.intellij.execution.*;
 import com.intellij.execution.executors.DefaultDebugExecutor;
 import com.intellij.execution.impl.ExecutionManagerImpl;
 import com.intellij.execution.impl.RunManagerImpl;
@@ -13,12 +10,15 @@ import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.runners.ExecutionEnvironmentBuilder;
 import com.intellij.execution.runners.ProgramRunner;
 import com.intellij.execution.ui.RunContentDescriptor;
+import com.intellij.ide.ui.IdeUiService;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.NotNull;
@@ -29,10 +29,12 @@ import rw.debugger.DebugRunner;
 import rw.handler.BaseRunConfHandler;
 import rw.handler.RunConfHandlerFactory;
 import rw.handler.RunConfHandlerManager;
-import rw.service.Service;
+import rw.icons.Icons;
 
 import java.util.TimerTask;
+
 import com.jetbrains.python.run.AbstractPythonRunConfiguration;
+import rw.service.Service;
 
 
 public abstract class WithReloaderBase extends AnAction {
@@ -59,26 +61,19 @@ public abstract class WithReloaderBase extends AnAction {
             presentation.setEnabled(true);
         }
     }
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+    return ActionUpdateThread.BGT;
+  }
 
     public boolean canRun(@NotNull AnActionEvent e) {
-        Presentation presentation = e.getPresentation();
-        Service service = Service.get();
         RunnerAndConfigurationSettings conf = this.getConfiguration(e);
 
         if (conf == null) {
             return false;
         }
-
-        if (!AbstractPythonRunConfiguration.class.isAssignableFrom(conf.getConfiguration().getClass())) {
-            return false;
-        }
-        Sdk sdk = ((AbstractPythonRunConfiguration<?>)conf.getConfiguration()).getSdk();
-
-        if (sdk == null) {
-            return false;
-        }
-
-        return service.canRun(conf);
+        boolean ret = AbstractPythonRunConfiguration.class.isAssignableFrom(conf.getConfiguration().getClass());
+        return ret;
     }
 
     protected String getEnabledText(@NotNull AnActionEvent e, RunnerAndConfigurationSettings conf) {
@@ -119,8 +114,21 @@ public abstract class WithReloaderBase extends AnAction {
             return;
         }
 
-        RunnerAndConfigurationSettings conf = this.getConfiguration(e);
-        this.start(project, conf);
+        RunnerAndConfigurationSettings runConf = this.getConfiguration(e);
+        assert runConf != null;
+
+        AbstractPythonRunConfiguration<?> pythonRunConf = (AbstractPythonRunConfiguration<?>) runConf.getConfiguration();
+        Sdk sdk = pythonRunConf.getSdk();
+
+        if(sdk == null) {
+            IdeUiService.getInstance().notifyByBalloon(project, this.getExecutor().getToolWindowId(),
+                    MessageType.ERROR, ExecutionBundle.message("error.running.configuration.message", runConf.getName()) +
+                    "\nSDK is not defined for Run Configuration",
+                    Icons.ProductIcon, null);
+            return;
+        }
+
+        this.start(project, runConf);
     }
 
     protected BaseRunConfHandler handlerFactory(RunnerAndConfigurationSettings conf) {

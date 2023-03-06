@@ -25,18 +25,17 @@ public class Service implements Disposable {
     public static Service singleton = null;
     private static int runCounter = 0;
 
-    @VisibleForTesting
     public Service() {
         LOGGER.info("Starting service");
         this.packageManager = new PackageManager();
-        this.remoteSdkChecker =new RemoteSdkChecker();
+        this.remoteSdkChecker = new RemoteSdkChecker();
         this.validateOsType();
         this.init();
     }
 
     public void init() {
         LOGGER.info("Initializing service");
-        this.packageManager.run(null);
+        this.packageManager.run(null, true);
 
         JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkIfStillGood, 2,
                 10, TimeUnit.MINUTES);
@@ -52,10 +51,6 @@ public class Service implements Disposable {
         return singleton;
     }
 
-    public boolean canRun(RunnerAndConfigurationSettings settings) {
-        return this.packageManager.getCurrentVersion() != null;
-    }
-
     private void validateOsType() {
         if (OsType.DETECTED == OsType.Other) {
             String osName = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
@@ -67,7 +62,7 @@ public class Service implements Disposable {
         LOGGER.info("Checking if still good");
         if (this.packageManager.shouldInstall() && !this.packageManager.isInstalling()) {
             LOGGER.info("Not good, installing builtin package");
-            this.packageManager.run(null);
+            this.packageManager.run(null, true);
         }
     }
 

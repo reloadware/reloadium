@@ -2,6 +2,39 @@ Change Log
 ##########
 
 
+1.0.0
+-------
+
+**Miscellaneous**:
+    
+  Added:
+    * Dropping module frames for M1
+    * Add __doc__ to function calls completion
+    * Runtime completion for evaluate mode
+    * Numpy __doc__ style completion support
+    * FastApi support
+    * Hot reloading docstrings
+    
+  Fixed:
+    * Assertion error in fast debug mode when no brekpoints present
+    * Wrong error lines in fast debug mode
+    * Reloading issues when using snoop library
+    * Celery noreload flag issue
+    * Cannot retrieve frame symbol issues
+    * Cannot drop module frame on M1
+    
+  Removed:
+    * Telemetry, sentry opt out
+    
+**PyCharm**:
+    
+  Fixed:
+    * Completion issues when not suspended
+    * Slow action on EDT issues
+    
+  Added:
+    * Completion in run mode
+    
 0.9.11
 -------
 

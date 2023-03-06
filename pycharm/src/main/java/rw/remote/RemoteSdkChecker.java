@@ -24,44 +24,54 @@ import java.util.*;
 
 
 public class RemoteSdkChecker {
-    private Set<Sdk> invalidSdks;
+    private Map<Sdk, Integer> sdkTries;
     private static final Logger LOGGER = Logger.getInstance(RemoteSdkChecker.class);
 
     public RemoteSdkChecker() {
-        this.invalidSdks = new HashSet<>();
+        this.sdkTries = new HashMap<>();
+        this.checking = false;
     }
 
-    public boolean isOk(Sdk sdk){
-        boolean ret = !this.invalidSdks.contains(sdk);
-        return ret;
-    }
+    boolean checking;
 
     public void check() {
-        for (Sdk sdk : ProjectJdkTable.getInstance().getSdksOfType(PythonSdkType.getInstance())) {
-            if(RemoteUtils.isSdkServerRemote(sdk)) {
-                this.checkRemotePackageServer(sdk);
+        if(this.checking) {
+            return;
+        }
+
+        try {
+            this.checking = true;
+            for (Sdk sdk : ProjectJdkTable.getInstance().getSdksOfType(PythonSdkType.getInstance())) {
+                if (RemoteUtils.isSdkServerRemote(sdk)) {
+                    this.checkRemotePackage(sdk);
+                }
             }
+        } finally {
+            this.checking = false;
         }
     }
 
-    private void checkRemotePackageServer(Sdk sdk) {
+    private void checkRemotePackage(Sdk sdk) {
         Project project = this.getProject();
 
-        if (project==null) {
+        if (project == null) {
+            return;
+        }
+
+        if(this.sdkTries.getOrDefault(sdk, 0) >= 3) {
             return;
         }
 
         LOGGER.info("Checking remote package for " + sdk.getName());
 
         HelpersAwareTargetEnvironmentRequest helpersAwareTargetRequest =
-        PythonInterpreterTargetEnvironmentFactory.findPythonTargetInterpreter(sdk, project);
+                PythonInterpreterTargetEnvironmentFactory.findPythonTargetInterpreter(sdk, project);
 
         try {
             TargetEnvironment targetEnvironment;
             try {
                 targetEnvironment = helpersAwareTargetRequest.getTargetEnvironmentRequest().prepareEnvironment(TargetProgressIndicator.EMPTY);
-            }
-            catch (ExecutionException ignored) {
+            } catch (ExecutionException ignored) {
                 LOGGER.info("Can't connect");
                 return;
             }
@@ -81,36 +91,40 @@ public class RemoteSdkChecker {
             SFTPClient sftp = new SFTPClient(newSFTPClient.invoke(ssh));
 
             PackageManager packageManager = new PackageManager(new RemoteFileSystem(sftp), new RemoteMachine(targetEnvironment, sftp));
-            if(packageManager.shouldInstall()) {
+            if (packageManager.shouldInstall()) {
                 packageManager.run(new PackageManager.Listener() {
                     @Override
                     public void started() {
-                        invalidSdks.add(sdk);
                     }
 
                     @Override
-                    public void success() {
-                        invalidSdks.remove(sdk);
-                    }
+                    public void success() {}
 
                     @Override
                     public void fail(Exception exception) {
-                        invalidSdks.add(sdk);
+                        sdkTries.put(sdk, sdkTries.getOrDefault(sdk, 0) + 1);
                     }
-                });
+
+                    @Override
+                    public void cancelled() {
+                        sdkTries.put(sdk, sdkTries.getOrDefault(sdk, 0) + 1);
+                    }
+                }, false);
             }
-            else{
-                this.invalidSdks.remove(sdk);
+        }
+        catch (Exception e) {
+            if (e.getClass().getName().equals("net.schmizz.sshj.connection.channel.OpenFailException")) {
+                return;
             }
-        } catch (Exception e) {
-            RwSentry.get().captureException(e, true);
+            RwSentry.get().captureException(e, false);
         }
     }
 
-    @Nullable private Project getProject() {
+    @Nullable
+    private Project getProject() {
         Project[] projects = ProjectManager.getInstance().getOpenProjects();
 
-        if(projects.length == 0) {
+        if (projects.length == 0) {
             return null;
         }
 

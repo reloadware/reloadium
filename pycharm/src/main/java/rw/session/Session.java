@@ -8,10 +8,7 @@ import org.jetbrains.annotations.VisibleForTesting;
 import rw.audit.RwSentry;
 import rw.handler.BaseRunConfHandler;
 import rw.session.cmds.Cmd;
-import rw.session.cmds.completion.GetFromImportCompletion;
-import rw.session.cmds.completion.GetGlobalCompletion;
-import rw.session.cmds.completion.GetImportCompletion;
-import rw.session.cmds.completion.GetLocalCompletion;
+import rw.session.cmds.completion.*;
 import rw.session.events.*;
 
 import java.io.*;
@@ -186,6 +183,7 @@ public class Session extends Thread {
 
         this.returns = Map.ofEntries(
             entry("GetLocalCompletion", GetLocalCompletion.Return.class),
+            entry("GetFrameCompletion", GetFrameCompletion.Return.class),
             entry("GetGlobalCompletion", GetGlobalCompletion.Return.class),
             entry("GetImportCompletion", GetImportCompletion.Return.class),
             entry("GetFromImportCompletion", GetFromImportCompletion.Return.class)
@@ -224,7 +222,6 @@ public class Session extends Thread {
 
         Class<? extends Cmd.Return> returnClass = this.returns.get(cmdId);
         if (returnClass == null) {
-            LOGGER.warn("Unknown return for cmd " + cmdId);
             return null;
         }
 
@@ -251,7 +248,10 @@ public class Session extends Thread {
 
     public Cmd.Return send(Cmd cmd) {
         Cmd.Return ret = null;
-        for (Client c : this.clients) {
+
+        List<Client> clients = new ArrayList<>(this.clients);
+
+        for (Client c : clients) {
             ret = c.send(cmd);
         }
         return ret;

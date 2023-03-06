@@ -12,7 +12,6 @@ import com.jetbrains.python.PyNames;
 import com.jetbrains.python.psi.PyFromImportStatement;
 import icons.PythonPsiApiIcons;
 import org.jetbrains.annotations.NotNull;
-import rw.consts.Const;
 import rw.handler.BaseRunConfHandler;
 import rw.handler.RunConfHandlerManager;
 import rw.preferences.Preferences;
@@ -48,7 +47,7 @@ public class FromImportCompletionContributor extends BaseCompletionContributor {
                 return;
             }
 
-            BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentHandler(parameters.getPosition().getProject());
+            BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(parameters.getPosition().getProject());
             if (handler == null) {
                 return;
             }
@@ -56,8 +55,9 @@ public class FromImportCompletionContributor extends BaseCompletionContributor {
             assert element.getImportSource() != null;
 
             String fromModule = element.getImportSource().getText().replace(DUMMY_IDENTIFIER_TRIMMED, "");
+            String prompt = element.getText().replace(DUMMY_IDENTIFIER_TRIMMED, "");
 
-            GetFromImportCompletion cmd = new GetFromImportCompletion(fromModule);
+            GetFromImportCompletion cmd = new GetFromImportCompletion(fromModule, prompt);
             GetFromImportCompletion.Return completion = (GetFromImportCompletion.Return) handler.getSession().send(cmd);
 
             List<Suggestion> suggestions = completion.getSuggestions();
@@ -71,7 +71,7 @@ public class FromImportCompletionContributor extends BaseCompletionContributor {
                 Icon icon = CompletionUtils.TYPE_TO_ICON.getOrDefault(s.getPyType(), PythonPsiApiIcons.PythonFile);
 
                 String name = s.getName();
-                LookupElementBuilder builder = LookupElementBuilder.create(name).withItemTextForeground(Const.get().brandColor).withIcon(icon).withTailText(s.getTailText()).withTypeText(s.getTypeText());
+                LookupElementBuilder builder = LookupElementBuilder.create(name).withItemTextForeground(COMPLETION_COLOR).withIcon(icon).withTailText(s.getTailText()).withTypeText(s.getTypeText());
                 result.addElement(builder);
             }
         }

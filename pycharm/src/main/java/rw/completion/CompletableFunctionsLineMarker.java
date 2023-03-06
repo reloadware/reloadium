@@ -58,7 +58,7 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
             return;
         }
 
-        BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentHandler(elements.get(0).getProject());
+        BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(elements.get(0).getProject());
 
         if (handler == null) {
             return;
@@ -83,6 +83,8 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
                 positions.add(new FramePosition(t.getName(), f.getPosition()));
             }
         }
+
+        Set<String> markedFrames = new HashSet<>();
 
         for (PsiElement element : elements) {
             if (!(element instanceof PyFunction)) {
@@ -120,10 +122,15 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
                 if (!element.getTextRange().contains(startOffset + 1)) {
                     continue;
                 }
+                if (markedFrames.contains(p.name)) {
+                    continue;
+                }
+
                 LineMarkerInfo<PsiElement> marker = new LineMarkerInfo<>(identifier, identifier.getTextRange(), Icons.CompletableFunction, e -> this.getTooltip((PyFunction) element),
                         null, GutterIconRenderer.Alignment.LEFT);
 
                 result.add(marker);
+                markedFrames.add(p.name);
             }
         }
 

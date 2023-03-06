@@ -35,7 +35,7 @@ public class TestService extends BaseMockedTestCase {
         this.service.checkIfStillGood();
 
         verify(this.service.packageManager,
-                times(1)).install(any());
+                times(1)).install();
 
         MiscUtils.assertInstalled(this.packageManager, this.webVersion);
     }

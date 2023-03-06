@@ -12,9 +12,6 @@ public class DockerRunConfHandler extends RemoteRunConfHandler {
         super(runConf);
     }
 
-    public void onProcessStarted(RunContentDescriptor descriptor) {
-    }
-
     @Override
     public void beforeRun(RunType runType) {
         super.beforeRun(runType);

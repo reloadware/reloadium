@@ -73,6 +73,10 @@ public class ThreadErrorManager implements Activable {
     }
 
     public @Nullable String getActiveThread() {
+        if(this.session == null) {
+            return null;
+        }
+
         XSuspendContext suspendContext = this.session.getSuspendContext();
         if (suspendContext == null) {
             return null;

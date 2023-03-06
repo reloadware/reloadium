@@ -65,7 +65,6 @@ public class TestRerunDebugAction extends BaseMockedTestCase {
         action.update(event);
         assertThat(event.getPresentation().isVisible()).isTrue();
         assertThat(event.getPresentation().isEnabled()).isFalse();
-        action.actionPerformed(event);
     }
 
     @Test
