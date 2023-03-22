@@ -28,13 +28,22 @@ public class TestBuiltinPackageManager extends BaseMockedTestCase {
 
     @Test
     public void testGetWheelFiles() throws Exception {
-        List<String> filenames = this.packageManager.getWheelFiles().stream().map(f -> f.getName()).collect(Collectors.toList());
+        List<String> filenames = this.packageManager.getWheels().stream().map(f -> f.getFilename()).collect(Collectors.toList());
 
         assertThat(filenames).isEqualTo(List.of(
                 "reloadium-0.7.13-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
                 "reloadium-0.7.13-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
                 "reloadium-0.7.13-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
                 "reloadium-0.7.13-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+        ));
+    }
+
+    @Test
+    public void testDirNames() throws Exception {
+        List<String> filenames = this.packageManager.getWheels().stream().map(f -> f.getDstDirName()).collect(Collectors.toList());
+
+        assertThat(filenames).isEqualTo(List.of(
+                "3.7", "3.8", "3.9", "3.10"
         ));
     }
 
@@ -52,7 +61,7 @@ public class TestBuiltinPackageManager extends BaseMockedTestCase {
 
     @Test
     public void testShouldInstallCurentVersionNewer() throws Exception {
-        PackageFixture packageFixture = new PackageFixture(this.packageManager,"1000.0.0");
+        PackageFixture packageFixture = new PackageFixture(this.packageManager, "1000.0.0");
         assertThat(this.packageManager.shouldInstall()).isTrue();
     }
 
@@ -64,7 +73,7 @@ public class TestBuiltinPackageManager extends BaseMockedTestCase {
 
     @Test
     public void testDowngrading() throws Exception {
-        PackageFixture packageFixture = new PackageFixture(this.packageManager,"1000.0.0");
+        PackageFixture packageFixture = new PackageFixture(this.packageManager, "1000.0.0");
         this.packageManager.install();
         MiscUtils.assertInstalled(this.packageManager, this.builtinVersion);
     }

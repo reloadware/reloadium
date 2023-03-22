@@ -4,6 +4,7 @@ import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.icons.AllIcons;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -111,7 +112,9 @@ public class CtxCompletionContributor extends BaseCompletionContributor {
 
 
             for (Suggestion s : suggestions) {
-                Icon icon = CompletionUtils.TYPE_TO_ICON.getOrDefault(s.getPyType(), AllIcons.Nodes.Variable);
+                ObjectType objectType = ObjectType.nameToType.getOrDefault(s.getPyType(), ObjectType.Any);
+
+                Icon icon = CompletionUtils.TYPE_TO_ICON.getOrDefault(objectType, AllIcons.Nodes.Variable);
 
                 String tailText;
 
@@ -122,6 +125,14 @@ public class CtxCompletionContributor extends BaseCompletionContributor {
                 }
 
                 LookupElementBuilder builder = LookupElementBuilder.create(s.getName()).withItemTextForeground(COMPLETION_COLOR).withTypeText(s.getTypeText()).withTailText(tailText);
+
+                if (ObjectType.callableTypes.contains(objectType)) {
+                    builder = builder.withInsertHandler((ctx, item) -> {
+                        ctx.getDocument().insertString(ctx.getSelectionEndOffset(), "()");
+                        Editor editor = ctx.getEditor();
+                        editor.getCaretModel().moveToOffset(ctx.getSelectionEndOffset() - 1);
+                    });
+                }
 
                 if (mode == CompletionMode.KEY) {
                     builder = builder.withIcon(AllIcons.Nodes.Parameter);

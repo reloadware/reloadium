@@ -16,40 +16,28 @@ import rw.handler.PythonRunConfHandler;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
+
+import static com.intellij.util.ui.UIUtil.invokeLaterIfNeeded;
 
 
-public class RemoteRunConfHandler extends PythonRunConfHandler {
+abstract public class RemoteRunConfHandler extends PythonRunConfHandler {
     public static final String USER_ID_ENV = "RW_USERID";  //  # RwRender: public static final String USER_ID_ENV = "{{ ctx.env_vars.user_id }}";  //
+    public static final String REMOTE_ENV = "RW_REMOTE";  //  # RwRender: public static final String REMOTE_ENV = "{{ ctx.env_vars.ide.remote }}";  //
+
+    private boolean warned;
 
     public RemoteRunConfHandler(RunConfiguration runConf) {
         super(runConf);
-    }
 
-    public void onProcessStarted(RunContentDescriptor descriptor) {
-        super.onProcessStarted(descriptor);
-        try {
-            BaseProcessHandler<?> processHandler = (BaseProcessHandler<?>) descriptor.getProcessHandler();
-            assert processHandler != null;
-            Object process = processHandler.getProcess();
-
-            Method addRemoteTunnel = process.getClass().getMethod("addRemoteTunnel", int.class, String.class, int.class);
-            Method getSession = process.getClass().getMethod("getSession");
-
-            Object session  = getSession.invoke(process);
-            Method getHost = session.getClass().getMethod("getHost");
-
-            String host = (String) getHost.invoke(session);
-
-            addRemoteTunnel.invoke(process, this.session.getPort(), host, this.session.getPort());
-        } catch (Exception e) {
-            RwSentry.get().captureException(e, true);
-        }
+        this.warned = false;
     }
 
     protected File getPackagesRootDir() {
         String ret = "/root/.reloadium/package";
 
-        if(Const.get().stage != Stage.PROD) {
+        if (Const.get().stage != Stage.PROD) {
             ret += "_" + Const.get().stage.value;
         }
 
@@ -64,23 +52,26 @@ public class RemoteRunConfHandler extends PythonRunConfHandler {
         Config config = ConfigManager.get().getConfig();
 
         this.runConf.getEnvs().put(USER_ID_ENV, config.user.uuid);
+        this.runConf.getEnvs().put(REMOTE_ENV, "True");
     }
 
     @NotNull
     @Override
     public String convertPathToLocal(@NotNull String remotePath, boolean warnMissing) {
-        if (this.runConf.getMappingSettings() == null){
-            Messages.showErrorDialog(this.project, "Path mappings are missing", "Missing Path Mappings");
+        if (this.runConf.getMappingSettings() == null) {
+            if (!this.warned) {
+                this.warned = true;
+                invokeLaterIfNeeded(() -> Messages.showErrorDialog(this.project, String.format("Path mappings are missing for remote path %s", remotePath), "Missing Remote Path Mappings"));
+            }
             return remotePath;
         }
 
         String ret = this.runConf.getMappingSettings().convertToLocal(remotePath);
 
-        if(warnMissing && ret.equals(remotePath)) {
-            ApplicationManager.getApplication().invokeLater(() -> {
-                Messages.showErrorDialog(this.project, String.format("Could not convert remote path %s to the local one. " +
-                        "Add path mappings to resolve this", remotePath), "Missing Path Mappings");
-            });
+        if (warnMissing && ret.equals(remotePath) && !this.warned) {
+            this.warned = true;
+            invokeLaterIfNeeded(() -> Messages.showErrorDialog(this.project, String.format("Could not convert remote path %s to the local one. " +
+                    "Add path mappings to resolve this", remotePath), "Missing Path Mappings"));
         }
         return ret;
     }
@@ -89,17 +80,19 @@ public class RemoteRunConfHandler extends PythonRunConfHandler {
     @Override
     public String convertPathToRemote(@NotNull String localPath, boolean warnMissing) {
         if (this.runConf.getMappingSettings() == null) {
-            Messages.showErrorDialog(this.project, "Path mappings are missing", "Missing Path Mappings");
+            if (!this.warned) {
+                this.warned = true;
+                invokeLaterIfNeeded(() -> Messages.showErrorDialog(this.project, String.format("Path mappings are missing for local path %s", localPath), "Missing Local Path Mappings"));
+            }
             return localPath;
         }
 
         String ret = this.runConf.getMappingSettings().convertToRemote(localPath);
 
-        if(warnMissing && ret.equals(localPath)) {
-            ApplicationManager.getApplication().invokeLater(() -> {
-                Messages.showErrorDialog(this.project, String.format("Could not convert local path %s to the remote one. " +
-                        "Add path mappings to resolve this", localPath), "Missing Path Mappings");
-            });
+        if (warnMissing && ret.equals(localPath) && !this.warned) {
+            this.warned = true;
+            invokeLaterIfNeeded(() -> Messages.showErrorDialog(this.project, String.format("Could not convert local path %s to the remote one. " +
+                    "Add path mappings to resolve this", localPath), "Missing Path Mappings"));
         }
         return ret;
     }

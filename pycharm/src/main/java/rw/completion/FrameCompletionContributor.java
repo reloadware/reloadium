@@ -45,8 +45,7 @@ public class FrameCompletionContributor extends CtxCompletionContributor {
             PyExecutionStack executionStack = (PyExecutionStack) suspendContext.getActiveExecutionStack();
             assert executionStack != null;
 
-            PyStackFrame stackFrame = executionStack.getTopFrame();
-
+            PyStackFrame stackFrame = (PyStackFrame) handler.getDebugSession().getCurrentStackFrame();
             if (stackFrame == null) {
                 return null;
             }

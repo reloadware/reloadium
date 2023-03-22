@@ -2,13 +2,19 @@ package rw.handler;
 
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.projectRoots.SdkAdditionalData;
 import com.jetbrains.python.run.AbstractPythonRunConfiguration;
 import com.jetbrains.python.sdk.PythonSdkUtil;
 import org.jetbrains.annotations.NotNull;
+import rw.audit.RwSentry;
 import rw.handler.BaseRunConfHandler;
 import rw.handler.DockerRunConfHandler;
 import rw.handler.PythonRunConfHandler;
 import rw.handler.RemoteRunConfHandler;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public abstract class RunConfHandlerFactory {
     public static @NotNull BaseRunConfHandler factory(RunConfiguration runConf) {
@@ -17,15 +23,25 @@ public abstract class RunConfHandlerFactory {
         Sdk sdk = pythonRunConf.getSdk();
         assert sdk != null;
 
-        if (PythonSdkUtil.isRemote(sdk) && (
-                sdk.getHomePath().startsWith("docker-compose://") || sdk.getHomePath().startsWith("docker://"))
-        ) {
+        SdkAdditionalData additionalData = sdk.getSdkAdditionalData();
+
+        String extraInfo = "";
+
+        if (additionalData != null) {
+            try {
+                Method _targetEnvironmentConfigurationField = additionalData.getClass().getMethod("getTargetEnvironmentConfiguration");
+                _targetEnvironmentConfigurationField.setAccessible(true);
+                Object _targetEnvironmentConfiguration = _targetEnvironmentConfigurationField.invoke(additionalData);
+                extraInfo = _targetEnvironmentConfiguration.getClass().getName().toLowerCase();
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored) {
+            }
+        }
+
+        if (PythonSdkUtil.isRemote(sdk) && extraInfo.contains("docker")) {
             return new DockerRunConfHandler(runConf);
-        }
-        else if (PythonSdkUtil.isRemote(sdk)){
-            return new RemoteRunConfHandler(runConf);
-        }
-        else {
+        } else if (PythonSdkUtil.isRemote(sdk)) {
+            return new SshRunConfHandler(runConf);
+        } else {
             return new PythonRunConfHandler(runConf);
         }
 

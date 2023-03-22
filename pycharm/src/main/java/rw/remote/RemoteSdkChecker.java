@@ -64,10 +64,9 @@ public class RemoteSdkChecker {
 
         LOGGER.info("Checking remote package for " + sdk.getName());
 
-        HelpersAwareTargetEnvironmentRequest helpersAwareTargetRequest =
-                PythonInterpreterTargetEnvironmentFactory.findPythonTargetInterpreter(sdk, project);
-
         try {
+            HelpersAwareTargetEnvironmentRequest helpersAwareTargetRequest =
+                PythonInterpreterTargetEnvironmentFactory.findPythonTargetInterpreter(sdk, project);
             TargetEnvironment targetEnvironment;
             try {
                 targetEnvironment = helpersAwareTargetRequest.getTargetEnvironmentRequest().prepareEnvironment(TargetProgressIndicator.EMPTY);
@@ -112,11 +111,7 @@ public class RemoteSdkChecker {
                 }, false);
             }
         }
-        catch (Exception e) {
-            if (e.getClass().getName().equals("net.schmizz.sshj.connection.channel.OpenFailException")) {
-                return;
-            }
-            RwSentry.get().captureException(e, false);
+        catch (Exception ignored) {
         }
     }
 

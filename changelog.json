@@ -1,4 +1,60 @@
 {
+  "1.0.1": [
+    {
+      "type": "Added",
+      "description": "Python 3.11 support",
+      "tag": "Miscellaneous",
+      "date": "2023-03-20"
+    },
+    {
+      "type": "Fixed",
+      "description": "Remote interpreters saving issues",
+      "tag": "PyCharm",
+      "date": "2023-03-20"
+    },
+    {
+      "type": "Fixed",
+      "description": "Missing () when completing functions",
+      "tag": "PyCharm",
+      "date": "2023-03-20"
+    },
+    {
+      "type": "Fixed",
+      "description": "Profiler concurrency issues",
+      "tag": "PyCharm",
+      "date": "2023-03-20"
+    },
+    {
+      "type": "Fixed",
+      "description": "Too many whitespaces in completion tail",
+      "tag": "PyCharm",
+      "date": "2023-03-20"
+    },
+    {
+      "type": "Fixed",
+      "description": "Apple silicon rosetta support",
+      "tag": "PyCharm",
+      "date": "2023-03-20"
+    },
+    {
+      "type": "Fixed",
+      "description": "Completion not working for selected frame in evaluate",
+      "tag": "PyCharm",
+      "date": "2023-03-20"
+    },
+    {
+      "type": "Fixed",
+      "description": "Docker compose interpreter not working",
+      "tag": "PyCharm",
+      "date": "2023-03-20"
+    },
+    {
+      "type": "Added",
+      "description": "Multiline error rendering",
+      "tag": "PyCharm",
+      "date": "2023-03-21"
+    }
+  ],
   "1.0.0": [
     {
       "type": "Added",
@@ -8,7 +64,7 @@
     },
     {
       "type": "Fixed",
-      "description": "Assertion error in fast debug mode when no brekpoints present",
+      "description": "Assertion error in fast debug mode when no breakpoints present",
       "tag": "Miscellaneous",
       "date": "2023-03-04"
     },

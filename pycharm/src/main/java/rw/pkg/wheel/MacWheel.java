@@ -1,5 +1,6 @@
 package rw.pkg.wheel;
 
+import rw.pkg.Machine;
 import rw.util.Architecture;
 import rw.util.OsType;
 
@@ -13,12 +14,9 @@ public class MacWheel extends BaseWheel {
         super.parse();
 
         this.osType = OsType.MacOS;
-
-        if( this.input.contains("arm64")) {
-            this.architecture = Architecture.ARM64;
-        }
-        else {
-            this.architecture = Architecture.X64;
-        }
+        this.architecture = Architecture.X64;
+    }
+    public boolean accepts(Machine machine) {
+        return this.osType == machine.getOsType();
     }
 }

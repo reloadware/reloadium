@@ -2,6 +2,28 @@ Change Log
 ##########
 
 
+1.0.1
+-------
+
+**Miscellaneous**:
+    
+  Added:
+    * Python 3.11 support
+    
+**PyCharm**:
+    
+  Fixed:
+    * Remote interpreters saving issues
+    * Missing () when completing functions
+    * Profiler concurrency issues
+    * Too many whitespaces in completion tail
+    * Apple silicon rosetta support
+    * Completion not working for selected frame in evaluate
+    * Docker compose interpreter not working
+    
+  Added:
+    * Multiline error rendering
+    
 1.0.0
 -------
 
@@ -16,7 +38,7 @@ Change Log
     * Hot reloading docstrings
     
   Fixed:
-    * Assertion error in fast debug mode when no brekpoints present
+    * Assertion error in fast debug mode when no breakpoints present
     * Wrong error lines in fast debug mode
     * Reloading issues when using snoop library
     * Celery noreload flag issue

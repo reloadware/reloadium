@@ -2,11 +2,14 @@ package rw.tests.fixtures;
 
 import rw.consts.Const;
 import rw.pkg.PackageManager;
+import rw.pkg.wheel.BaseWheel;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class PackageFixture {
@@ -18,19 +21,14 @@ public class PackageFixture {
 
         this.pythonVersionToPackageDirs = new HashMap<>();
 
-        for (String v : Const.singleton.supportedVersions) {
-            File packageDir = new File(packageManager.getFs().getPackagePythonVersionDir(v).toString(), Const.get().packageName);
-            this.pythonVersionToPackageDirs.put(v, packageDir);
-
-            File packageDistInfoDir = new File(packageManager.getFs().getPackagePythonVersionDir(v).toString(),
-                    String.format("%s-%s.dist-info", Const.get().packageName, version));
-
-            packageDir.mkdirs();
-            packageDistInfoDir.mkdirs();
-
-            currentVersionFile.toPath().getParent().toFile().mkdir();
-            currentVersionFile.createNewFile();
+        for (BaseWheel wheel : packageManager.getWheels()) {
+            File pythonVersionDir = new File(packageManager.getFs().getPackagesRootDir(), wheel.getDstDirName());
+            pythonVersionDir.mkdirs();
+            this.pythonVersionToPackageDirs.put(wheel.getVersion(), pythonVersionDir);
         }
-        Files.writeString(currentVersionFile.toPath(), version);
+
+        this.currentVersionFile.toPath().getParent().toFile().mkdir();
+        this.currentVersionFile.createNewFile();
+        Files.writeString(this.currentVersionFile.toPath(), version);
     }
 }
