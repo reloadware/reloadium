@@ -50,8 +50,8 @@ public class ErrorHighlighter {
 
             int line = this.line-1;
 
-            ErrorRenderer renderer = new ErrorRenderer(this.msg);
             ApplicationManager.getApplication().invokeLater(() -> {
+                ErrorRenderer renderer = new ErrorRenderer(e, this.msg);
                 e.getCaretModel().moveToLogicalPosition(new LogicalPosition(line, 0));
                 e.getScrollingModel().scrollToCaret(ScrollType.CENTER);
                 int offset = e.logicalPositionToOffset(new LogicalPosition(line, 0));

@@ -2,11 +2,7 @@
 package rw.pkg;
 
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
-import net.lingala.zip4j.ZipFile;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOExceptionList;
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.jetbrains.annotations.NotNull;
@@ -16,14 +12,10 @@ import rw.audit.RwSentry;
 import rw.consts.Const;
 import rw.pkg.wheel.BaseWheel;
 import rw.pkg.wheel.WheelFactory;
-import rw.util.Architecture;
-import rw.pkg.InstallTask;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,7 +30,6 @@ public class PackageManager {
     boolean installing;
 
     String builtinVersion;
-    String resourceWheelsPathRoot = "META-INF/wheels/";
 
     String pythonFilesRoot = "META-INF/python_files/";
 
@@ -72,7 +63,7 @@ public class PackageManager {
 
         try {
             String builtinVersionStr = IOUtils.toString(getClass().getClassLoader().getResourceAsStream(
-                    this.resourceWheelsPathRoot + "version.txt"), StandardCharsets.UTF_8.name());
+                    BaseWheel.RESOURCE_WHEELS_PATH_ROOT + "version.txt"), StandardCharsets.UTF_8.name());
             this.builtinVersion = builtinVersionStr;
         } catch (IOException e) {
             RwSentry.get().captureException(e, true);
@@ -106,29 +97,9 @@ public class PackageManager {
         }
     }
 
-    protected void installWheels(List<File> wheels) throws Exception {
-        for (File wheelFile : wheels) {
-            BaseWheel wheel = WheelFactory.factory(wheelFile.getName());
-
-            File packageVersionDir = this.fs.getPackagePythonVersionDir(wheel.getPythonVersion());
-
-            if (packageVersionDir.exists()) {
-                try {
-                    FileUtils.deleteDirectory(packageVersionDir);
-                } catch (IOException ignored) {
-                }
-            }
-            packageVersionDir.mkdirs();
-
-            String tmpdir = Files.createTempDirectory(Const.get().packageName).toFile().getAbsolutePath();
-            new ZipFile(wheelFile).extractAll(tmpdir);
-
-            this.fs.putDirectory(new File(tmpdir), packageVersionDir);
-
-            try {
-                wheelFile.delete();
-            } catch (Exception ignored) {
-            }
+    protected void installWheels(List<BaseWheel> wheels) throws Exception {
+        for (BaseWheel wheel : wheels) {
+            wheel.unpack(this.fs);
         }
     }
 
@@ -143,23 +114,13 @@ public class PackageManager {
     }
 
     protected void installVersion(String version) throws Exception {
-        List<File> wheels = this.getWheelFiles();
+        List<BaseWheel> wheels = this.getWheels();
         if (wheels.isEmpty()) {
             return;
         }
         this.installWheels(wheels);
         this.installLauncher();
         this.fs.writeString(this.currentVersionFile, version);
-        this.cleanWheels(wheels);
-    }
-
-    protected void cleanWheels(List<File> wheels) {
-        for (File w : wheels) {
-            try {
-                w.delete();
-            } catch (Exception ignored) {
-            }
-        }
     }
 
     public String getBuiltinVersion() {
@@ -183,39 +144,25 @@ public class PackageManager {
         return ret;
     }
 
-    public List<File> getWheelFiles() throws IOException {
+    public List<BaseWheel> getWheels() throws IOException {
         LOGGER.info("Getting wheels files");
 
-        List<File> ret = new ArrayList<>();
+        List<BaseWheel> ret = new ArrayList<>();
 
-        String tmpdir = Files.createTempDirectory(Const.get().packageName).toFile().getAbsolutePath();
+        String[] wheelFilenames = null;
+        wheelFilenames = IOUtils.toString(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                BaseWheel.RESOURCE_WHEELS_PATH_ROOT + "content.txt")), StandardCharsets.UTF_8.name()).split("\n");
 
-        String[] wheels = null;
-        wheels = IOUtils.toString(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                this.resourceWheelsPathRoot + "content.txt")), StandardCharsets.UTF_8.name()).split("\n");
-
-        for (String wheelFilename : wheels) {
+        for (String wheelFilename : wheelFilenames) {
             LOGGER.info("Getting " + wheelFilename);
 
             BaseWheel wheel = WheelFactory.factory(wheelFilename);
 
-            if (wheel.getOsType() != this.machine.getOsType() || wheel.getArchitecture() != this.machine.getArchitecture()) {
+            if (!wheel.accepts(this.machine)) {
                 continue;
             }
 
-            File wheelFile = new File(tmpdir, wheel.getFilename());
-
-            InputStream wheelFileStream = getClass().getClassLoader().getResourceAsStream(
-                    this.resourceWheelsPathRoot + wheelFilename
-            );
-
-            if (wheelFileStream == null) {
-                continue;
-            }
-
-            FileUtils.copyInputStreamToFile(wheelFileStream, wheelFile);
-            wheelFileStream.close();
-            ret.add(wheelFile);
+            ret.add(wheel);
         }
         return ret;
     }

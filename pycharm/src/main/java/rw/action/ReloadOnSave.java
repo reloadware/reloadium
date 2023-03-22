@@ -18,4 +18,5 @@ public class ReloadOnSave implements FileDocumentManagerListener {
     public void beforeDocumentSaving(@NotNull Document document) {
         ManualReload.handleSave(null, new Document[]{document});
     }
+
 }

@@ -1,12 +1,17 @@
 package rw.pkg.wheel;
 
+import net.lingala.zip4j.ZipFile;
 import org.apache.commons.io.FileUtils;
 import rw.consts.Const;
+import rw.pkg.FileSystem;
+import rw.pkg.Machine;
 import rw.util.Architecture;
 import rw.util.OsType;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +23,8 @@ abstract public class BaseWheel {
     private String pythonVersion;
     private String filename;
     private String version;
+
+    public static String RESOURCE_WHEELS_PATH_ROOT = "META-INF/wheels/";
 
     BaseWheel(String input) {
         this.input = input;
@@ -71,5 +78,47 @@ abstract public class BaseWheel {
 
     public String getVersion() {
         return this.version;
+    }
+
+    public boolean accepts(Machine machine) {
+        return this.osType == machine.getOsType() && machine.getArchitecture() == this.architecture;
+    }
+
+    public String getDstDirName() {
+        return this.pythonVersion;
+    }
+
+    public void unpack(FileSystem fs) throws IOException {
+        String tmpdir = Files.createTempDirectory(Const.get().packageName).toFile().getAbsolutePath();
+
+        File tmpWheelFile = new File(tmpdir, this.getFilename());
+
+        InputStream wheelFileStream = getClass().getClassLoader().getResourceAsStream(
+                RESOURCE_WHEELS_PATH_ROOT + this.getFilename()
+        );
+
+        assert wheelFileStream != null;
+
+        FileUtils.copyInputStreamToFile(wheelFileStream, tmpWheelFile);
+        wheelFileStream.close();
+
+        File packageVersionDir = new File(fs.getPackagesRootDir().toString(), this.getDstDirName());
+
+        if (packageVersionDir.exists()) {
+            try {
+                FileUtils.deleteDirectory(packageVersionDir);
+            } catch (IOException ignored) {
+            }
+        }
+        packageVersionDir.mkdirs();
+
+        new ZipFile(tmpWheelFile).extractAll(tmpdir);
+
+        fs.putDirectory(new File(tmpdir), packageVersionDir);
+
+        try {
+            tmpWheelFile.delete();
+        } catch (Exception ignored) {
+        }
     }
 }

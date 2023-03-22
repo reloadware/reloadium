@@ -2,6 +2,7 @@ package rw.tests.utils;
 
 import rw.consts.Const;
 import rw.pkg.PackageManager;
+import rw.pkg.wheel.BaseWheel;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -75,8 +76,9 @@ public class MiscUtils {
     public static void assertInstalled(PackageManager packageManager, String version) throws Exception {
         assertThat(packageManager.getFs().getPackagesRootDir().exists()).isTrue();
 
-        for (String pythonVersion: Const.get().supportedVersions) {
-            File pythonVersionDir = packageManager.getFs().getPackagePythonVersionDir(pythonVersion);
+        for (BaseWheel wheel: packageManager.getWheels()) {
+            assertThat(wheel.getVersion().equals(version));
+            File pythonVersionDir = new File(packageManager.getFs().getPackagesRootDir(), wheel.getDstDirName());
             File packageDir = new File(String.valueOf(pythonVersionDir), Const.get().packageName);
 
             assertThat(packageDir.exists()).isTrue();

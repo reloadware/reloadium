@@ -8,7 +8,7 @@ IMPORT_ERROR_MSG = (
     "Windows, Linux, macOS and Python 64 bit >= 3.7 (>= 3.9 for M1) <= 3.10 are currently supported.\n"
     "Please submit a github issue if you believe Reloadium should be working on your system at\n"
     "https://github.com/reloadware/reloadium\n"
-    "To see the exception run reloadium with environmental variable RW_DEBUG=True\n"
+    "To see the exception run Reloadium with environmental variable RW_DEBUG=True\n"
 )
 
 __RELOADIUM__ = True

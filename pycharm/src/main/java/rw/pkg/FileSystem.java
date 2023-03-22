@@ -31,8 +31,4 @@ abstract public class FileSystem {
     public File getPackagesRootDir() {
         return new File(this.getDotDir().toString(), Const.get().packageDirName);
     }
-
-    public File getPackagePythonVersionDir(String version) {
-        return new File(this.getPackagesRootDir().toString(), version);
-    }
 }

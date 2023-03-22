@@ -11,7 +11,7 @@ import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import rw.action.RunType;
 import rw.action.RunWithReloadium;
-import rw.handler.RemoteRunConfHandler;
+import rw.handler.SshRunConfHandler;
 import rw.tests.BaseMockedTestCase;
 import rw.tests.fixtures.CakeshopFixture;
 import rw.tests.fixtures.PackageFixture;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-public class TestRemoteRunConfHandler extends BaseMockedTestCase {
+public class TestSshRunConfHandler extends BaseMockedTestCase {
     CakeshopFixture cakeshop;
     AnAction action;
 
@@ -55,7 +55,7 @@ public class TestRemoteRunConfHandler extends BaseMockedTestCase {
         try (MockedStatic<UUID> uuid = mockStatic(UUID.class)) {
             uuid.when(UUID::randomUUID).thenReturn(randomUuid);
 
-            RemoteRunConfHandler remoteRunConfHandler = new RemoteRunConfHandler(this.cakeshop.getRunConf());
+            SshRunConfHandler remoteRunConfHandler = new SshRunConfHandler(this.cakeshop.getRunConf());
 
             remoteRunConfHandler.beforeRun(RunType.RUN);
 
@@ -72,7 +72,7 @@ public class TestRemoteRunConfHandler extends BaseMockedTestCase {
 
         try (MockedStatic<UUID> uuid = mockStatic(UUID.class)) {
             uuid.when(UUID::randomUUID).thenReturn(randomUuid);
-            RemoteRunConfHandler remoteRunConfHandler = new RemoteRunConfHandler(this.cakeshop.getRunConf());
+            SshRunConfHandler remoteRunConfHandler = new SshRunConfHandler(this.cakeshop.getRunConf());
 
             remoteRunConfHandler.beforeRun(RunType.RUN);
 
@@ -102,7 +102,7 @@ public class TestRemoteRunConfHandler extends BaseMockedTestCase {
 
         try (MockedStatic<UUID> uuid = mockStatic(UUID.class)) {
             uuid.when(UUID::randomUUID).thenReturn(randomUuid);
-            RemoteRunConfHandler remoteRunConfHandler = new RemoteRunConfHandler(this.cakeshop.getRunConf());
+            SshRunConfHandler remoteRunConfHandler = new SshRunConfHandler(this.cakeshop.getRunConf());
 
             remoteRunConfHandler.beforeRun(RunType.RUN);
 
