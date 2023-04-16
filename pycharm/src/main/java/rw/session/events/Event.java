@@ -1,18 +1,18 @@
 package rw.session.events;
 
 import org.jetbrains.annotations.VisibleForTesting;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 
 public class Event {
     public static final String ID = null;
 
-    transient BaseRunConfHandler handler;
+    transient RunConfHandler handler;
 
     @VisibleForTesting
     public void handle() {
     };
 
-    public void setHandler(BaseRunConfHandler handler) {
+    public void setHandler(RunConfHandler handler) {
         this.handler = handler;
     }
 }

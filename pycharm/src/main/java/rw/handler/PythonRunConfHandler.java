@@ -12,13 +12,11 @@ import org.jetbrains.annotations.Nullable;
 import rw.action.RunType;
 import rw.audit.RwSentry;
 import rw.consts.Const;
-import rw.handler.BaseRunConfHandler;
 import rw.icons.IconPatcher;
 import rw.pkg.NativeFileSystem;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
 import rw.quickconfig.QuickConfigStateFactory;
-import rw.service.Service;
 import rw.settings.ProjectState;
 import rw.settings.ProjectSettings;
 import rw.util.EnvUtils;
@@ -28,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PythonRunConfHandler extends BaseRunConfHandler {
+public class PythonRunConfHandler extends RunConfHandler {
     AbstractPythonRunConfiguration<?> runConf;
     AbstractPythonRunConfiguration<?> origRunConf;
 

@@ -13,20 +13,18 @@ abstract public class FileSystem {
     public abstract void putFile(File src, File dst) throws IOException;
     public abstract void putDirectory(File src, File dst) throws IOException;
 
-
     abstract public File getHome();
 
+    static final String DOT_DIR_NAME = "." + Const.get().packageName;
+
     public File getDotDir() {
-        return new File(this.getHome().toString(), this.getDotDirName());
+        return new File(this.getHome().toString(), DOT_DIR_NAME);
     }
 
     public File getConfigFile() {
         return new File(this.getDotDir().toString(), Const.get().configFilename);
     }
 
-    private String getDotDirName() {
-        return "." + Const.get().packageName;
-    }
 
     public File getPackagesRootDir() {
         return new File(this.getDotDir().toString(), Const.get().packageDirName);

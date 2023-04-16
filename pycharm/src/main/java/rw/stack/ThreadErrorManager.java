@@ -89,6 +89,16 @@ public class ThreadErrorManager implements Activable {
         return threadId;
     }
 
+    public @Nullable ThreadError getActiveError() {
+        String activeThread = this.getActiveThread();
+        if(activeThread == null) {
+            return null;
+        }
+
+        ThreadError ret = this.threadErrors.get(activeThread);
+        return ret;
+    }
+
     @Override
     public void activate() {
         String activeThread = this.getActiveThread();

@@ -5,7 +5,7 @@ import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.execution.executors.DefaultDebugExecutor;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.jetbrains.annotations.NotNull;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 import rw.handler.ExtraEnvsSetter;
 import rw.handler.RunConfHandlerFactory;
 import rw.icons.Icons;
@@ -36,8 +36,8 @@ public class FastDebugWithReloadiumRunContext extends ContextPopupAction {
         return DefaultDebugExecutor.getDebugExecutorInstance();
     }
 
-    protected BaseRunConfHandler handlerFactory(RunnerAndConfigurationSettings conf) {
-        BaseRunConfHandler ret = RunConfHandlerFactory.factory(conf.getConfiguration());
+    protected RunConfHandler handlerFactory(RunnerAndConfigurationSettings conf) {
+        RunConfHandler ret = RunConfHandlerFactory.factory(conf.getConfiguration());
 
         ret.setExtraEnvsSetter(new ExtraEnvsSetter() {
             @Override

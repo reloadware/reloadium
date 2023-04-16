@@ -1,5 +1,6 @@
 package rw.remote;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.jetbrains.python.target.PyTargetAwareAdditionalData;
 import rw.remote.sftp.SFTPException;
@@ -7,6 +8,8 @@ import rw.remote.sftp.SFTPException;
 import java.lang.reflect.InvocationTargetException;
 
 public class RemoteUtils {
+    private static final Logger LOGGER = Logger.getInstance(RemoteUtils.class);
+
     static public boolean isSdkServerRemote(Sdk sdk) {
         if (!(sdk.getSdkAdditionalData() instanceof PyTargetAwareAdditionalData)) {
             return false;

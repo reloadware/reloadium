@@ -21,9 +21,9 @@ public class RunConfHandlerManager {
 
     public static RunConfHandlerManager singleton = null;
 
-    Map<ExecutionEnvironment, BaseRunConfHandler> all;
+    Map<ExecutionEnvironment, RunConfHandler> all;
     @Nullable
-    BaseRunConfHandler last;
+    RunConfHandler last;
 
     @VisibleForTesting
     public RunConfHandlerManager() {
@@ -39,18 +39,18 @@ public class RunConfHandlerManager {
         return singleton;
     }
 
-    public void register(ExecutionEnvironment executionEnvironment, BaseRunConfHandler baseRunConfHandler) {
-        this.all.put(executionEnvironment, baseRunConfHandler);
-        this.last = baseRunConfHandler;
+    public void register(ExecutionEnvironment executionEnvironment, RunConfHandler runConfHandler) {
+        this.all.put(executionEnvironment, runConfHandler);
+        this.last = runConfHandler;
     }
 
     @Nullable
-    public BaseRunConfHandler getRunConfHandler(long executionId) {
+    public RunConfHandler getRunConfHandler(long executionId) {
         return this.all.get(executionId);
     }
 
-    public List<BaseRunConfHandler> getAllActiveHandlers(@Nullable Project project) {
-        List<BaseRunConfHandler> ret = new ArrayList<>();
+    public List<RunConfHandler> getAllActiveHandlers(@Nullable Project project) {
+        List<RunConfHandler> ret = new ArrayList<>();
 
         this.all.forEach((key, value) -> {
             if ((project == null || value.getProject() == project) && value.isActive()) {
@@ -61,7 +61,7 @@ public class RunConfHandlerManager {
     }
 
     @Nullable
-    public BaseRunConfHandler getCurrentDebugHandler(Project project) {
+    public RunConfHandler getCurrentDebugHandler(Project project) {
         XDebugSessionImpl debugSession = ((XDebugSessionImpl) XDebuggerManager.getInstance(project).getCurrentSession());
 
         if (debugSession == null) {
@@ -74,12 +74,12 @@ public class RunConfHandlerManager {
             return null;
         }
 
-        BaseRunConfHandler handler = this.all.get(environment);
+        RunConfHandler handler = this.all.get(environment);
         return handler;
     }
 
     @Nullable
-    public BaseRunConfHandler getCurrentRunHandler(Project project) {
+    public RunConfHandler getCurrentRunHandler(Project project) {
         RunManager runManager = RunManager.getInstance(project);
 
         if (runManager.getSelectedConfiguration() == null) {
@@ -88,7 +88,7 @@ public class RunConfHandlerManager {
 
         RunConfiguration configuration = runManager.getSelectedConfiguration().getConfiguration();
 
-        for (BaseRunConfHandler h : this.all.values()) {
+        for (RunConfHandler h : this.all.values()) {
             if (h.runConf == configuration && h.isActive()) {
                 return h;
             }
@@ -97,7 +97,7 @@ public class RunConfHandlerManager {
     }
 
     public void deactivateAll() {
-        for (BaseRunConfHandler runConfHandler : this.all.values()) {
+        for (RunConfHandler runConfHandler : this.all.values()) {
             runConfHandler.deactivate();
         }
     }

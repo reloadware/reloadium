@@ -7,7 +7,7 @@ plugins {
 
 
 group 'com.reloadware'
-version '1.0.1' //  # RwRender: version '{{ ctx.version }}' //
+version '1.1.0' //  # RwRender: version '{{ ctx.version }}' //
 
 
 repositories {
@@ -44,6 +44,8 @@ dependencies {
     implementation(
             'net.lingala.zip4j:zip4j:2.11.2',
             'commons-io:commons-io:2.11.0',
+            "ee.carlrobert:openai-client:1.0.3",
+            'com.knuddels:jtokkit:0.1.0'
     )
 
     testImplementation(
@@ -60,7 +62,8 @@ dependencies {
             'org.powermock:powermock-core:2.0.9',
             'org.mockito:mockito-inline:4.8.0',
             'org.mockito:mockito-junit-jupiter:4.8.0',
-            'org.junit-pioneer:junit-pioneer:1.9.0'
+            'org.junit-pioneer:junit-pioneer:1.9.0',
+            'org.skyscreamer:jsonassert:1.5.1',
     )
     testRuntimeOnly(
             'org.junit.jupiter:junit-jupiter-engine:5.9.0'
@@ -127,7 +130,7 @@ publishPlugin {
 }
 
 runPluginVerifier {
-    ideVersions = ["IU-223.8836.14", "IU-222.4345.14"]
+    ideVersions = ["IU-231.8770.17", "IU-223.8836.14", "IU-222.4345.14"]
 }
 
 tasks.processResources {

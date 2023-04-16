@@ -4,14 +4,12 @@ import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.python.psi.PyFunction;
 import org.jetbrains.annotations.Nullable;
 import rw.action.RunType;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 import rw.session.cmds.completion.GetCtxCompletion;
 import rw.session.cmds.completion.GetLocalCompletion;
 
@@ -22,7 +20,7 @@ public class LocalCompletionContributor extends CtxCompletionContributor {
         @Nullable protected GetCtxCompletion cmdFactory(PsiElement element,
                                               String prompt,
                                               VirtualFile virtualFile,
-                                              BaseRunConfHandler handler,
+                                              RunConfHandler handler,
                                               @Nullable String parent,
                                               CompletionMode mode) {
             Document document = FileDocumentManager.getInstance().getDocument(virtualFile);

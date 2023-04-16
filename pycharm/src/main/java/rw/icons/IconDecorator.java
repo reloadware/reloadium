@@ -21,8 +21,4 @@ final class IconDecorator implements ProjectViewNodeDecorator {
         Icon ret = IconPatcher.getIcon(node.getProject(), node.getVirtualFile(), data.getIcon(true));
         data.setIcon(ret);
     }
-
-    @Override
-    public void decorate(PackageDependenciesNode node, ColoredTreeCellRenderer cellRenderer) {
-    }
 }

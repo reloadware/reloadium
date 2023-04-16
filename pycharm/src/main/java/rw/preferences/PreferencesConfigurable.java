@@ -15,11 +15,9 @@ import javax.swing.*;
 
 public class PreferencesConfigurable implements Configurable, SearchableConfigurable, Configurable.NoScroll {
     PreferencesForm form;
-    Preferences preferences;
 
     PreferencesConfigurable() {
         this.form = new PreferencesForm();
-        this.preferences = Preferences.getInstance();
     }
 
     @Override
@@ -34,17 +32,17 @@ public class PreferencesConfigurable implements Configurable, SearchableConfigur
 
     @Override
     public boolean isModified() {
-        return !this.form.getState().equals(this.preferences.getState());
+        return !this.form.getState().equals(Preferences.getInstance().getState());
     }
 
     @Override
-    public void apply() throws ConfigurationException {
-        this.preferences.loadState(this.form.getState());
+    public void apply() {
+        Preferences.getInstance().loadState(this.form.getState());
     }
 
     @Override
     public void reset() {
-        this.form.setState(this.preferences.getState());
+        this.form.setState(Preferences.getInstance().getState());
     }
 
     @Override

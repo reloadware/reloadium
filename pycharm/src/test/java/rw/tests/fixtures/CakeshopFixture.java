@@ -6,29 +6,14 @@ import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.execution.compound.CompoundRunConfiguration;
 import com.intellij.execution.compound.CompoundRunConfigurationType;
 import com.intellij.execution.impl.RunManagerImpl;
-import com.intellij.ide.highlighter.ModuleFileType;
-import com.intellij.openapi.application.WriteAction;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.projectRoots.ProjectJdkTable;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl;
-import com.intellij.openapi.projectRoots.impl.SdkConfigurationUtil;
-import com.jetbrains.python.packaging.PyPackageManager;
-import com.jetbrains.python.run.AbstractPythonRunConfiguration;
 import com.jetbrains.python.run.PythonConfigurationType;
 import com.jetbrains.python.run.PythonRunConfiguration;
-import com.jetbrains.python.sdk.PyDetectedSdk;
-import com.jetbrains.python.sdk.PythonSdkType;
-import com.jetbrains.rest.run.RestRunConfigurationType;
-import com.jetbrains.rest.run.docutils.DocutilsRunConfiguration;
-import rw.tests.utils.MiscUtils;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 
 public class CakeshopFixture {
@@ -48,7 +33,7 @@ public class CakeshopFixture {
         this.project = project;
     }
 
-    public void start() throws Exception {
+    public void setUp() throws Exception {
         // Create source
         this.root = Path.of(Files.createTempDirectory("cakeshop").toFile().getAbsolutePath());
         this.sdkFixture = new SdkFixture(this.root.toFile(), this.PYTHON_VERSION);
@@ -82,7 +67,7 @@ public class CakeshopFixture {
         config.setRestartRequiresConfirmation(false);
     }
 
-    public void stop() {
+    public void tearDown() {
         RunManager runManager = RunManager.getInstance(project);
 
         runManager.removeConfiguration(this.settings);

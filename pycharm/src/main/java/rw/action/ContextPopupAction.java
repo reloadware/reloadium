@@ -2,15 +2,12 @@ package rw.action;
 
 import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.execution.actions.ConfigurationContext;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.Presentation;
-import com.intellij.openapi.actionSystem.UpdateInBackground;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 
 
-abstract public class ContextPopupAction extends WithReloaderBase implements UpdateInBackground {
+abstract public class ContextPopupAction extends WithReloaderBase implements ActionUpdateThreadAware {
     private static final Logger LOGGER = Logger.getInstance(ContextPopupAction.class);
 
     public void update(@NotNull AnActionEvent e) {
@@ -19,7 +16,7 @@ abstract public class ContextPopupAction extends WithReloaderBase implements Upd
 
     protected RunnerAndConfigurationSettings getConfiguration(@NotNull AnActionEvent e) {
         final DataContext dataContext = e.getDataContext();
-        final ConfigurationContext context = ConfigurationContext.getFromContext(dataContext);
+        final ConfigurationContext context = ConfigurationContext.getFromContext(dataContext, ActionPlaces.UNKNOWN);
 
         RunnerAndConfigurationSettings ret = context.findExisting();
 

@@ -1,5 +1,8 @@
 package rw.preferences;
 
+import com.intellij.credentialStore.CredentialAttributes;
+import com.intellij.ide.passwordSafe.PasswordSafe;
+import com.intellij.openapi.components.ServiceManager;
 import rw.quickconfig.CumulateType;
 import rw.quickconfig.ErrorHandlingMode;
 import rw.quickconfig.ProfilerType;

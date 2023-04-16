@@ -9,7 +9,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.IconManager;
 import com.intellij.ui.LayeredIcon;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
@@ -25,8 +25,8 @@ public class IconPatcher implements FileIconPatcher, DumbAware {
             return baseIcon;
         }
 
-        List<BaseRunConfHandler> handlers = RunConfHandlerManager.get().getAllActiveHandlers(project);
-        for (BaseRunConfHandler h : handlers) {
+        List<RunConfHandler> handlers = RunConfHandlerManager.get().getAllActiveHandlers(project);
+        for (RunConfHandler h : handlers) {
             if (!h.isWatched(new File(file.getPath()))) {
                 continue;
             }

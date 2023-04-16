@@ -8,20 +8,18 @@ import java.io.File;
 
 public class ThreadError implements Activable {
     final private File file;
-    String msg;
-    int line;
-    Project project;
-    ErrorHighlighter highlighter;
-    String threadId;
-    boolean active;
+    private String msg;
+    private int line;
+    private ErrorHighlighter highlighter;
+    private String threadId;
+    private boolean active;
 
     public ThreadError(Project project, String threadId, File file, String msg, int line) {
-        this.project = project;
         this.threadId = threadId;
         this.file = file;
         this.msg = msg;
         this.line = line;
-        this.highlighter = new ErrorHighlighter(this.project, file, line, msg);
+        this.highlighter = new ErrorHighlighter(project, file, line, msg);
         this.active = false;
     }
 
@@ -43,5 +41,13 @@ public class ThreadError implements Activable {
     public void deactivate() {
         this.highlighter.hide();
         this.active = false;
+    }
+
+    public int getLine() {
+        return this.line;
+    }
+
+    public String getMsg() {
+        return this.msg;
     }
 }

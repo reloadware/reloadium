@@ -35,7 +35,7 @@ public class TestSession extends BaseMockedTestCase {
         super.setUp();
 
         this.cakeshop = new CakeshopFixture(this.getProject());
-        this.cakeshop.start();
+        this.cakeshop.setUp();
 
         this.stackUpdate = Files.readString(Path.of(this.getClass().getClassLoader().getResource("StackUpdate.json").getFile()));
 
@@ -45,7 +45,7 @@ public class TestSession extends BaseMockedTestCase {
 
     @AfterEach
     protected void tearDown() throws Exception {
-        this.cakeshop.stop();
+        this.cakeshop.tearDown();
         this.dialogFactoryFixture.stop();
 
         super.tearDown();

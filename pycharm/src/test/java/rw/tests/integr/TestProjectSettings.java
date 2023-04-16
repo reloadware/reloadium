@@ -32,7 +32,7 @@ public class TestProjectSettings extends BaseMockedTestCase {
 
         PackageFixture packageFixture = new PackageFixture(this.packageManager,"0.7.12");
         this.cakeshop = new CakeshopFixture(this.getProject());
-        this.cakeshop.start();
+        this.cakeshop.setUp();
         this.sourceRootFixture = new SourceRootFixture(this.cakeshop.getRunConf().getModule());
 
         this.action = ActionManager.getInstance().getAction(RunWithReloadium.ID);
@@ -40,7 +40,7 @@ public class TestProjectSettings extends BaseMockedTestCase {
 
     @AfterEach
     protected void tearDown() throws Exception {
-        this.cakeshop.stop();
+        this.cakeshop.tearDown();
         this.sourceRootFixture.stop();
         super.tearDown();
     }

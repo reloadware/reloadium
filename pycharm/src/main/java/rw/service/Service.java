@@ -6,6 +6,7 @@ import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.VisibleForTesting;
+import rw.ai.context.ContextManager;
 import rw.audit.RwSentry;
 import rw.pkg.PackageManager;
 import rw.remote.RemoteSdkChecker;
@@ -36,6 +37,7 @@ public class Service implements Disposable {
     public void init() {
         LOGGER.info("Initializing service");
         this.packageManager.run(null, true);
+        ContextManager.get().addListeners(this);
 
         JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkIfStillGood, 2,
                 10, TimeUnit.MINUTES);

@@ -34,7 +34,7 @@ public class TestSshRunConfHandler extends BaseMockedTestCase {
 
         PackageFixture packageFixture = new PackageFixture(this.packageManager,"0.7.12");
         this.cakeshop = new CakeshopFixture(this.getProject());
-        this.cakeshop.start();
+        this.cakeshop.setUp();
 
         this.action = ActionManager.getInstance().getAction(RunWithReloadium.ID);
 
@@ -42,7 +42,7 @@ public class TestSshRunConfHandler extends BaseMockedTestCase {
 
     @AfterEach
     protected void tearDown() throws Exception {
-        this.cakeshop.stop();
+        this.cakeshop.tearDown();
 
         super.tearDown();
     }

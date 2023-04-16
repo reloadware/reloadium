@@ -1,13 +1,13 @@
 package rw.tests.fixtures;
 
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 
 import static org.mockito.Mockito.*;
 
 
 public class HighlightManagerFixture {
-    BaseRunConfHandler handler;
-    public HighlightManagerFixture(BaseRunConfHandler handler) throws Exception {
+    RunConfHandler handler;
+    public HighlightManagerFixture(RunConfHandler handler) throws Exception {
         this.handler = handler;
     }
 
