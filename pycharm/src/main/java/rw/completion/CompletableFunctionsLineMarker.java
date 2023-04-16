@@ -11,13 +11,14 @@ import com.jetbrains.python.debugger.*;
 import com.jetbrains.python.psi.PyFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
 import rw.icons.Icons;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 
 class FramePosition {
@@ -39,7 +40,7 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
     }
 
     public String getTooltip(@NotNull PyFunction element) {
-        return String.format("Function has dynamic completions available", element.getName());
+        return String.format("Function has runtime completions available", element.getName());
     }
 
     @Override
@@ -58,7 +59,7 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
             return;
         }
 
-        BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(elements.get(0).getProject());
+        RunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(elements.get(0).getProject());
 
         if (handler == null) {
             return;
@@ -127,7 +128,7 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
                 }
 
                 LineMarkerInfo<PsiElement> marker = new LineMarkerInfo<>(identifier, identifier.getTextRange(), Icons.CompletableFunction, e -> this.getTooltip((PyFunction) element),
-                        null, GutterIconRenderer.Alignment.LEFT);
+                        null, GutterIconRenderer.Alignment.LEFT, () -> "");
 
                 result.add(marker);
                 markedFrames.add(p.name);

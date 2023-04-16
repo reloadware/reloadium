@@ -13,7 +13,7 @@ import com.jetbrains.python.psi.PyImportStatement;
 import com.jetbrains.python.psi.PyImportStatementBase;
 import icons.PythonPsiApiIcons;
 import org.jetbrains.annotations.NotNull;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
@@ -56,7 +56,7 @@ public class ImportCompletionContributor extends BaseCompletionContributor {
                 return;
             }
 
-            BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(parameters.getPosition().getProject());
+            RunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(parameters.getPosition().getProject());
             if (handler == null) {
                 return;
             }

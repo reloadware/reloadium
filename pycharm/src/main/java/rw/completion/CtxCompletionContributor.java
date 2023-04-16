@@ -10,12 +10,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.testFramework.LightVirtualFile;
 import com.intellij.util.ProcessingContext;
-import com.intellij.xdebugger.XSourcePosition;
-import com.intellij.xdebugger.frame.XStackFrame;
 import com.jetbrains.python.psi.PySubscriptionExpression;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
@@ -50,7 +48,7 @@ public class CtxCompletionContributor extends BaseCompletionContributor {
             CompletionMode mode = this.getMode(orig);
             PsiElement prevElement = element.getPrevSibling();
 
-            BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(element.getProject());
+            RunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(element.getProject());
             if (handler == null) {
                 handler = RunConfHandlerManager.get().getCurrentRunHandler(element.getProject());
             }
@@ -86,6 +84,9 @@ public class CtxCompletionContributor extends BaseCompletionContributor {
             }
 
             GetCtxCompletion.Return completion = (GetCtxCompletion.Return) handler.getSession().send(cmd);
+            if(completion == null){
+                return;
+            }
 
             List<Suggestion> suggestions = completion.getSuggestions();
 
@@ -148,7 +149,7 @@ public class CtxCompletionContributor extends BaseCompletionContributor {
         abstract protected GetCtxCompletion cmdFactory(PsiElement element,
                                                        String prompt,
                                                        VirtualFile virtualFile,
-                                                       BaseRunConfHandler handler,
+                                                       RunConfHandler handler,
                                                        @Nullable String parent,
                                                        CompletionMode mode);
 

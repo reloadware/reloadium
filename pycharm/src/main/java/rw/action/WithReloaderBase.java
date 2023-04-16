@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import rw.audit.RwSentry;
 import rw.consts.Const;
 import rw.debugger.DebugRunner;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerFactory;
 import rw.handler.RunConfHandlerManager;
 import rw.icons.Icons;
@@ -34,7 +34,6 @@ import rw.icons.Icons;
 import java.util.TimerTask;
 
 import com.jetbrains.python.run.AbstractPythonRunConfiguration;
-import rw.service.Service;
 
 
 public abstract class WithReloaderBase extends AnAction {
@@ -124,20 +123,20 @@ public abstract class WithReloaderBase extends AnAction {
             IdeUiService.getInstance().notifyByBalloon(project, this.getExecutor().getToolWindowId(),
                     MessageType.ERROR, ExecutionBundle.message("error.running.configuration.message", runConf.getName()) +
                     "\nSDK is not defined for Run Configuration",
-                    Icons.ProductIcon, null);
+                    Icons.ProductSmall, null);
             return;
         }
 
         this.start(project, runConf);
     }
 
-    protected BaseRunConfHandler handlerFactory(RunnerAndConfigurationSettings conf) {
-        BaseRunConfHandler ret = RunConfHandlerFactory.factory(conf.getConfiguration());
+    protected RunConfHandler handlerFactory(RunnerAndConfigurationSettings conf) {
+        RunConfHandler ret = RunConfHandlerFactory.factory(conf.getConfiguration());
         return ret;
     }
 
     protected ExecutionEnvironment getEnvironment(RunnerAndConfigurationSettings conf) throws ExecutionException {
-        BaseRunConfHandler handler = this.handlerFactory(conf);
+        RunConfHandler handler = this.handlerFactory(conf);
         Executor executor = this.getExecutor();
 
         ExecutionEnvironmentBuilder builder = ExecutionEnvironmentBuilder.create(executor, conf);

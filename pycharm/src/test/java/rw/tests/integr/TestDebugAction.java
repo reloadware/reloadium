@@ -8,7 +8,6 @@ import com.jetbrains.python.run.PythonRunConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import rw.action.DebugWithReloadium;
 import rw.tests.BaseMockedTestCase;
 import rw.tests.fixtures.CakeshopFixture;
@@ -30,7 +29,7 @@ public class TestDebugAction extends BaseMockedTestCase {
 
         PackageFixture packageFixture = new PackageFixture(this.packageManager,"0.7.12");
         this.cakeshop = new CakeshopFixture(this.getProject());
-        this.cakeshop.start();
+        this.cakeshop.setUp();
 
         this.dialogFactoryFixture = new DialogFactoryFixture(this.getProject());
         this.dialogFactoryFixture.start();
@@ -38,7 +37,7 @@ public class TestDebugAction extends BaseMockedTestCase {
 
     @AfterEach
     protected void tearDown() throws Exception {
-        this.cakeshop.stop();
+        this.cakeshop.tearDown();
         this.dialogFactoryFixture.stop();
 
         super.tearDown();
@@ -46,7 +45,7 @@ public class TestDebugAction extends BaseMockedTestCase {
 
     @Test
     public void testUpdateNoConf() {
-        this.cakeshop.stop();
+        this.cakeshop.tearDown();
         AnAction action = ActionManager.getInstance().getAction(DebugWithReloadium.ID);
 
         AnActionEvent event = new TestActionEvent();

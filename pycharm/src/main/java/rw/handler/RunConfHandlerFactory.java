@@ -6,18 +6,12 @@ import com.intellij.openapi.projectRoots.SdkAdditionalData;
 import com.jetbrains.python.run.AbstractPythonRunConfiguration;
 import com.jetbrains.python.sdk.PythonSdkUtil;
 import org.jetbrains.annotations.NotNull;
-import rw.audit.RwSentry;
-import rw.handler.BaseRunConfHandler;
-import rw.handler.DockerRunConfHandler;
-import rw.handler.PythonRunConfHandler;
-import rw.handler.RemoteRunConfHandler;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public abstract class RunConfHandlerFactory {
-    public static @NotNull BaseRunConfHandler factory(RunConfiguration runConf) {
+    public static @NotNull RunConfHandler factory(RunConfiguration runConf) {
         AbstractPythonRunConfiguration pythonRunConf = (AbstractPythonRunConfiguration) runConf;
 
         Sdk sdk = pythonRunConf.getSdk();

@@ -2,7 +2,7 @@ package rw.stack;
 
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nullable;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 import rw.session.events.FrameData;
 import rw.session.events.StackUpdate;
 
@@ -15,11 +15,11 @@ public class Stack {
     private final Map<File, List<Frame>> pathToFrames;
 
     private final Map<String, Thread> threads;
-    BaseRunConfHandler handler;
+    RunConfHandler handler;
 
     Project project;
 
-    public Stack(Project project, BaseRunConfHandler handler) {
+    public Stack(Project project, RunConfHandler handler) {
         this.project = project;
         this.handler = handler;
         this.content = new HashMap<>();

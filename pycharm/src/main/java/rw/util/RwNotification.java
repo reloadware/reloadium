@@ -10,6 +10,6 @@ public class RwNotification extends Notification {
                           @NotNull String content,
                           @NotNull NotificationType type) {
         super("Reloadium", title, content, type);
-        this.setIcon(Icons.ProductIcon);
+        this.setIcon(Icons.ProductSmall);
     }
 }

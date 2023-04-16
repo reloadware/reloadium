@@ -1,10 +1,8 @@
-// Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package rw.pkg;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressManager;
 import org.apache.commons.io.IOUtils;
-import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
@@ -62,9 +60,8 @@ public class PackageManager {
         this.machine = machine;
 
         try {
-            String builtinVersionStr = IOUtils.toString(getClass().getClassLoader().getResourceAsStream(
-                    BaseWheel.RESOURCE_WHEELS_PATH_ROOT + "version.txt"), StandardCharsets.UTF_8.name());
-            this.builtinVersion = builtinVersionStr;
+            this.builtinVersion = IOUtils.toString(getClass().getClassLoader().getResourceAsStream(
+                    BaseWheel.RESOURCE_WHEELS_PATH_ROOT + "version.txt"), StandardCharsets.UTF_8.name()).strip();
         } catch (IOException e) {
             RwSentry.get().captureException(e, true);
         }
@@ -137,10 +134,7 @@ public class PackageManager {
             return true;
         }
 
-        ComparableVersion builtinVersion = new ComparableVersion(this.getBuiltinVersion());
-        ComparableVersion currentVersion = new ComparableVersion(this.getCurrentVersion());
-
-        boolean ret = builtinVersion.compareTo(currentVersion) != 0;
+        boolean ret = !this.getBuiltinVersion().equals(this.getCurrentVersion());
         return ret;
     }
 

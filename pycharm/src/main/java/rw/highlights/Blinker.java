@@ -50,11 +50,9 @@ public class Blinker {
     }
 
     private void cleanerTarget() {
-        PreferencesState state = Preferences.getInstance().getState();
-
         while (true) {
             try {
-                Thread.sleep((long) (200));
+                Thread.sleep(200);
             } catch (InterruptedException e) {
             }
             for (Blink b : new ArrayList<>(this.all)) {

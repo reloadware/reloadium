@@ -4,6 +4,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.ui.DoNotAskOption;
 import com.intellij.openapi.util.NlsContexts;
 import com.intellij.ui.UIBundle;
 import com.intellij.ui.components.JBLabel;
@@ -41,8 +42,7 @@ public abstract class TipDialog extends DialogWrapper {
 
         TipDialog This = this;
 
-        //noinspection UnstableApiUsage
-        this.setDoNotAskOption(new DoNotAskOption() {
+        this.setDoNotAskOption(new com.intellij.openapi.ui.DoNotAskOption() {
             @Override
             public boolean isToBeShown() {
                 return true;

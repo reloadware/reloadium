@@ -4,9 +4,6 @@ import com.intellij.openapi.util.IconLoader;
 
 import javax.swing.*;
 
-/*
- * https://www.jetbrains.org/intellij/sdk/docs/reference_guide/work_with_icons_and_images.html
- */
 public interface Icons {
     Icon Run = IconLoader.getIcon("/icons/runWithReloadium.svg", Icons.class);
     Icon Restart = IconLoader.getIcon("/icons/restartWithReloadium.svg", Icons.class);
@@ -19,7 +16,8 @@ public interface Icons {
     Icon Frame = IconLoader.getIcon("/icons/frame.svg", Icons.class);
     Icon ReloadableFile = IconLoader.getIcon("/icons/reloadableFile.svg", Icons.class);
     Icon ReloadableDir = IconLoader.getIcon("/icons/reloadableDir.svg", Icons.class);
-    Icon ProductIcon = IconLoader.getIcon("/icons/reloadiumIcon.svg", Icons.class);
+    Icon ProductSmall = IconLoader.getIcon("/icons/productSmall.svg", Icons.class);
+    Icon ProductBig = IconLoader.getIcon("/icons/productBig.svg", Icons.class);
     Icon Settings = IconLoader.getIcon("/icons/settings.svg", Icons.class);
     Icon About = IconLoader.getIcon("/icons/about.svg", Icons.class);
     Icon AboutLogo = IconLoader.getIcon("/icons/aboutLogo.svg", Icons.class);

@@ -1,4 +1,24 @@
 {
+  "1.1.0": [
+    {
+      "type": "Added",
+      "description": "ChatGPT integration",
+      "tag": "PyCharm",
+      "date": "2023-04-15"
+    },
+    {
+      "type": "Added",
+      "description": "UI Improvements",
+      "tag": "PyCharm",
+      "date": "2023-04-15"
+    },
+    {
+      "type": "Fixed",
+      "description": "Fix ComparableVersion issues",
+      "tag": "PyCharm",
+      "date": "2023-04-16"
+    }
+  ],
   "1.0.1": [
     {
       "type": "Added",

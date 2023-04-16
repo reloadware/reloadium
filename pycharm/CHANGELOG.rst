@@ -2,6 +2,18 @@ Change Log
 ##########
 
 
+1.1.0
+-------
+
+**PyCharm**:
+    
+  Added:
+    * ChatGPT integration
+    * UI Improvements
+    
+  Fixed:
+    * Fix ComparableVersion issues
+    
 1.0.1
 -------
 

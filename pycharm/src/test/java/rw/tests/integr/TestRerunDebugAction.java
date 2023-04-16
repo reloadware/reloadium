@@ -7,7 +7,6 @@ import com.jetbrains.python.run.PythonRunConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import rw.action.DebugWithReloadium;
 import rw.action.RerunDebugWithReloadium;
 import rw.consts.DataKeys;
@@ -26,12 +25,12 @@ public class TestRerunDebugAction extends BaseMockedTestCase {
         super.setUp();
 
         this.cakeshop = new CakeshopFixture(this.getProject());
-        this.cakeshop.start();
+        this.cakeshop.setUp();
     }
 
     @AfterEach
     protected void tearDown() throws Exception {
-        this.cakeshop.stop();
+        this.cakeshop.tearDown();
 
         super.tearDown();
     }

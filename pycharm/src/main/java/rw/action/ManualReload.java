@@ -11,7 +11,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.jetbrains.python.psi.impl.PyFileImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
 import rw.session.cmds.ReloadFile;
 
@@ -22,7 +22,7 @@ public class ManualReload extends AnAction implements DumbAware {
     private static final Logger LOGGER = Logger.getInstance(ContextPopupAction.class);
 
     public void update(@NotNull AnActionEvent e) {
-        List<BaseRunConfHandler> handlers = RunConfHandlerManager.get().getAllActiveHandlers(e.getProject());
+        List<RunConfHandler> handlers = RunConfHandlerManager.get().getAllActiveHandlers(e.getProject());
         @Nullable Object data = e.getDataContext().getData("psi.File");
 
         boolean isEnabled = !handlers.isEmpty() && data != null;
@@ -38,7 +38,7 @@ public class ManualReload extends AnAction implements DumbAware {
 
     public static void handleSave(@Nullable Project project, @NotNull Document[] documents) {
         ApplicationManager.getApplication().invokeLater(() -> {
-            List<BaseRunConfHandler> handlers = RunConfHandlerManager.get().getAllActiveHandlers(project);
+            List<RunConfHandler> handlers = RunConfHandlerManager.get().getAllActiveHandlers(project);
             if (handlers.isEmpty()) {
                 return;
             }

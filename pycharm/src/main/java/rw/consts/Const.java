@@ -15,7 +15,7 @@ public final class Const {
     public static Const singleton = null;
 
     public final String packageName = "reloadium";  //  # RwRender: public final String packageName = "{{ ctx.package_name }}";  //
-    public final String version = "1.0.1";  //  # RwRender: public final String version = "{{ ctx.version }}";  //
+    public final String version = "1.1.0";  //  # RwRender: public final String version = "{{ ctx.version }}";  //
     public final String sentryDsn = "http://cd9eecceaa4849d6947b3446ac038c2d@sentry.reloadware.local/5";  //  # RwRender: public final String sentryDsn = "{{ ctx.sentry_dsn }}";  //
     public Stage stage = Stage.LOCAL;  //  # RwRender: public Stage stage = Stage.{{ ctx.stage.upper() }};  //
     public final String packageDirName = "package_local";  //  # RwRender: public final String packageDirName = "{{ ctx.package_dir_name }}";  //

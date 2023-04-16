@@ -1,7 +1,7 @@
-<idea-plugin>
+<idea-plugin xmlns:xi="http://www.w3.org/1999/XSL/Transform">
     <id>org.reloadium</id>
-    <name>Reloadium - Hot Reloading &#38; Profiling for Python</name>
-    <version>1.0.1</version>
+    <name>Reloadium - ChatGPT, Hot Reloading and Profiling for Python</name>
+    <version>1.1.0</version>
     <idea-version since-build="223"/>
     <vendor email="damian@reloadware.com" url="reloadium.io">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
@@ -9,19 +9,48 @@
     <depends>com.intellij.modules.platform</depends>
 
     <description><![CDATA[
+        <h3>ChatGPT integration</h3>
+        <div>
+            <img src="https://raw.githubusercontent.com/reloadware/reloadium/main/media/chatgpt_fix.gif" width="600px" alt="ChatGPT"/>
+        </div>
+
+        <h3>Hot reloading:</h3>
         <div>
             <img src="https://raw.githubusercontent.com/reloadware/reloadium/main/media/example_small.gif" width="600px" alt="Hot Reloading"/>
         </div>
+
+        <h3>Profiling</h3>
         <div>
             <img src="https://raw.githubusercontent.com/reloadware/reloadium/main/media/profiling.gif" width="600px" alt="Profiling"/>
         </div>
+
         
-         <p>Reloadium adds hot reloading and profiling features to any Python application</p>
+         <p>Reloadium adds hot reloading, profiling and ChatGPT chat to your IDE</p>
         ]]>
     </description>
 
     <change-notes><![CDATA[
     
+        <h3>1.1.0</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>PyCharm:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>ChatGPT integration</li>
+                            <li>UI Improvements</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Fix ComparableVersion issues</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>1.0.1</h3>
             <div style="padding-left: 20px;">
             
@@ -976,50 +1005,51 @@
         <errorHandler implementation="rw.audit.ErrorSubmitter"/>
 
         <projectConfigurable
-          parentId="tools"
-          instance="rw.settings.ProjectSettingsConfigurable"
-          id="rw.settings.ProjectSettings"
-          displayName="Reloadium Project Settings"
-          nonDefaultProject="false"/>
+                parentId="tools"
+                instance="rw.settings.ProjectSettingsConfigurable"
+                id="rw.settings.ProjectSettings"
+                displayName="Reloadium Project Settings"
+                nonDefaultProject="false"/>
 
         <projectService
-          serviceImplementation="rw.settings.ProjectSettings"/>
+                serviceImplementation="rw.settings.ProjectSettings"/>
 
         <applicationConfigurable
-          parentId="tools"
-          instance="rw.preferences.PreferencesConfigurable"
-          id="rw.preferences.Preferences"
-          displayName="Reloadium Preferences"/>
-
-         <applicationService
-          serviceImplementation="rw.preferences.Preferences"/>
-
-         <applicationService
-          serviceImplementation="rw.dialogs.DialogsState"
-          />
+                parentId="tools"
+                instance="rw.preferences.PreferencesConfigurable"
+                id="rw.preferences.Preferences"
+                displayName="Reloadium Preferences"/>
 
         <applicationService
-          serviceInterface="rw.service.Service"
-          serviceImplementation="rw.service.Service"
-          testServiceImplementation="rw.service.TestService"
-          />
+                serviceImplementation="rw.preferences.Preferences"/>
+
+        <applicationService
+                serviceImplementation="rw.dialogs.DialogsState"
+        />
+
+        <applicationService
+                serviceInterface="rw.service.Service"
+                serviceImplementation="rw.service.Service"
+        />
 
         <postStartupActivity implementation="rw.service.Startup"/>
 
         <fileDocumentManagerListener implementation="rw.action.ReloadOnSave"/>
         <fileIconPatcher implementation="rw.icons.IconPatcher" order="last"/>
         <projectViewNodeDecorator implementation="rw.icons.IconDecorator"/>
+
         <completion.contributor language="Python"
-                            implementationClass="rw.completion.LocalCompletionContributor"/>
+                                implementationClass="rw.completion.LocalCompletionContributor"/>
         <completion.contributor language="Python"
-                            implementationClass="rw.completion.GlobalCompletionContributor"/>
+                                implementationClass="rw.completion.GlobalCompletionContributor"/>
         <completion.contributor language="Python"
-                            implementationClass="rw.completion.ImportCompletionContributor"/>
+                                implementationClass="rw.completion.ImportCompletionContributor"/>
         <completion.contributor language="Python"
-                            implementationClass="rw.completion.FrameCompletionContributor"/>
+                                implementationClass="rw.completion.FrameCompletionContributor"/>
         <completion.contributor language="Python"
-                            implementationClass="rw.completion.FromImportCompletionContributor"/>
-        <codeInsight.lineMarkerProvider language="Python" implementationClass="rw.completion.CompletableFunctionsLineMarker"/>
+                                implementationClass="rw.completion.FromImportCompletionContributor"/>
+        <codeInsight.lineMarkerProvider language="Python"
+                                        implementationClass="rw.completion.CompletableFunctionsLineMarker"/>
     </extensions>
 
     <actions>
@@ -1115,7 +1145,7 @@
         </group>
 
         <action id="Profile" class="rw.profile.ProfileResultToggle" icon="rw.icons.Icons.Timing">
-          <add-to-group group-id="EditorGutterVcsPopupMenu" relative-to-action="Annotate" anchor="after"/>
+            <add-to-group group-id="EditorGutterVcsPopupMenu" relative-to-action="Annotate" anchor="after"/>
         </action>
 
         <action id="DropFrame"
@@ -1128,4 +1158,5 @@
         </action>
     </actions>
 
+    <xi:include href="ai.xml"/>
 </idea-plugin>

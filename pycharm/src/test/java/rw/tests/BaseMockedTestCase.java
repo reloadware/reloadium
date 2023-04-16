@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import rw.audit.RwSentry;
 import rw.pkg.PackageManager;
-import rw.service.TestService;
+import rw.service.Service;
 import rw.tests.fixtures.ConstFixture;
 import rw.tests.fixtures.DialogFactoryFixture;
 import rw.tests.fixtures.NativeFileSystemFixture;
@@ -31,7 +31,7 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
 
     public RwSentry sentry;
 
-    public TestService service;
+    public Service service;
 
     @BeforeEach
     protected void setUp() throws Exception {
@@ -49,8 +49,8 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
         this.sentryFixture = new SentryFixture();
         this.sentry = this.sentryFixture.mocked;
 
-        this.service = new TestService();
-        TestService.singleton = this.service;
+        this.service = new Service();
+        Service.singleton = this.service;
 
         this.packageManager = spy(this.service.packageManager);
         this.service.packageManager = this.packageManager;

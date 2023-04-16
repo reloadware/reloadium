@@ -6,7 +6,7 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.audit.RwSentry;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 import rw.session.cmds.Cmd;
 import rw.session.cmds.completion.*;
 import rw.session.events.*;
@@ -155,12 +155,12 @@ public class Session extends Thread {
 
     private ServerSocket serverSocket;
     private Integer port = null;
-    private final BaseRunConfHandler handler;
+    private final RunConfHandler handler;
     private Map<String, Class<? extends Event>> events;
     private Map<String, Class<? extends Cmd.Return>> returns;
     private List<Client> clients;
 
-    public Session(Project project, BaseRunConfHandler handler) {
+    public Session(Project project, RunConfHandler handler) {
         this.project = project;
         this.handler = handler;
         this.clients = new ArrayList<>();
@@ -246,7 +246,7 @@ public class Session extends Thread {
         }
     }
 
-    public Cmd.Return send(Cmd cmd) {
+    public @Nullable Cmd.Return send(Cmd cmd) {
         Cmd.Return ret = null;
 
         List<Client> clients = new ArrayList<>(this.clients);
@@ -254,10 +254,11 @@ public class Session extends Thread {
         for (Client c : clients) {
             ret = c.send(cmd);
         }
+
         return ret;
     }
 
-    public BaseRunConfHandler getHandler() {
+    public RunConfHandler getHandler() {
         return handler;
     }
 

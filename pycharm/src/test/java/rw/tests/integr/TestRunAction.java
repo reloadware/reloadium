@@ -10,15 +10,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import rw.action.RunWithReloadium;
-import rw.consts.Const;
 import rw.tests.BaseMockedTestCase;
 import rw.tests.fixtures.CakeshopFixture;
 import rw.tests.fixtures.PackageFixture;
 import rw.tests.fixtures.SdkFixture;
-import org.junitpioneer.jupiter.ClearEnvironmentVariable;
 import org.junitpioneer.jupiter.SetEnvironmentVariable;
-
-import java.io.File;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
@@ -37,7 +33,7 @@ public class TestRunAction extends BaseMockedTestCase {
 
         this.packageFixture = new PackageFixture(this.packageManager,"0.7.12");
         this.cakeshop = new CakeshopFixture(this.getProject());
-        this.cakeshop.start();
+        this.cakeshop.setUp();
 
         this.oldSdkFixture = new SdkFixture(this.cakeshop.getRoot().toFile(), "3.2");
         this.oldSdkFixture.start();
@@ -47,7 +43,7 @@ public class TestRunAction extends BaseMockedTestCase {
 
     @AfterEach
     protected void tearDown() throws Exception {
-        this.cakeshop.stop();
+        this.cakeshop.tearDown();
         this.oldSdkFixture.stop();
 
         super.tearDown();
@@ -55,7 +51,7 @@ public class TestRunAction extends BaseMockedTestCase {
 
     @Test
     public void testUpdateNoConf() {
-        this.cakeshop.stop();
+        this.cakeshop.tearDown();
 
         AnActionEvent event = new TestActionEvent();
         this.action.update(event);

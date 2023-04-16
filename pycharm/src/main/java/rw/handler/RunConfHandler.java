@@ -43,7 +43,7 @@ import java.util.Set;
 
 import static java.util.Map.entry;
 
-public abstract class BaseRunConfHandler implements Disposable {
+public abstract class RunConfHandler implements Disposable {
     private final Logger logger;
 
     AbstractPythonRunConfiguration<?> runConf;
@@ -70,13 +70,13 @@ public abstract class BaseRunConfHandler implements Disposable {
     Map<ProfilerType, LineProfiler> profilerTypeToProfiler;
     @Nullable ExtraEnvsSetter extraEnvsSetter;
 
-    public BaseRunConfHandler(RunConfiguration runConf) {
+    public RunConfHandler(RunConfiguration runConf) {
         this.logger = Logger.getInstance(this.getClass());
 
         this.runConf = (AbstractPythonRunConfiguration<?>) runConf;
         this.project = this.runConf.getProject();
 
-        BaseRunConfHandler This = this;
+        RunConfHandler This = this;
         this.quickConfig = new QuickConfig(new QuickConfigCallback() {
             @Override
             public void onChange(QuickConfigState state) {
@@ -186,7 +186,7 @@ public abstract class BaseRunConfHandler implements Disposable {
 
     private void handleJbEvents() {
         this.messageBusConnection = this.project.getMessageBus().connect(Service.get());
-        BaseRunConfHandler This = this;
+        RunConfHandler This = this;
 
         this.messageBusConnection.subscribe(RunContentManager.TOPIC, new RunContentWithExecutorListener() {
             @Override
@@ -195,7 +195,7 @@ public abstract class BaseRunConfHandler implements Disposable {
                     return;
                 }
 
-                BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(project);
+                RunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(project);
 
                 if (handler == null) {
                     return;
@@ -243,7 +243,7 @@ public abstract class BaseRunConfHandler implements Disposable {
         String id = Integer.toString(debugSession.hashCode());
         RunnerLayoutUi layout = RunnerLayoutUi.Factory.getInstance(this.project).create(id, "re_runner", "re_session",
                 this);
-        Content content = layout.createContent(id, quickConfig.getContent(), "loadium", Icons.ProductIcon, null);
+        Content content = layout.createContent(id, quickConfig.getContent(), "loadium", Icons.ProductSmall, null);
         debugSession.getUI().addContent(content);
 
         debugSession.addSessionListener(new XDebugSessionListener() {

@@ -18,12 +18,12 @@ public class TestDockerRunConfHandler extends BasePlatformTestCase {
         super.setUp();
 
         this.cakeshop = new CakeshopFixture(this.getProject());
-        this.cakeshop.start();
+        this.cakeshop.setUp();
     }
 
     @AfterEach
     protected void tearDown() throws Exception {
-        this.cakeshop.stop();
+        this.cakeshop.tearDown();
 
         super.tearDown();
     }

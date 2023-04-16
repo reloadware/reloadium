@@ -9,15 +9,15 @@ import com.jetbrains.python.debugger.PyStackFrame;
 import com.jetbrains.python.debugger.PyStackFrameInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 
 import java.net.ServerSocket;
 
 public class DebugProcess extends PyDebugProcess {
     private final DropFrameActionHandler dropFrameActionHandler;
-    private final BaseRunConfHandler handler;
+    private final RunConfHandler handler;
 
-    public DebugProcess(@NotNull XDebugSession debugSession, BaseRunConfHandler handler, @NotNull ServerSocket serverSocket, @NotNull ExecutionConsole executionConsole, @Nullable ProcessHandler processHandler, boolean multiProcess) {
+    public DebugProcess(@NotNull XDebugSession debugSession, RunConfHandler handler, @NotNull ServerSocket serverSocket, @NotNull ExecutionConsole executionConsole, @Nullable ProcessHandler processHandler, boolean multiProcess) {
         super(debugSession, serverSocket, executionConsole, processHandler, multiProcess);
         this.handler = handler;
         this.dropFrameActionHandler = new DropFrameActionHandler(handler.getSession(), handler.getStack());

@@ -5,7 +5,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.DumbAware;
 import org.jetbrains.annotations.NotNull;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 import rw.handler.ExtraEnvsSetter;
 import rw.handler.RunConfHandlerFactory;
 import rw.icons.Icons;
@@ -20,8 +20,8 @@ public class FastDebugWithReloadium extends DebugWithReloadium implements DumbAw
 
     public static final String FASTDEBUG_WHOLEPROJECT_ENV = "RW_FASTDEBUG_WHOLEPROJECT";  //  # RwRender: public static final String FASTDEBUG_WHOLEPROJECT_ENV = "{{ ctx.env_vars.fast_debug.whole_project }}";  //
 
-    protected BaseRunConfHandler handlerFactory(RunnerAndConfigurationSettings conf) {
-        BaseRunConfHandler ret = RunConfHandlerFactory.factory(conf.getConfiguration());
+    protected RunConfHandler handlerFactory(RunnerAndConfigurationSettings conf) {
+        RunConfHandler ret = RunConfHandlerFactory.factory(conf.getConfiguration());
         FastDebugWithReloadium This = this;
 
         ret.setExtraEnvsSetter(new ExtraEnvsSetter() {

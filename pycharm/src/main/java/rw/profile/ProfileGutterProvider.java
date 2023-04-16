@@ -12,7 +12,7 @@ import com.intellij.openapi.util.NlsContexts;
 import com.intellij.xdebugger.XDebuggerManager;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
 import org.jetbrains.annotations.Nullable;
-import rw.handler.BaseRunConfHandler;
+import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
 
 import java.awt.*;
@@ -147,7 +147,7 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
         if (environment == null) {
             return null;
         }
-        BaseRunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(project);
+        RunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(project);
 
         if (handler == null) {
             return null;
