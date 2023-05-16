@@ -1,14 +1,6 @@
 package rw.settings;
 
-import com.intellij.openapi.fileChooser.FileChooserDescriptor;
-import com.intellij.openapi.projectRoots.ui.PathEditor;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileWrapper;
-
 import javax.swing.*;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ProjectSettingsForm {
     private JCheckBox addCurrentWorkingDirectoryCB;
@@ -17,7 +9,6 @@ public class ProjectSettingsForm {
     private JCheckBox printLogoCB;
     private JCheckBox cacheEnabledCB;
     private JCheckBox verboseCB;
-    private JCheckBox debuggerSpeedupsCB;
     private JCheckBox watchSourceRootsCB;
     private JComponent reloadiumIgnorePanel;
     private RwPathEditor reloadiumPath;
@@ -45,7 +36,6 @@ public class ProjectSettingsForm {
         state.printLogo = this.printLogoCB.isSelected();
         state.cache = this.cacheEnabledCB.isSelected();
         state.verbose = this.verboseCB.isSelected();
-        state.debuggerSpeedups = this.debuggerSpeedupsCB.isSelected();
         return state;
     }
 
@@ -58,6 +48,5 @@ public class ProjectSettingsForm {
         this.printLogoCB.setSelected(state.printLogo);
         this.cacheEnabledCB.setSelected(state.cache);
         this.verboseCB.setSelected(state.verbose);
-        this.debuggerSpeedupsCB.setSelected(state.debuggerSpeedups);
     }
 }

@@ -15,7 +15,7 @@ public class DebugUtils {
         }
 
         PyExecutionStack executionStack = (PyExecutionStack) suspendContext.getActiveExecutionStack();
-        if(executionStack == null) {
+        if (executionStack == null) {
             return null;
         }
 
@@ -32,7 +32,7 @@ public class DebugUtils {
 
         PyExecutionStack executionStack = (PyExecutionStack) suspendContext.getActiveExecutionStack();
 
-        if(executionStack == null) {
+        if (executionStack == null) {
             return null;
         }
 

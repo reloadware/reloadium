@@ -7,14 +7,13 @@ import java.io.File;
 
 public class Frame {
     private static final Logger LOGGER = Logger.getInstance(Frame.class);
-
+    static private Integer counter = 0;
     final private Long id;
     final private File path;
     final private String fullname;
     final private boolean reloadable;
-    @Nullable final private Frame back;
-
-    static private Integer counter = 0;
+    @Nullable
+    final private Frame back;
 
     public Frame(Long id, File path, String fullname, boolean reloadable, @Nullable Frame back) {
         this.id = id;

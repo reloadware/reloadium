@@ -28,7 +28,7 @@ public class DropFrameAction extends AnAction implements DumbAware {
 
         boolean visible = handler != null;
         presentation.setVisible(visible);
-        if(!visible) {
+        if (!visible) {
             return;
         }
 

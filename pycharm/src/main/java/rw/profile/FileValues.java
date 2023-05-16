@@ -11,7 +11,10 @@ import rw.util.colormap.ColorMap;
 import rw.util.colormap.ColorMaps;
 
 import java.awt.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 
@@ -23,7 +26,7 @@ public class FileValues {
     FileValues() {
         this.values = new HashMap<>();
 
-        for(CumulateType c: CumulateType.getAll()) {
+        for (CumulateType c : CumulateType.getAll()) {
             this.values.put(c, new HashMap<>());
         }
 
@@ -32,6 +35,10 @@ public class FileValues {
 
     synchronized public void update(Map<Integer, Long> values, String frame, Integer frameLine, CumulateType cumulateType) {
         for (Map.Entry<Integer, Long> entry : values.entrySet()) {
+            if (entry.getValue() == 0) {
+                continue;
+            }
+
             Long currentAddValue = this.values.get(CumulateType.ADD).getOrDefault(entry.getKey(), 0L);
             Long currentMeanValue = this.values.get(CumulateType.MEAN).getOrDefault(entry.getKey(), entry.getValue());
             Long currentMaxValue = this.values.get(CumulateType.MAX).getOrDefault(entry.getKey(), 0L);
@@ -150,7 +157,7 @@ public class FileValues {
     }
 
     synchronized public void clear() {
-        for(CumulateType c: CumulateType.getAll()) {
+        for (CumulateType c : CumulateType.getAll()) {
             this.values.get(c).clear();
         }
     }
@@ -167,7 +174,7 @@ public class FileValues {
         }
     }
 
-    synchronized public boolean isEmpty(){
+    synchronized public boolean isEmpty() {
         return this.values.get(CumulateType.DEFAULT).isEmpty();
     }
 }

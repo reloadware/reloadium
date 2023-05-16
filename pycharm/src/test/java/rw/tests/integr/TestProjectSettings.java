@@ -10,10 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import rw.action.RunWithReloadium;
 import rw.handler.PythonRunConfHandler;
-import rw.settings.ProjectState;
 import rw.settings.ProjectSettings;
-import rw.tests.BaseMockedTestCase;
-import rw.tests.fixtures.*;
+import rw.settings.ProjectState;
+import rw.tests.BaseTestCase;
+import rw.tests.fixtures.CakeshopFixture;
+import rw.tests.fixtures.PackageFixture;
+import rw.tests.fixtures.SourceRootFixture;
 import rw.util.EnvUtils;
 
 import java.util.List;
@@ -21,7 +23,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class TestProjectSettings extends BaseMockedTestCase {
+public class TestProjectSettings extends BaseTestCase {
     CakeshopFixture cakeshop;
     SourceRootFixture sourceRootFixture;
     AnAction action;
@@ -30,7 +32,7 @@ public class TestProjectSettings extends BaseMockedTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        PackageFixture packageFixture = new PackageFixture(this.packageManager,"0.7.12");
+        PackageFixture packageFixture = new PackageFixture(this.packageManager, "0.7.12");
         this.cakeshop = new CakeshopFixture(this.getProject());
         this.cakeshop.setUp();
         this.sourceRootFixture = new SourceRootFixture(this.cakeshop.getRunConf().getModule());
@@ -74,26 +76,6 @@ public class TestProjectSettings extends BaseMockedTestCase {
         state2 = new ProjectState();
         state2.verbose = !state2.verbose;
         assertThat(state1).isNotEqualTo(state2);
-
-        state2 = new ProjectState();
-        state2.debuggerSpeedups = !state2.debuggerSpeedups;
-        assertThat(state1).isNotEqualTo(state2);
-    }
-
-    @Test
-    public void testDebuggerSpeedups() {
-        ProjectState stateIn = new ProjectState();
-        stateIn.debuggerSpeedups = !stateIn.debuggerSpeedups;
-        ProjectSettings.getInstance(this.getProject()).loadState(stateIn);
-
-        AnActionEvent event = new TestActionEvent();
-        this.action.update(event);
-        this.action.actionPerformed(event);
-
-        PythonRunConfiguration runConf = this.cakeshop.getRunConf();
-
-        String env = runConf.getEnvs().get(PythonRunConfHandler.DEBUGGER_SPEEDUPS_ENV);
-        assertThat(env).isEqualTo(EnvUtils.boolToEnv(stateIn.debuggerSpeedups));
     }
 
     @Test

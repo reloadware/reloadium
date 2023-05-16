@@ -3,7 +3,7 @@ package rw.tests.integr;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import rw.tests.BaseMockedTestCase;
+import rw.tests.BaseTestCase;
 import rw.tests.fixtures.M1Fixture;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class TestBuiltinPackageManagerM1 extends BaseMockedTestCase {
+public class TestBuiltinPackageManagerM1 extends BaseTestCase {
     M1Fixture m1Fixture;
 
     @BeforeEach
@@ -44,12 +44,13 @@ public class TestBuiltinPackageManagerM1 extends BaseMockedTestCase {
                 "reloadium-0.7.13-cp310-cp310-macosx_10_15_x86_64.whl"
         ));
     }
-        @Test
+
+    @Test
     public void testDirNames() throws Exception {
         List<String> filenames = this.packageManager.getWheels().stream().map(f -> f.getDstDirName()).collect(Collectors.toList());
 
         assertThat(filenames).isEqualTo(List.of(
-               "3.7", "3.8_arm64", "3.8", "3.9_arm64", "3.9", "3.10_arm64", "3.10"
+                "3.7", "3.8_arm64", "3.8", "3.9_arm64", "3.9", "3.10_arm64", "3.10"
         ));
     }
 }

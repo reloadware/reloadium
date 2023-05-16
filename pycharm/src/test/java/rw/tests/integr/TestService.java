@@ -3,16 +3,15 @@ package rw.tests.integr;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import rw.consts.Const;
-import rw.tests.BaseMockedTestCase;
-import rw.tests.utils.MiscUtils;
+import rw.tests.BaseTestCase;
 import rw.tests.fixtures.PackageFixture;
+import rw.tests.utils.MiscUtils;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 
-public class TestService extends BaseMockedTestCase {
+public class TestService extends BaseTestCase {
 
     @BeforeEach
     protected void setUp() throws Exception {

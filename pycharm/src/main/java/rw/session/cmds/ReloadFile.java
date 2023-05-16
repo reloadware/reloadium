@@ -9,6 +9,7 @@ public class ReloadFile extends FileCmd {
         super(file);
         this.content = content;
     }
+
     public String getId() {
         return this.ID;
     }

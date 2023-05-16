@@ -16,12 +16,13 @@ public class DebugRunner extends PyDebugRunner {
     public DebugRunner(RunConfHandler handler) {
         this.handler = handler;
     }
-      @NotNull
-  protected PyDebugProcess createDebugProcess(@NotNull XDebugSession debugSession,
-                                              ServerSocket serverSocket,
-                                              ExecutionResult result,
-                                              PythonCommandLineState pyState) {
-    return new DebugProcess(debugSession, this.handler, serverSocket, result.getExecutionConsole(), result.getProcessHandler(),
-                              pyState.isMultiprocessDebug());
-  }
+
+    @NotNull
+    protected PyDebugProcess createDebugProcess(@NotNull XDebugSession debugSession,
+                                                ServerSocket serverSocket,
+                                                ExecutionResult result,
+                                                PythonCommandLineState pyState) {
+        return new DebugProcess(debugSession, this.handler, serverSocket, result.getExecutionConsole(), result.getProcessHandler(),
+                pyState.isMultiprocessDebug());
+    }
 }

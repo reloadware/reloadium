@@ -4,24 +4,20 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import rw.highlights.Blink;
 import rw.highlights.Blinker;
-import rw.preferences.Preferences;
-import rw.preferences.PreferencesState;
-import rw.session.events.LineProfile;
 import rw.highlights.Highlighter;
+import rw.session.events.LineProfile;
 
 import java.awt.*;
-import java.util.*;
+import java.util.Collections;
 
 
 public class FrameProgressRenderer {
     private static final Logger LOGGER = Logger.getInstance(FrameProgressRenderer.class);
-    private Highlighter highlighter;  // file to current line highlighter
-
     Project project;
-
     Color FRAME_PROGRESS_COLOR = new Color(0, 149, 255, 50);
     Color CURR_LINE_COLOR = new Color(0, 149, 255, 80);
     int BLINK_DURATION = 300;
+    private Highlighter highlighter;  // file to current line highlighter
 
     public FrameProgressRenderer(Project project) {
         this.project = project;

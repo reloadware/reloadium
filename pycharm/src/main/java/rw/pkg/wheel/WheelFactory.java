@@ -1,9 +1,5 @@
 package rw.pkg.wheel;
 
-import org.jetbrains.annotations.Nullable;
-import rw.util.Architecture;
-
-
 abstract public class WheelFactory {
     public static BaseWheel factory(String input) {
         if (input.contains("linux")) {

@@ -1,6 +1,5 @@
 package rw.tests.fixtures;
 
-import rw.consts.Const;
 import rw.pkg.PackageManager;
 import rw.pkg.wheel.BaseWheel;
 
@@ -8,8 +7,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class PackageFixture {

@@ -7,7 +7,7 @@ plugins {
 
 
 group 'com.reloadware'
-version '1.1.0' //  # RwRender: version '{{ ctx.version }}' //
+version '1.1.1' //  # RwRender: version '{{ ctx.version }}' //
 
 
 repositories {
@@ -32,7 +32,7 @@ repositories {
 
 sourceCompatibility=17
 def remoteRobotVersion = "0.11.16"
-def intellijVersion = "2022.3.2" //  # RwRender: def intellijVersion = "{{ ctx.intellij_version }}" //
+def intellijVersion = "2023.1.1" //  # RwRender: def intellijVersion = "{{ ctx.intellij_version }}" //
 def intellijPro = false  //  # RwRender: def intellijPro = {{ ctx.pro }}  //
 
 
@@ -51,13 +51,11 @@ dependencies {
     testImplementation(
             'com.intellij.remoterobot:remote-robot:' + remoteRobotVersion,
             'com.intellij.remoterobot:remote-fixtures:' + remoteRobotVersion,
-            'com.squareup.okhttp3:logging-interceptor:4.10.0',
             "com.redhat.devtools.intellij:intellij-common:1.1.0",
             'org.junit.jupiter:junit-jupiter-api:5.9.0',
             'com.redhat.devtools.intellij:intellij-common-ui-test-library:0.2.0',
             'com.automation-remarks:video-recorder-junit5:2.0',
             'org.mock-server:mockserver-netty:5.14.0',
-            'org.mock-server:mockserver-client-java:5.14.0:shaded',
             'org.assertj:assertj-core:3.23.1',
             'org.powermock:powermock-core:2.0.9',
             'org.mockito:mockito-inline:4.8.0',

@@ -1,7 +1,9 @@
 package rw.tests.integr;
 
 import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.testFramework.TestActionEvent;
 import com.jetbrains.python.run.PythonRunConfiguration;
 import org.junit.jupiter.api.AfterEach;
@@ -10,14 +12,15 @@ import org.junit.jupiter.api.Test;
 import rw.action.DebugWithReloadium;
 import rw.action.RerunDebugWithReloadium;
 import rw.consts.DataKeys;
-import rw.tests.BaseMockedTestCase;
+import rw.tests.BaseTestCase;
 import rw.tests.fixtures.CakeshopFixture;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.spy;
 
 
-public class TestRerunDebugAction extends BaseMockedTestCase {
+public class TestRerunDebugAction extends BaseTestCase {
     CakeshopFixture cakeshop;
 
     @BeforeEach

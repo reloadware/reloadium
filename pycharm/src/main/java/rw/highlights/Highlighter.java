@@ -30,25 +30,25 @@ class GutterRenderer implements ActiveGutterRenderer {
     private final @NlsContexts.Tooltip String tooltip;
 
     GutterRenderer(int lineno, int endLineno, Color color, @NlsContexts.Tooltip String tooltip) {
-      this.lineno = lineno;
-      this.endLineno = endLineno;
-      this.color = color;
-      this.tooltip = tooltip;
+        this.lineno = lineno;
+        this.endLineno = endLineno;
+        this.color = color;
+        this.tooltip = tooltip;
     }
 
     @Override
     public void paint(@NotNull Editor editor, @NotNull Graphics g, @NotNull Rectangle r) {
-      LineStatusMarkerDrawUtil.paintSimpleRange(g, editor, lineno-1, endLineno, color);
+        LineStatusMarkerDrawUtil.paintSimpleRange(g, editor, lineno - 1, endLineno, color);
     }
 
     @Override
     public String getTooltipText() {
-      return tooltip;
+        return tooltip;
     }
 
     @Override
     public boolean canDoAction(@NotNull MouseEvent e) {
-      return LineStatusMarkerDrawUtil.isInsideMarkerArea(e);
+        return LineStatusMarkerDrawUtil.isInsideMarkerArea(e);
     }
 
     @Override
@@ -58,9 +58,9 @@ class GutterRenderer implements ActiveGutterRenderer {
     @NotNull
     @Override
     public String getAccessibleName() {
-      return VcsBundle.message("patch.apply.marker.renderer", getTooltipText());
+        return VcsBundle.message("patch.apply.marker.renderer", getTooltipText());
     }
-  }
+}
 
 public class Highlighter {
     RangeHighlighter device;
@@ -123,8 +123,7 @@ public class Highlighter {
         if (this.gutter) {
             textAttribute = null;
             layer = this.getJbLayer() + 50;
-        }
-        else {
+        } else {
             layer = this.getJbLayer();
             textAttribute = new TextAttributes(null, this.color,
                     null, null, Font.PLAIN);
@@ -142,7 +141,7 @@ public class Highlighter {
                             textAttribute, HighlighterTargetArea.LINES_IN_RANGE);
                 }
                 if (this.gutter) {
-                    LineMarkerRenderer renderer = new GutterRenderer(this.line, this.endLine, this.color,"");
+                    LineMarkerRenderer renderer = new GutterRenderer(this.line, this.endLine, this.color, "");
                     this.device.setLineMarkerRenderer(renderer);
                 }
             } catch (IndexOutOfBoundsException ignored) {

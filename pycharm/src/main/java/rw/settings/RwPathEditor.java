@@ -10,30 +10,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RwPathEditor extends PathEditor {
-  public RwPathEditor() {
-    super(new FileChooserDescriptor(
+    public RwPathEditor() {
+        super(new FileChooserDescriptor(
                 true,
                 true,
                 false,
                 false,
                 false,
                 true));
-    this.setEnabled(true);
-  }
+        this.setEnabled(true);
+    }
 
-  public void addPaths(List<String> paths) {
-    this.clearList();
-    for (String path: paths) {
+    public void addPaths(List<String> paths) {
+        this.clearList();
+        for (String path : paths) {
             VirtualFile file = new VirtualFileWrapper(new File(path)).getVirtualFile(false);
             super.addPaths(file);
         }
-  }
+    }
 
-  public List<String> getPaths() {
-    List<String> paths = new ArrayList<>();
+    public List<String> getPaths() {
+        List<String> paths = new ArrayList<>();
         for (VirtualFile virtualFile : this.getRoots()) {
             paths.add(virtualFile.toNioPath().toString());
         }
         return paths;
-  }
+    }
 }

@@ -2,7 +2,8 @@ package rw.profile;
 
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.editor.*;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.TextAnnotationGutterProvider;
 import com.intellij.openapi.editor.colors.ColorKey;
 import com.intellij.openapi.editor.colors.EditorColors;
 import com.intellij.openapi.editor.colors.EditorFontType;

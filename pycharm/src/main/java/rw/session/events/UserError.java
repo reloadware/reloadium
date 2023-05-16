@@ -4,9 +4,8 @@ import com.intellij.openapi.diagnostic.Logger;
 import rw.dialogs.DialogFactory;
 
 public class UserError extends FileError {
-    private static final Logger LOGGER = Logger.getInstance(UserError.class);
-
     public static final String ID = "UserError";
+    private static final Logger LOGGER = Logger.getInstance(UserError.class);
 
     @Override
     public void handle() {

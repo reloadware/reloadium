@@ -1,4 +1,120 @@
 {
+  "1.1.1": [
+    {
+      "type": "Added",
+      "description": "Add change context button",
+      "tag": "AI",
+      "date": "2023-04-23"
+    },
+    {
+      "type": "Added",
+      "description": "Resizable code viewer",
+      "tag": "AI",
+      "date": "2023-04-23"
+    },
+    {
+      "type": "Fixed",
+      "description": "Hyperlinks not working in markdown",
+      "tag": "AI",
+      "date": "2023-04-23"
+    },
+    {
+      "type": "Added",
+      "description": "High contrast mode improvements",
+      "tag": "AI",
+      "date": "2023-04-23"
+    },
+    {
+      "type": "Added",
+      "description": "Set caret position to error location",
+      "tag": "PyCharm",
+      "date": "2023-04-23"
+    },
+    {
+      "type": "Removed",
+      "description": "3.7 support",
+      "tag": "Miscellaneous",
+      "date": "2023-05-14"
+    },
+    {
+      "type": "Fixed",
+      "description": "Code viewer not persisting extensions",
+      "tag": "AI",
+      "date": "2023-05-16"
+    },
+    {
+      "type": "Fixed",
+      "description": "Jitters when typing",
+      "tag": "PyCharm",
+      "date": "2023-05-16"
+    },
+    {
+      "type": "Added",
+      "description": "Dictionary runtime completion improvements",
+      "tag": "PyCharm",
+      "date": "2023-05-16"
+    },
+    {
+      "type": "Added",
+      "description": "Reloading non suspended frames (in debug mode)",
+      "tag": "Miscellaneous",
+      "date": "2023-05-16"
+    },
+    {
+      "type": "Fixed",
+      "description": "Multiple runtime completion markers in the gutter issues",
+      "tag": "PyCharm",
+      "date": "2023-05-16"
+    },
+    {
+      "type": "Fixed",
+      "description": "Runtime completion indicator not working for remote interpreters",
+      "tag": "PyCharm",
+      "date": "2023-05-16"
+    },
+    {
+      "type": "Fixed",
+      "description": "Mementos crashing for non async functions in async context",
+      "tag": "Miscellaneous",
+      "date": "2023-05-16"
+    },
+    {
+      "type": "Added",
+      "description": "Sources to replies in square bracket notation",
+      "tag": "AI",
+      "date": "2023-05-16"
+    },
+    {
+      "type": "Fixed",
+      "description": "Not profiling when using freezegun",
+      "tag": "Miscellaneous",
+      "date": "2023-05-16"
+    },
+    {
+      "type": "Fixed",
+      "description": "Wrong lines for method context",
+      "tag": "AI",
+      "date": "2023-05-16"
+    },
+    {
+      "type": "Added",
+      "description": "Pytest speedups",
+      "tag": "Miscellaneous",
+      "date": "2023-05-16"
+    },
+    {
+      "type": "Fixed",
+      "description": "Stripping docstrings in Python 3.11",
+      "tag": "Miscellaneous",
+      "date": "2023-05-16"
+    },
+    {
+      "type": "Fixed",
+      "description": "Infinite recursion issue for big projects",
+      "tag": "Miscellaneous",
+      "date": "2023-05-16"
+    }
+  ],
   "1.1.0": [
     {
       "type": "Added",

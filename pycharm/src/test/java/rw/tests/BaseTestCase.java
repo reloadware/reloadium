@@ -1,10 +1,14 @@
 package rw.tests;
 
+import com.intellij.testFramework.LightProjectDescriptor;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
+import com.jetbrains.python.psi.LanguageLevel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import rw.ai.tests.PythonTestUtil;
+import rw.ai.tests.fixtures.PyLightProjectDescriptor;
 import rw.audit.RwSentry;
 import rw.pkg.PackageManager;
 import rw.service.Service;
@@ -18,7 +22,7 @@ import static org.mockito.Mockito.validateMockitoUsage;
 
 
 @ExtendWith(MockitoExtension.class)
-public class BaseMockedTestCase extends BasePlatformTestCase {
+public class BaseTestCase extends BasePlatformTestCase {
     public String webVersion = null;
     public String builtinVersion = null;
 
@@ -70,5 +74,15 @@ public class BaseMockedTestCase extends BasePlatformTestCase {
     @AfterEach
     public void validate() {
         validateMockitoUsage();
+    }
+
+    @Override
+    protected LightProjectDescriptor getProjectDescriptor() {
+        PyLightProjectDescriptor getProjectDescriptor = new PyLightProjectDescriptor(LanguageLevel.getLatest());
+        return getProjectDescriptor;
+    }
+
+    protected String getTestDataPath() {
+        return PythonTestUtil.getTestDataPath();
     }
 }

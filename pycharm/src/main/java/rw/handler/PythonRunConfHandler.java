@@ -17,8 +17,8 @@ import rw.pkg.NativeFileSystem;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
 import rw.quickconfig.QuickConfigStateFactory;
-import rw.settings.ProjectState;
 import rw.settings.ProjectSettings;
+import rw.settings.ProjectState;
 import rw.util.EnvUtils;
 
 import java.io.File;
@@ -27,16 +27,11 @@ import java.util.List;
 
 
 public class PythonRunConfHandler extends RunConfHandler {
-    AbstractPythonRunConfiguration<?> runConf;
-    AbstractPythonRunConfiguration<?> origRunConf;
-
     public static final String IDE_NAME_ENV = "RW_IDE_NAME";  //  # RwRender: public static final String IDE_NAME_ENV = "{{ ctx.env_vars.ide.name }}";  //
     public static final String IDE_VERSION_ENV = "RW_IDE_VERSION";  //  # RwRender: public static final String IDE_VERSION_ENV = "{{ ctx.env_vars.ide.version }}";  //
     public static final String IDE_PLUGIN_VERSION_ENV = "RW_IDE_PLUGINVERSION";  //  # RwRender: public static final String IDE_PLUGIN_VERSION_ENV = "{{ ctx.env_vars.ide.plugin_version }}";  //
     public static final String IDE_TYPE_ENV = "RW_IDE_TYPE";  //  # RwRender: public static final String IDE_TYPE_ENV = "{{ ctx.env_vars.ide.type }}";  //
     public static final String IDE_SERVER_PORT_ENV = "RW_IDE_SERVERPORT";  //  # RwRender: public static final String IDE_SERVER_PORT_ENV = "{{ ctx.env_vars.ide.server_port }}";  //
-
-    public static final String DEBUGGER_SPEEDUPS_ENV = "RW_DEBUGGERSPEEDUPS";  //  # RwRender: public static final String DEBUGGER_SPEEDUPS_ENV = "{{ ctx.env_vars.misc.debugger_speedups }}";  //
     public static final String VERBOSE_ENV = "RW_VERBOSE";  //  # RwRender: public static final String VERBOSE_ENV = "{{ ctx.env_vars.misc.verbose }}";  //
     public static final String CACHE_ENV = "RW_CACHE";  //  # RwRender: public static final String CACHE_ENV = "{{ ctx.env_vars.misc.cache }}";  //
     public static final String PRINT_LOGO_ENV = "RW_PRINTLOGO";  //  # RwRender: public static final String PRINT_LOGO_ENV = "{{ ctx.env_vars.misc.print_logo }}";  //
@@ -44,6 +39,8 @@ public class PythonRunConfHandler extends RunConfHandler {
     public static final String RELOADIUMPATH_ENV = "RELOADIUMPATH";  //  # RwRender: public static final String RELOADIUMPATH_ENV = "{{ ctx.env_vars.misc.reloadiumpath }}";  //
     public static final String RELOADIUMIGNORE_ENV = "RELOADIUMIGNORE";  //  # RwRender: public static final String RELOADIUMIGNORE_ENV = "{{ ctx.env_vars.misc.reloadiumignore }}";  //
     public static final String QUICK_CONFIG_ENV = "RW_QUICKCONFIG";  //  # RwRender: public static final String QUICK_CONFIG_ENV = "{{ ctx.env_vars.misc.quick_config }}";  //
+    AbstractPythonRunConfiguration<?> runConf;
+    AbstractPythonRunConfiguration<?> origRunConf;
 
     public PythonRunConfHandler(RunConfiguration runConf) {
         super(runConf);
@@ -80,7 +77,6 @@ public class PythonRunConfHandler extends RunConfHandler {
 
         ProjectState state = ProjectSettings.getInstance(this.runConf.getProject()).getState();
 
-        this.runConf.getEnvs().put(this.DEBUGGER_SPEEDUPS_ENV, EnvUtils.boolToEnv(state.debuggerSpeedups));
         this.runConf.getEnvs().put(this.VERBOSE_ENV, EnvUtils.boolToEnv(state.verbose));
         this.runConf.getEnvs().put(this.CACHE_ENV, EnvUtils.boolToEnv(state.cache));
         this.runConf.getEnvs().put(this.PRINT_LOGO_ENV, EnvUtils.boolToEnv(state.printLogo));
@@ -89,7 +85,7 @@ public class PythonRunConfHandler extends RunConfHandler {
         this.runConf.getEnvs().put("PYDEVD_USE_CYTHON", "NO");
         this.runConf.getEnvs().put("RW_STAGE", Const.get().stage.value);
 
-        if(this.extraEnvsSetter != null) {
+        if (this.extraEnvsSetter != null) {
             this.extraEnvsSetter.setEnvs(this.runConf.getEnvs());
         }
 
@@ -127,10 +123,9 @@ public class PythonRunConfHandler extends RunConfHandler {
         // Set PYTHONPATH
         String pythonpath = this.runConf.getEnvs().getOrDefault("PYTHONPATH", "");
 
-        if(!pythonpath.isBlank()) {
+        if (!pythonpath.isBlank()) {
             pythonpath = String.format("%s%s%s", pythonpath, pathSep, System.getenv("PYTHONPATH"));
-        }
-        else {
+        } else {
             pythonpath = System.getenv("PYTHONPATH");
 
             if (pythonpath == null) {

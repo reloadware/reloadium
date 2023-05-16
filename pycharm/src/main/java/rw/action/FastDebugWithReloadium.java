@@ -5,8 +5,8 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.DumbAware;
 import org.jetbrains.annotations.NotNull;
-import rw.handler.RunConfHandler;
 import rw.handler.ExtraEnvsSetter;
+import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerFactory;
 import rw.icons.Icons;
 
@@ -14,11 +14,9 @@ import java.util.Map;
 
 
 public class FastDebugWithReloadium extends DebugWithReloadium implements DumbAware {
-    private static final Logger LOGGER = Logger.getInstance(FastDebugWithReloadium.class);
-
-    public static String ID = "FastDebugWithReloadium";
-
     public static final String FASTDEBUG_WHOLEPROJECT_ENV = "RW_FASTDEBUG_WHOLEPROJECT";  //  # RwRender: public static final String FASTDEBUG_WHOLEPROJECT_ENV = "{{ ctx.env_vars.fast_debug.whole_project }}";  //
+    private static final Logger LOGGER = Logger.getInstance(FastDebugWithReloadium.class);
+    public static String ID = "FastDebugWithReloadium";
 
     protected RunConfHandler handlerFactory(RunnerAndConfigurationSettings conf) {
         RunConfHandler ret = RunConfHandlerFactory.factory(conf.getConfiguration());
@@ -32,10 +30,12 @@ public class FastDebugWithReloadium extends DebugWithReloadium implements DumbAw
         });
         return ret;
     }
+
     @Override
     void setRunningIcon(AnActionEvent e) {
         e.getPresentation().setIcon(Icons.RestartFastDebugger);
     }
+
     void setNotRunningIcon(AnActionEvent e) {
         e.getPresentation().setIcon(Icons.FastDebug);
     }

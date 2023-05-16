@@ -1,6 +1,9 @@
 package rw.action;
 
-import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
@@ -20,21 +23,6 @@ import java.util.List;
 
 public class ManualReload extends AnAction implements DumbAware {
     private static final Logger LOGGER = Logger.getInstance(ContextPopupAction.class);
-
-    public void update(@NotNull AnActionEvent e) {
-        List<RunConfHandler> handlers = RunConfHandlerManager.get().getAllActiveHandlers(e.getProject());
-        @Nullable Object data = e.getDataContext().getData("psi.File");
-
-        boolean isEnabled = !handlers.isEmpty() && data != null;
-
-        Presentation presentation = e.getPresentation();
-        presentation.setVisible(true);
-        presentation.setEnabled(isEnabled);
-    }
-    @Override
-    public @NotNull ActionUpdateThread getActionUpdateThread() {
-    return ActionUpdateThread.BGT;
-  }
 
     public static void handleSave(@Nullable Project project, @NotNull Document[] documents) {
         ApplicationManager.getApplication().invokeLater(() -> {
@@ -57,13 +45,28 @@ public class ManualReload extends AnAction implements DumbAware {
         });
     }
 
+    public void update(@NotNull AnActionEvent e) {
+        List<RunConfHandler> handlers = RunConfHandlerManager.get().getAllActiveHandlers(e.getProject());
+        @Nullable Object data = e.getDataContext().getData("psi.File");
+
+        boolean isEnabled = !handlers.isEmpty() && data != null;
+
+        Presentation presentation = e.getPresentation();
+        presentation.setVisible(true);
+        presentation.setEnabled(isEnabled);
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
+
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         PyFileImpl data;
         try {
             data = (PyFileImpl) e.getDataContext().getData("psi.File");
-        }
-        catch (ClassCastException ignored) {
+        } catch (ClassCastException ignored) {
             return;
         }
 

@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.action.RunType;
 import rw.debugger.FastDebug;
+import rw.highlights.ErrorHighlightManager;
 import rw.icons.IconPatcher;
 import rw.icons.Icons;
 import rw.profile.*;
@@ -29,11 +30,10 @@ import rw.quickconfig.ProfilerType;
 import rw.quickconfig.QuickConfig;
 import rw.quickconfig.QuickConfigCallback;
 import rw.quickconfig.QuickConfigState;
-import rw.session.cmds.QuickConfigCmd;
-import rw.stack.Stack;
-import rw.highlights.ErrorHighlightManager;
 import rw.service.Service;
 import rw.session.Session;
+import rw.session.cmds.QuickConfigCmd;
+import rw.stack.Stack;
 import rw.stack.ThreadErrorManager;
 
 import java.io.File;
@@ -129,6 +129,7 @@ public abstract class RunConfHandler implements Disposable {
     abstract public void afterRun();
 
     abstract public boolean isReloadiumActivated();
+
     abstract protected File getPackagesRootDir();
 
     public RunType getRunType() {
@@ -168,6 +169,7 @@ public abstract class RunConfHandler implements Disposable {
     public FrameProgressRenderer getStackRenderer() {
         return frameProgressRenderer;
     }
+
     public ThreadErrorManager getThreadErrorManager() {
         return this.threadErrorManager;
     }
@@ -198,13 +200,13 @@ public abstract class RunConfHandler implements Disposable {
                 RunConfHandler handler = RunConfHandlerManager.get().getCurrentDebugHandler(project);
 
                 if (handler == null) {
+                    This.deactivate();
                     return;
                 }
 
                 if (handler == This) {
                     This.activate();
-                }
-                else {
+                } else {
                     This.deactivate();
                 }
             }
@@ -298,7 +300,8 @@ public abstract class RunConfHandler implements Disposable {
         return this.activeProfiler;
     }
 
-    @NotNull public Session getSession() {
+    @NotNull
+    public Session getSession() {
         return this.session;
     }
 

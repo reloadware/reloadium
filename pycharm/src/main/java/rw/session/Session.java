@@ -2,9 +2,12 @@ package rw.session;
 
 import com.google.gson.Gson;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
+import org.jetbrains.concurrency.Promise;
+import org.jetbrains.concurrency.Promises;
 import rw.audit.RwSentry;
 import rw.handler.RunConfHandler;
 import rw.session.cmds.Cmd;
@@ -28,18 +31,15 @@ class RawEvent {
 
 class Client extends Thread {
     private static final Logger LOGGER = Logger.getInstance(Client.class);
-
-    private Socket socket;
-
-    private PrintWriter out;
-    private BufferedReader in;
     ServerSocket server;
-
     Session session;
     @Nullable
     Cmd.Return cmdReturn;
     @Nullable
     String cmdReturnId;
+    private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
 
     Client(ServerSocket server, Session session) {
         this.session = session;
@@ -98,7 +98,7 @@ class Client extends Thread {
         }
     }
 
-    Cmd.Return send(Cmd cmd) {
+    @Nullable Cmd.Return send(Cmd cmd) {
         this.cmdReturn = null;
         this.cmdReturnId = cmd.getId();
 
@@ -112,6 +112,7 @@ class Client extends Thread {
         while (this.cmdReturn == null && timeout >= 0) {
             try {
                 sleep(100);
+                ProgressManager.checkCanceled();
             } catch (InterruptedException e) {
                 RwSentry.get().captureException(e, false);
             }
@@ -120,12 +121,8 @@ class Client extends Thread {
 
         this.cmdReturnId = null;
 
-        if(timeout <= 0) {
+        if (timeout <= 0) {
             LOGGER.info(String.format("Timeout waiting for \"%s\" return", this.cmdReturnId));
-        }
-
-        if (this.cmdReturn == null){
-            return new Cmd.Return();
         }
 
         return this.cmdReturn;
@@ -152,10 +149,9 @@ public class Session extends Thread {
     private static final Logger LOGGER = Logger.getInstance(Session.class);
 
     private final Project project;
-
+    private final RunConfHandler handler;
     private ServerSocket serverSocket;
     private Integer port = null;
-    private final RunConfHandler handler;
     private Map<String, Class<? extends Event>> events;
     private Map<String, Class<? extends Cmd.Return>> returns;
     private List<Client> clients;
@@ -182,11 +178,11 @@ public class Session extends Thread {
         );
 
         this.returns = Map.ofEntries(
-            entry("GetLocalCompletion", GetLocalCompletion.Return.class),
-            entry("GetFrameCompletion", GetFrameCompletion.Return.class),
-            entry("GetGlobalCompletion", GetGlobalCompletion.Return.class),
-            entry("GetImportCompletion", GetImportCompletion.Return.class),
-            entry("GetFromImportCompletion", GetFromImportCompletion.Return.class)
+                entry("GetLocalCompletion", GetLocalCompletion.Return.class),
+                entry("GetFrameCompletion", GetFrameCompletion.Return.class),
+                entry("GetGlobalCompletion", GetGlobalCompletion.Return.class),
+                entry("GetImportCompletion", GetImportCompletion.Return.class),
+                entry("GetFromImportCompletion", GetFromImportCompletion.Return.class)
         );
 
         try {
@@ -256,6 +252,10 @@ public class Session extends Thread {
         }
 
         return ret;
+    }
+
+    public Promise<Cmd.Return> sendAsync(Cmd cmd) {
+        return Promises.runAsync(() -> send(cmd));
     }
 
     public RunConfHandler getHandler() {

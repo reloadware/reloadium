@@ -9,11 +9,9 @@ import java.util.List;
 
 
 public class Blinker {
-    List<Blink> all;
-
     @VisibleForTesting
     public static Blinker singleton;
-
+    List<Blink> all;
     Thread cleaner;
 
 
@@ -38,7 +36,7 @@ public class Blinker {
             return;
         }
 
-        for (Blink b: this.all) {
+        for (Blink b : this.all) {
             if (b.equals(blink)) {
                 b.resetExpiration();
                 return;

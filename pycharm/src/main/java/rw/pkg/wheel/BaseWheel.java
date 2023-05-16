@@ -16,15 +16,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 abstract public class BaseWheel {
+    public static String RESOURCE_WHEELS_PATH_ROOT = "META-INF/wheels/";
     protected String input;
-
     protected OsType osType;
     protected Architecture architecture;
     private String pythonVersion;
     private String filename;
     private String version;
-
-    public static String RESOURCE_WHEELS_PATH_ROOT = "META-INF/wheels/";
 
     BaseWheel(String input) {
         this.input = input;

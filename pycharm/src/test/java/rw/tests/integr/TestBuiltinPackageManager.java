@@ -3,7 +3,7 @@ package rw.tests.integr;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import rw.tests.BaseMockedTestCase;
+import rw.tests.BaseTestCase;
 import rw.tests.fixtures.PackageFixture;
 import rw.tests.utils.MiscUtils;
 
@@ -11,10 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 
 
-public class TestBuiltinPackageManager extends BaseMockedTestCase {
+public class TestBuiltinPackageManager extends BaseTestCase {
     @BeforeEach
     protected void setUp() throws Exception {
         super.setUp();

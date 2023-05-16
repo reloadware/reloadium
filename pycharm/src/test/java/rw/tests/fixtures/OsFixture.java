@@ -3,8 +3,6 @@ package rw.tests.fixtures;
 import org.powermock.reflect.Whitebox;
 import rw.util.OsType;
 
-import static org.mockito.Mockito.spy;
-
 
 public class OsFixture {
     OsType original;

@@ -1,13 +1,8 @@
 package rw.util.colormap;
 
 
-import org.apache.commons.io.FileUtils;
-import rw.audit.RwSentry;
-
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public class ColorMap {
@@ -29,7 +24,7 @@ public class ColorMap {
 
     public Color getColor(double min, double max, double value) {
         double normalised = ((value - min) / (max - min)) * 255.0;
-        int index = (int)normalised;
+        int index = (int) normalised;
 
         if (index < 0) {
             index = 0;
@@ -44,11 +39,11 @@ public class ColorMap {
     }
 
     public Color getColor(float min, float max, float value) {
-        return this.getColor(min, max, (double)value);
+        return this.getColor(min, max, (double) value);
     }
 
     public Color getColor(long min, long max, long value) {
-        return this.getColor(min, max, (double)value);
+        return this.getColor(min, max, (double) value);
     }
 
     public String getName() {

@@ -22,12 +22,14 @@ public class DebugProcess extends PyDebugProcess {
         this.handler = handler;
         this.dropFrameActionHandler = new DropFrameActionHandler(handler.getSession(), handler.getStack());
     }
+
     public PyStackFrame createStackFrame(PyStackFrameInfo frameInfo) {
-    final PyStackFrame frame = new StackFrame(this.handler.getStack(), getSession().getProject(), this, frameInfo,
-                                                getPositionConverter().convertFromPython(frameInfo.getPosition(), frameInfo.getName()));
-    return frame;
-  }
+        final PyStackFrame frame = new StackFrame(this.handler.getStack(), getSession().getProject(), this, frameInfo,
+                getPositionConverter().convertFromPython(frameInfo.getPosition(), frameInfo.getName()));
+        return frame;
+    }
+
     public XDropFrameHandler getDropFrameHandler() {
-    return this.dropFrameActionHandler;
-  }
+        return this.dropFrameActionHandler;
+    }
 }

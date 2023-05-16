@@ -3,9 +3,8 @@ package rw.session.events;
 import com.intellij.openapi.diagnostic.Logger;
 
 public class ClearErrors extends FileEvent {
-    private static final Logger LOGGER = Logger.getInstance(ClearErrors.class);
-
     public static final String ID = "ClearErrors";
+    private static final Logger LOGGER = Logger.getInstance(ClearErrors.class);
 
     @Override
     public void handle() {

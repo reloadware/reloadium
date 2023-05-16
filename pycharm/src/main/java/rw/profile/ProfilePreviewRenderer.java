@@ -1,35 +1,27 @@
 package rw.profile;
 
 import com.intellij.diff.util.DiffUtil;
-import com.intellij.execution.process.mediator.daemon.DaemonLaunchOptions;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.diff.LineStatusMarkerDrawUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.FoldRegion;
-import com.intellij.openapi.editor.FoldingModel;
 import com.intellij.openapi.editor.colors.EditorColors;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.impl.DocumentMarkupModel;
 import com.intellij.openapi.editor.markup.*;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.NlsContexts;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vcs.VcsBundle;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
-import com.intellij.ui.JBColor;
 import com.intellij.xdebugger.ui.DebuggerColors;
 import org.jetbrains.annotations.NotNull;
 import rw.quickconfig.CumulateType;
-import rw.quickconfig.QuickConfig;
-import rw.stack.Stack;
-import rw.highlights.Highlighter;
 
-import javax.swing.*;
 import javax.swing.Timer;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,9 +29,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 import java.util.stream.IntStream;
 
 
@@ -171,7 +162,7 @@ class FileValuesRenderer {
     public void activate() {
         this.deactivate();
 
-        if(this.fileValues.isEmpty()) {
+        if (this.fileValues.isEmpty()) {
             return;
         }
 
@@ -179,7 +170,13 @@ class FileValuesRenderer {
         Integer maxLine = Collections.max(this.fileValues.getValues(CumulateType.DEFAULT).keySet());
 
         ApplicationManager.getApplication().invokeLater(() -> {
-            TextRange range = DiffUtil.getLinesRange(this.document, minLine - 1, maxLine);
+            TextRange range;
+            try {
+                range = DiffUtil.getLinesRange(this.document, minLine - 1, maxLine);
+            } catch (IndexOutOfBoundsException e) {
+                return;
+            }
+
             this.device = this.markupModel.addRangeHighlighter(null,
                     range.getStartOffset(), range.getEndOffset(),
                     DebuggerColors.EXECUTION_LINE_HIGHLIGHTERLAYER + 51,

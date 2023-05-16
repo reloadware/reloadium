@@ -19,6 +19,20 @@ import rw.session.cmds.completion.GetFrameCompletion;
 import static com.intellij.patterns.PlatformPatterns.psiElement;
 
 public class FrameCompletionContributor extends CtxCompletionContributor {
+    public FrameCompletionContributor() {
+        extend(CompletionType.BASIC,
+                psiElement(),
+                new Provider());
+    }
+
+    protected boolean shouldComplete(@NotNull CompletionParameters parameters,
+                                     @NotNull CompletionResultSet result) {
+        PsiElement element = parameters.getPosition();
+        VirtualFile virtualFile = element.getContainingFile().getOriginalFile().getVirtualFile();
+        boolean ret = virtualFile instanceof LightVirtualFile;
+        return ret;
+    }
+
     protected static class Provider extends CtxCompletionContributor.Provider {
         @Nullable
         protected GetCtxCompletion cmdFactory(PsiElement element,
@@ -52,19 +66,5 @@ public class FrameCompletionContributor extends CtxCompletionContributor {
 
             return new GetFrameCompletion(file, frameId, parent, prompt, mode);
         }
-    }
-
-    public FrameCompletionContributor() {
-        extend(CompletionType.BASIC,
-                psiElement(),
-                new Provider());
-    }
-
-    protected boolean shouldComplete(@NotNull CompletionParameters parameters,
-                                     @NotNull CompletionResultSet result) {
-        PsiElement element = parameters.getPosition();
-        VirtualFile virtualFile = element.getContainingFile().getOriginalFile().getVirtualFile();
-        boolean ret = virtualFile instanceof LightVirtualFile;
-        return ret;
     }
 }

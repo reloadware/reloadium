@@ -15,10 +15,9 @@ import java.util.Map;
 
 
 abstract public class LineProfiler implements Activable {
+    protected Map<File, FileValues> values;
     Project project;
     QuickConfig quickConfig;
-
-    protected Map<File, FileValues> values;
     ProfilePreviewRenderer previewRenderer;
 
     public LineProfiler(Project project, QuickConfig quickConfig) {

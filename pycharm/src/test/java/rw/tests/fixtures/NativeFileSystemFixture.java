@@ -1,9 +1,7 @@
 package rw.tests.fixtures;
 
 import org.mockito.Mockito;
-import rw.pkg.FileSystem;
 import rw.pkg.NativeFileSystem;
-import rw.pkg.PackageManager;
 
 import java.io.File;
 import java.nio.file.Files;

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import rw.action.DebugWithReloadium;
-import rw.tests.BaseMockedTestCase;
+import rw.tests.BaseTestCase;
 import rw.tests.fixtures.CakeshopFixture;
 import rw.tests.fixtures.DialogFactoryFixture;
 import rw.tests.fixtures.PackageFixture;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 
-public class TestDebugAction extends BaseMockedTestCase {
+public class TestDebugAction extends BaseTestCase {
     CakeshopFixture cakeshop;
     DialogFactoryFixture dialogFactoryFixture;
 
@@ -27,7 +27,7 @@ public class TestDebugAction extends BaseMockedTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        PackageFixture packageFixture = new PackageFixture(this.packageManager,"0.7.12");
+        PackageFixture packageFixture = new PackageFixture(this.packageManager, "0.7.12");
         this.cakeshop = new CakeshopFixture(this.getProject());
         this.cakeshop.setUp();
 

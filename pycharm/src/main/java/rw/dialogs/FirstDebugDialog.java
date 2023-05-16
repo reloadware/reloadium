@@ -16,7 +16,7 @@ public class FirstDebugDialog extends TipDialog {
                 String.format("Using %s in debug mode", StringUtil.capitalize(Const.get().packageName)),
                 "Same behaviour from run mode applies to debug mode.<br>" +
                         "To observe dynamic code changes please <b>save</b> the modified file<br>" +
-                "On top of that in debug mode it is possible to reload current function like shown above.",
+                        "On top of that in debug mode it is possible to reload current function like shown above.",
                 Media.DebugExample,
                 true);
     }

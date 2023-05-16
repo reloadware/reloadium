@@ -17,10 +17,13 @@ public interface Icons {
     Icon ReloadableFile = IconLoader.getIcon("/icons/reloadableFile.svg", Icons.class);
     Icon ReloadableDir = IconLoader.getIcon("/icons/reloadableDir.svg", Icons.class);
     Icon ProductSmall = IconLoader.getIcon("/icons/productSmall.svg", Icons.class);
+    Icon ProductMedium = IconLoader.getIcon("/icons/productMedium.svg", Icons.class);
+    Icon Notification = IconLoader.getIcon("/icons/notification.svg", Icons.class);
     Icon ProductBig = IconLoader.getIcon("/icons/productBig.svg", Icons.class);
     Icon Settings = IconLoader.getIcon("/icons/settings.svg", Icons.class);
     Icon About = IconLoader.getIcon("/icons/about.svg", Icons.class);
     Icon AboutLogo = IconLoader.getIcon("/icons/aboutLogo.svg", Icons.class);
     Icon Timing = IconLoader.getIcon("/icons/itiming.svg", Icons.class);
     Icon DropFrame = IconLoader.getIcon("/icons/dropFrame.svg", Icons.class);
+
 }

@@ -3,9 +3,8 @@ package rw.tests.ui;
 import com.intellij.remoterobot.RemoteRobot;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.ExtendWith;
-import rw.tests.utils.MiscUtils;
 import rw.tests.ui.utils.StepsLogger;
+import rw.tests.utils.MiscUtils;
 
 import static com.intellij.remoterobot.stepsProcessing.StepWorkerKt.step;
 import static rw.tests.ui.fixtures.ActionMenuFixtureKt.actionMenu;

@@ -1,6 +1,8 @@
 package rw.completion;
 
-import com.intellij.codeInsight.completion.*;
+import com.intellij.codeInsight.completion.CompletionParameters;
+import com.intellij.codeInsight.completion.CompletionResultSet;
+import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.patterns.ElementPattern;
 import com.intellij.patterns.PlatformPatterns;
@@ -17,6 +19,7 @@ import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
+import rw.session.cmds.Cmd;
 import rw.session.cmds.completion.GetImportCompletion;
 import rw.session.cmds.completion.Suggestion;
 
@@ -34,6 +37,12 @@ public class ImportCompletionContributor extends BaseCompletionContributor {
             psiElement().inside(PyFromImportStatement.class)
                     .andNot(psiElement().afterLeaf(psiElement().withText(PyNames.IMPORT)))
                     .andNot(IN_FROM_IMPORT_AFTER_REF));
+
+    public ImportCompletionContributor() {
+        extend(CompletionType.BASIC,
+                this.PATTERN,
+                new Provider());
+    }
 
     private static final class Provider extends BaseCompletionContributor.Provider {
         private Provider() {
@@ -89,9 +98,13 @@ public class ImportCompletionContributor extends BaseCompletionContributor {
             String prompt = element.getText().replace(DUMMY_IDENTIFIER_TRIMMED, "");
 
             GetImportCompletion cmd = new GetImportCompletion(parent, prompt);
-            GetImportCompletion.Return completion = (GetImportCompletion.Return) handler.getSession().send(cmd);
+            Cmd.Return completion = handler.getSession().send(cmd);
 
-            List<Suggestion> suggestions = completion.getSuggestions();
+            if (completion == null) {
+                return;
+            }
+
+            List<Suggestion> suggestions = ((GetImportCompletion.Return) completion).getSuggestions();
             if (suggestions == null) {
                 return;
             }
@@ -107,11 +120,5 @@ public class ImportCompletionContributor extends BaseCompletionContributor {
                 result.addElement(builder);
             }
         }
-    }
-
-    public ImportCompletionContributor() {
-        extend(CompletionType.BASIC,
-                this.PATTERN,
-                new Provider());
     }
 }

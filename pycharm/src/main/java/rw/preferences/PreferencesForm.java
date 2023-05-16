@@ -19,10 +19,8 @@ public class PreferencesForm {
     private JComboBox<ErrorHandlingMode> errorHandlingMode;
     private JCheckBox alwaysCollectMemory;
     private JCheckBox runtimeCompletion;
-    private JCheckBox telemetry;
     private JPanel Miscellaneous;
     private JTextPane privacyLink;
-    private JTextPane toEnhanceYourExperienceTextPane;
 
     private void createUIComponents() {
         this.blinkDuration = new JSpinner(new SpinnerNumberModel(0, 0, 2000, 10));
@@ -56,7 +54,7 @@ public class PreferencesForm {
 
     public PreferencesState getState() {
         PreferencesState state = new PreferencesState();
-        state.blinkDuration = ((SpinnerNumberModel)this.blinkDuration.getModel()).getNumber().intValue();
+        state.blinkDuration = ((SpinnerNumberModel) this.blinkDuration.getModel()).getNumber().intValue();
         state.timingColorMap = ColorMaps.get().getColorMapByImage((ImageIcon) this.timingColormap.getModel().getSelectedItem()).getName();
         state.alwaysCollectMemory = this.alwaysCollectMemory.isSelected();
         state.markReloadable = this.markReloadable.isSelected();

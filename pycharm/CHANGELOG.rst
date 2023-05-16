@@ -2,6 +2,48 @@ Change Log
 ##########
 
 
+1.1.1
+-------
+
+**AI**:
+    
+  Added:
+    * Add change context button
+    * Resizable code viewer
+    * High contrast mode improvements
+    * Sources to replies in square bracket notation
+    
+  Fixed:
+    * Hyperlinks not working in markdown
+    * Code viewer not persisting extensions
+    * Wrong lines for method context
+    
+**PyCharm**:
+    
+  Added:
+    * Set caret position to error location
+    * Dictionary runtime completion improvements
+    
+  Fixed:
+    * Jitters when typing
+    * Multiple runtime completion markers in the gutter issues
+    * Runtime completion indicator not working for remote interpreters
+    
+**Miscellaneous**:
+    
+  Removed:
+    * 3.7 support
+    
+  Added:
+    * Reloading non suspended frames (in debug mode)
+    * Pytest speedups
+    
+  Fixed:
+    * Mementos crashing for non async functions in async context
+    * Not profiling when using freezegun
+    * Stripping docstrings in Python 3.11
+    * Infinite recursion issue for big projects
+    
 1.1.0
 -------
 

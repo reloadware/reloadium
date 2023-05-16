@@ -26,6 +26,7 @@ public class Action {
     public String getObj() {
         return obj;
     }
+
     public boolean shouldBlink() {
         return blink;
     }

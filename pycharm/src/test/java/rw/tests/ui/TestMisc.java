@@ -39,8 +39,7 @@ public class TestMisc extends PackageTestBase {
 
         try {
             steps.createNewProject();
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             MiscUtils.sleep(15.0f);
             steps.createNewProject();
         }

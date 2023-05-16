@@ -16,6 +16,7 @@ import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
+import rw.session.cmds.Cmd;
 import rw.session.cmds.completion.GetFromImportCompletion;
 import rw.session.cmds.completion.Suggestion;
 
@@ -28,6 +29,12 @@ import static com.intellij.patterns.PlatformPatterns.psiElement;
 public class FromImportCompletionContributor extends BaseCompletionContributor {
     static ElementPattern<? extends PsiElement> PATTERN = psiElement().afterLeaf(psiElement().withText(PyNames.IMPORT)).and(psiElement().inside(PyFromImportStatement.class));
 
+    public FromImportCompletionContributor() {
+        extend(CompletionType.BASIC,
+                this.PATTERN,
+                new Provider());
+    }
+
     private static final class Provider extends BaseCompletionContributor.Provider {
         private Provider() {
         }
@@ -37,7 +44,7 @@ public class FromImportCompletionContributor extends BaseCompletionContributor {
                                       @NotNull ProcessingContext context,
                                       @NotNull CompletionResultSet result) {
             PreferencesState preferences = Preferences.getInstance().getState();
-            if(!preferences.runtimeCompletion) {
+            if (!preferences.runtimeCompletion) {
                 return;
             }
 
@@ -58,9 +65,13 @@ public class FromImportCompletionContributor extends BaseCompletionContributor {
             String prompt = element.getText().replace(DUMMY_IDENTIFIER_TRIMMED, "");
 
             GetFromImportCompletion cmd = new GetFromImportCompletion(fromModule, prompt);
-            GetFromImportCompletion.Return completion = (GetFromImportCompletion.Return) handler.getSession().send(cmd);
+            Cmd.Return completion = handler.getSession().send(cmd);
 
-            List<Suggestion> suggestions = completion.getSuggestions();
+            if (completion == null) {
+                return;
+            }
+
+            List<Suggestion> suggestions = ((GetFromImportCompletion.Return) completion).getSuggestions();
             if (suggestions == null) {
                 return;
             }
@@ -75,11 +86,5 @@ public class FromImportCompletionContributor extends BaseCompletionContributor {
                 result.addElement(builder);
             }
         }
-    }
-
-    public FromImportCompletionContributor() {
-        extend(CompletionType.BASIC,
-                this.PATTERN,
-                new Provider());
     }
 }

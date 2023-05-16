@@ -7,20 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.VisibleForTesting;
 
 public class NotificationManager {
-    public void show(Project project,
-                            @NotNull String title,
-                            @NotNull String content,
-                            @NotNull NotificationType type) {
-        final RwNotification notification = new RwNotification(title, content,
-                    type);
-            ApplicationManager.getApplication().invokeLater(() -> {
-                        notification.notify(project);
-                    }
-            );
-    }
-
     @VisibleForTesting
     public static NotificationManager singleton = null;
+
     public NotificationManager() {
 
     }
@@ -30,5 +19,17 @@ public class NotificationManager {
             singleton = new NotificationManager();
 
         return singleton;
+    }
+
+    public void show(Project project,
+                     @NotNull String title,
+                     @NotNull String content,
+                     @NotNull NotificationType type) {
+        final RwNotification notification = new RwNotification(title, content,
+                type);
+        ApplicationManager.getApplication().invokeLater(() -> {
+                    notification.notify(project);
+                }
+        );
     }
 }

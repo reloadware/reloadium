@@ -9,19 +9,19 @@ import com.jetbrains.python.run.PythonRunConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.SetEnvironmentVariable;
 import rw.action.RunWithReloadium;
-import rw.tests.BaseMockedTestCase;
+import rw.tests.BaseTestCase;
 import rw.tests.fixtures.CakeshopFixture;
 import rw.tests.fixtures.PackageFixture;
 import rw.tests.fixtures.SdkFixture;
-import org.junitpioneer.jupiter.SetEnvironmentVariable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 
-public class TestRunAction extends BaseMockedTestCase {
+public class TestRunAction extends BaseTestCase {
     CakeshopFixture cakeshop;
     AnAction action;
     SdkFixture oldSdkFixture;
@@ -31,7 +31,7 @@ public class TestRunAction extends BaseMockedTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        this.packageFixture = new PackageFixture(this.packageManager,"0.7.12");
+        this.packageFixture = new PackageFixture(this.packageManager, "0.7.12");
         this.cakeshop = new CakeshopFixture(this.getProject());
         this.cakeshop.setUp();
 

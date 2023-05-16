@@ -1,15 +1,23 @@
 package rw.completion;
 
 import com.intellij.codeInsight.completion.*;
+import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.icons.AllIcons;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.testFramework.LightVirtualFile;
 import com.intellij.util.ProcessingContext;
+import com.jetbrains.python.PyTokenTypes;
+import com.jetbrains.python.psi.PyFormattedStringElement;
+import com.jetbrains.python.psi.PyPlainStringElement;
+import com.jetbrains.python.psi.PyStringLiteralExpression;
 import com.jetbrains.python.psi.PySubscriptionExpression;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,6 +25,7 @@ import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
+import rw.session.cmds.Cmd;
 import rw.session.cmds.completion.GetCtxCompletion;
 import rw.session.cmds.completion.Suggestion;
 
@@ -28,8 +37,46 @@ import java.util.Map;
 import static com.intellij.codeInsight.completion.CompletionInitializationContext.DUMMY_IDENTIFIER_TRIMMED;
 
 public class CtxCompletionContributor extends BaseCompletionContributor {
+    static protected boolean isDictKey(@NotNull PsiElement element) {
+        boolean ret = (element instanceof PyPlainStringElement) && (element.getParent().getParent() instanceof PySubscriptionExpression);
+        ret |= element.getParent() instanceof PySubscriptionExpression;
+        return ret;
+    }
+
+    private boolean isString(PsiElement element) {
+        if (element instanceof PyPlainStringElement) {
+            return true;
+        }
+
+        if (element.getParent() instanceof PyFormattedStringElement) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected boolean shouldComplete(@NotNull CompletionParameters parameters,
+                                     @NotNull CompletionResultSet result) {
+        PsiElement element = parameters.getPosition();
+        VirtualFile virtualFile = element.getContainingFile().getOriginalFile().getVirtualFile();
+        boolean ret = !(virtualFile instanceof LightVirtualFile);
+        ret &= !this.isString(element);
+        ret |= this.isDictKey(element);
+        return ret;
+    }
+
     protected abstract static class Provider extends BaseCompletionContributor.Provider {
         public Provider() {
+        }
+
+        private static String findPrefix(final PsiElement element, final int offset) {
+            PyStringLiteralExpression prevElement = PsiTreeUtil.getParentOfType(element, PyStringLiteralExpression.class);
+            if (prevElement == null) {
+                return "";
+            }
+            String ret = TextRange.create(prevElement.getTextRange().getStartOffset(), offset).substring(element.getContainingFile().getText());
+            ;
+            return ret;
         }
 
         @Override
@@ -83,33 +130,19 @@ public class CtxCompletionContributor extends BaseCompletionContributor {
                 return;
             }
 
-            GetCtxCompletion.Return completion = (GetCtxCompletion.Return) handler.getSession().send(cmd);
-            if(completion == null){
+            Cmd.Return completion = handler.getSession().send(cmd);
+
+            if (!(completion instanceof GetCtxCompletion.Return)) {
                 return;
             }
 
-            List<Suggestion> suggestions = completion.getSuggestions();
+            List<Suggestion> suggestions = ((GetCtxCompletion.Return) completion).getSuggestions();
 
             if (suggestions == null) {
                 return;
             }
 
             Map<String, String> nameToTailText = new HashMap<>();
-
-            result.runRemainingContributors(parameters, r -> {
-                String lookupString = r.getLookupElement().getLookupString();
-                if (!(lookupString.startsWith("__") && !prompt.startsWith("__"))) {
-                    if (suggestions.stream().anyMatch(s -> s.getName().equals(lookupString))) {
-                        LookupElementPresentation presentation = new LookupElementPresentation();
-                        r.getLookupElement().renderElement(presentation);
-                        if (presentation.getTailText() != null) {
-                            nameToTailText.put(r.getLookupElement().getLookupString(), presentation.getTailText());
-                        }
-                    } else {
-                        result.passResult(r);
-                    }
-                }
-            });
 
 
             for (Suggestion s : suggestions) {
@@ -137,12 +170,50 @@ public class CtxCompletionContributor extends BaseCompletionContributor {
 
                 if (mode == CompletionMode.KEY) {
                     builder = builder.withIcon(AllIcons.Nodes.Parameter);
+                    builder = builder.withInsertHandler(new InsertHandler<>() {
+                        @Override
+                        public void handleInsert(@NotNull final InsertionContext context, @NotNull final LookupElement item) {
+                            final PyStringLiteralExpression str = PsiTreeUtil.findElementOfClassAtOffset(context.getFile(), context.getStartOffset(),
+                                    PyStringLiteralExpression.class, false);
+                            if (str != null) {
+                                final boolean isDictKeys = PsiTreeUtil.getParentOfType(str, PySubscriptionExpression.class) != null;
+                                if (isDictKeys) {
+                                    final int off = context.getStartOffset() + str.getTextLength();
+                                    final PsiElement element = context.getFile().findElementAt(off);
+                                    final boolean atRBrace = element == null || element.getNode().getElementType() == PyTokenTypes.RBRACKET;
+                                    final boolean badQuoting =
+                                            (!StringUtil.startsWithChar(str.getText(), '\'') || !StringUtil.endsWithChar(str.getText(), '\'')) &&
+                                                    (!StringUtil.startsWithChar(str.getText(), '"') || !StringUtil.endsWithChar(str.getText(), '"'));
+                                    if (badQuoting || !atRBrace) {
+                                        final Document document = context.getEditor().getDocument();
+                                        final int offset = context.getTailOffset();
+                                        document.deleteString(offset - 1, offset);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    result.withPrefixMatcher(findPrefix(orig, parameters.getOffset())).addElement(PrioritizedLookupElement.withPriority(builder, 1000000));
                 } else {
                     builder = builder.withIcon(icon);
+                    result.addElement(builder);
                 }
-
-                result.addElement(builder);
             }
+
+            result.runRemainingContributors(parameters, r -> {
+                String lookupString = r.getLookupElement().getLookupString();
+                if (!(lookupString.startsWith("__") && !prompt.startsWith("__"))) {
+                    if (suggestions.stream().anyMatch(s -> s.getName().equals(lookupString))) {
+                        LookupElementPresentation presentation = new LookupElementPresentation();
+                        r.getLookupElement().renderElement(presentation);
+                        if (presentation.getTailText() != null) {
+                            nameToTailText.put(r.getLookupElement().getLookupString(), presentation.getTailText());
+                        }
+                    } else {
+                        result.passResult(r);
+                    }
+                }
+            });
         }
 
         @Nullable
@@ -158,19 +229,11 @@ public class CtxCompletionContributor extends BaseCompletionContributor {
                 return CompletionMode.ATTRIBUTE;
             }
 
-            if (orig.getParent().getParent() instanceof PySubscriptionExpression || orig.getParent() instanceof PySubscriptionExpression) {
+            if (isDictKey(orig)) {
                 return CompletionMode.KEY;
             } else {
                 return CompletionMode.ATTRIBUTE;
             }
         }
-    }
-
-    protected boolean shouldComplete(@NotNull CompletionParameters parameters,
-                                     @NotNull CompletionResultSet result) {
-        PsiElement element = parameters.getPosition();
-        VirtualFile virtualFile = element.getContainingFile().getOriginalFile().getVirtualFile();
-        boolean ret = !(virtualFile instanceof LightVirtualFile);
-        return ret;
     }
 }

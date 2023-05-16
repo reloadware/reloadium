@@ -13,7 +13,9 @@ import rw.stack.Frame;
 import rw.stack.Stack;
 
 public class StackFrame extends PyStackFrame {
-    @Nullable private final Frame reFrame;
+    @Nullable
+    private final Frame reFrame;
+
     public StackFrame(Stack stack, @NotNull Project project, @NotNull PyFrameAccessor debugProcess, @NotNull PyStackFrameInfo frameInfo, XSourcePosition position) {
         super(project, debugProcess, frameInfo, position);
         this.reFrame = stack.getFrameById(Long.valueOf(this.getFrameId()));
@@ -22,7 +24,7 @@ public class StackFrame extends PyStackFrame {
     @Override
     public void customizePresentation(@NotNull ColoredTextContainer component) {
         super.customizePresentation(component);
-        if( this.reFrame != null && this.reFrame.isReloadable()){
+        if (this.reFrame != null && this.reFrame.isReloadable()) {
             component.setIcon(Icons.Frame);
         }
     }

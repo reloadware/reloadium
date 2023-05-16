@@ -16,8 +16,15 @@ import rw.session.cmds.completion.GetLocalCompletion;
 import static com.intellij.patterns.PlatformPatterns.psiElement;
 
 public class LocalCompletionContributor extends CtxCompletionContributor {
+    public LocalCompletionContributor() {
+        extend(CompletionType.BASIC,
+                psiElement().inside(false, psiElement(PyFunction.class)),
+                new Provider());
+    }
+
     protected static class Provider extends CtxCompletionContributor.Provider {
-        @Nullable protected GetCtxCompletion cmdFactory(PsiElement element,
+        @Nullable
+        protected GetCtxCompletion cmdFactory(PsiElement element,
                                               String prompt,
                                               VirtualFile virtualFile,
                                               RunConfHandler handler,
@@ -28,16 +35,15 @@ public class LocalCompletionContributor extends CtxCompletionContributor {
             file = handler.convertPathToRemote(file, false);
 
             String threadId;
-            if(handler.getRunType() == RunType.DEBUG) {
+            if (handler.getRunType() == RunType.DEBUG) {
                 threadId = handler.getThreadErrorManager().getActiveThread();
-            }
-            else {
+            } else {
                 threadId = null;
             }
 
             PyFunction function = PsiTreeUtil.getParentOfType(element, PyFunction.class);
-            
-            if(function == null) {
+
+            if (function == null) {
                 return null;
             }
 
@@ -47,11 +53,5 @@ public class LocalCompletionContributor extends CtxCompletionContributor {
             file = handler.convertPathToRemote(file, false);
             return new GetLocalCompletion(file, threadId, function.getName(), promptLine, parent, prompt, mode);
         }
-    }
-
-    public LocalCompletionContributor() {
-        extend(CompletionType.BASIC,
-                psiElement().inside(false, psiElement(PyFunction.class)),
-                new Provider());
     }
 }

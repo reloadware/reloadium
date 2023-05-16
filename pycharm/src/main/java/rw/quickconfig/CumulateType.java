@@ -6,7 +6,7 @@ public enum CumulateType {
     @SerializedName("Last")
     LAST("Last"),
     @SerializedName("Mean")
-    MEAN( "Mean"),
+    MEAN("Mean"),
     @SerializedName("Add")
     ADD("Add"),
     @SerializedName("Min")
@@ -27,6 +27,6 @@ public enum CumulateType {
     }
 
     public String toString() {
-       return this.value;
+        return this.value;
     }
 }

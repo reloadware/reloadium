@@ -3,19 +3,14 @@ package rw.tests.fixtures;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.xdebugger.XDebuggerUtil;
-import com.intellij.xdebugger.XSourcePosition;
-import com.intellij.xdebugger.frame.XStackFrame;
-import com.intellij.xdebugger.impl.XSourcePositionImpl;
 import com.jetbrains.python.debugger.*;
 import org.jetbrains.annotations.NotNull;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
-import rw.util.Architecture;
 
 
 public class PyStackFrameFixture {
-    private PyStackFrame frame;
     private final Project project;
+    private PyStackFrame frame;
 
     public PyStackFrameFixture(@NotNull Project project, @NotNull VirtualFile file, @NotNull String name) {
         this.project = project;

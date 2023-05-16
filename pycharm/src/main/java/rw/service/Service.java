@@ -1,7 +1,6 @@
 package rw.service;
 
 import com.intellij.concurrency.JobScheduler;
-import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -18,13 +17,11 @@ import java.util.concurrent.TimeUnit;
 
 public class Service implements Disposable {
     private static final Logger LOGGER = Logger.getInstance(Service.class);
-    @VisibleForTesting
-    public PackageManager packageManager;
-
-    private RemoteSdkChecker remoteSdkChecker;
-
     public static Service singleton = null;
     private static int runCounter = 0;
+    private final RemoteSdkChecker remoteSdkChecker;
+    @VisibleForTesting
+    public PackageManager packageManager;
 
     public Service() {
         LOGGER.info("Starting service");
@@ -32,6 +29,13 @@ public class Service implements Disposable {
         this.remoteSdkChecker = new RemoteSdkChecker();
         this.validateOsType();
         this.init();
+    }
+
+    public static Service get() {
+        if (singleton == null) {
+            singleton = ApplicationManager.getApplication().getService(Service.class);
+        }
+        return singleton;
     }
 
     public void init() {
@@ -44,13 +48,6 @@ public class Service implements Disposable {
 
         JobScheduler.getScheduler().scheduleWithFixedDelay(this.remoteSdkChecker::check, 10,
                 30, TimeUnit.SECONDS);
-    }
-
-    public static Service get() {
-        if (singleton == null) {
-            singleton = ApplicationManager.getApplication().getService(Service.class);
-        }
-        return singleton;
     }
 
     private void validateOsType() {
@@ -71,6 +68,7 @@ public class Service implements Disposable {
     public PackageManager getPackageManager() {
         return this.packageManager;
     }
+
     public RemoteSdkChecker getRemoteSdkChecker() {
         return this.remoteSdkChecker;
     }
