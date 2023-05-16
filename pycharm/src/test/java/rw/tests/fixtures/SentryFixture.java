@@ -13,6 +13,5 @@ public class SentryFixture {
         this.mocked = RwSentry.singleton;
 
         lenient().doNothing().when(RwSentry.singleton).captureError(any());
-        lenient().doNothing().when(RwSentry.singleton).captureException(any(), anyBoolean());
     }
 }

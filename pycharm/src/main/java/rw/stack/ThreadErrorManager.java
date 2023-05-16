@@ -22,6 +22,7 @@ public class ThreadErrorManager implements Activable {
         this.project = project;
         this.threadErrors = new HashMap<>();
     }
+
     public void onSessionStarted(XDebugSessionImpl session) {
         this.session = session;
         assert this.session != null;
@@ -50,7 +51,7 @@ public class ThreadErrorManager implements Activable {
     public void onThreadErrorClear(ClearThreadError clearThreadError) {
         ThreadError threadError = this.threadErrors.get(clearThreadError.getThreadId());
 
-        if(threadError == null) {
+        if (threadError == null) {
             return;
         }
 
@@ -67,13 +68,13 @@ public class ThreadErrorManager implements Activable {
 
         this.threadErrors.values().stream().filter(te -> !te.getThreadId().equals(threadId)).forEach(ThreadError::deactivate);
 
-        if(!threadError.isActive()) {
+        if (!threadError.isActive()) {
             threadError.activate();
         }
     }
 
     public @Nullable String getActiveThread() {
-        if(this.session == null) {
+        if (this.session == null) {
             return null;
         }
 
@@ -91,7 +92,7 @@ public class ThreadErrorManager implements Activable {
 
     public @Nullable ThreadError getActiveError() {
         String activeThread = this.getActiveThread();
-        if(activeThread == null) {
+        if (activeThread == null) {
             return null;
         }
 
@@ -102,13 +103,13 @@ public class ThreadErrorManager implements Activable {
     @Override
     public void activate() {
         String activeThread = this.getActiveThread();
-        if(activeThread == null) {
+        if (activeThread == null) {
             return;
         }
 
         ThreadError threadError = this.threadErrors.get(activeThread);
 
-        if(threadError == null) {
+        if (threadError == null) {
             return;
         }
 

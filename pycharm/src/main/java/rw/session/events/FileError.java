@@ -15,6 +15,7 @@ abstract public class FileError extends FileEvent {
     public Integer getLine() {
         return line;
     }
+
     public String getMsg() {
         return msg;
     }

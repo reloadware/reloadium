@@ -18,6 +18,7 @@ public class RunWithReloadiumRunContext extends ContextPopupAction {
     void setRunningIcon(AnActionEvent e) {
         e.getPresentation().setIcon(Icons.Run);
     }
+
     void setNotRunningIcon(AnActionEvent e) {
         e.getPresentation().setIcon(Icons.Run);
     }

@@ -4,11 +4,13 @@ package rw.tests.ui.fixtures;
 
 import com.intellij.remoterobot.RemoteRobot;
 import com.intellij.remoterobot.data.RemoteComponent;
-import com.intellij.remoterobot.fixtures.*;
+import com.intellij.remoterobot.fixtures.CommonContainerFixture;
+import com.intellij.remoterobot.fixtures.DefaultXpath;
+import com.intellij.remoterobot.fixtures.FixtureName;
+import com.intellij.remoterobot.fixtures.JButtonFixture;
 import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.remoterobot.search.locators.Locators.byXpath;
-import static com.intellij.remoterobot.utils.UtilsKt.hasAnyComponent;
 
 
 @DefaultXpath(by = "FlatWelcomeFrame type", xpath = "//div[@class='FlatWelcomeFrame']")
@@ -20,8 +22,8 @@ public class NewProjectFixture extends CommonContainerFixture {
 
     public JButtonFixture createButton() {
         return this.find(
-            JButtonFixture.class,
-            byXpath("//div[@text='Create']")
+                JButtonFixture.class,
+                byXpath("//div[@text='Create']")
         );
     }
 }

@@ -6,7 +6,6 @@ import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.DumbAware;
 import org.jetbrains.annotations.NotNull;
 import rw.preferences.PreferencesConfigurable;
-import rw.settings.ProjectSettingsConfigurable;
 
 
 public class Preferences extends AnAction implements DumbAware {

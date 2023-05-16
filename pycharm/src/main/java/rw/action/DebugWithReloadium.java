@@ -42,6 +42,7 @@ public class DebugWithReloadium extends WithReloaderBase implements DumbAware {
     void setRunningIcon(AnActionEvent e) {
         e.getPresentation().setIcon(Icons.RestartDebugger);
     }
+
     void setNotRunningIcon(AnActionEvent e) {
         e.getPresentation().setIcon(Icons.Debug);
     }

@@ -11,16 +11,18 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.pkg.PackageManager;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RunConfHandlerManager {
     private static final Logger LOGGER = Logger.getInstance(RunConfHandlerManager.class);
     @VisibleForTesting
-    public PackageManager builtinPackageManager;
-    @VisibleForTesting
 
     public static RunConfHandlerManager singleton = null;
-
+    @VisibleForTesting
+    public PackageManager builtinPackageManager;
     Map<ExecutionEnvironment, RunConfHandler> all;
     @Nullable
     RunConfHandler last;

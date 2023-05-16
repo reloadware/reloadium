@@ -15,14 +15,11 @@ public class MemoryProfiler extends LineProfiler {
     public String format(Long value) {
         if (value >= 1_000_000_000) {
             return String.format("%.3f GB ", value / 1e9);
-        }
-        else if(value >= 1_000_000) {
+        } else if (value >= 1_000_000) {
             return String.format("%.3f MB", value / 1e6);
-        }
-        else if( value >= 1_000 ) {
+        } else if (value >= 1_000) {
             return String.format("%.3f KB", value / 1e3);
-        }
-        else {
+        } else {
             return String.format("%d B ", value);
         }
     }

@@ -8,19 +8,9 @@ import java.util.List;
 
 public class GetFromImportCompletion extends Cmd {
     public final String ID = "GetFromImportCompletion";
-
-    public class Return extends Cmd.Return {
-        List<Suggestion> suggestions;
-
-        public List<Suggestion> getSuggestions() {
-            return this.suggestions;
-        }
-    }
-
     @SerializedName("from_module")
     @Nullable String fromModule;
     String prompt;
-
     public GetFromImportCompletion(@Nullable String fromModule, String prompt) {
         this.prompt = prompt;
         this.fromModule = fromModule;
@@ -29,5 +19,13 @@ public class GetFromImportCompletion extends Cmd {
     @Override
     public String getId() {
         return this.ID;
+    }
+
+    public class Return extends Cmd.Return {
+        List<Suggestion> suggestions;
+
+        public List<Suggestion> getSuggestions() {
+            return this.suggestions;
+        }
     }
 }

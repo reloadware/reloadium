@@ -2,7 +2,7 @@ package rw.debugger;
 
 import com.intellij.xdebugger.frame.XDropFrameHandler;
 import com.intellij.xdebugger.frame.XStackFrame;
-import com.jetbrains.python.debugger.*;
+import com.jetbrains.python.debugger.PyStackFrame;
 import org.jetbrains.annotations.NotNull;
 import rw.session.Session;
 import rw.session.cmds.DropFrame;
@@ -17,6 +17,7 @@ public class DropFrameActionHandler implements XDropFrameHandler {
         this.session = session;
         this.stack = stack;
     }
+
     @Override
     public boolean canDrop(@NotNull XStackFrame frame) {
         PyStackFrame pyStackFrame = (PyStackFrame) frame;
@@ -32,6 +33,6 @@ public class DropFrameActionHandler implements XDropFrameHandler {
 
     @Override
     public void drop(@NotNull XStackFrame frame) {
-        this.session.send(new DropFrame(((StackFrame)frame).getFrameId()));
+        this.session.send(new DropFrame(((StackFrame) frame).getFrameId()));
     }
 }

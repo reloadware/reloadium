@@ -1,4 +1,5 @@
 package rw.remote.sftp;
+
 import rw.audit.RwSentry;
 
 import java.lang.reflect.Field;
@@ -6,14 +7,18 @@ import java.util.Set;
 
 public enum RwOpenMode {
 
-    /** Open the file for reading. */
+    /**
+     * Open the file for reading.
+     */
     READ(0x00000001),
     /**
      * Open the file for writing. If both this and {@link RwOpenMode#READ} are specified, the file is opened for both
      * reading and writing.
      */
     WRITE(0x00000002),
-    /** Force all writes to append data at the end of the file. */
+    /**
+     * Force all writes to append data at the end of the file.
+     */
     APPEND(0x00000004),
     /**
      * If this flag is specified, then a new file will be created if one does not already exist (if {@link
@@ -31,6 +36,7 @@ public enum RwOpenMode {
      */
     EXCL(0x00000020);
 
+    public static Class NativeClass = getNativeClass();
     private final int pflag;
 
     private RwOpenMode(int pflag) {
@@ -53,8 +59,6 @@ public enum RwOpenMode {
         }
         return null;
     }
-
-    public static Class NativeClass = getNativeClass();
 
     public Object toNative() {
         try {

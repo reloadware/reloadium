@@ -6,10 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import rw.handler.PythonRunConfHandler;
 import rw.handler.RunConfHandlerFactory;
-import rw.session.*;
+import rw.session.Session;
 import rw.session.events.Action;
-import rw.session.events.*;
-import rw.tests.BaseMockedTestCase;
+import rw.session.events.Handshake;
+import rw.session.events.ModuleUpdate;
+import rw.session.events.UserError;
+import rw.tests.BaseTestCase;
 import rw.tests.fixtures.CakeshopFixture;
 import rw.tests.fixtures.DialogFactoryFixture;
 import rw.tests.fixtures.HighlightManagerFixture;
@@ -19,13 +21,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 
-public class TestSession extends BaseMockedTestCase {
+public class TestSession extends BaseTestCase {
     CakeshopFixture cakeshop;
     DialogFactoryFixture dialogFactoryFixture;
     String stackUpdate;
@@ -101,8 +102,8 @@ public class TestSession extends BaseMockedTestCase {
         file.createNewFile();
 
         String payload = String.format("{\"ID\": \"ModuleUpdate\", \"path\": \"%s\", " +
-                        "\"actions\": [{\"name\": \"Update\", \"obj\": \"Function\"," +
-                        " \"line_start\": 2, \"line_end\": 4}]}", file.getAbsolutePath());
+                "\"actions\": [{\"name\": \"Update\", \"obj\": \"Function\"," +
+                " \"line_start\": 2, \"line_end\": 4}]}", file.getAbsolutePath());
 
         ModuleUpdate event = (ModuleUpdate) session.eventFactory(payload);
         assertThat(event).isInstanceOf(ModuleUpdate.class);

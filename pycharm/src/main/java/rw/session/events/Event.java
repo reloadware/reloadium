@@ -10,7 +10,9 @@ public class Event {
 
     @VisibleForTesting
     public void handle() {
-    };
+    }
+
+    ;
 
     public void setHandler(RunConfHandler handler) {
         this.handler = handler;

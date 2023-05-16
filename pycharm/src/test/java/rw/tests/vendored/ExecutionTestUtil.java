@@ -16,38 +16,38 @@ import java.util.List;
 import java.util.Objects;
 
 public final class ExecutionTestUtil {
-  private ExecutionTestUtil() {
-  }
-
-  @NotNull
-  public static RunContentDescriptor getSingleRunContentDescriptor(@NotNull ExecutionManager executionManager) {
-    List<RunContentDescriptor> descriptors = ((ExecutionManagerImpl)executionManager).getRunningDescriptors(Conditions.alwaysTrue());
-    String actualDescriptorsMsg = stringifyDescriptors(descriptors);
-    Assert.assertEquals(actualDescriptorsMsg, 1, descriptors.size());
-    RunContentDescriptor descriptor = ContainerUtil.getFirstItem(descriptors);
-    return Objects.requireNonNull(descriptor);
-  }
-
-  public static void terminateAllRunningDescriptors(@NotNull ExecutionManager executionManager) {
-    List<RunContentDescriptor> descriptors = ((ExecutionManagerImpl)executionManager).getRunningDescriptors(Conditions.alwaysTrue());
-    for (RunContentDescriptor descriptor : descriptors) {
-      ProcessHandler processHandler = descriptor.getProcessHandler();
-      if (processHandler != null) {
-        ScriptRunnerUtil.terminateProcessHandler(processHandler, 0, null);
-      }
+    private ExecutionTestUtil() {
     }
-  }
 
-  @NotNull
-  private static String stringifyDescriptors(@NotNull List<? extends RunContentDescriptor> descriptors) {
-    return "Actual descriptors: " + StringUtil.join(descriptors, descriptor -> {
-      if (descriptor == null) {
-        return "null";
-      }
-      ProcessHandler processHandler = descriptor.getProcessHandler();
-      return String.format("[%s, %s]",
-                           descriptor.getDisplayName(),
-                           processHandler != null ? processHandler.getClass().getName() : null);
-    }, ", ");
-  }
+    @NotNull
+    public static RunContentDescriptor getSingleRunContentDescriptor(@NotNull ExecutionManager executionManager) {
+        List<RunContentDescriptor> descriptors = ((ExecutionManagerImpl) executionManager).getRunningDescriptors(Conditions.alwaysTrue());
+        String actualDescriptorsMsg = stringifyDescriptors(descriptors);
+        Assert.assertEquals(actualDescriptorsMsg, 1, descriptors.size());
+        RunContentDescriptor descriptor = ContainerUtil.getFirstItem(descriptors);
+        return Objects.requireNonNull(descriptor);
+    }
+
+    public static void terminateAllRunningDescriptors(@NotNull ExecutionManager executionManager) {
+        List<RunContentDescriptor> descriptors = ((ExecutionManagerImpl) executionManager).getRunningDescriptors(Conditions.alwaysTrue());
+        for (RunContentDescriptor descriptor : descriptors) {
+            ProcessHandler processHandler = descriptor.getProcessHandler();
+            if (processHandler != null) {
+                ScriptRunnerUtil.terminateProcessHandler(processHandler, 0, null);
+            }
+        }
+    }
+
+    @NotNull
+    private static String stringifyDescriptors(@NotNull List<? extends RunContentDescriptor> descriptors) {
+        return "Actual descriptors: " + StringUtil.join(descriptors, descriptor -> {
+            if (descriptor == null) {
+                return "null";
+            }
+            ProcessHandler processHandler = descriptor.getProcessHandler();
+            return String.format("[%s, %s]",
+                    descriptor.getDisplayName(),
+                    processHandler != null ? processHandler.getClass().getName() : null);
+        }, ", ");
+    }
 }

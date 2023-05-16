@@ -1,23 +1,15 @@
 package rw.tests.unit;
 
-import com.intellij.notification.NotificationType;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.testFramework.TestActionEvent;
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import rw.consts.Const;
-import rw.tests.utils.MiscUtils;
 import rw.util.colormap.ColorMap;
 import rw.util.colormap.ColorMaps;
 
 import java.awt.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

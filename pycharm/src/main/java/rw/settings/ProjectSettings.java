@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 @State(name = "ReloadiumProjectSettings", storages = @Storage("reloadium.xml"))
 public class ProjectSettings implements PersistentStateComponent<ProjectState> {
     ProjectState state = new ProjectState();
+
     public static ProjectSettings getInstance(@NotNull Project project) {
         return project.getService(ProjectSettings.class);
     }

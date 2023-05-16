@@ -4,10 +4,8 @@ import com.intellij.openapi.diagnostic.Logger;
 
 
 public class Handshake extends Event {
-    private static final Logger LOGGER = Logger.getInstance(Handshake.class);
-
     public static final String ID = "Handshake";
-
+    private static final Logger LOGGER = Logger.getInstance(Handshake.class);
     private String version;
 
     @Override

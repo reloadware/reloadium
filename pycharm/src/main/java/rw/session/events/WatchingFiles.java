@@ -1,7 +1,5 @@
 package rw.session.events;
 
-import com.intellij.ide.projectView.ProjectView;
-import com.intellij.ide.projectView.impl.AbstractProjectViewPane;
 import rw.icons.IconPatcher;
 
 import java.io.File;

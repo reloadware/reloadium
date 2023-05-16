@@ -6,7 +6,7 @@ public enum ProfilerType {
     @SerializedName("None")
     NONE("None"),
     @SerializedName("Time")
-    TIME( "Time"),
+    TIME("Time"),
     @SerializedName("Memory")
     MEMORY("Memory");
 
@@ -23,6 +23,6 @@ public enum ProfilerType {
     }
 
     public String toString() {
-       return this.value;
+        return this.value;
     }
 }

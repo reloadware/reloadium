@@ -21,6 +21,7 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.text.StringUtil;
+import com.jetbrains.python.run.AbstractPythonRunConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rw.audit.RwSentry;
@@ -33,13 +34,10 @@ import rw.icons.Icons;
 
 import java.util.TimerTask;
 
-import com.jetbrains.python.run.AbstractPythonRunConfiguration;
-
 
 public abstract class WithReloaderBase extends AnAction {
-    RunType runType;
-
     private static final Logger LOGGER = Logger.getInstance(WithReloaderBase.class);
+    RunType runType;
 
     public void update(@NotNull AnActionEvent e) {
         Presentation presentation = e.getPresentation();
@@ -60,10 +58,11 @@ public abstract class WithReloaderBase extends AnAction {
             presentation.setEnabled(true);
         }
     }
+
     @Override
     public @NotNull ActionUpdateThread getActionUpdateThread() {
-    return ActionUpdateThread.BGT;
-  }
+        return ActionUpdateThread.BGT;
+    }
 
     public boolean canRun(@NotNull AnActionEvent e) {
         RunnerAndConfigurationSettings conf = this.getConfiguration(e);
@@ -119,10 +118,10 @@ public abstract class WithReloaderBase extends AnAction {
         AbstractPythonRunConfiguration<?> pythonRunConf = (AbstractPythonRunConfiguration<?>) runConf.getConfiguration();
         Sdk sdk = pythonRunConf.getSdk();
 
-        if(sdk == null) {
+        if (sdk == null) {
             IdeUiService.getInstance().notifyByBalloon(project, this.getExecutor().getToolWindowId(),
                     MessageType.ERROR, ExecutionBundle.message("error.running.configuration.message", runConf.getName()) +
-                    "\nSDK is not defined for Run Configuration",
+                            "\nSDK is not defined for Run Configuration",
                     Icons.ProductSmall, null);
             return;
         }
@@ -141,15 +140,15 @@ public abstract class WithReloaderBase extends AnAction {
 
         ExecutionEnvironmentBuilder builder = ExecutionEnvironmentBuilder.create(executor, conf);
 
-        if(executor.getClass().isAssignableFrom(DefaultDebugExecutor.class)) {
+        if (executor.getClass().isAssignableFrom(DefaultDebugExecutor.class)) {
             DebugRunner runner = new DebugRunner(handler);
             builder = builder.runner(runner);
         }
 
         TimerTask task = new TimerTask() {
             public void run() {
-            if (handler.isReloadiumActivated())
-                handler.afterRun();
+                if (handler.isReloadiumActivated())
+                    handler.afterRun();
             }
         };
 

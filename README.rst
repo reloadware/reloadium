@@ -87,7 +87,7 @@ Running modules:
 Ai
 ######
 
-| Reloadium integrates with ChatGpt seamlessly providing additional context to your conversations resulting in much better results.
+| Reloadium integrates with ChatGpt seamlessly providing additional context to your conversations resulting in much better replies.
 
 .. image:: media/chatgpt_fix.gif
     :width: 700

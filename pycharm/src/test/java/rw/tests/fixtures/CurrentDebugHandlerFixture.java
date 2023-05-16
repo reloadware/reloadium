@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 

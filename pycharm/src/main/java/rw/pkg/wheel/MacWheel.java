@@ -16,6 +16,7 @@ public class MacWheel extends BaseWheel {
         this.osType = OsType.MacOS;
         this.architecture = Architecture.X64;
     }
+
     public boolean accepts(Machine machine) {
         return this.osType == machine.getOsType();
     }

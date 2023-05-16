@@ -5,15 +5,12 @@ import com.google.gson.annotations.SerializedName;
 import java.io.File;
 
 public class FrameData {
+    transient public String localPath;
     @SerializedName("frame_id")
     private Long frameId;
-
     @SerializedName("reloadable")
     private boolean reloadable;
-
     private String path;
-    transient public String localPath;
-
     private String fullname;
 
     public Long getFrameId() {

@@ -5,10 +5,8 @@ import com.intellij.openapi.diagnostic.Logger;
 import rw.dialogs.DialogFactory;
 
 public class ThreadErrorEvent extends FileError {
-    private static final Logger LOGGER = Logger.getInstance(ThreadErrorEvent.class);
-
     public static final String ID = "ThreadError";
-
+    private static final Logger LOGGER = Logger.getInstance(ThreadErrorEvent.class);
     @SerializedName("thread_id")
     private String threadId;
 

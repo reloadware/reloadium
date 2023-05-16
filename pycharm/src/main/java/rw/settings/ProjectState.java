@@ -15,7 +15,6 @@ public class ProjectState {
     public boolean printLogo;
     public boolean cache;
     public boolean verbose;
-    public boolean debuggerSpeedups;
 
     public ProjectState() {
         this.reloadiumPath = new ArrayList<String>();
@@ -25,7 +24,10 @@ public class ProjectState {
         this.printLogo = true;
         this.cache = true;
         this.verbose = true;
-        this.debuggerSpeedups = true;
+    }
+
+    public static ProjectState getInstance(@NotNull Project project) {
+        return project.getService(ProjectState.class);
     }
 
     @Override
@@ -39,15 +41,10 @@ public class ProjectState {
         ret &= Objects.equals(this.reloadiumPath, that.reloadiumPath);
         ret &= Objects.equals(this.reloadiumIgnore, that.reloadiumIgnore);
         ret &= this.cache == that.cache;
-        ret &= this.debuggerSpeedups == that.debuggerSpeedups;
         ret &= this.watchCwd == that.watchCwd;
         ret &= this.printLogo == that.printLogo;
         ret &= this.verbose == that.verbose;
         ret &= this.watchSourceRoots == that.watchSourceRoots;
         return ret;
-    }
-
-    public static ProjectState getInstance(@NotNull Project project) {
-        return project.getService(ProjectState.class);
     }
 }

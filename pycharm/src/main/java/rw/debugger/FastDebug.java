@@ -34,7 +34,9 @@ public class FastDebug implements Activable {
 
         FileDocumentManager fileDocumentManager = FileDocumentManager.getInstance();
         VirtualFile virtualFile = new VirtualFileWrapper(event.getLocalPath()).getVirtualFile(false);
-        assert virtualFile != null;
+        if (virtualFile == null) {
+            return;
+        }
 
         Document document = fileDocumentManager.getDocument(virtualFile);
         assert document != null;

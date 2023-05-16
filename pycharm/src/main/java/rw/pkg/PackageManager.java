@@ -25,29 +25,12 @@ public class PackageManager {
     @NotNull
     protected final File currentVersionFile;
     protected final File launcherFile;
-    boolean installing;
-
-    String builtinVersion;
-
-    String pythonFilesRoot = "META-INF/python_files/";
-
     @VisibleForTesting
     public FileSystem fs;
+    boolean installing;
+    String builtinVersion;
+    String pythonFilesRoot = "META-INF/python_files/";
     Machine machine;
-
-    public static class Listener {
-        public void started() {
-        }
-
-        public void success() {
-        }
-
-        public void fail(Exception exception) {
-        }
-
-        public void cancelled() {
-        }
-    }
 
     public PackageManager() {
         this(NativeFileSystem.get(), new NativeMachine());
@@ -163,5 +146,19 @@ public class PackageManager {
 
     public FileSystem getFs() {
         return this.fs;
+    }
+
+    public static class Listener {
+        public void started() {
+        }
+
+        public void success() {
+        }
+
+        public void fail(Exception exception) {
+        }
+
+        public void cancelled() {
+        }
     }
 }

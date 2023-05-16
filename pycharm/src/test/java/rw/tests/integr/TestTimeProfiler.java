@@ -9,14 +9,13 @@ import rw.profile.TimeProfiler;
 import rw.quickconfig.QuickConfig;
 import rw.quickconfig.QuickConfigCallback;
 import rw.quickconfig.QuickConfigState;
-import rw.tests.BaseMockedTestCase;
+import rw.tests.BaseTestCase;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class TestTimeProfiler extends BaseMockedTestCase {
+public class TestTimeProfiler extends BaseTestCase {
     TimeProfiler profiler;
 
     @BeforeEach

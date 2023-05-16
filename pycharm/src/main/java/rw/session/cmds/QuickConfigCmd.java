@@ -9,6 +9,7 @@ public class QuickConfigCmd extends Cmd {
     public QuickConfigCmd(QuickConfigState content) {
         this.content = content;
     }
+
     public String getId() {
         return this.ID;
     }

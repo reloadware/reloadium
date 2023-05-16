@@ -1,7 +1,7 @@
 <idea-plugin xmlns:xi="http://www.w3.org/1999/XSL/Transform">
     <id>org.reloadium</id>
     <name>Reloadium - ChatGPT, Hot Reloading and Profiling for Python</name>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <idea-version since-build="223"/>
     <vendor email="damian@reloadware.com" url="reloadium.io">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
@@ -31,6 +31,70 @@
 
     <change-notes><![CDATA[
     
+        <h3>1.1.1</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>AI:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Add change context button</li>
+                            <li>Resizable code viewer</li>
+                            <li>High contrast mode improvements</li>
+                            <li>Sources to replies in square bracket notation</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Hyperlinks not working in markdown</li>
+                            <li>Code viewer not persisting extensions</li>
+                            <li>Wrong lines for method context</li>
+                        </ul>
+                    
+                </div>
+                <h4>PyCharm:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Set caret position to error location</li>
+                            <li>Dictionary runtime completion improvements</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Jitters when typing</li>
+                            <li>Multiple runtime completion markers in the gutter issues</li>
+                            <li>Runtime completion indicator not working for remote interpreters</li>
+                        </ul>
+                    
+                </div>
+                <h4>Miscellaneous:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Removed:</b>
+                        <ul>
+                            <li>3.7 support</li>
+                        </ul>
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Reloading non suspended frames (in debug mode)</li>
+                            <li>Pytest speedups</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Mementos crashing for non async functions in async context</li>
+                            <li>Not profiling when using freezegun</li>
+                            <li>Stripping docstrings in Python 3.11</li>
+                            <li>Infinite recursion issue for big projects</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>1.1.0</h3>
             <div style="padding-left: 20px;">
             
@@ -1050,6 +1114,7 @@
                                 implementationClass="rw.completion.FromImportCompletionContributor"/>
         <codeInsight.lineMarkerProvider language="Python"
                                         implementationClass="rw.completion.CompletableFunctionsLineMarker"/>
+        <notificationGroup id="reloadium" displayType="BALLOON"/>
     </extensions>
 
     <actions>
@@ -1114,8 +1179,8 @@
 
         <action id="ManualReload"
                 class="rw.action.ManualReload"
-                text="Reload File"
-                description="Reload File"
+                text="Hot Reload File"
+                description="Hot Reload File"
                 icon="rw.icons.Icons.Update">
             <add-to-group group-id="ToolbarRunGroup" anchor="first"/>
             <add-to-group group-id="RunContextGroup" anchor="last"/>
@@ -1159,4 +1224,5 @@
     </actions>
 
     <xi:include href="ai.xml"/>
+    <xi:include href="depot.xml"/>
 </idea-plugin>

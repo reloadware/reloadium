@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Gravit.io -->
+
+<svg
+   style="isolation:isolate"
+   viewBox="0 0 15 15"
+   width="20"
+   height="20"
+   version="1.1"
+   id="svg15"
+   sodipodi:docname="productMedium.svg"
+   inkscape:version="1.1.2 (1:1.1+202202050950+0a00cf5339)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview17"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="pt"
+     showgrid="false"
+     units="px"
+     viewbox-width="24.0024"
+     inkscape:zoom="21.773043"
+     inkscape:cx="3.2838772"
+     inkscape:cy="12.377691"
+     inkscape:window-width="2084"
+     inkscape:window-height="2014"
+     inkscape:window-x="1752"
+     inkscape:window-y="144"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg15"
+     scale-x="16.1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     showborder="true"
+     lock-margins="false" />
+  <defs
+     id="defs5">
+    <clipPath
+       id="_clipPath_2DjBwKfnqYfgY3i8bpL6YLHQhvIHsUX6">
+      <rect
+         width="240"
+         height="240"
+         id="rect2"
+         x="0"
+         y="0" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#_clipPath_2DjBwKfnqYfgY3i8bpL6YLHQhvIHsUX6)"
+     id="g13"
+     transform="scale(0.0625)">
+    <rect
+       x="3.75"
+       y="3.75"
+       width="232.5"
+       height="232.5"
+       fill="#ff7200"
+       id="rect7" />
+    <path
+       d="M 29.612,175.954 V 61.488 h 49.719 v 0 q 16.307,0 24.46,3.037 v 0 0 q 8.953,3.358 13.909,11.671 v 0 0 q 4.476,7.673 4.476,16.946 v 0 0 q 0,17.106 -13.429,25.419 v 0 0 q -4.636,2.878 -10.551,4.476 v 0 0 q -2.079,0.64 -4.317,0.96 v 0 0 q -0.959,0.16 -1.758,0.319 v 0 0 q -0.64,0.16 -1.279,0.16 v 0 0.32 0 q 2.877,1.439 4.476,2.558 v 0 0 q 2.718,1.599 5.276,3.997 v 0 0 q 6.235,5.755 13.748,17.585 v 0 l 17.106,27.018 h -23.021 l -15.987,-24.3 v 0 Q 81.25,134.708 76.134,130.711 v 0 0 q -5.276,-4.156 -16.147,-4.156 v 0 H 48.476 v 49.399 z M 48.476,77.635 v 33.412 h 25.42 v 0 q 6.234,0 9.911,-0.32 v 0 0 q 5.596,-0.479 9.273,-2.078 v 0 0 q 9.592,-3.677 9.592,-14.388 v 0 0 q 0,-10.871 -9.912,-14.548 v 0 0 q -3.677,-1.439 -8.633,-1.759 v 0 0 q -1.918,-0.16 -4.316,-0.319 v 0 z m 162.907,61.869 h -58.512 v 0 q 0.32,10.871 6.075,17.586 v 0 0 q 5.755,6.874 15.667,6.874 v 0 0 q 8.154,0 13.109,-5.276 v 0 0 q 1.759,-2.078 3.198,-4.796 v 0 0 q 0.959,-1.918 1.758,-4.476 v 0 l 17.906,2.718 v 0 q -7.674,25.739 -36.45,25.739 v 0 0 q -21.583,0 -31.814,-15.028 v 0 0 q -7.674,-11.191 -7.674,-27.817 v 0 0 q 0,-17.906 8.793,-29.896 v 0 0 Q 153.67,91.223 172.695,91.223 v 0 0 q 19.824,0 29.895,13.749 v 0 0 q 9.273,12.79 8.793,34.532 z m -58.512,-12.63 h 40.287 v 0 q -0.16,-3.517 -0.959,-6.554 v 0 0 q -1.119,-3.997 -2.878,-7.035 v 0 0 q -5.116,-8.153 -15.987,-8.153 v 0 0 q -11.191,0 -16.626,9.432 v 0 0 q -1.919,3.358 -3.038,7.354 v 0 0 q -0.319,1.439 -0.479,3.038 v 0 l -0.16,1.119 z"
+       fill-rule="evenodd"
+       fill="#ffffff"
+       id="path9" />
+    <path
+       d="M 0,0 H 240 V 240 H 0 Z m 7.5,7.5 h 225 v 225 H 7.5 Z"
+       fill-rule="evenodd"
+       fill="#ffffff"
+       id="path11" />
+  </g>
+</svg>

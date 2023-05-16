@@ -261,5 +261,5 @@ public class Inferno {
             new Color(0.976511f, 0.989753f, 0.616760f),
             new Color(0.982257f, 0.994109f, 0.631017f),
             new Color(0.988362f, 0.998364f, 0.644924f)
-            );
+    );
 }

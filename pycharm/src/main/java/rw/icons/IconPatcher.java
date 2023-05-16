@@ -21,7 +21,7 @@ import java.util.List;
 public class IconPatcher implements FileIconPatcher, DumbAware {
     static public Icon getIcon(Project project, VirtualFile file, Icon baseIcon) {
         PreferencesState preferences = Preferences.getInstance().getState();
-        if(!preferences.markReloadable) {
+        if (!preferences.markReloadable) {
             return baseIcon;
         }
 
@@ -34,9 +34,8 @@ public class IconPatcher implements FileIconPatcher, DumbAware {
             Icon reloadableIcon;
 
             if (file.isDirectory()) {
-                 reloadableIcon = Icons.ReloadableDir;
-            }
-            else {
+                reloadableIcon = Icons.ReloadableDir;
+            } else {
                 reloadableIcon = Icons.ReloadableFile;
             }
 

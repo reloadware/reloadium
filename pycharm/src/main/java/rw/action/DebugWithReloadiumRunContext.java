@@ -19,6 +19,7 @@ public class DebugWithReloadiumRunContext extends ContextPopupAction {
     void setRunningIcon(AnActionEvent e) {
         e.getPresentation().setIcon(Icons.Debug);
     }
+
     @Override
     void setNotRunningIcon(AnActionEvent e) {
         e.getPresentation().setIcon(Icons.Debug);

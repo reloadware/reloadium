@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ParameterResolver
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.lang.IllegalStateException
 import java.lang.reflect.Method
 import javax.imageio.ImageIO
 

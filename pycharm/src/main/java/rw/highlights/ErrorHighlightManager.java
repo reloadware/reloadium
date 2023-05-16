@@ -27,7 +27,7 @@ public class ErrorHighlightManager implements Activable {
             this.all.put(file, new ArrayList<>());
         }
 
-        if (line < 0){
+        if (line < 0) {
             return;
         }
 

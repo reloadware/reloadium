@@ -26,12 +26,15 @@ public class QuickConfigState {
     public ProfilerType getProfiler() {
         return this.profiler;
     }
+
     public Boolean getFrameScope() {
         return this.frameScope;
     }
+
     public Boolean getAlwaysCollectMemory() {
         return this.alwaysCollectMemory;
     }
+
     public CumulateType getComulateType() {
         return this.cumulateType;
     }

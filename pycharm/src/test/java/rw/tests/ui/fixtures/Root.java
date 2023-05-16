@@ -10,7 +10,6 @@ import rw.tests.utils.MiscUtils;
 import java.time.Duration;
 
 import static com.intellij.remoterobot.search.locators.Locators.byXpath;
-import static com.intellij.remoterobot.utils.RepeatUtilsKt.waitFor;
 import static java.time.Duration.ofSeconds;
 
 @FixtureName(name = "Root")

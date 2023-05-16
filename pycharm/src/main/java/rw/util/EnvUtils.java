@@ -4,8 +4,7 @@ public class EnvUtils {
     public static String boolToEnv(boolean value) {
         if (value) {
             return "True";
-        }
-        else {
+        } else {
             return "False";
         }
     }

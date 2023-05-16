@@ -21,7 +21,7 @@ public class FileAttributes {
 
         } catch (InvocationTargetException e) {
             RemoteUtils.checkSftpException(e);
-        } catch (IllegalAccessException |  NoSuchMethodException e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             RwSentry.get().captureException(e, true);
         }
         throw new RuntimeException("Could not get size");

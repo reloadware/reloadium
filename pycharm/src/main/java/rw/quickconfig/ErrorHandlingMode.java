@@ -6,7 +6,7 @@ public enum ErrorHandlingMode {
     @SerializedName("BreakpointPresent")
     BREAKPOINT_PRESENT("Breakpoint Present"),
     @SerializedName("Always")
-    ALWAYS( "Always");
+    ALWAYS("Always");
 
     public static final ErrorHandlingMode DEFAULT = ALWAYS;
 
@@ -21,6 +21,6 @@ public enum ErrorHandlingMode {
     }
 
     public String toString() {
-       return this.value;
+        return this.value;
     }
 }

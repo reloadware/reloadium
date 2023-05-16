@@ -46,8 +46,7 @@ public class MiscUtils {
             assert process.exitValue() == 0;
         } catch (AssertionError e) {
             throw new RuntimeException("Command Failed");
-        }
-        finally {
+        } finally {
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
             BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
@@ -76,7 +75,7 @@ public class MiscUtils {
     public static void assertInstalled(PackageManager packageManager, String version) throws Exception {
         assertThat(packageManager.getFs().getPackagesRootDir().exists()).isTrue();
 
-        for (BaseWheel wheel: packageManager.getWheels()) {
+        for (BaseWheel wheel : packageManager.getWheels()) {
             assertThat(wheel.getVersion().equals(version));
             File pythonVersionDir = new File(packageManager.getFs().getPackagesRootDir(), wheel.getDstDirName());
             File packageDir = new File(String.valueOf(pythonVersionDir), Const.get().packageName);

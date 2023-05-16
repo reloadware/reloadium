@@ -11,14 +11,12 @@ import java.awt.*;
 
 public class FrameDropped extends FileEvent {
     public static final String ID = "FrameDropped";
-
+    private static final Logger LOGGER = Logger.getInstance(ModuleUpdate.class);
     @SerializedName("to_line")
     private Integer toLine;
-
     @SerializedName("from_line")
     private Integer fromLine;
 
-    private static final Logger LOGGER = Logger.getInstance(ModuleUpdate.class);
     @Override
     public void handle() {
         super.handle();
@@ -30,7 +28,7 @@ public class FrameDropped extends FileEvent {
 
         Blink blink = new Blink(this.handler.getProject(), this.getLocalPath(), this.fromLine,
                 this.toLine,
-                    BLINK_COLOR, -2, state.blinkDuration);
-            Blinker.get().blink(blink);
+                BLINK_COLOR, -2, state.blinkDuration);
+        Blinker.get().blink(blink);
     }
 }

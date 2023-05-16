@@ -10,10 +10,8 @@ import java.awt.*;
 import java.util.List;
 
 public class ModuleUpdate extends FileEvent {
-    private static final Logger LOGGER = Logger.getInstance(ModuleUpdate.class);
-
     public static final String ID = "ModuleUpdate";
-
+    private static final Logger LOGGER = Logger.getInstance(ModuleUpdate.class);
     public List<Action> actions;
 
     @Override
@@ -34,8 +32,8 @@ public class ModuleUpdate extends FileEvent {
 
             if (a.shouldBlink()) {
                 Blink blink = new Blink(this.handler.getProject(), this.getLocalPath(), a.getLineStart(), a.getLineEnd(),
-                    BLINK_COLOR, -2, state.blinkDuration);
-            Blinker.get().blink(blink);
+                        BLINK_COLOR, -2, state.blinkDuration);
+                Blinker.get().blink(blink);
             }
         }
     }

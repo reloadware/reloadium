@@ -18,6 +18,7 @@ public class NoneProfiler extends LineProfiler {
 
     public void onLineProfileEvent(LineProfile event) {
     }
+
     public void activate() {
     }
 }

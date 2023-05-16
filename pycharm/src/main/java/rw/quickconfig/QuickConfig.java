@@ -17,6 +17,7 @@ import java.util.Map;
 
 
 public class QuickConfig {
+    QuickConfigCallback onQuickConfigChange;
     private JComboBox<String> profiler;
     private JPanel main;
     private JCheckBox frameScope;
@@ -29,11 +30,10 @@ public class QuickConfig {
     private JLabel setErrorHandlingModeAsDefault;
     private JCheckBox alwaysCollectMemory;
     private JLabel setAlwaysCollectMemoryAsDefault;
-    QuickConfigCallback onQuickConfigChange;
 
     public QuickConfig(QuickConfigCallback onQuickConfigChange) {
         this.onQuickConfigChange = onQuickConfigChange;
-        if(ApplicationManager.getApplication().isUnitTestMode()) {
+        if (ApplicationManager.getApplication().isUnitTestMode()) {
             this.createUIComponents();
         }
     }

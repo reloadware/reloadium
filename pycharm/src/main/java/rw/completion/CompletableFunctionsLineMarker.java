@@ -1,13 +1,18 @@
 package rw.completion;
 
-import com.intellij.codeInsight.daemon.*;
+import com.intellij.codeInsight.daemon.GutterName;
+import com.intellij.codeInsight.daemon.LineMarkerInfo;
+import com.intellij.codeInsight.daemon.LineMarkerProviderDescriptor;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.markup.GutterIconRenderer;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
-import com.jetbrains.python.debugger.*;
+import com.jetbrains.python.debugger.PyDebugProcess;
+import com.jetbrains.python.debugger.PySourcePosition;
+import com.jetbrains.python.debugger.PyStackFrameInfo;
+import com.jetbrains.python.debugger.PyThreadInfo;
 import com.jetbrains.python.psi.PyFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +23,6 @@ import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 
 class FramePosition {
@@ -85,7 +89,7 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
             }
         }
 
-        Set<String> markedFrames = new HashSet<>();
+        Set<PySourcePosition> markedPositions = new HashSet<>();
 
         for (PsiElement element : elements) {
             if (!(element instanceof PyFunction)) {
@@ -99,7 +103,7 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
                 continue;
             }
 
-            String path = file.getPath();
+            String path = handler.convertPathToRemote(file.getPath(), false);
 
             PsiElement identifier = ((PyFunction) element).getIdentifyingElement();
             if (identifier == null) {
@@ -123,7 +127,7 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
                 if (!element.getTextRange().contains(startOffset + 1)) {
                     continue;
                 }
-                if (markedFrames.contains(p.name)) {
+                if (markedPositions.contains(p.position)) {
                     continue;
                 }
 
@@ -131,7 +135,7 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
                         null, GutterIconRenderer.Alignment.LEFT, () -> "");
 
                 result.add(marker);
-                markedFrames.add(p.name);
+                markedPositions.add(p.position);
             }
         }
 

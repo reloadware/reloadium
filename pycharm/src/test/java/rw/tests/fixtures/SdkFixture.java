@@ -40,6 +40,7 @@ public class SdkFixture {
     public Sdk getSdk() {
         return this.sdk;
     }
+
     public File getSdkHome() {
         return this.sdkHome;
     }

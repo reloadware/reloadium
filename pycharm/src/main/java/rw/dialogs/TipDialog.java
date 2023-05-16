@@ -4,7 +4,6 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.ui.DoNotAskOption;
 import com.intellij.openapi.util.NlsContexts;
 import com.intellij.ui.UIBundle;
 import com.intellij.ui.components.JBLabel;
@@ -26,7 +25,7 @@ public abstract class TipDialog extends DialogWrapper {
     String description;
     String title;
     Icon image;
-    
+
     public TipDialog(@Nullable Project project, String title, String description, Icon image,
                      boolean showTerms) {
         super(project, false);
@@ -73,7 +72,23 @@ public abstract class TipDialog extends DialogWrapper {
         init();
     }
 
+    private static JBFont getDefaultTextFont() {
+        return JBFont.label().lessOn(1);
+    }
+
+    private static void addEmptyLine(Box box) {
+        box.add(Box.createVerticalStrut(18));
+    }
+
+    private static JLabel label(@NlsContexts.Label String text, JBFont font) {
+        JBLabel label = new JBLabel(text).withFont(font);
+        label.setCopyable(true);
+        label.setAllowAutoWrapping(true);
+        return label;
+    }
+
     abstract protected void onSetToBeShown(boolean value, int exitCode);
+
     abstract protected boolean shouldBeShown();
 
     @Override
@@ -94,7 +109,7 @@ public abstract class TipDialog extends DialogWrapper {
 
     @Override
     public void show() {
-        if(!this.shouldBeShown()) {
+        if (!this.shouldBeShown()) {
             return;
         }
         super.show();
@@ -120,20 +135,5 @@ public abstract class TipDialog extends DialogWrapper {
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(super.createSouthPanel(), BorderLayout.CENTER);
         return panel;
-    }
-
-    private static JBFont getDefaultTextFont() {
-        return JBFont.label().lessOn(1);
-    }
-
-    private static void addEmptyLine(Box box) {
-        box.add(Box.createVerticalStrut(18));
-    }
-
-    private static JLabel label(@NlsContexts.Label String text, JBFont font) {
-        JBLabel label = new JBLabel(text).withFont(font);
-        label.setCopyable(true);
-        label.setAllowAutoWrapping(true);
-        return label;
     }
 }

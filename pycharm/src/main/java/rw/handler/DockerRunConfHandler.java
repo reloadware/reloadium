@@ -1,7 +1,6 @@
 package rw.handler;
 
 import com.intellij.execution.configurations.RunConfiguration;
-import com.intellij.execution.ui.RunContentDescriptor;
 import rw.action.RunType;
 
 
@@ -15,6 +14,6 @@ public class DockerRunConfHandler extends RemoteRunConfHandler {
     @Override
     public void beforeRun(RunType runType) {
         super.beforeRun(runType);
-        this.runConf.getEnvs().put(this.DOCKER_ENV,  "True");
+        this.runConf.getEnvs().put(this.DOCKER_ENV, "True");
     }
 }

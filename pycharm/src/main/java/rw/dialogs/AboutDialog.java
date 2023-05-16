@@ -12,7 +12,8 @@ import rw.consts.Const;
 import rw.service.Service;
 
 import javax.swing.*;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Locale;
 
 import static rw.icons.Icons.AboutLogo;
 
@@ -26,6 +27,21 @@ public class AboutDialog extends DialogWrapper {
         setTitle(String.format("About %s", StringUtil.capitalize(Const.get().packageName)));
 
         init();
+    }
+
+    private static JBFont getDefaultTextFont() {
+        return JBFont.label().lessOn(1);
+    }
+
+    private static void addEmptyLine(Box box) {
+        box.add(Box.createVerticalStrut(18));
+    }
+
+    private static JLabel label(@NlsContexts.Label String text, JBFont font) {
+        JBLabel label = new JBLabel(text).withFont(font);
+        label.setCopyable(true);
+        label.setAllowAutoWrapping(true);
+        return label;
     }
 
     @Override
@@ -62,20 +78,5 @@ public class AboutDialog extends DialogWrapper {
         addEmptyLine(box);
 
         return box;
-    }
-
-    private static JBFont getDefaultTextFont() {
-        return JBFont.label().lessOn(1);
-    }
-
-    private static void addEmptyLine(Box box) {
-        box.add(Box.createVerticalStrut(18));
-    }
-
-    private static JLabel label(@NlsContexts.Label String text, JBFont font) {
-        JBLabel label = new JBLabel(text).withFont(font);
-        label.setCopyable(true);
-        label.setAllowAutoWrapping(true);
-        return label;
     }
 }

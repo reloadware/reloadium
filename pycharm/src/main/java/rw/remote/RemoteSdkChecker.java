@@ -12,29 +12,27 @@ import com.jetbrains.python.run.PythonInterpreterTargetEnvironmentFactory;
 import com.jetbrains.python.run.target.HelpersAwareTargetEnvironmentRequest;
 import com.jetbrains.python.sdk.PythonSdkType;
 import org.jetbrains.annotations.Nullable;
-import rw.action.FastDebugWithReloadium;
-import rw.audit.RwSentry;
 import rw.pkg.PackageManager;
 import rw.remote.sftp.SFTPClient;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RemoteSdkChecker {
-    private Map<Sdk, Integer> sdkTries;
     private static final Logger LOGGER = Logger.getInstance(RemoteSdkChecker.class);
+    boolean checking;
+    private Map<Sdk, Integer> sdkTries;
 
     public RemoteSdkChecker() {
         this.sdkTries = new HashMap<>();
         this.checking = false;
     }
 
-    boolean checking;
-
     public void check() {
-        if(this.checking) {
+        if (this.checking) {
             return;
         }
 
@@ -57,7 +55,7 @@ public class RemoteSdkChecker {
             return;
         }
 
-        if(this.sdkTries.getOrDefault(sdk, 0) >= 3) {
+        if (this.sdkTries.getOrDefault(sdk, 0) >= 3) {
             return;
         }
 
@@ -65,7 +63,7 @@ public class RemoteSdkChecker {
 
         try {
             HelpersAwareTargetEnvironmentRequest helpersAwareTargetRequest =
-                PythonInterpreterTargetEnvironmentFactory.findPythonTargetInterpreter(sdk, project);
+                    PythonInterpreterTargetEnvironmentFactory.findPythonTargetInterpreter(sdk, project);
             TargetEnvironment targetEnvironment;
             try {
                 targetEnvironment = helpersAwareTargetRequest.getTargetEnvironmentRequest().prepareEnvironment(TargetProgressIndicator.EMPTY);
@@ -96,7 +94,8 @@ public class RemoteSdkChecker {
                     }
 
                     @Override
-                    public void success() {}
+                    public void success() {
+                    }
 
                     @Override
                     public void fail(Exception exception) {
@@ -109,8 +108,7 @@ public class RemoteSdkChecker {
                     }
                 }, false);
             }
-        }
-        catch (Exception ignored) {
+        } catch (Exception ignored) {
         }
     }
 

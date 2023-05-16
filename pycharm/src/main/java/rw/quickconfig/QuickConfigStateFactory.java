@@ -11,6 +11,6 @@ public class QuickConfigStateFactory {
                 preferences.defaultFrameScope, preferences.defaultCumulateType,
                 preferences.defaultErrorHandlingMode,
                 preferences.alwaysCollectMemory);
-       return state;
+        return state;
     }
 }

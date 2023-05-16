@@ -3,9 +3,6 @@ package rw.handler;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.process.BaseProcessHandler;
 import com.intellij.execution.ui.RunContentDescriptor;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.ui.Messages;
-import org.jetbrains.annotations.NotNull;
 import rw.audit.RwSentry;
 
 import java.lang.reflect.Method;
@@ -26,7 +23,7 @@ public class SshRunConfHandler extends RemoteRunConfHandler {
             Method addRemoteTunnel = process.getClass().getMethod("addRemoteTunnel", int.class, String.class, int.class);
             Method getSession = process.getClass().getMethod("getSession");
 
-            Object session  = getSession.invoke(process);
+            Object session = getSession.invoke(process);
             Method getHost = session.getClass().getMethod("getHost");
 
             String host = (String) getHost.invoke(session);

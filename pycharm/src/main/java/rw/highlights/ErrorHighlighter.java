@@ -1,17 +1,16 @@
 package rw.highlights;
 
-import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.editor.*;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.fileEditor.FileEditor;
-import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Disposer;
+import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
+import org.apache.commons.lang.StringUtils;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,20 +44,29 @@ public class ErrorHighlighter {
         assert file != null;
         Document document = ReadAction.compute(() -> FileDocumentManager.getInstance().getDocument(file));
 
-        for (Editor e : EditorFactory.getInstance().getEditors(document)) {
-            InlayModel inlayModel = e.getInlayModel();
+        int line = this.line - 1;
+        int startOffset = document.getLineStartOffset(line);
+        int endOffset = document.getLineEndOffset(line);
+        String lineContent = document.getText(new TextRange(startOffset, endOffset));
+        int lineStartOffset = StringUtils.indexOf(lineContent, StringUtils.stripStart(lineContent, null));
 
-            int line = this.line-1;
+        ApplicationManager.getApplication().invokeLater(() -> {
+            for (Editor e : EditorFactory.getInstance().getEditors(document)) {
+                InlayModel inlayModel = e.getInlayModel();
 
-            ApplicationManager.getApplication().invokeLater(() -> {
                 ErrorRenderer renderer = new ErrorRenderer(e, this.msg);
-                e.getCaretModel().moveToLogicalPosition(new LogicalPosition(line, 0));
-                e.getScrollingModel().scrollToCaret(ScrollType.CENTER);
                 int offset = e.logicalPositionToOffset(new LogicalPosition(line, 0));
                 Inlay<ErrorRenderer> inlay = inlayModel.addBlockElement(offset, true, false, 100, renderer);
                 this.inlays.add(inlay);
-            });
-        }
+
+                Timer timer = new Timer(500, t -> {
+                    e.getCaretModel().moveToLogicalPosition(new LogicalPosition(line, lineStartOffset));
+                    e.getScrollingModel().scrollToCaret(ScrollType.CENTER);
+                });
+                timer.setRepeats(false); // execute the task only once
+                timer.start();
+            }
+        });
     }
 
     public void hide() {

@@ -13,20 +13,20 @@ import rw.icons.Icons;
 
 
 public class RerunDebugWithReloadium extends WithReloaderBase {
+    private static final Logger LOGGER = Logger.getInstance(RerunDebugWithReloadium.class);
     public static String ID = "RerunDebugWithReloadium";
 
-    private static final Logger LOGGER = Logger.getInstance(RerunDebugWithReloadium.class);
-
-        RerunDebugWithReloadium() {
+    RerunDebugWithReloadium() {
         super();
         this.runType = RunType.DEBUG;
     }
+
     @Override
     @Nullable
     protected RunnerAndConfigurationSettings getConfiguration(@NotNull AnActionEvent e) {
         ExecutionEnvironment environment = e.getData(DataKeys.EXECUTION_ENVIRONMENT);
 
-        if(environment==null) {
+        if (environment == null) {
             return null;
         }
 
@@ -38,6 +38,7 @@ public class RerunDebugWithReloadium extends WithReloaderBase {
     void setRunningIcon(AnActionEvent e) {
         e.getPresentation().setIcon(Icons.RestartDebugger);
     }
+
     void setNotRunningIcon(AnActionEvent e) {
         e.getPresentation().setIcon(Icons.Debug);
     }

@@ -14,6 +14,10 @@ import rw.dialogs.AboutDialog;
 public class About extends AnAction implements DumbAware, LightEditCompatible {
     public static String ID = "ReloadiumAbout";
 
+    public static void perform(@Nullable Project project) {
+        new AboutDialog(project).show();
+    }
+
     @Override
     public void update(@NotNull AnActionEvent e) {
         e.getPresentation().setEnabled(true);
@@ -23,9 +27,5 @@ public class About extends AnAction implements DumbAware, LightEditCompatible {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         perform(e.getData(CommonDataKeys.PROJECT));
-    }
-
-    public static void perform(@Nullable Project project) {
-        new AboutDialog(project).show();
     }
 }

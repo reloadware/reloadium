@@ -6,17 +6,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import rw.profile.MemoryProfiler;
-import rw.profile.TimeProfiler;
 import rw.quickconfig.QuickConfig;
 import rw.quickconfig.QuickConfigCallback;
 import rw.quickconfig.QuickConfigState;
-import rw.tests.BaseMockedTestCase;
+import rw.tests.BaseTestCase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class TestMemoryProfiler extends BaseMockedTestCase {
+public class TestMemoryProfiler extends BaseTestCase {
     MemoryProfiler profiler;
 
     @BeforeEach

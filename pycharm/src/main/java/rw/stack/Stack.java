@@ -42,7 +42,7 @@ public class Stack {
             this.threads.putIfAbsent(threadId, new Thread(threadId));
 
             Frame backFrame = null;
-            for (FrameData f: reverseFrames) {
+            for (FrameData f : reverseFrames) {
                 Frame frame = this.frameIdToFrame.getOrDefault(f.getFrameId(),
                         new Frame(f.getFrameId(),
                                 f.getLocalPath(),
@@ -75,7 +75,7 @@ public class Stack {
     public List<Frame> getAllFrames() {
         List<Frame> ret = new ArrayList<>();
 
-        for (List<Frame> frames: this.content.values()) {
+        for (List<Frame> frames : this.content.values()) {
             ret.addAll(frames);
         }
 
