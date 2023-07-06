@@ -37,6 +37,10 @@ public class ManualReload extends AnAction implements DumbAware {
 
                 VirtualFile file = FileDocumentManager.getInstance().getFile(d);
 
+                if(file == null) {
+                    continue;
+                }
+
                 handlers.forEach(h -> {
                     ReloadFile cmd = new ReloadFile(h.convertPathToRemote(file.getPath(), true), d.getText());
                     h.getSession().send(cmd);

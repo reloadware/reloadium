@@ -2,6 +2,51 @@ Change Log
 ##########
 
 
+1.2.0
+-------
+
+**PyCharm**:
+    
+  Added:
+    * Files with breakpoints are reloadable
+    * Processing files progress
+    * Uploading reloadium package to remote interpreters improvements
+    * Current File run configuration support
+    * Only scroll to error if not visible
+    
+  Fixed:
+    * Persisting current line indicators
+    * Not switching thread errors
+    * Not updating debugger after frame reload
+    * Function local completion not working in remote development
+    * Syntax errors not clearing
+    
+**Miscellaneous**:
+    
+  Added:
+    * Ignore special functions like __getattr__, __repr__ from handling exceptions (Unless with a breakpoint)
+    * Exception handling speed improvements
+    * Drop frame improvements
+    * Function mementos when stepping into
+    * Debug logging when RW_DEBUG=True
+    * Frame reloading closures
+    * Handling errors in closures
+    * Profile child frames when stepping
+    * Better asyncio support
+    
+  Fixed:
+    * Breakpoint always hit on functions last lines
+    * Not handling errors during stepping when wrapped in try from outside
+    * Jittery stepping into
+    * Not breaking in closures
+    * Closure parent function not restarting
+    * Running with reloadium results in normal run when started too quickly.
+    * Encoding issues
+    * Circular import dependency issues for bigger projects
+    
+  Removed:
+    * Drop frame support for python <= 3.9
+    
 1.1.1
 -------
 

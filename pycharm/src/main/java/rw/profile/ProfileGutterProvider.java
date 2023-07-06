@@ -10,6 +10,7 @@ import com.intellij.openapi.editor.colors.EditorFontType;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.NlsContexts;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.xdebugger.XDebuggerManager;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
 import org.jetbrains.annotations.Nullable;
@@ -17,21 +18,20 @@ import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
 
 import java.awt.*;
-import java.io.File;
 import java.util.List;
 
 public class ProfileGutterProvider implements TextAnnotationGutterProvider {
     boolean selected;
 
     Editor editor;
-    File path;
+    VirtualFile file;
     Long maxValue;
     Long minValue;
 
     ProfileGutterProvider(Editor editor) {
         this.selected = false;
         this.editor = editor;
-        this.path = ((EditorImpl) editor).getVirtualFile().toNioPath().toFile();
+        this.file = ((EditorImpl) editor).getVirtualFile();
 
         this.maxValue = 0L;
         this.minValue = Long.MAX_VALUE;
@@ -69,7 +69,7 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
             return null;
         }
 
-        Long ret = lineProfiler.getValue(this.path, line, this.editor);
+        Long ret = lineProfiler.getValue(this.file, line, this.editor);
         return ret;
     }
 
@@ -98,7 +98,7 @@ public class ProfileGutterProvider implements TextAnnotationGutterProvider {
             return null;
         }
 
-        Color color = lineProfiler.getLineColor(this.path, line, editor);
+        Color color = lineProfiler.getLineColor(this.file, line, editor);
 
         if (color == null) {
             return null;

@@ -46,8 +46,8 @@ public class Service implements Disposable {
         JobScheduler.getScheduler().scheduleWithFixedDelay(this::checkIfStillGood, 2,
                 10, TimeUnit.MINUTES);
 
-        JobScheduler.getScheduler().scheduleWithFixedDelay(this.remoteSdkChecker::check, 10,
-                30, TimeUnit.SECONDS);
+        JobScheduler.getScheduler().scheduleWithFixedDelay(this.remoteSdkChecker::check, 30,
+                60, TimeUnit.SECONDS);
     }
 
     private void validateOsType() {

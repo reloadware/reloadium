@@ -4,6 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import rw.tests.BaseTestCase;
+import rw.tests.fixtures.LinuxFixture;
+import rw.tests.fixtures.M1Fixture;
 import rw.tests.fixtures.PackageFixture;
 import rw.tests.utils.MiscUtils;
 
@@ -14,14 +16,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class TestBuiltinPackageManager extends BaseTestCase {
+    LinuxFixture linuxFixture;
+
     @BeforeEach
     protected void setUp() throws Exception {
         super.setUp();
 
+        this.linuxFixture = new LinuxFixture();
+        this.linuxFixture.start();
     }
 
     @AfterEach
     protected void tearDown() throws Exception {
+        this.linuxFixture.stop();
         super.tearDown();
     }
 

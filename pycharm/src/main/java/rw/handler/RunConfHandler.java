@@ -2,6 +2,8 @@ package rw.handler;
 
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.execution.Executor;
+import com.intellij.execution.RunManager;
+import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.ui.RunContentDescriptor;
@@ -46,7 +48,10 @@ import static java.util.Map.entry;
 public abstract class RunConfHandler implements Disposable {
     private final Logger logger;
 
+    AbstractPythonRunConfiguration<?> origRunConf;
     AbstractPythonRunConfiguration<?> runConf;
+    RunnerAndConfigurationSettings runnerSettings;
+
     ExecutionEnvironment executionEnvironment;
     Stack stack;
     FrameProgressRenderer frameProgressRenderer;
@@ -73,8 +78,16 @@ public abstract class RunConfHandler implements Disposable {
     public RunConfHandler(RunConfiguration runConf) {
         this.logger = Logger.getInstance(this.getClass());
 
-        this.runConf = (AbstractPythonRunConfiguration<?>) runConf;
-        this.project = this.runConf.getProject();
+        this.origRunConf = (AbstractPythonRunConfiguration<?>) runConf;
+        this.project = runConf.getProject();
+
+        this.runConf = (AbstractPythonRunConfiguration<?>) this.origRunConf.clone();
+
+        RunManager runManager = RunManager.getInstance(this.project);
+
+        this.runnerSettings = runManager.createConfiguration(this.runConf, origRunConf.getFactory());
+        this.runnerSettings.setTemporary(true);
+
 
         RunConfHandler This = this;
         this.quickConfig = new QuickConfig(new QuickConfigCallback() {
@@ -113,6 +126,9 @@ public abstract class RunConfHandler implements Disposable {
     public AbstractPythonRunConfiguration<?> getRunConf() {
         return this.runConf;
     }
+    public RunnerAndConfigurationSettings getRunnerSettings() {
+        return this.runnerSettings;
+    }
 
 
     public void setExtraEnvsSetter(ExtraEnvsSetter extraEnvsSetter) {
@@ -125,8 +141,6 @@ public abstract class RunConfHandler implements Disposable {
     public void onProcessStarted(RunContentDescriptor descriptor) {
         this.logger.info("On Process Started");
     }
-
-    abstract public void afterRun();
 
     abstract public boolean isReloadiumActivated();
 

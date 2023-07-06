@@ -2,6 +2,8 @@ package rw.profile;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.handler.Activable;
@@ -15,7 +17,7 @@ import java.util.Map;
 
 
 abstract public class LineProfiler implements Activable {
-    protected Map<File, FileValues> values;
+    protected Map<VirtualFile, FileValues> values;
     Project project;
     QuickConfig quickConfig;
     ProfilePreviewRenderer previewRenderer;
@@ -30,13 +32,13 @@ abstract public class LineProfiler implements Activable {
     public void onLineProfileEvent(LineProfile event) {
     }
 
-    public Map<File, FileValues> getFileTimings() {
+    public Map<VirtualFile, FileValues> getFileTimings() {
         return values;
     }
 
     @Nullable
-    public Color getLineColor(File path, int line, Editor editor) {
-        FileValues fileValues = this.values.get(path);
+    public Color getLineColor(@NotNull VirtualFile file, int line, Editor editor) {
+        FileValues fileValues = this.values.get(file);
         if (fileValues == null) {
             return null;
         }
@@ -46,8 +48,8 @@ abstract public class LineProfiler implements Activable {
     }
 
     @Nullable
-    public Long getValue(File path, int line, Editor editor) {
-        FileValues fileValues = this.values.get(path);
+    public Long getValue(@NotNull VirtualFile file, int line, Editor editor) {
+        FileValues fileValues = this.values.get(file);
         if (fileValues == null) {
             return null;
         }
@@ -56,16 +58,16 @@ abstract public class LineProfiler implements Activable {
         return ret;
     }
 
-    public void clearFile(File path) {
-        FileValues fileValues = this.values.get(path);
+    public void clearFile(@NotNull VirtualFile file) {
+        FileValues fileValues = this.values.get(file);
         if (fileValues == null) {
             return;
         }
         fileValues.clear();
     }
 
-    public void clearLines(File path, int start, int end) {
-        FileValues fileValues = this.values.get(path);
+    public void clearLines(@NotNull VirtualFile file, int start, int end) {
+        FileValues fileValues = this.values.get(file);
         if (fileValues == null) {
             return;
         }

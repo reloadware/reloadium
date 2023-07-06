@@ -1,6 +1,10 @@
 package rw.highlights;
 
+import com.google.api.VisibilityRule;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.handler.Activable;
 
@@ -12,7 +16,7 @@ import java.util.Map;
 
 
 public class ErrorHighlightManager implements Activable {
-    Map<File, List<ErrorHighlighter>> all;
+    Map<VirtualFile, List<ErrorHighlighter>> all;
 
     Project project;
 
@@ -22,53 +26,61 @@ public class ErrorHighlightManager implements Activable {
         this.project = project;
     }
 
-    public void add(File file, int line, String msg) {
-        if (!this.all.containsKey(file)) {
-            this.all.put(file, new ArrayList<>());
-        }
+    synchronized public void add(@NotNull VirtualFile file, int line, String msg) {
+        ApplicationManager.getApplication().invokeLater(() -> {
+            if (!this.all.containsKey(file)) {
+                this.all.put(file, new ArrayList<>());
+            }
 
-        if (line < 0) {
-            return;
-        }
+            if (line < 0) {
+                return;
+            }
 
-        ErrorHighlighter highlighter = new ErrorHighlighter(this.project, file, line, msg);
-        this.all.get(file).add(highlighter);
+            ErrorHighlighter highlighter = new ErrorHighlighter(this.project, file, line, msg);
+            this.all.get(file).add(highlighter);
 
-        highlighter.show();
+            highlighter.show();
+        });
     }
 
-    public void clearFile(File file) {
-        List<ErrorHighlighter> highlighters = this.all.get(file);
-        if (highlighters == null) {
-            return;
-        }
+    synchronized public void clearFile(@NotNull VirtualFile file) {
+        ApplicationManager.getApplication().invokeLater(() -> {
+            List<ErrorHighlighter> highlighters = this.all.get(file);
+            if (highlighters == null) {
+                return;
+            }
 
-        for (ErrorHighlighter h : highlighters) {
-            h.hide();
-        }
-        highlighters.clear();
+            for (ErrorHighlighter h : highlighters) {
+                h.hide();
+            }
+            highlighters.clear();
+        });
     }
 
-    public void clearAll() {
-        for (File f : this.all.keySet()) {
+    synchronized public void clearAll() {
+        for (VirtualFile f : this.all.keySet()) {
             this.clearFile(f);
         }
         this.all.clear();
     }
 
-    public void activate() {
-        for (List<ErrorHighlighter> hs : this.all.values()) {
-            for (ErrorHighlighter h : hs) {
-                h.show();
+    synchronized public void activate() {
+        ApplicationManager.getApplication().invokeLater(() -> {
+            for (List<ErrorHighlighter> hs : this.all.values()) {
+                for (ErrorHighlighter h : hs) {
+                    h.show();
+                }
             }
-        }
+        });
     }
 
-    public void deactivate() {
-        for (List<ErrorHighlighter> hs : this.all.values()) {
-            for (ErrorHighlighter h : hs) {
-                h.hide();
+    synchronized public void deactivate() {
+        ApplicationManager.getApplication().invokeLater(() -> {
+            for (List<ErrorHighlighter> hs : this.all.values()) {
+                for (ErrorHighlighter h : hs) {
+                    h.hide();
+                }
             }
-        }
+        });
     }
 }

@@ -12,6 +12,8 @@ public class ProjectState {
     public List<String> reloadiumIgnore;
     public boolean watchCwd;
     public boolean watchSourceRoots;
+    public boolean watchFilesWithBreakpoints;
+    public boolean watchOpenFiles;
     public boolean printLogo;
     public boolean cache;
     public boolean verbose;
@@ -21,6 +23,8 @@ public class ProjectState {
         this.reloadiumIgnore = new ArrayList<String>();
         this.watchCwd = true;
         this.watchSourceRoots = true;
+        this.watchOpenFiles = true;
+        this.watchFilesWithBreakpoints = true;
         this.printLogo = true;
         this.cache = true;
         this.verbose = true;
@@ -45,6 +49,8 @@ public class ProjectState {
         ret &= this.printLogo == that.printLogo;
         ret &= this.verbose == that.verbose;
         ret &= this.watchSourceRoots == that.watchSourceRoots;
+        ret &= this.watchFilesWithBreakpoints == that.watchFilesWithBreakpoints;
+        ret &= this.watchOpenFiles == that.watchOpenFiles;
         return ret;
     }
 }

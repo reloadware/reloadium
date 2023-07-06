@@ -26,7 +26,6 @@ public class TestBuiltinPackageManagerM1 extends BaseTestCase {
     @AfterEach
     protected void tearDown() throws Exception {
         this.m1Fixture.stop();
-
         super.tearDown();
     }
 

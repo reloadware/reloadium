@@ -1,8 +1,11 @@
 package rw.handler;
 
 import com.google.gson.Gson;
+import com.intellij.execution.RunManager;
+import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.application.ApplicationInfo;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -23,29 +26,28 @@ import rw.util.EnvUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 public class PythonRunConfHandler extends RunConfHandler {
-    public static final String IDE_NAME_ENV = "RW_IDE_NAME";  //  # RwRender: public static final String IDE_NAME_ENV = "{{ ctx.env_vars.ide.name }}";  //
-    public static final String IDE_VERSION_ENV = "RW_IDE_VERSION";  //  # RwRender: public static final String IDE_VERSION_ENV = "{{ ctx.env_vars.ide.version }}";  //
-    public static final String IDE_PLUGIN_VERSION_ENV = "RW_IDE_PLUGINVERSION";  //  # RwRender: public static final String IDE_PLUGIN_VERSION_ENV = "{{ ctx.env_vars.ide.plugin_version }}";  //
-    public static final String IDE_TYPE_ENV = "RW_IDE_TYPE";  //  # RwRender: public static final String IDE_TYPE_ENV = "{{ ctx.env_vars.ide.type }}";  //
-    public static final String IDE_SERVER_PORT_ENV = "RW_IDE_SERVERPORT";  //  # RwRender: public static final String IDE_SERVER_PORT_ENV = "{{ ctx.env_vars.ide.server_port }}";  //
-    public static final String VERBOSE_ENV = "RW_VERBOSE";  //  # RwRender: public static final String VERBOSE_ENV = "{{ ctx.env_vars.misc.verbose }}";  //
-    public static final String CACHE_ENV = "RW_CACHE";  //  # RwRender: public static final String CACHE_ENV = "{{ ctx.env_vars.misc.cache }}";  //
-    public static final String PRINT_LOGO_ENV = "RW_PRINTLOGO";  //  # RwRender: public static final String PRINT_LOGO_ENV = "{{ ctx.env_vars.misc.print_logo }}";  //
-    public static final String WATCHCWD_ENV = "RW_WATCHCWD";  //  # RwRender: public static final String WATCHCWD_ENV = "{{ ctx.env_vars.misc.watch_cwd }}";  //
-    public static final String RELOADIUMPATH_ENV = "RELOADIUMPATH";  //  # RwRender: public static final String RELOADIUMPATH_ENV = "{{ ctx.env_vars.misc.reloadiumpath }}";  //
-    public static final String RELOADIUMIGNORE_ENV = "RELOADIUMIGNORE";  //  # RwRender: public static final String RELOADIUMIGNORE_ENV = "{{ ctx.env_vars.misc.reloadiumignore }}";  //
-    public static final String QUICK_CONFIG_ENV = "RW_QUICKCONFIG";  //  # RwRender: public static final String QUICK_CONFIG_ENV = "{{ ctx.env_vars.misc.quick_config }}";  //
-    AbstractPythonRunConfiguration<?> runConf;
-    AbstractPythonRunConfiguration<?> origRunConf;
+    public static final String IDE_NAME_ENV = "RW_IDE_NAME";
+    public static final String IDE_VERSION_ENV = "RW_IDE_VERSION";
+    public static final String IDE_PLUGIN_VERSION_ENV = "RW_IDE_PLUGINVERSION";
+    public static final String IDE_TYPE_ENV = "RW_IDE_TYPE";
+    public static final String IDE_SERVER_PORT_ENV = "RW_IDE_SERVERPORT";
+    public static final String VERBOSE_ENV = "RW_VERBOSE";
+    public static final String CACHE_ENV = "RW_CACHE";
+    public static final String PRINT_LOGO_ENV = "RW_PRINTLOGO";
+    public static final String WATCHCWD_ENV = "RW_WATCHCWD";
+    public static final String WATCH_FILES_WITH_BREAKPOINTS_ENV = "RW_WATCHFILESWITHBREAKPOINTS";
+    public static final String EXTRA_WATCHED_FILES_ENV = "RW_EXTRAWATCHEDFILES";
+    public static final String RELOADIUMPATH_ENV = "RELOADIUMPATH";
+    public static final String RELOADIUMIGNORE_ENV = "RELOADIUMIGNORE";
+    public static final String QUICK_CONFIG_ENV = "RW_QUICKCONFIG";
 
     public PythonRunConfHandler(RunConfiguration runConf) {
         super(runConf);
-        this.runConf = (AbstractPythonRunConfiguration<?>) runConf;
-        this.origRunConf = (AbstractPythonRunConfiguration<?>) runConf.clone();
     }
 
     @Override
@@ -81,6 +83,7 @@ public class PythonRunConfHandler extends RunConfHandler {
         this.runConf.getEnvs().put(this.CACHE_ENV, EnvUtils.boolToEnv(state.cache));
         this.runConf.getEnvs().put(this.PRINT_LOGO_ENV, EnvUtils.boolToEnv(state.printLogo));
         this.runConf.getEnvs().put(this.WATCHCWD_ENV, EnvUtils.boolToEnv(state.watchCwd));
+        this.runConf.getEnvs().put(this.WATCH_FILES_WITH_BREAKPOINTS_ENV, EnvUtils.boolToEnv(state.watchFilesWithBreakpoints));
         this.runConf.getEnvs().put(this.IDE_SERVER_PORT_ENV, String.valueOf(this.session.getPort()));
         this.runConf.getEnvs().put("PYDEVD_USE_CYTHON", "NO");
         this.runConf.getEnvs().put("RW_STAGE", Const.get().stage.value);
@@ -92,6 +95,17 @@ public class PythonRunConfHandler extends RunConfHandler {
         Gson gson = new Gson();
         String quickConfigPayload = gson.toJson(QuickConfigStateFactory.create());
         this.runConf.getEnvs().put(this.QUICK_CONFIG_ENV, quickConfigPayload);
+
+        if (state.watchOpenFiles) {
+            FileEditorManager fileEditorManager = FileEditorManager.getInstance(this.project);
+            List<String> openFiles = Arrays.stream(fileEditorManager.getOpenFiles())
+                    .filter(f -> f.getExtension() != null && f.getExtension().equals("py"))
+                    .map(f -> this.convertPathToRemote(f.getPath(), false))
+                    .toList();
+            this.runConf.getEnvs().put(this.EXTRA_WATCHED_FILES_ENV, String.join(pathSep, openFiles));
+        }
+
+        this.runConf.getEnvs().put(this.WATCH_FILES_WITH_BREAKPOINTS_ENV, EnvUtils.boolToEnv(state.watchFilesWithBreakpoints));
 
         List<String> reloadiumPath = new ArrayList<>(state.reloadiumPath);
         if (state.watchSourceRoots) {
@@ -167,12 +181,6 @@ public class PythonRunConfHandler extends RunConfHandler {
         super.onProcessExit();
         this.session.close();
         IconPatcher.refresh(this.project);
-    }
-
-    @Override
-    public void afterRun() {
-        this.runConf.setInterpreterOptions(this.origRunConf.getInterpreterOptions());
-        runConf.setEnvs(this.origRunConf.getEnvs());
     }
 
     public boolean isReloadiumActivated() {

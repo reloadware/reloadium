@@ -129,23 +129,20 @@ class GutterRenderer implements ActiveGutterRenderer {
 
 
 class FileValuesRenderer {
-    File file;
     FileValues fileValues;
     RangeHighlighter device;
     MarkupModel markupModel;
-    VirtualFile virtualFile;
+    VirtualFile file;
     Document document;
     Project project;
     LineProfiler lineProfiler;
 
-    FileValuesRenderer(Project project, File file, FileValues fileValues, LineProfiler lineProfiler) {
-        this.file = file;
+    FileValuesRenderer(Project project, @NotNull VirtualFile file, FileValues fileValues, LineProfiler lineProfiler) {
         this.fileValues = fileValues;
+        this.file = file;
         this.project = project;
         this.lineProfiler = lineProfiler;
-
-        this.virtualFile = new VirtualFileWrapper(this.file).getVirtualFile();
-        this.document = ReadAction.compute(() -> FileDocumentManager.getInstance().getDocument(this.virtualFile));
+        this.document = ReadAction.compute(() -> FileDocumentManager.getInstance().getDocument(this.file));
         this.markupModel = DocumentMarkupModel.forDocument(this.document, this.project, true);
     }
 
@@ -208,7 +205,7 @@ public class ProfilePreviewRenderer {
 
         this.fileValuesRenderers.clear();
 
-        for (Map.Entry<File, FileValues> pathToFileTiming : this.lineProfiler.getFileTimings().entrySet()) {
+        for (Map.Entry<VirtualFile, FileValues> pathToFileTiming : this.lineProfiler.getFileTimings().entrySet()) {
             FileValuesRenderer fileValuesRenderer = new FileValuesRenderer(this.project,
                     pathToFileTiming.getKey(),
                     pathToFileTiming.getValue(),

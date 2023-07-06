@@ -17,17 +17,13 @@ import rw.remote.sftp.SFTPClient;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class RemoteSdkChecker {
     private static final Logger LOGGER = Logger.getInstance(RemoteSdkChecker.class);
     boolean checking;
-    private Map<Sdk, Integer> sdkTries;
 
     public RemoteSdkChecker() {
-        this.sdkTries = new HashMap<>();
         this.checking = false;
     }
 
@@ -55,9 +51,6 @@ public class RemoteSdkChecker {
             return;
         }
 
-        if (this.sdkTries.getOrDefault(sdk, 0) >= 3) {
-            return;
-        }
 
         LOGGER.info("Checking remote package for " + sdk.getName());
 
@@ -88,25 +81,7 @@ public class RemoteSdkChecker {
 
             PackageManager packageManager = new PackageManager(new RemoteFileSystem(sftp), new RemoteMachine(targetEnvironment, sftp));
             if (packageManager.shouldInstall()) {
-                packageManager.run(new PackageManager.Listener() {
-                    @Override
-                    public void started() {
-                    }
-
-                    @Override
-                    public void success() {
-                    }
-
-                    @Override
-                    public void fail(Exception exception) {
-                        sdkTries.put(sdk, sdkTries.getOrDefault(sdk, 0) + 1);
-                    }
-
-                    @Override
-                    public void cancelled() {
-                        sdkTries.put(sdk, sdkTries.getOrDefault(sdk, 0) + 1);
-                    }
-                }, false);
+                packageManager.install();
             }
         } catch (Exception ignored) {
         }

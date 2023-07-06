@@ -22,6 +22,6 @@ public class NativeFileSystemFixture {
         Mockito.lenient().doReturn(homeDir).when(fs).getHome();
     }
 
-    public void stop() throws Exception {
+    public void tearDown() throws Exception {
     }
 }

@@ -107,7 +107,7 @@ class Client extends Thread {
         LOGGER.info(String.format("Sending cmd %s", cmd.getId()));
         this.out.println(payload);
 
-        int timeout = 1000;
+        int timeout = 4000;
 
         while (this.cmdReturn == null && timeout >= 0) {
             try {
@@ -119,11 +119,11 @@ class Client extends Thread {
             timeout -= 100;
         }
 
-        this.cmdReturnId = null;
-
         if (timeout <= 0) {
             LOGGER.info(String.format("Timeout waiting for \"%s\" return", this.cmdReturnId));
         }
+
+        this.cmdReturnId = null;
 
         return this.cmdReturn;
     }
@@ -170,11 +170,13 @@ public class Session extends Thread {
                 entry(UserError.ID, UserError.class),
                 entry(ClearErrors.ID, ClearErrors.class),
                 entry(LineProfileClear.ID, LineProfileClear.class),
-                entry(WatchingFiles.ID, WatchingFiles.class),
+                entry(WatchingPaths.ID, WatchingPaths.class),
                 entry(FrameDropped.ID, FrameDropped.class),
                 entry(UpdateDebugger.ID, UpdateDebugger.class),
                 entry(ClearThreadError.ID, ClearThreadError.class),
-                entry(FunctionTraced.ID, FunctionTraced.class)
+                entry(FunctionTraced.ID, FunctionTraced.class),
+                entry(WatchingConcluded.ID, WatchingConcluded.class),
+                entry(ShowDialog.ID, ShowDialog.class)
         );
 
         this.returns = Map.ofEntries(
@@ -207,6 +209,9 @@ public class Session extends Thread {
 
         ret = g.fromJson(payload, eventClass);
         ret.setHandler(this.handler);
+        if(!ret.prepare()) {
+            return null;
+        }
 
         return ret;
     }

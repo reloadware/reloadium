@@ -3,9 +3,6 @@ package rw.remote;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.jetbrains.python.target.PyTargetAwareAdditionalData;
-import rw.remote.sftp.SFTPException;
-
-import java.lang.reflect.InvocationTargetException;
 
 public class RemoteUtils {
     private static final Logger LOGGER = Logger.getInstance(RemoteUtils.class);
@@ -24,11 +21,5 @@ public class RemoteUtils {
         }
 
         return false;
-    }
-
-    static public void checkSftpException(InvocationTargetException e) throws SFTPException {
-        if (e.getTargetException().getClass().getName().equals("net.schmizz.sshj.sftp.SFTPException")) {
-            throw new SFTPException();
-        }
     }
 }

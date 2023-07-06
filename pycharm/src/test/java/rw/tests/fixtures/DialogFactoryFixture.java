@@ -14,13 +14,13 @@ public class DialogFactoryFixture {
         this.project = project;
     }
 
-    public void start() {
+    public void setUp() {
         this.dialogFactory = mock(DialogFactory.class);
         lenient().doReturn(true).when(this.dialogFactory).showFirstRunDialog(any());
         lenient().doReturn(true).when(this.dialogFactory).showFirstDebugDialog(any());
         DialogFactory.singleton = this.dialogFactory;
     }
 
-    public void stop() {
+    public void tearDown() {
     }
 }

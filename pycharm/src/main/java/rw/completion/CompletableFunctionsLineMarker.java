@@ -6,6 +6,7 @@ import com.intellij.codeInsight.daemon.LineMarkerProviderDescriptor;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.markup.GutterIconRenderer;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
@@ -89,7 +90,7 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
             }
         }
 
-        Set<PySourcePosition> markedPositions = new HashSet<>();
+        Set<Pair<String, Integer>> markedElements = new HashSet<>();
 
         for (PsiElement element : elements) {
             if (!(element instanceof PyFunction)) {
@@ -109,6 +110,7 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
             if (identifier == null) {
                 continue;
             }
+            Integer line = document.getLineNumber(identifier.getTextOffset());
 
             List<FramePosition> framePositions = fileToPositions.get(path);
 
@@ -127,15 +129,17 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
                 if (!element.getTextRange().contains(startOffset + 1)) {
                     continue;
                 }
-                if (markedPositions.contains(p.position)) {
+
+                if (markedElements.contains(new Pair<>(path, line))) {
                     continue;
                 }
+
+                markedElements.add(new Pair<>(path, line));
 
                 LineMarkerInfo<PsiElement> marker = new LineMarkerInfo<>(identifier, identifier.getTextRange(), Icons.CompletableFunction, e -> this.getTooltip((PyFunction) element),
                         null, GutterIconRenderer.Alignment.LEFT, () -> "");
 
                 result.add(marker);
-                markedPositions.add(p.position);
             }
         }
 

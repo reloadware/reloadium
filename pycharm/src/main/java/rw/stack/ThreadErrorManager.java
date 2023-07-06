@@ -1,6 +1,8 @@
 package rw.stack;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.xdebugger.XDebugSessionListener;
 import com.intellij.xdebugger.frame.XSuspendContext;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
@@ -14,9 +16,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ThreadErrorManager implements Activable {
+    private static final Logger LOGGER = Logger.getInstance(ThreadErrorManager.class);
     Project project;
     Map<String, ThreadError> threadErrors;
     XDebugSessionImpl session;
+    String lastThreadId;
 
     public ThreadErrorManager(Project project) {
         this.project = project;
@@ -37,18 +41,24 @@ public class ThreadErrorManager implements Activable {
         });
     }
 
-    public void onThreadError(ThreadErrorEvent threadErrorEvent) {
+    synchronized public void onThreadError(ThreadErrorEvent threadErrorEvent) {
+        VirtualFile file = threadErrorEvent.getFile();
+        if(file == null) {
+            return;
+        }
+
         ThreadError threadError = new ThreadError(this.project,
                 threadErrorEvent.getThreadId(),
-                threadErrorEvent.getLocalPath(),
+                file,
                 threadErrorEvent.getMsg(),
                 threadErrorEvent.getLine());
-        this.threadErrors.values().forEach(ThreadError::deactivate);
-        threadError.activate();
-        this.threadErrors.put(threadErrorEvent.getThreadId(), threadError);
+
+
+            threadError.activate();
+            this.threadErrors.put(threadErrorEvent.getThreadId(), threadError);
     }
 
-    public void onThreadErrorClear(ClearThreadError clearThreadError) {
+    synchronized public void onThreadErrorClear(ClearThreadError clearThreadError) {
         ThreadError threadError = this.threadErrors.get(clearThreadError.getThreadId());
 
         if (threadError == null) {
@@ -59,14 +69,20 @@ public class ThreadErrorManager implements Activable {
         this.threadErrors.remove(clearThreadError.getThreadId());
     }
 
-    void onThreadChanged(String threadId) {
+    synchronized public void onThreadChanged(String threadId) {
+        if (this.lastThreadId != null && this.lastThreadId.equals(threadId)){
+            return;
+        }
+
+        this.lastThreadId = threadId;
+
         ThreadError threadError = this.threadErrors.get(threadId);
+
+        this.threadErrors.values().stream().filter(te -> !te.getThreadId().equals(threadId)).forEach(ThreadError::deactivate);
 
         if (threadError == null) {
             return;
         }
-
-        this.threadErrors.values().stream().filter(te -> !te.getThreadId().equals(threadId)).forEach(ThreadError::deactivate);
 
         if (!threadError.isActive()) {
             threadError.activate();
@@ -101,7 +117,7 @@ public class ThreadErrorManager implements Activable {
     }
 
     @Override
-    public void activate() {
+    synchronized public void activate() {
         String activeThread = this.getActiveThread();
         if (activeThread == null) {
             return;
@@ -117,7 +133,7 @@ public class ThreadErrorManager implements Activable {
     }
 
     @Override
-    public void deactivate() {
+    synchronized public void deactivate() {
         this.threadErrors.values().forEach(ThreadError::deactivate);
     }
 }

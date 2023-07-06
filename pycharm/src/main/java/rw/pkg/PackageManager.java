@@ -93,23 +93,19 @@ public class PackageManager {
         }
     }
 
-    protected void installVersion(String version) throws Exception {
+    public String getBuiltinVersion() {
+        return this.builtinVersion;
+    }
+
+    public void install() throws Exception {
         List<BaseWheel> wheels = this.getWheels();
         if (wheels.isEmpty()) {
             return;
         }
         this.installWheels(wheels);
         this.installLauncher();
-        this.fs.writeString(this.currentVersionFile, version);
-    }
-
-    public String getBuiltinVersion() {
-        return this.builtinVersion;
-    }
-
-    public void install() throws Exception {
+        this.fs.writeString(this.currentVersionFile, this.builtinVersion);
         LOGGER.info("Installing");
-        this.installVersion(this.builtinVersion);
     }
 
     public boolean shouldInstall() {
@@ -126,8 +122,7 @@ public class PackageManager {
 
         List<BaseWheel> ret = new ArrayList<>();
 
-        String[] wheelFilenames = null;
-        wheelFilenames = IOUtils.toString(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+        String[] wheelFilenames = IOUtils.toString(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
                 BaseWheel.RESOURCE_WHEELS_PATH_ROOT + "content.txt")), StandardCharsets.UTF_8.name()).split("\n");
 
         for (String wheelFilename : wheelFilenames) {

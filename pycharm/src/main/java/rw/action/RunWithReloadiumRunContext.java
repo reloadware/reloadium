@@ -9,6 +9,7 @@ import rw.icons.Icons;
 
 public class RunWithReloadiumRunContext extends ContextPopupAction {
     private static final Logger LOGGER = Logger.getInstance(RunWithReloadiumRunContext.class);
+    public static String ID = "RunWithReloadiumRunContext";
 
     RunWithReloadiumRunContext() {
         super();

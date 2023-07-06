@@ -1,6 +1,7 @@
 package rw.handler;
 
 import com.intellij.execution.configurations.RunConfiguration;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.ui.Messages;
 import org.jetbrains.annotations.NotNull;
 import rw.action.RunType;
@@ -15,8 +16,8 @@ import static com.intellij.util.ui.UIUtil.invokeLaterIfNeeded;
 
 
 abstract public class RemoteRunConfHandler extends PythonRunConfHandler {
-    public static final String USER_ID_ENV = "RW_USERID";  //  # RwRender: public static final String USER_ID_ENV = "{{ ctx.env_vars.user_id }}";  //
-    public static final String REMOTE_ENV = "RW_REMOTE";  //  # RwRender: public static final String REMOTE_ENV = "{{ ctx.env_vars.ide.remote }}";  //
+    public static final String USER_ID_ENV = "RW_USERID";
+    public static final String REMOTE_ENV = "RW_REMOTE";
 
     private boolean warned;
 
@@ -51,9 +52,9 @@ abstract public class RemoteRunConfHandler extends PythonRunConfHandler {
     @Override
     public String convertPathToLocal(@NotNull String remotePath, boolean warnMissing) {
         if (this.runConf.getMappingSettings() == null) {
-            if (!this.warned) {
+            if (warnMissing && !this.warned) {
                 this.warned = true;
-                invokeLaterIfNeeded(() -> Messages.showErrorDialog(this.project, String.format("Path mappings are missing for remote path %s", remotePath), "Missing Remote Path Mappings"));
+                ApplicationManager.getApplication().invokeLater(() -> Messages.showErrorDialog(this.project, String.format("Path mappings are missing for remote path %s", remotePath), "Missing Remote Path Mappings"));
             }
             return remotePath;
         }
@@ -62,7 +63,7 @@ abstract public class RemoteRunConfHandler extends PythonRunConfHandler {
 
         if (warnMissing && ret.equals(remotePath) && !this.warned) {
             this.warned = true;
-            invokeLaterIfNeeded(() -> Messages.showErrorDialog(this.project, String.format("Could not convert remote path %s to the local one. " +
+            ApplicationManager.getApplication().invokeLater(() -> Messages.showErrorDialog(this.project, String.format("Could not convert remote path %s to the local one. " +
                     "Add path mappings to resolve this", remotePath), "Missing Path Mappings"));
         }
         return ret;
@@ -72,9 +73,9 @@ abstract public class RemoteRunConfHandler extends PythonRunConfHandler {
     @Override
     public String convertPathToRemote(@NotNull String localPath, boolean warnMissing) {
         if (this.runConf.getMappingSettings() == null) {
-            if (!this.warned) {
+            if (warnMissing && !this.warned) {
                 this.warned = true;
-                invokeLaterIfNeeded(() -> Messages.showErrorDialog(this.project, String.format("Path mappings are missing for local path %s", localPath), "Missing Local Path Mappings"));
+                ApplicationManager.getApplication().invokeLater(() -> Messages.showErrorDialog(this.project, String.format("Path mappings are missing for local path %s", localPath), "Missing Local Path Mappings"));
             }
             return localPath;
         }
@@ -83,7 +84,7 @@ abstract public class RemoteRunConfHandler extends PythonRunConfHandler {
 
         if (warnMissing && ret.equals(localPath) && !this.warned) {
             this.warned = true;
-            invokeLaterIfNeeded(() -> Messages.showErrorDialog(this.project, String.format("Could not convert local path %s to the remote one. " +
+            ApplicationManager.getApplication().invokeLater(() -> Messages.showErrorDialog(this.project, String.format("Could not convert local path %s to the remote one. " +
                     "Add path mappings to resolve this", localPath), "Missing Path Mappings"));
         }
         return ret;

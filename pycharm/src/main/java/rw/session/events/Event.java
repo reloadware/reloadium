@@ -12,7 +12,9 @@ public class Event {
     public void handle() {
     }
 
-    ;
+    public boolean prepare() {
+        return true;
+    }
 
     public void setHandler(RunConfHandler handler) {
         this.handler = handler;

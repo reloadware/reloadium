@@ -24,7 +24,7 @@ public class ConstFixture {
         }
     }
 
-    public void stop() throws Exception {
+    public void tearDown() throws Exception {
     }
 }
 
