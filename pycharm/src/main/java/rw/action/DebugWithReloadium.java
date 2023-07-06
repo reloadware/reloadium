@@ -29,8 +29,6 @@ public class DebugWithReloadium extends WithReloaderBase implements DumbAware {
 
         Service.get().onRun();
 
-        DialogFactory.get().showSurveyDialog(project);
-
         if (!result) {
             return;
         }

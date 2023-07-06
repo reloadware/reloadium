@@ -1,7 +1,6 @@
 package rw.highlights;
 
 import com.intellij.diff.util.DiffUtil;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.diff.LineStatusMarkerDrawUtil;
 import com.intellij.openapi.editor.Document;
@@ -68,13 +67,13 @@ public class Highlighter {
 
     int line;
     int endLine;
-    File file;
+    VirtualFile file;
     Project project;
     Color color;
     int layer;
     boolean gutter;
 
-    public Highlighter(Project project, File file, int line, int endLine, Color color, int layer, boolean gutter) {
+    public Highlighter(Project project, @NotNull VirtualFile file, int line, int endLine, Color color, int layer, boolean gutter) {
         this.project = project;
         this.endLine = endLine;
         this.line = line;
@@ -88,7 +87,7 @@ public class Highlighter {
         this.gutter = gutter;
     }
 
-    public Highlighter(Project project, File file, int line, Color color, int layer, boolean gutter) {
+    public Highlighter(Project project, @NotNull VirtualFile file, int line, Color color, int layer, boolean gutter) {
         this(project, file, line, line, color, layer, gutter);
     }
 
@@ -97,13 +96,11 @@ public class Highlighter {
     }
 
     public void hide() {
-        ApplicationManager.getApplication().invokeLater(() -> {
-            if (this.device == null) {
-                return;
-            }
-            this.markupModel.removeHighlighter(this.device);
-            this.device = null;
-        });
+        if (this.device == null) {
+            return;
+        }
+        this.markupModel.removeHighlighter(this.device);
+        this.device = null;
     }
 
     public void show() {
@@ -111,8 +108,7 @@ public class Highlighter {
             return;
         }
 
-        VirtualFile virtualFile = new VirtualFileWrapper(this.file).getVirtualFile();
-        Document document = ReadAction.compute(() -> FileDocumentManager.getInstance().getDocument(virtualFile));
+        Document document = ReadAction.compute(() -> FileDocumentManager.getInstance().getDocument(this.file));
 
         this.markupModel = DocumentMarkupModel.forDocument(document, this.project, true);
 
@@ -129,24 +125,22 @@ public class Highlighter {
                     null, null, Font.PLAIN);
         }
 
-        ApplicationManager.getApplication().invokeLater(() -> {
-            try {
-                if (this.line == this.endLine) {
-                    this.device = this.markupModel.addLineHighlighter(this.line - 1,
-                            layer, textAttribute);
-                } else {
-                    TextRange textRange = this.getTextRange(document);
-                    this.device = this.markupModel.addRangeHighlighter(textRange.getStartOffset(), textRange.getEndOffset(),
-                            layer,
-                            textAttribute, HighlighterTargetArea.LINES_IN_RANGE);
-                }
-                if (this.gutter) {
-                    LineMarkerRenderer renderer = new GutterRenderer(this.line, this.endLine, this.color, "");
-                    this.device.setLineMarkerRenderer(renderer);
-                }
-            } catch (IndexOutOfBoundsException ignored) {
+        try {
+            if (this.line == this.endLine) {
+                this.device = this.markupModel.addLineHighlighter(this.line - 1,
+                        layer, textAttribute);
+            } else {
+                TextRange textRange = this.getTextRange(document);
+                this.device = this.markupModel.addRangeHighlighter(textRange.getStartOffset(), textRange.getEndOffset(),
+                        layer,
+                        textAttribute, HighlighterTargetArea.LINES_IN_RANGE);
             }
-        });
+            if (this.gutter) {
+                LineMarkerRenderer renderer = new GutterRenderer(this.line, this.endLine, this.color, "");
+                this.device.setLineMarkerRenderer(renderer);
+            }
+        } catch (IndexOutOfBoundsException ignored) {
+        }
     }
 
     private int getJbLayer() {

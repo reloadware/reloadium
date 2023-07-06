@@ -17,7 +17,7 @@ abstract public class ContextPopupAction extends WithReloaderBase implements Act
         super.update(e);
     }
 
-    protected RunnerAndConfigurationSettings getConfiguration(@NotNull AnActionEvent e) {
+    protected RunnerAndConfigurationSettings getSelectedConfiguration(@NotNull AnActionEvent e) {
         final DataContext dataContext = e.getDataContext();
         final ConfigurationContext context = ConfigurationContext.getFromContext(dataContext, ActionPlaces.UNKNOWN);
 

@@ -1,6 +1,7 @@
 package rw.profile;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.VisibleForTesting;
 import rw.quickconfig.QuickConfig;
 import rw.session.events.LineProfile;
@@ -27,9 +28,9 @@ public class TimeProfiler extends LineProfiler {
     public void onLineProfileEvent(LineProfile event) {
         super.onLineProfileEvent(event);
 
-        this.values.putIfAbsent(event.getLocalPath(), new FileValues());
+        this.values.putIfAbsent(event.getFile(), new FileValues());
 
-        FileValues fileValues = this.values.get(event.getLocalPath());
+        FileValues fileValues = this.values.get(event.getFile());
         fileValues.update(event.getTimeValues(), event.getFrame(), event.getFrameLine(), this.getQuickConfig().getState().getComulateType());
     }
 }

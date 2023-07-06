@@ -1,5 +1,6 @@
 package rw.debugger;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
@@ -33,15 +34,11 @@ public class FastDebug implements Activable {
         PsiManager psiManager = PsiManager.getInstance(this.project);
 
         FileDocumentManager fileDocumentManager = FileDocumentManager.getInstance();
-        VirtualFile virtualFile = new VirtualFileWrapper(event.getLocalPath()).getVirtualFile(false);
-        if (virtualFile == null) {
-            return;
-        }
 
-        Document document = fileDocumentManager.getDocument(virtualFile);
+        Document document = fileDocumentManager.getDocument(event.getFile());
         assert document != null;
 
-        PyFile psiFile = (PyFile) psiManager.findFile(virtualFile);
+        PyFile psiFile = (PyFile) psiManager.findFile(event.getFile());
         assert psiFile != null;
 
         PyFunction pyFunction = null;
@@ -70,7 +67,7 @@ public class FastDebug implements Activable {
         }
 
         Highlighter highlighter = new Highlighter(this.project,
-                event.getLocalPath(),
+                event.getFile(),
                 startLine,
                 endLine,
                 this.TRACED_COLOR,
@@ -83,11 +80,11 @@ public class FastDebug implements Activable {
 
     @Override
     public void activate() {
-        this.highlighters.forEach(Highlighter::show);
+        ApplicationManager.getApplication().invokeLater(() -> this.highlighters.forEach(Highlighter::show));
     }
 
     @Override
     public void deactivate() {
-        this.highlighters.forEach(Highlighter::hide);
+        ApplicationManager.getApplication().invokeLater(() -> this.highlighters.forEach(Highlighter::hide));
     }
 }

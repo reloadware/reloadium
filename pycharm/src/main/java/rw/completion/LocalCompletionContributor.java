@@ -31,7 +31,7 @@ public class LocalCompletionContributor extends CtxCompletionContributor {
                                               @Nullable String parent,
                                               CompletionMode mode) {
             Document document = FileDocumentManager.getInstance().getDocument(virtualFile);
-            String file = virtualFile.toNioPath().toFile().toString();
+            String file = virtualFile.toNioPath().toString();
             file = handler.convertPathToRemote(file, false);
 
             String threadId;
@@ -50,7 +50,6 @@ public class LocalCompletionContributor extends CtxCompletionContributor {
             assert document != null;
 
             int promptLine = document.getLineNumber(element.getTextOffset()) + 1;
-            file = handler.convertPathToRemote(file, false);
             return new GetLocalCompletion(file, threadId, function.getName(), promptLine, parent, prompt, mode);
         }
     }

@@ -30,12 +30,12 @@ public class TestCompletion extends BaseTestCase {
     PythonRunConfHandler handler;
 
     protected void assertSuggestionCount(int count) {
-        LookupElement[] result = myFixture.completeBasic();
+        LookupElement[] result = this.f.completeBasic();
         assertThat(result.length).isEqualTo(count);
     }
 
     protected void assertSuggestion(@NotNull Suggestion suggestion) {
-        LookupElement[] result = myFixture.completeBasic();
+        LookupElement[] result = this.f.completeBasic();
 
         for (LookupElement l : result) {
             if (l.getLookupString().equals(suggestion.getName())) {
@@ -61,7 +61,7 @@ public class TestCompletion extends BaseTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        this.cakeshop = new CakeshopFixture(this.getProject());
+        this.cakeshop = new CakeshopFixture(this.f);
         this.cakeshop.setUp();
 
         this.handler = new DebugPythonRunConfHandlerFixture(this.getProject(),
@@ -85,8 +85,8 @@ public class TestCompletion extends BaseTestCase {
                                 
                 """.stripIndent();
 
-        myFixture.configureByText(PythonFileType.INSTANCE, fileContent);
-        Editor editor = myFixture.getEditor();
+        this.f.configureByText(PythonFileType.INSTANCE, fileContent);
+        Editor editor = this.f.getEditor();
         CaretModel caretModel = editor.getCaretModel();
 
         Suggestion suggestion = new Suggestion(
@@ -110,8 +110,8 @@ public class TestCompletion extends BaseTestCase {
                 msg = "test"
                 """.stripIndent();
 
-        myFixture.configureByText(PythonFileType.INSTANCE, fileContent);
-        Editor editor = myFixture.getEditor();
+        this.f.configureByText(PythonFileType.INSTANCE, fileContent);
+        Editor editor = this.f.getEditor();
         CaretModel caretModel = editor.getCaretModel();
 
         Suggestion suggestion = new Suggestion(
@@ -126,7 +126,7 @@ public class TestCompletion extends BaseTestCase {
             caretModel.moveToOffset(fileContent.indexOf("\"") + 1);
         });
 
-        assertThat(myFixture.completeBasic()).isEmpty();
+        assertThat(this.f.completeBasic()).isEmpty();
     }
 
     @Test
@@ -136,8 +136,8 @@ public class TestCompletion extends BaseTestCase {
                 msg = f"test"
                 """.stripIndent();
 
-        myFixture.configureByText(PythonFileType.INSTANCE, fileContent);
-        Editor editor = myFixture.getEditor();
+        this.f.configureByText(PythonFileType.INSTANCE, fileContent);
+        Editor editor = this.f.getEditor();
         CaretModel caretModel = editor.getCaretModel();
 
         Suggestion suggestion = new Suggestion(
@@ -152,7 +152,7 @@ public class TestCompletion extends BaseTestCase {
             caretModel.moveToOffset(fileContent.indexOf("\"") + 1);
         });
 
-        assertThat(myFixture.completeBasic()).isEmpty();
+        assertThat(this.f.completeBasic()).isEmpty();
     }
 
     @Test
@@ -162,8 +162,8 @@ public class TestCompletion extends BaseTestCase {
                 msg = f"test {}"
                 """.stripIndent();
 
-        myFixture.configureByText(PythonFileType.INSTANCE, fileContent);
-        Editor editor = myFixture.getEditor();
+        this.f.configureByText(PythonFileType.INSTANCE, fileContent);
+        Editor editor = this.f.getEditor();
         CaretModel caretModel = editor.getCaretModel();
 
         Suggestion suggestion = new Suggestion(
@@ -191,8 +191,8 @@ public class TestCompletion extends BaseTestCase {
                 msg = numbers["
                 """.stripIndent();
 
-        myFixture.configureByText(PythonFileType.INSTANCE, fileContent);
-        Editor editor = myFixture.getEditor();
+        this.f.configureByText(PythonFileType.INSTANCE, fileContent);
+        Editor editor = this.f.getEditor();
         CaretModel caretModel = editor.getCaretModel();
 
         Suggestion suggestion1 = new Suggestion(
@@ -224,8 +224,8 @@ public class TestCompletion extends BaseTestCase {
                 msg = numbers["
                 """.stripIndent();
 
-        myFixture.configureByText(PythonFileType.INSTANCE, fileContent);
-        Editor editor = myFixture.getEditor();
+        this.f.configureByText(PythonFileType.INSTANCE, fileContent);
+        Editor editor = this.f.getEditor();
         CaretModel caretModel = editor.getCaretModel();
 
         Suggestion suggestion1 = new Suggestion(

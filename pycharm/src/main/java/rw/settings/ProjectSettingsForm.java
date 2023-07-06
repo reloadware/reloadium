@@ -11,6 +11,8 @@ public class ProjectSettingsForm {
     private JCheckBox verboseCB;
     private JCheckBox watchSourceRootsCB;
     private JComponent reloadiumIgnorePanel;
+    private JCheckBox watchFilesWithBreakpointsCB;
+    private JCheckBox watchOpenFilesCB;
     private RwPathEditor reloadiumPath;
     private RwPathEditor reloadiumIgnore;
 
@@ -33,6 +35,8 @@ public class ProjectSettingsForm {
         state.reloadiumIgnore = this.reloadiumIgnore.getPaths();
         state.watchCwd = this.addCurrentWorkingDirectoryCB.isSelected();
         state.watchSourceRoots = this.watchSourceRootsCB.isSelected();
+        state.watchFilesWithBreakpoints = this.watchFilesWithBreakpointsCB.isSelected();
+        state.watchOpenFiles = this.watchOpenFilesCB.isSelected();
         state.printLogo = this.printLogoCB.isSelected();
         state.cache = this.cacheEnabledCB.isSelected();
         state.verbose = this.verboseCB.isSelected();
@@ -45,6 +49,8 @@ public class ProjectSettingsForm {
 
         this.addCurrentWorkingDirectoryCB.setSelected(state.watchCwd);
         this.watchSourceRootsCB.setSelected(state.watchSourceRoots);
+        this.watchFilesWithBreakpointsCB.setSelected(state.watchFilesWithBreakpoints);
+        this.watchOpenFilesCB.setSelected(state.watchOpenFiles);
         this.printLogoCB.setSelected(state.printLogo);
         this.cacheEnabledCB.setSelected(state.cache);
         this.verboseCB.setSelected(state.verbose);

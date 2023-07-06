@@ -1,5 +1,6 @@
 package rw.profile;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import rw.highlights.Blink;
@@ -9,6 +10,8 @@ import rw.session.events.LineProfile;
 
 import java.awt.*;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class FrameProgressRenderer {
@@ -29,41 +32,43 @@ public class FrameProgressRenderer {
 
     public void renderFrameProgress(LineProfile event) {
         if (this.highlighter != null) {
-            highlighter.hide();
+            ApplicationManager.getApplication().invokeLater(this.highlighter::hide);
         }
 
         if (!event.isStop()) {
             this.highlighter = new Highlighter(project,
-                    event.getLocalPath(),
+                    event.getFile(),
                     event.getLine(),
                     this.CURR_LINE_COLOR,
                     -1,
                     false);
-            this.highlighter.show();
+            ApplicationManager.getApplication().invokeLater(this.highlighter::show);
         }
 
         LOGGER.info("Rendering frame progress");
 
         if (!event.getTimeValues().isEmpty()) {
-            int start = Collections.min(event.getTimeValues().keySet());
-            Blink blink = new Blink(project, event.getLocalPath(), start, event.getLine(), FRAME_PROGRESS_COLOR, -1,
+            Set<Integer> lines = new HashSet<>(event.getTimeValues().keySet());
+            lines.add(event.getLine());
+            int start = Collections.min(lines);
+            int end = Collections.max(lines);
+            Blink blink = new Blink(project, event.getFile(), start, end, FRAME_PROGRESS_COLOR, -1,
                     this.BLINK_DURATION);
             Blinker.get().blink(blink);
         }
     }
 
-
     public void activate() {
         if (this.highlighter == null) {
             return;
         }
-        this.highlighter.show();
+        ApplicationManager.getApplication().invokeLater(this.highlighter::show);
     }
 
     public void deactivate() {
         if (this.highlighter == null) {
             return;
         }
-        this.highlighter.hide();
+        ApplicationManager.getApplication().invokeLater(this.highlighter::hide);
     }
 }

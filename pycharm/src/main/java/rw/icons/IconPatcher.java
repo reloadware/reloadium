@@ -53,7 +53,6 @@ public class IconPatcher implements FileIconPatcher, DumbAware {
         }
 
         FileEditorManagerEx.getInstanceEx(project).refreshIcons();
-
     }
 
     public Icon patchIcon(final Icon baseIcon, final VirtualFile file, final int flags, final Project project) {

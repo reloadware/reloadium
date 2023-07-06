@@ -1,5 +1,9 @@
 package rw.tests.integr;
 
+import com.intellij.openapi.util.io.FileUtil;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileWrapper;
+import com.jetbrains.python.PythonFileType;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,19 +39,19 @@ public class TestSession extends BaseTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        this.cakeshop = new CakeshopFixture(this.getProject());
+        this.cakeshop = new CakeshopFixture(this.f);
         this.cakeshop.setUp();
 
         this.stackUpdate = Files.readString(Path.of(this.getClass().getClassLoader().getResource("StackUpdate.json").getFile()));
 
         this.dialogFactoryFixture = new DialogFactoryFixture(this.getProject());
-        this.dialogFactoryFixture.start();
+        this.dialogFactoryFixture.setUp();
     }
 
     @AfterEach
     protected void tearDown() throws Exception {
         this.cakeshop.tearDown();
-        this.dialogFactoryFixture.stop();
+        this.dialogFactoryFixture.tearDown();
 
         super.tearDown();
     }
@@ -73,20 +77,22 @@ public class TestSession extends BaseTestCase {
 
         Session session = new Session(this.getProject(), handler);
 
-        File file = new File(this.cakeshop.getRoot().toString(), "cakeshop.py");
-        FileUtils.write(file, "1\n2\n3\n4", "utf-8");
-        file.createNewFile();
+        this.f.configureByText(PythonFileType.INSTANCE, "1\n2\n3\n4");
+        File tempFile = FileUtil.createTempFile( new File("/tmp"), "cakeshop", ".py", true);
+        FileUtil.writeToFile(tempFile, "test content");
+        VirtualFile virtualFile = new VirtualFileWrapper(tempFile).getVirtualFile();
 
-        String payload = String.format("{\"ID\": \"UserError\", \"path\": \"%s\", \"line\": 2, \"msg\": \"msg\"}", file);
+        String payload = String.format("{\"ID\": \"UserError\", \"path\": \"%s\", \"line\": 2, \"msg\": \"msg\"}",
+                tempFile);
         UserError event = (UserError) session.eventFactory(payload);
         assertThat(event).isInstanceOf(UserError.class);
-        assertThat(event.getPath()).isEqualTo(file);
+        assertThat(event.getPath()).isEqualTo(tempFile);
         assertThat(event.getLine()).isEqualTo(2);
 
         event.handle();
         verify(this.dialogFactoryFixture.dialogFactory, times(1)).showFirstUserErrorDialog(this.getProject());
         verify(handler.getErrorHighlightManager(), times(1)).add(
-                eq(file), eq(2), eq("msg"));
+                eq(virtualFile), eq(2), eq("msg"));
     }
 
     @Test

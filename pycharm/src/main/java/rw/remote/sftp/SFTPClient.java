@@ -1,12 +1,11 @@
 package rw.remote.sftp;
 
-import rw.audit.RwSentry;
-import rw.remote.RemoteUtils;
-
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
+
 
 public class SFTPClient {
     Object device;
@@ -15,66 +14,80 @@ public class SFTPClient {
         this.device = device;
     }
 
-    public FileAttributes stat(String path) throws SFTPException {
+    public FileAttributes stat(String path) throws IOException {
         try {
             Method method = this.device.getClass().getMethod("stat", String.class);
             FileAttributes ret = new FileAttributes(method.invoke(this.device, path));
             return ret;
-        } catch (InvocationTargetException e) {
-            RemoteUtils.checkSftpException(e);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            RwSentry.get().captureException(e, true);
         }
-        throw new RuntimeException("Could not stat remote file " + path);
+        catch (InvocationTargetException e) {
+            if(e.getTargetException().getClass().getName().equals("net.schmizz.sshj.sftp.SFTPException") && e.getTargetException().getMessage().contains("no such file or directory")) {
+                throw new IOException();
+            }
+            throw new RuntimeException(e);
+        }
+        catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        catch (Exception e) {
+            throw new IOException();
+        }
     }
 
-    public FileMode.Type type(String path) throws SFTPException {
+    public FileMode.Type type(String path) throws IOException {
         try {
             Method method = this.device.getClass().getMethod("type", String.class);
             FileMode ret = new FileMode((Integer) method.invoke(this.device, path));
             return ret.getType();
-        } catch (InvocationTargetException e) {
-            RemoteUtils.checkSftpException(e);
-        } catch (Exception e) {
-            RwSentry.get().captureException(e, true);
         }
-        throw new RuntimeException("Could not type remote file " + path);
+        catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        catch (Exception e) {
+            throw new IOException();
+        }
     }
 
-    public void put(String src, String dst) throws SFTPException {
+    public void put(String src, String dst) throws IOException {
         try {
             Method method = this.device.getClass().getMethod("put", String.class, String.class);
             method.invoke(this.device, src, dst);
-        } catch (InvocationTargetException e) {
-            RemoteUtils.checkSftpException(e);
-        } catch (Exception e) {
-            RwSentry.get().captureException(e, true);
+        }
+        catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        catch (Exception e) {
+            throw new IOException();
         }
     }
 
-    public void rename(String src, String dst) throws SFTPException {
+    public void rename(String src, String dst) throws IOException {
         try {
             Method method = this.device.getClass().getMethod("rename", String.class, String.class);
             method.invoke(this.device, src, dst);
-        } catch (InvocationTargetException e) {
-            RemoteUtils.checkSftpException(e);
-        } catch (Exception e) {
-            RwSentry.get().captureException(e, true);
+        }
+        catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        catch (Exception e) {
+            throw new IOException();
         }
     }
 
-    public void mkdirs(String dir) throws SFTPException {
+    public void mkdirs(String dir) throws IOException {
         try {
             Method method = this.device.getClass().getMethod("mkdirs", String.class);
             method.invoke(this.device, dir);
-        } catch (InvocationTargetException e) {
-            RemoteUtils.checkSftpException(e);
-        } catch (Exception e) {
-            RwSentry.get().captureException(e, true);
+        }
+        catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        catch (Exception e) {
+            throw new IOException();
         }
     }
 
-    public RemoteFile open(String path, Set<RwOpenMode> modes) throws SFTPException {
+    public RemoteFile open(String path, Set<RwOpenMode> modes) throws IOException {
         try {
             Method method = this.device.getClass().getMethod("open", String.class, Set.class);
 
@@ -85,11 +98,12 @@ public class SFTPClient {
 
             RemoteFile ret = new RemoteFile(method.invoke(this.device, path, nativeModes));
             return ret;
-        } catch (InvocationTargetException e) {
-            RemoteUtils.checkSftpException(e);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            RwSentry.get().captureException(e, true);
         }
-        throw new RuntimeException("Could not open remote file " + path);
+        catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        catch (Exception e) {
+            throw new IOException();
+        }
     }
 }

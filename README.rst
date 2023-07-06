@@ -84,7 +84,7 @@ Running modules:
 | To apply your changes simply save a file
 
 
-Ai
+AI
 ######
 
 | Reloadium integrates with ChatGpt seamlessly providing additional context to your conversations resulting in much better replies.

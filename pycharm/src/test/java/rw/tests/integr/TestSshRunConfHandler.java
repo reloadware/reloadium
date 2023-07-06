@@ -2,6 +2,7 @@ package rw.tests.integr;
 
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
+import com.jetbrains.python.run.PythonRunConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,10 +34,10 @@ public class TestSshRunConfHandler extends BaseTestCase {
         super.setUp();
 
         PackageFixture packageFixture = new PackageFixture(this.packageManager, "0.7.12");
-        this.cakeshop = new CakeshopFixture(this.getProject());
+        this.cakeshop = new CakeshopFixture(this.f);
         this.cakeshop.setUp();
 
-        this.action = ActionManager.getInstance().getAction(RunWithReloadium.ID);
+        this.action = this.getWithReloaderBaseAction(RunWithReloadium.ID);
 
     }
 
@@ -55,11 +56,12 @@ public class TestSshRunConfHandler extends BaseTestCase {
         try (MockedStatic<UUID> uuid = mockStatic(UUID.class)) {
             uuid.when(UUID::randomUUID).thenReturn(randomUuid);
 
-            SshRunConfHandler remoteRunConfHandler = new SshRunConfHandler(this.cakeshop.getRunConf());
+            SshRunConfHandler handler = new SshRunConfHandler(this.cakeshop.getRunConf());
+            PythonRunConfiguration runConf = (PythonRunConfiguration) handler.getRunConf();
 
-            remoteRunConfHandler.beforeRun(RunType.RUN);
+            handler.beforeRun(RunType.RUN);
 
-            String userId = this.cakeshop.getRunConf().getEnvs().get("RW_USERID");
+            String userId = runConf.getEnvs().get("RW_USERID");
             assertThat(userId.equals(randomUuidValue)).isTrue();
         }
     }

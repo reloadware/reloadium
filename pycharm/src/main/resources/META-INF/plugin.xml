@@ -1,7 +1,7 @@
 <idea-plugin xmlns:xi="http://www.w3.org/1999/XSL/Transform">
     <id>org.reloadium</id>
     <name>Reloadium - ChatGPT, Hot Reloading and Profiling for Python</name>
-    <version>1.1.1</version>
+    <version>1.2.0</version>
     <idea-version since-build="223"/>
     <vendor email="damian@reloadware.com" url="reloadium.io">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
@@ -31,6 +31,67 @@
 
     <change-notes><![CDATA[
     
+        <h3>1.2.0</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>PyCharm:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Files with breakpoints are reloadable</li>
+                            <li>Processing files progress</li>
+                            <li>Uploading reloadium package to remote interpreters improvements</li>
+                            <li>Current File run configuration support</li>
+                            <li>Only scroll to error if not visible</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Persisting current line indicators</li>
+                            <li>Not switching thread errors</li>
+                            <li>Not updating debugger after frame reload</li>
+                            <li>Function local completion not working in remote development</li>
+                            <li>Syntax errors not clearing</li>
+                        </ul>
+                    
+                </div>
+                <h4>Miscellaneous:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Ignore special functions like __getattr__, __repr__ from handling exceptions (Unless with a breakpoint)</li>
+                            <li>Exception handling speed improvements</li>
+                            <li>Drop frame improvements</li>
+                            <li>Function mementos when stepping into</li>
+                            <li>Debug logging when RW_DEBUG=True</li>
+                            <li>Frame reloading closures</li>
+                            <li>Handling errors in closures</li>
+                            <li>Profile child frames when stepping</li>
+                            <li>Better asyncio support</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Breakpoint always hit on functions last lines</li>
+                            <li>Not handling errors during stepping when wrapped in try from outside</li>
+                            <li>Jittery stepping into</li>
+                            <li>Not breaking in closures</li>
+                            <li>Closure parent function not restarting</li>
+                            <li>Running with reloadium results in normal run when started too quickly.</li>
+                            <li>Encoding issues</li>
+                            <li>Circular import dependency issues for bigger projects</li>
+                        </ul>
+                    
+                        <b>Removed:</b>
+                        <ul>
+                            <li>Drop frame support for python <= 3.9</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>1.1.1</h3>
             <div style="padding-left: 20px;">
             
@@ -1161,7 +1222,7 @@
             <add-to-group group-id="RunContextGroup" anchor="first"/>
         </action>
 
-        <action id="DebugWithReloadiumRunContextPopup"
+        <action id="DebugWithReloadiumRunContext"
                 class="rw.action.DebugWithReloadiumRunContext"
                 text="Debug with Reloadium"
                 description="Debug script with hot reloading enabled"
@@ -1169,7 +1230,7 @@
             <add-to-group group-id="RunContextGroup" anchor="first"/>
         </action>
 
-        <action id="RunWithReloadiumRunContextPopup"
+        <action id="RunWithReloadiumRunContext"
                 class="rw.action.RunWithReloadiumRunContext"
                 text="Run with Reloadium"
                 description="Run script with hot reloading enabled"

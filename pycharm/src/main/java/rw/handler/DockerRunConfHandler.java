@@ -5,7 +5,7 @@ import rw.action.RunType;
 
 
 public class DockerRunConfHandler extends RemoteRunConfHandler {
-    public static final String DOCKER_ENV = "RW_DOCKER";  //  # RwRender: public static final String DOCKER_ENV = "{{ ctx.env_vars.ide.docker }}";  //
+    public static final String DOCKER_ENV = "RW_DOCKER";
 
     public DockerRunConfHandler(RunConfiguration runConf) {
         super(runConf);

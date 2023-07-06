@@ -5,9 +5,11 @@ import com.intellij.execution.target.TargetEnvironment;
 import rw.pkg.Machine;
 import rw.remote.sftp.FileMode;
 import rw.remote.sftp.SFTPClient;
-import rw.remote.sftp.SFTPException;
 import rw.util.Architecture;
 import rw.util.OsType;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 
 public class RemoteMachine extends Machine {
@@ -27,7 +29,7 @@ public class RemoteMachine extends Machine {
             boolean isMac = false;
             try {
                 isMac = this.sftp.type("/Applications") == FileMode.Type.DIRECTORY;
-            } catch (SFTPException ignored) {
+            } catch (IOException ignored) {
             }
 
             if (isMac) {

@@ -1,4 +1,174 @@
 {
+  "1.2.0": [
+    {
+      "type": "Added",
+      "description": "Files with breakpoints are reloadable",
+      "tag": "PyCharm",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Added",
+      "description": "Ignore special functions like __getattr__, __repr__ from handling exceptions (Unless with a breakpoint)",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Added",
+      "description": "Exception handling speed improvements",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Breakpoint always hit on functions last lines",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Persisting current line indicators",
+      "tag": "PyCharm",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Not switching thread errors",
+      "tag": "PyCharm",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Added",
+      "description": "Processing files progress",
+      "tag": "PyCharm",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Added",
+      "description": "Uploading reloadium package to remote interpreters improvements",
+      "tag": "PyCharm",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Not handling errors during stepping when wrapped in try from outside",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Jittery stepping into",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Added",
+      "description": "Drop frame improvements",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Removed",
+      "description": "Drop frame support for python <= 3.9",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Not updating debugger after frame reload",
+      "tag": "PyCharm",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Added",
+      "description": "Function mementos when stepping into",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Function local completion not working in remote development",
+      "tag": "PyCharm",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Syntax errors not clearing",
+      "tag": "PyCharm",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Added",
+      "description": "Debug logging when RW_DEBUG=True",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Not breaking in closures",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Added",
+      "description": "Frame reloading closures",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Added",
+      "description": "Handling errors in closures",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Closure parent function not restarting",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Added",
+      "description": "Current File run configuration support",
+      "tag": "PyCharm",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Running with reloadium results in normal run when started too quickly.",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Added",
+      "description": "Profile child frames when stepping",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Fixed",
+      "description": "Encoding issues",
+      "tag": "Miscellaneous",
+      "date": "2023-06-26"
+    },
+    {
+      "type": "Added",
+      "description": "Better asyncio support",
+      "tag": "Miscellaneous",
+      "date": "2023-07-01"
+    },
+    {
+      "type": "Added",
+      "description": "Only scroll to error if not visible",
+      "tag": "PyCharm",
+      "date": "2023-07-01"
+    },
+    {
+      "type": "Fixed",
+      "description": "Circular import dependency issues for bigger projects",
+      "tag": "Miscellaneous",
+      "date": "2023-07-05"
+    }
+  ],
   "1.1.1": [
     {
       "type": "Added",

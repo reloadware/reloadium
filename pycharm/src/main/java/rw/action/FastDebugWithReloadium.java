@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 public class FastDebugWithReloadium extends DebugWithReloadium implements DumbAware {
-    public static final String FASTDEBUG_WHOLEPROJECT_ENV = "RW_FASTDEBUG_WHOLEPROJECT";  //  # RwRender: public static final String FASTDEBUG_WHOLEPROJECT_ENV = "{{ ctx.env_vars.fast_debug.whole_project }}";  //
+    public static final String FASTDEBUG_WHOLEPROJECT_ENV = "RW_FASTDEBUG_WHOLEPROJECT";
     private static final Logger LOGGER = Logger.getInstance(FastDebugWithReloadium.class);
     public static String ID = "FastDebugWithReloadium";
 

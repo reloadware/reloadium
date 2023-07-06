@@ -31,12 +31,6 @@ public class DialogFactory {
         return dialog.getResult();
     }
 
-    public boolean showSurveyDialog(Project project) {
-        SurveyDialog dialog = new SurveyDialog(project);
-        dialog.show();
-        return dialog.getResult();
-    }
-
     public void showFirstUserErrorDialog(Project project) {
         ApplicationManager.getApplication().invokeLater(() -> {
             FirstUserError dialog = new FirstUserError(project);

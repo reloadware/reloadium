@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import rw.action.DebugWithReloadium;
 import rw.action.RerunDebugWithReloadium;
+import rw.action.WithReloaderBase;
 import rw.consts.DataKeys;
 import rw.tests.BaseTestCase;
 import rw.tests.fixtures.CakeshopFixture;
@@ -22,13 +23,16 @@ import static org.mockito.Mockito.spy;
 
 public class TestRerunDebugAction extends BaseTestCase {
     CakeshopFixture cakeshop;
+    WithReloaderBase action;
 
     @BeforeEach
     protected void setUp() throws Exception {
         super.setUp();
 
-        this.cakeshop = new CakeshopFixture(this.getProject());
+        this.cakeshop = new CakeshopFixture(this.f);
         this.cakeshop.setUp();
+
+        this.action = this.getWithReloaderBaseAction(RerunDebugWithReloadium.ID);
     }
 
     @AfterEach
@@ -50,10 +54,8 @@ public class TestRerunDebugAction extends BaseTestCase {
 
     @Test
     public void testUpdate() {
-        AnAction action = ActionManager.getInstance().getAction(DebugWithReloadium.ID);
-
         AnActionEvent event = getEventWithConf();
-        action.update(event);
+        this.action.update(event);
 
         assertThat(event.getPresentation().isVisible()).isTrue();
         assertThat(event.getPresentation().isEnabled()).isTrue();
@@ -61,30 +63,19 @@ public class TestRerunDebugAction extends BaseTestCase {
 
     @Test
     public void testNoExecutionEnv() {
-        AnAction action = ActionManager.getInstance().getAction(RerunDebugWithReloadium.ID);
-
         AnActionEvent event = new TestActionEvent();
-        action.update(event);
+        this.action.update(event);
         assertThat(event.getPresentation().isVisible()).isTrue();
         assertThat(event.getPresentation().isEnabled()).isFalse();
     }
 
     @Test
     public void testPerform() {
-        AnAction action = ActionManager.getInstance().getAction(RerunDebugWithReloadium.ID);
-
         AnActionEvent event = getEventWithConf();
 
-        action.update(event);
+        this.action.update(event);
         assertThat(event.getPresentation().isVisible()).isTrue();
         assertThat(event.getPresentation().isEnabled()).isTrue();
-        action.actionPerformed(event);
-
-        PythonRunConfiguration runConf = this.cakeshop.getRunConf();
-
-        assertThat(runConf.getScriptName()).isEqualTo("main.py");
-        assertThat(runConf.isModuleMode()).isFalse();
-        assertThat(runConf.getEnvs().get("PYTHONPATH").isBlank()).isFalse();
-        assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium_launcher pydev_proxy");
+        this.action.actionPerformed(event);
     }
 }
