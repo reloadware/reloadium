@@ -5,6 +5,8 @@ import com.intellij.execution.process.BaseProcessHandler;
 import com.intellij.execution.ui.RunContentDescriptor;
 import rw.audit.RwSentry;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 
@@ -29,8 +31,11 @@ public class SshRunConfHandler extends RemoteRunConfHandler {
             String host = (String) getHost.invoke(session);
 
             addRemoteTunnel.invoke(process, this.session.getPort(), host, this.session.getPort());
-        } catch (Exception e) {
-            RwSentry.get().captureException(e, true);
+        }
+        catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        catch (InvocationTargetException ignored) {
         }
     }
 }
