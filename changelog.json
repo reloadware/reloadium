@@ -1,4 +1,36 @@
 {
+  "1.2.1": [
+    {
+      "type": "Fixed",
+      "description": "PyDev errors on exit",
+      "tag": "Miscellaneous",
+      "date": "2023-08-14"
+    },
+    {
+      "type": "Fixed",
+      "description": "Psi element offset issues",
+      "tag": "AI",
+      "date": "2023-08-14"
+    },
+    {
+      "type": "Fixed",
+      "description": "Reloading frames issues with break statement",
+      "tag": "Miscellaneous",
+      "date": "2023-08-14"
+    },
+    {
+      "type": "Fixed",
+      "description": "Chat crashing non deterministically",
+      "tag": "AI",
+      "date": "2023-08-14"
+    },
+    {
+      "type": "Fixed",
+      "description": "Magic mock issues on M1",
+      "tag": "Miscellaneous",
+      "date": "2023-08-14"
+    }
+  ],
   "1.2.0": [
     {
       "type": "Added",

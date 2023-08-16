@@ -1,10 +1,6 @@
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Optional
-
-if TYPE_CHECKING:
-    from dataclasses import dataclass, field
-else:
-    from reloadium.vendored.dataclasses import dataclass, field
+from dataclasses import dataclass, field
 
 dataclass = dataclass(repr=False)  # type: ignore
 

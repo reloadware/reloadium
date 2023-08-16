@@ -2,6 +2,22 @@ Change Log
 ##########
 
 
+1.2.1
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * PyDev errors on exit
+    * Reloading frames issues with break statement
+    * Magic mock issues on M1
+    
+**AI**:
+    
+  Fixed:
+    * Psi element offset issues
+    * Chat crashing non deterministically
+    
 1.2.0
 -------
 
