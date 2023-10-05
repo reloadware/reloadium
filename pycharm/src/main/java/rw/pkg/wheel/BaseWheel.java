@@ -87,7 +87,7 @@ abstract public class BaseWheel {
     }
 
     public void unpack(FileSystem fs) throws IOException {
-        String tmpdir = Files.createTempDirectory(Const.get().packageName).toFile().getAbsolutePath();
+        File tmpdir = Files.createTempDirectory(Const.get().packageName).toFile();
 
         File tmpWheelFile = new File(tmpdir, this.getFilename());
 
@@ -110,12 +110,17 @@ abstract public class BaseWheel {
         }
         packageVersionDir.mkdirs();
 
-        new ZipFile(tmpWheelFile).extractAll(tmpdir);
+        new ZipFile(tmpWheelFile).extractAll(tmpdir.getAbsolutePath());
 
-        fs.putDirectory(new File(tmpdir), packageVersionDir);
+        fs.putDirectory(tmpdir, packageVersionDir);
 
         try {
             tmpWheelFile.delete();
+        } catch (Exception ignored) {
+        }
+
+        try {
+            FileUtils.deleteDirectory(tmpdir);
         } catch (Exception ignored) {
         }
     }

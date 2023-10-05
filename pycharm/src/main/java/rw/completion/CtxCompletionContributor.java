@@ -83,7 +83,7 @@ public class CtxCompletionContributor extends BaseCompletionContributor {
         protected void addCompletions(@NotNull CompletionParameters parameters,
                                       @NotNull ProcessingContext context,
                                       @NotNull CompletionResultSet result) {
-            PreferencesState preferences = Preferences.getInstance().getState();
+            PreferencesState preferences = Preferences.get().getState();
 
             if (!preferences.runtimeCompletion) {
                 return;

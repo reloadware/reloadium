@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public class Preferences implements PersistentStateComponent<PreferencesState> {
     PreferencesState state = new PreferencesState();
 
-    public static Preferences getInstance() {
+    public static Preferences get() {
         return ApplicationManager.getApplication().getService(Preferences.class);
     }
 

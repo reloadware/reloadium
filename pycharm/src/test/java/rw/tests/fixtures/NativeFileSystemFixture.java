@@ -4,22 +4,28 @@ import org.mockito.Mockito;
 import rw.pkg.NativeFileSystem;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 
 import static org.mockito.Mockito.spy;
 
 
 public class NativeFileSystemFixture {
-    public NativeFileSystemFixture() {
+    File home;
 
+    public NativeFileSystemFixture() {
+        try {
+            this.home = new File(Files.createTempDirectory("home").toFile().getAbsolutePath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void start() throws Exception {
-        File homeDir = new File(Files.createTempDirectory("home").toFile().getAbsolutePath());
+    public void setUp() throws Exception {
         NativeFileSystem fs = spy(new NativeFileSystem());
         NativeFileSystem.singleton = fs;
 
-        Mockito.lenient().doReturn(homeDir).when(fs).getHome();
+        Mockito.lenient().doReturn(this.home).when(fs).getHome();
     }
 
     public void tearDown() throws Exception {

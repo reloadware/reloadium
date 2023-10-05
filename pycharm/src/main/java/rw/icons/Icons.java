@@ -25,5 +25,5 @@ public interface Icons {
     Icon AboutLogo = IconLoader.getIcon("/icons/aboutLogo.svg", Icons.class);
     Icon Timing = IconLoader.getIcon("/icons/itiming.svg", Icons.class);
     Icon DropFrame = IconLoader.getIcon("/icons/dropFrame.svg", Icons.class);
-
+    Icon User = IconLoader.getIcon("/icons/user.svg", Icons.class);
 }

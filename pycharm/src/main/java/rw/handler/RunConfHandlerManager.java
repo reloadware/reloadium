@@ -7,9 +7,9 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.xdebugger.XDebuggerManager;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
-import rw.pkg.PackageManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,11 +21,10 @@ public class RunConfHandlerManager {
     @VisibleForTesting
 
     public static RunConfHandlerManager singleton = null;
-    @VisibleForTesting
-    public PackageManager builtinPackageManager;
     Map<ExecutionEnvironment, RunConfHandler> all;
     @Nullable
     RunConfHandler last;
+    private List<RunListener> listeners = new ArrayList<>();
 
     @VisibleForTesting
     public RunConfHandlerManager() {
@@ -44,11 +43,6 @@ public class RunConfHandlerManager {
     public void register(ExecutionEnvironment executionEnvironment, RunConfHandler runConfHandler) {
         this.all.put(executionEnvironment, runConfHandler);
         this.last = runConfHandler;
-    }
-
-    @Nullable
-    public RunConfHandler getRunConfHandler(long executionId) {
-        return this.all.get(executionId);
     }
 
     public List<RunConfHandler> getAllActiveHandlers(@Nullable Project project) {
@@ -98,10 +92,13 @@ public class RunConfHandlerManager {
         return null;
     }
 
-    public void deactivateAll() {
-        for (RunConfHandler runConfHandler : this.all.values()) {
-            runConfHandler.deactivate();
-        }
+    public void addListener(@NotNull RunListener listener) {
+        this.listeners.add(listener);
     }
 
+    public void onBeforeRun(@NotNull RunConfHandler handler) {
+        for (RunListener listener : this.listeners) {
+            listener.onBeforeRun(handler);
+        }
+    }
 }

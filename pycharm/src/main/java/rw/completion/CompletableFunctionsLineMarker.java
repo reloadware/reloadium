@@ -55,7 +55,7 @@ public class CompletableFunctionsLineMarker extends LineMarkerProviderDescriptor
 
     @Override
     public void collectSlowLineMarkers(@NotNull List<? extends PsiElement> elements, @NotNull Collection<? super LineMarkerInfo<?>> result) {
-        PreferencesState preferences = Preferences.getInstance().getState();
+        PreferencesState preferences = Preferences.get().getState();
         if (!preferences.runtimeCompletion) {
             return;
         }

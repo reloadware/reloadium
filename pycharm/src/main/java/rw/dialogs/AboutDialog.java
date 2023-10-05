@@ -17,16 +17,14 @@ import java.util.Locale;
 
 import static rw.icons.Icons.AboutLogo;
 
-/**
- * @author Konstantin Bulenkov
- */
+
 public class AboutDialog extends DialogWrapper {
     public AboutDialog(@Nullable Project project) {
         super(project, false);
-        setResizable(false);
-        setTitle(String.format("About %s", StringUtil.capitalize(Const.get().packageName)));
+        this.setResizable(false);
+        this.setTitle(String.format("About %s", StringUtil.capitalize(Const.get().packageName)));
 
-        init();
+        this.init();
     }
 
     private static JBFont getDefaultTextFont() {

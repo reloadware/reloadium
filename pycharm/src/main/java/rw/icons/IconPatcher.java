@@ -20,7 +20,7 @@ import java.util.List;
 
 public class IconPatcher implements FileIconPatcher, DumbAware {
     static public Icon getIcon(Project project, VirtualFile file, Icon baseIcon) {
-        PreferencesState preferences = Preferences.getInstance().getState();
+        PreferencesState preferences = Preferences.get().getState();
         if (!preferences.markReloadable) {
             return baseIcon;
         }

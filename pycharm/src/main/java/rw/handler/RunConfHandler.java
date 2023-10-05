@@ -136,6 +136,7 @@ public abstract class RunConfHandler implements Disposable {
     }
 
     public void beforeRun(RunType runType) {
+        RunConfHandlerManager.get().onBeforeRun(this);
     }
 
     public void onProcessStarted(RunContentDescriptor descriptor) {

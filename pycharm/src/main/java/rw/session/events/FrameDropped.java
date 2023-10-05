@@ -33,7 +33,7 @@ public class FrameDropped extends FileEvent {
         super.handle();
         LOGGER.info("Handling FrameDopped");
 
-        PreferencesState state = Preferences.getInstance().getState();
+        PreferencesState state = Preferences.get().getState();
 
         Color BLINK_COLOR = new Color(255, 0, 0, 60);
 

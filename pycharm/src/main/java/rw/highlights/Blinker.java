@@ -30,7 +30,7 @@ public class Blinker {
     }
 
     public void blink(Blink blink) {
-        PreferencesState state = Preferences.getInstance().getState();
+        PreferencesState state = Preferences.get().getState();
 
         if (state.blinkDuration == 0) {
             return;

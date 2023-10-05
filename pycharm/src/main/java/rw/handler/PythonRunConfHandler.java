@@ -1,8 +1,6 @@
 package rw.handler;
 
 import com.google.gson.Gson;
-import com.intellij.execution.RunManager;
-import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -10,7 +8,6 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.ex.temp.TempFileSystem;
-import com.jetbrains.python.run.AbstractPythonRunConfiguration;
 import org.jetbrains.annotations.Nullable;
 import rw.action.RunType;
 import rw.audit.RwSentry;
@@ -54,7 +51,7 @@ public class PythonRunConfHandler extends RunConfHandler {
     public void beforeRun(RunType runType) {
         super.beforeRun(runType);
 
-        PreferencesState preferences = Preferences.getInstance().getState();
+        PreferencesState preferences = Preferences.get().getState();
         String command;
 
         this.runType = runType;

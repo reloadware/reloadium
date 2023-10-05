@@ -26,7 +26,7 @@ public class ModuleUpdate extends FileEvent {
     @Override
     public void handle() {
         LOGGER.info("Handling ModuleUpdate " + String.format("(%s)", this.getFile()));
-        PreferencesState state = Preferences.getInstance().getState();
+        PreferencesState state = Preferences.get().getState();
 
         Color BLINK_COLOR = new Color(255, 114, 0, 60);
 

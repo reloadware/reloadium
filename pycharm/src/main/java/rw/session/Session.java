@@ -176,6 +176,7 @@ public class Session extends Thread {
                 entry(ClearThreadError.ID, ClearThreadError.class),
                 entry(FunctionTraced.ID, FunctionTraced.class),
                 entry(WatchingConcluded.ID, WatchingConcluded.class),
+                entry(ShowNotification.ID, ShowNotification.class),
                 entry(ShowDialog.ID, ShowDialog.class)
         );
 

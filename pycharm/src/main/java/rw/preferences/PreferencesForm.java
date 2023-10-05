@@ -20,7 +20,6 @@ public class PreferencesForm {
     private JCheckBox alwaysCollectMemory;
     private JCheckBox runtimeCompletion;
     private JPanel Miscellaneous;
-    private JTextPane privacyLink;
 
     private void createUIComponents() {
         this.blinkDuration = new JSpinner(new SpinnerNumberModel(0, 0, 2000, 10));
@@ -38,14 +37,6 @@ public class PreferencesForm {
         this.errorHandlingMode = new ComboBox<>();
         this.errorHandlingMode.setModel(new DefaultComboBoxModel(ErrorHandlingMode.getAll()));
         this.errorHandlingMode.setSelectedItem(ErrorHandlingMode.DEFAULT);
-
-        this.privacyLink = new JTextPane();
-        this.privacyLink.addHyperlinkListener(BrowserHyperlinkListener.INSTANCE);
-        this.privacyLink.setContentType("text/html");
-        this.privacyLink.setText(
-                "<html><head></head><body>" +
-                        "<p><a href=\"https://reloadium.io/legal/privacy-policy\">reloadium.io/legal/privacy-policy</a></p>" +
-                        "</body> </html>");
     }
 
     public JPanel getMainPanel() {

@@ -18,9 +18,8 @@ public enum Architecture {
                     DETECTED = X64;
                 }
             } catch (java.io.IOException exception) {
-                File rosetta = new File("/usr/libexec/rosetta/");
                 String arch = System.getProperty("os.arch");
-                if (rosetta.exists() || arch.contains("arm")) {
+                if (arch.contains("arm")) {
                     DETECTED = ARM64;
                 } else {
                     DETECTED = X64;
