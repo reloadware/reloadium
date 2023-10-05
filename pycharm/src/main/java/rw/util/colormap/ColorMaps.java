@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 
 public class ColorMaps {
     static ColorMaps singleton;
-    public ColorMap inferno = new ColorMap(Media.inferno, Inferno.colors, "Inferno");
-    public ColorMap plasma = new ColorMap(Media.plasma, Plasma.colors, "Plasma");
-    public ColorMap viridis = new ColorMap(Media.viridis, Viridis.colors, "Viridis");
+    public ColorMap inferno = new ColorMap(Media.Inferno, Inferno.colors, "Inferno");
+    public ColorMap plasma = new ColorMap(Media.Plasma, Plasma.colors, "Plasma");
+    public ColorMap viridis = new ColorMap(Media.Viridis, Viridis.colors, "Viridis");
     private Map<ImageIcon, ColorMap> imageToColorMap = Map.of(
             this.inferno.getImage(), this.inferno,
             this.plasma.getImage(), this.plasma,
@@ -34,7 +34,7 @@ public class ColorMaps {
     }
 
     public static ColorMap getSelected() {
-        PreferencesState state = Preferences.getInstance().getState();
+        PreferencesState state = Preferences.get().getState();
         ColorMap ret = ColorMaps.get().getColorMapByName(state.timingColorMap);
         return ret;
     }

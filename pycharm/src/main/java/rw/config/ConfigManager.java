@@ -16,7 +16,11 @@ public class ConfigManager {
     public static ConfigManager singleton = null;
 
     @VisibleForTesting
+    public NativeFileSystem fs;
+
+    @VisibleForTesting
     public ConfigManager() {
+        this.fs = NativeFileSystem.get();
     }
 
     public static ConfigManager get() {
@@ -27,33 +31,33 @@ public class ConfigManager {
     }
 
     public void createIfNotExists() {
-        NativeFileSystem fs = NativeFileSystem.get();
-
-        if (fs.getConfigFile().exists()) {
+        if (this.fs.getConfigFile().exists()) {
             return;
         }
 
         Config config = new Config();
         config.user.uuid = UUID.randomUUID().toString();
 
+        this.save(config);
+    }
+
+    public void save(Config config) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         try {
-            FileUtils.writeStringToFile(fs.getConfigFile(), gson.toJson(config), "utf-8");
+            FileUtils.writeStringToFile(this.fs.getConfigFile(), gson.toJson(config), "utf-8");
         } catch (IOException e) {
             RwSentry.get().captureException(e, false);
         }
     }
 
     public Config getConfig() {
-        NativeFileSystem fs = NativeFileSystem.get();
-
         ConfigManager.get().createIfNotExists();
 
         Gson g = new Gson();
         Config ret = null;
         try {
-            ret = g.fromJson(FileUtils.readFileToString(fs.getConfigFile(), "utf-8"), Config.class);
+            ret = g.fromJson(FileUtils.readFileToString(this.fs.getConfigFile(), "utf-8"), Config.class);
         } catch (IOException e) {
             RwSentry.get().captureException(e, false);
         }

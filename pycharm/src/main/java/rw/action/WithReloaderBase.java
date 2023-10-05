@@ -1,7 +1,6 @@
 package rw.action;
 
 import com.intellij.execution.*;
-import com.intellij.execution.actions.RunConfigurationsComboBoxAction;
 import com.intellij.execution.executors.DefaultDebugExecutor;
 import com.intellij.execution.impl.ExecutionManagerImpl;
 import com.intellij.execution.impl.RunManagerImpl;
@@ -57,7 +56,9 @@ public abstract class WithReloaderBase extends AnAction {
             presentation.setEnabled(false);
         } else {
             RunnerAndConfigurationSettings conf = this.getConfiguration(e);
-            assert conf != null;
+            if(conf == null) {
+                return;
+            }
             this.handleRunningConfs(project, e, conf);
             this.setEnabledText(e, conf);
             presentation.setEnabled(true);

@@ -48,7 +48,7 @@ Details
 
 
 
-| Reloadium adds hot reloading, profiling and ChatGPT chat to your IDE
+| Reloadium adds hot reloading, profiling and AI features to your IDE
 
 
 Installing

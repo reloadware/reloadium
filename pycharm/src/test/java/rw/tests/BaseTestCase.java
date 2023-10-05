@@ -9,17 +9,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import rw.action.DebugWithReloadium;
 import rw.action.WithReloaderBase;
 import rw.ai.tests.PythonTestUtil;
 import rw.ai.tests.fixtures.PyLightProjectDescriptor;
 import rw.audit.RwSentry;
+import rw.haven.tests.fixtures.LicenseManagerFixture;
 import rw.pkg.PackageManager;
 import rw.service.Service;
-import rw.tests.fixtures.ConstFixture;
-import rw.tests.fixtures.DialogFactoryFixture;
-import rw.tests.fixtures.NativeFileSystemFixture;
-import rw.tests.fixtures.SentryFixture;
+import rw.tests.fixtures.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -29,6 +26,7 @@ import static org.mockito.Mockito.*;
 public class BaseTestCase extends BasePlatformTestCase {
     public String webVersion = null;
     public String builtinVersion = null;
+    ConfigManagerFixture configManagerFixture;
 
     public PackageManager packageManager;
     public NativeFileSystemFixture nativeFileSystemFixture;
@@ -49,8 +47,12 @@ public class BaseTestCase extends BasePlatformTestCase {
 
         this.f = this.myFixture;
 
+
         this.nativeFileSystemFixture = new NativeFileSystemFixture();
-        this.nativeFileSystemFixture.start();
+        this.nativeFileSystemFixture.setUp();
+
+        this.configManagerFixture = new ConfigManagerFixture(this.nativeFileSystemFixture);
+        this.configManagerFixture.setUp();
 
         this.dialogFactoryFixture = new DialogFactoryFixture(this.getProject());
         this.dialogFactoryFixture.setUp();
@@ -73,12 +75,12 @@ public class BaseTestCase extends BasePlatformTestCase {
 
     @AfterEach
     protected void tearDown() throws Exception {
+        this.configManagerFixture.tearDown();
         this.constFixture.tearDown();
         this.dialogFactoryFixture.tearDown();
         this.nativeFileSystemFixture.tearDown();
         super.tearDown();
     }
-
 
     @AfterEach
     public void validate() {

@@ -2,6 +2,27 @@ Change Log
 ##########
 
 
+1.3.0
+-------
+
+**PyCharm**:
+    
+  Fixed:
+    * Stop using /usr/libexec/rosetta/ to detect rosetta
+    * Not deleting temporary files in /tmp
+    
+  Added:
+    * Reloadium settings group
+    
+**Miscellaneous**:
+    
+  Added:
+    * Better exit codes handling
+    * Reloadium Pro
+    
+  Fixed:
+    * Logging formatting issues
+    
 1.2.1
 -------
 

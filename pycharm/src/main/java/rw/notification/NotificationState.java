@@ -1,4 +1,4 @@
-package rw.dialogs;
+package rw.notification;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
@@ -10,27 +10,23 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-@State(name = "DialogsState", storages = @Storage("reloadium.xml"))
-public class DialogsState implements PersistentStateComponent<DialogsState> {
-    public boolean firstRun = true;
-    public boolean firstDebug = true;
-    public boolean firstUserError = true;
-    public boolean firstFrameError = true;
+@State(name = "NotificationState", storages = @Storage("reloadium.xml"))
+public class NotificationState implements PersistentStateComponent<NotificationState> {
     public Map<String, Boolean> toBeShown = new HashMap<>();
 
-    public static DialogsState get() {
-        DialogsState singleton = ApplicationManager.getApplication().getService(DialogsState.class);
+    public static NotificationState get() {
+        NotificationState singleton = ApplicationManager.getApplication().getService(NotificationState.class);
         return singleton;
     }
 
     @NotNull
     @Override
-    public DialogsState getState() {
+    public NotificationState getState() {
         return this;
     }
 
     @Override
-    public void loadState(@NotNull DialogsState state) {
+    public void loadState(@NotNull NotificationState state) {
         XmlSerializerUtil.copyBean(state, this);
     }
 

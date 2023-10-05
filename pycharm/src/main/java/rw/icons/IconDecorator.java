@@ -11,7 +11,7 @@ import javax.swing.*;
 final class IconDecorator implements ProjectViewNodeDecorator {
     @Override
     public void decorate(ProjectViewNode<?> node, PresentationData data) {
-        PreferencesState preferences = Preferences.getInstance().getState();
+        PreferencesState preferences = Preferences.get().getState();
         if (!preferences.markReloadable) {
             return;
         }

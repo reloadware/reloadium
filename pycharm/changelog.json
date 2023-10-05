@@ -1,5 +1,43 @@
 {
-    "1.2.1": [
+  "1.3.0": [
+    {
+      "type": "Fixed",
+      "description": "Stop using /usr/libexec/rosetta/ to detect rosetta",
+      "tag": "PyCharm",
+      "date": "2023-09-30"
+    },
+    {
+      "type": "Added",
+      "description": "Better exit codes handling",
+      "tag": "Miscellaneous",
+      "date": "2023-09-30"
+    },
+    {
+      "type": "Added",
+      "description": "Reloadium Pro",
+      "tag": "Miscellaneous",
+      "date": "2023-09-30"
+    },
+    {
+      "type": "Fixed",
+      "description": "Logging formatting issues",
+      "tag": "Miscellaneous",
+      "date": "2023-10-02"
+    },
+    {
+      "type": "Fixed",
+      "description": "Not deleting temporary files in /tmp",
+      "tag": "PyCharm",
+      "date": "2023-10-04"
+    },
+    {
+      "type": "Added",
+      "description": "Reloadium settings group",
+      "tag": "PyCharm",
+      "date": "2023-09-30"
+    }
+  ],
+  "1.2.1": [
     {
       "type": "Fixed",
       "description": "PyDev errors on exit",
@@ -622,8 +660,8 @@
       "tag": "Miscellaneous",
       "date": "2023-01-24"
     }
-    ],
-    "0.9.3": [
+  ],
+  "0.9.3": [
     {
       "type": "Fixed",
       "description": "Error handling preferences issues",

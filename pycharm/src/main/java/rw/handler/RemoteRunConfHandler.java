@@ -17,6 +17,7 @@ import static com.intellij.util.ui.UIUtil.invokeLaterIfNeeded;
 
 abstract public class RemoteRunConfHandler extends PythonRunConfHandler {
     public static final String USER_ID_ENV = "RW_USERID";
+    public static final String LICENSE_ENV = "RW_LICENSEKEY";
     public static final String REMOTE_ENV = "RW_REMOTE";
 
     private boolean warned;
@@ -45,6 +46,7 @@ abstract public class RemoteRunConfHandler extends PythonRunConfHandler {
         Config config = ConfigManager.get().getConfig();
 
         this.runConf.getEnvs().put(USER_ID_ENV, config.user.uuid);
+        this.runConf.getEnvs().put(LICENSE_ENV, config.account.licenseKey);
         this.runConf.getEnvs().put(REMOTE_ENV, "True");
     }
 

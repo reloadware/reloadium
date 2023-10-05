@@ -39,7 +39,7 @@ public class QuickConfig {
     }
 
     private void createUIComponents() {
-        Preferences preferences = Preferences.getInstance();
+        Preferences preferences = Preferences.get();
         QuickConfig This = this;
 
         QuickConfigState state = QuickConfigStateFactory.create();
@@ -54,7 +54,7 @@ public class QuickConfig {
             public void mouseClicked(MouseEvent e) {
                 PreferencesState state = preferences.getState();
                 state.defaultProfiler = This.getState().getProfiler();
-                Preferences.getInstance().loadState(state);
+                Preferences.get().loadState(state);
             }
         });
 
@@ -64,7 +64,7 @@ public class QuickConfig {
             public void mouseClicked(MouseEvent e) {
                 PreferencesState state = preferences.getState();
                 state.defaultFrameScope = This.getState().getFrameScope();
-                Preferences.getInstance().loadState(state);
+                Preferences.get().loadState(state);
             }
         });
 
@@ -80,7 +80,7 @@ public class QuickConfig {
             public void mouseClicked(MouseEvent e) {
                 PreferencesState state = preferences.getState();
                 state.alwaysCollectMemory = This.getState().getAlwaysCollectMemory();
-                Preferences.getInstance().loadState(state);
+                Preferences.get().loadState(state);
             }
         });
 
@@ -90,7 +90,7 @@ public class QuickConfig {
             public void mouseClicked(MouseEvent e) {
                 PreferencesState state = preferences.getState();
                 state.defaultCumulateType = This.getState().getComulateType();
-                Preferences.getInstance().loadState(state);
+                Preferences.get().loadState(state);
             }
         });
 
@@ -111,7 +111,7 @@ public class QuickConfig {
             public void mouseClicked(MouseEvent e) {
                 PreferencesState state = preferences.getState();
                 state.defaultErrorHandlingMode = This.getState().getErrorHandlingMode();
-                Preferences.getInstance().loadState(state);
+                Preferences.get().loadState(state);
             }
         });
 

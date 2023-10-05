@@ -38,7 +38,6 @@ public class TestSshRunConfHandler extends BaseTestCase {
         this.cakeshop.setUp();
 
         this.action = this.getWithReloaderBaseAction(RunWithReloadium.ID);
-
     }
 
     @AfterEach
@@ -84,7 +83,8 @@ public class TestSshRunConfHandler extends BaseTestCase {
                     "{\n" +
                             "  \"user\": {\n" +
                             "    \"uuid\": \"8fcb78db-229d-40ee-b4ef-86d415755ec0\"\n" +
-                            "  }\n" +
+                            "  },\n" +
+                            "  \"account\": {}\n" +
                             "}"
             );
         }

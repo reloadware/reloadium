@@ -115,10 +115,6 @@ public abstract class TipDialog extends DialogWrapper {
         super.show();
     }
 
-    public void showLater() {
-        ApplicationManager.getApplication().invokeLater(this::show);
-    }
-
     @Override
     protected @Nullable
     JComponent createCenterPanel() {
