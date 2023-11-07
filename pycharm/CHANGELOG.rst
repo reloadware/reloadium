@@ -2,6 +2,22 @@ Change Log
 ##########
 
 
+1.3.2
+-------
+
+**Miscellaneous**:
+    
+  Added:
+    * Numba support
+    * Restrict missing path mapping popup message to project files
+    * Fast debug mode for module scopes
+    
+  Fixed:
+    * Fix startup issue for Python 3.8
+    * Fast debug not breaking in `if` `while` and other code blocks
+    * Filtered logs showing up when using Django
+    * Profiling preview overlapping VCS indicators
+    
 1.3.0
 -------
 

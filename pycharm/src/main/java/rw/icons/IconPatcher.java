@@ -9,6 +9,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.IconManager;
 import com.intellij.ui.LayeredIcon;
+import org.jetbrains.annotations.Nullable;
 import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
 import rw.preferences.Preferences;
@@ -19,7 +20,10 @@ import java.io.File;
 import java.util.List;
 
 public class IconPatcher implements FileIconPatcher, DumbAware {
-    static public Icon getIcon(Project project, VirtualFile file, Icon baseIcon) {
+    static public Icon getIcon(Project project, @Nullable VirtualFile file, Icon baseIcon) {
+        if(file == null ) {
+            return baseIcon;
+        }
         PreferencesState preferences = Preferences.get().getState();
         if (!preferences.markReloadable) {
             return baseIcon;

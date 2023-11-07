@@ -6,8 +6,6 @@ import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.diff.LineStatusMarkerDrawUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.colors.EditorColors;
-import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.impl.DocumentMarkupModel;
 import com.intellij.openapi.editor.markup.*;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -15,35 +13,29 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vcs.VcsBundle;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileWrapper;
+import com.intellij.util.IntPair;
 import com.intellij.xdebugger.ui.DebuggerColors;
 import org.jetbrains.annotations.NotNull;
 import rw.quickconfig.CumulateType;
+import rw.util.NewUI;
 
-import javax.swing.Timer;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.*;
 import java.util.stream.IntStream;
 
+import static com.intellij.diff.util.DiffDrawUtil.lineToY;
+
 
 class GutterRenderer implements ActiveGutterRenderer {
     FileValues fileValues;
-    Color emptyColor;
     String tooltip;
     LineProfiler lineProfiler;
 
     GutterRenderer(FileValues fileValues, LineProfiler lineProfiler) {
         this.fileValues = fileValues;
         this.lineProfiler = lineProfiler;
-        this.emptyColor = EditorColorsManager.getInstance().getGlobalScheme().getColor(EditorColors.GUTTER_BACKGROUND);
         this.tooltip = null;
     }
 
@@ -63,12 +55,28 @@ class GutterRenderer implements ActiveGutterRenderer {
             Color color = this.fileValues.getLineColor(line, editor,
                     this.lineProfiler.getQuickConfig().getState().getFrameScope(), cumulateType);
             if (color == null) {
-                color = this.emptyColor;
+                continue;
             }
             int start = line;
             int end = line + 1;
 
-            LineStatusMarkerDrawUtil.paintSimpleRange(g, editor, start, end, color);
+            IntPair horizontalArea = LineStatusMarkerDrawUtil.getGutterArea(editor);
+
+            int x, endX;
+
+            if (NewUI.isEnabled()) {
+                x = horizontalArea.first - 6;
+                endX = horizontalArea.first - 3;
+            }
+            else {
+                x = horizontalArea.first - 5;
+                endX = horizontalArea.first;
+            }
+
+            int y = lineToY(editor, start);
+            int endY = lineToY(editor, end);
+
+            LineStatusMarkerDrawUtil.paintRect((Graphics2D) g, color, null, x, y, endX, endY);
         }
     }
 
@@ -79,45 +87,11 @@ class GutterRenderer implements ActiveGutterRenderer {
 
     @Override
     public boolean canDoAction(@NotNull MouseEvent e) {
-        CumulateType cumulateType = this.lineProfiler.getQuickConfig().getState().getComulateType();
-
-        Editor editor;
-        try {
-            Method getEditor = e.getSource().getClass().getDeclaredMethod("getEditor");
-            getEditor.setAccessible(true);
-            editor = (Editor) getEditor.invoke(e.getSource());
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        int offset = editor.logicalPositionToOffset(editor.xyToLogicalPosition(e.getPoint()));
-        int line = editor.offsetToLogicalPosition(offset).line;
-
-        Long value = this.fileValues.getValue(line, editor, cumulateType);
-        if (value != null) {
-            this.tooltip = this.lineProfiler.format(value);
-        }
-
-        return LineStatusMarkerDrawUtil.isInsideMarkerArea(e);
+        return false;
     }
 
     @Override
     public void doAction(@NotNull Editor editor, @NotNull MouseEvent e) {
-        JPopupMenu popup = new JPopupMenu();
-
-        JMenuItem item = new JMenuItem(this.getTooltipText());
-        popup.add(item);
-
-        popup.show(editor.getComponent(), e.getX() + 10, e.getY() - 30);
-
-        javax.swing.Timer timer = new Timer(2000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                popup.setVisible(false);
-            }
-        });
-        timer.setRepeats(false);
-        timer.start();
     }
 
     @NotNull

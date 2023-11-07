@@ -1,7 +1,7 @@
 <idea-plugin xmlns:xi="http://www.w3.org/1999/XSL/Transform">
     <id>org.reloadium</id>
     <name>Reloadium - Hot Reloading, Profiling and AI Debugging for Python</name>
-    <version>1.3.0</version>
+    <version>1.3.2</version>
     <idea-version since-build="223"/>
     <vendor email="damian@reloadware.com" url="reloadium.io">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
@@ -26,16 +26,35 @@
         <div>
             <img src="https://raw.githubusercontent.com/reloadware/reloadium/main/media/chatgpt_fix.gif" width="600px" alt="ChatGPT"/>
         </div>
-
-        
-         After the plugin installation, the Reloadium client will be automatically set up and ready for use. <br>
-         To execute or debug your script, click the orange Reloadium buttons. <br>
-         For hot reloading, either modify your file and save, or click the Reloadium reload button.<br>
         ]]>
     </description>
 
     <change-notes><![CDATA[
     
+        <h3>1.3.2</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>Miscellaneous:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Numba support</li>
+                            <li>Restrict missing path mapping popup message to project files</li>
+                            <li>Fast debug mode for module scopes</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Fix startup issue for Python 3.8</li>
+                            <li>Fast debug not breaking in `if` `while` and other code blocks</li>
+                            <li>Filtered logs showing up when using Django</li>
+                            <li>Profiling preview overlapping VCS indicators</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>1.3.0</h3>
             <div style="padding-left: 20px;">
             

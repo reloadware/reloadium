@@ -5,8 +5,6 @@ import traceback
 
 from .compatibility import guarantee_single_callable
 
-logger = logging.getLogger(__name__)
-
 
 class StatelessServer:
     """
@@ -61,7 +59,7 @@ class StatelessServer:
         try:
             event_loop.run_until_complete(self.handle())
         except KeyboardInterrupt:
-            logger.info("Exiting due to Ctrl-C/interrupt")
+            pass
 
     async def handle(self):
         raise NotImplementedError("You must implement handle()")

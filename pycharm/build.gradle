@@ -7,7 +7,7 @@ plugins {
 
 
 group 'com.reloadware'
-version '1.3.0' //  # RwRender: version '{{ ctx.version }}' //
+version '1.3.2' //  # RwRender: version '{{ ctx.version }}' //
 
 
 repositories {
@@ -129,7 +129,7 @@ publishPlugin {
 }
 
 runPluginVerifier {
-    ideVersions = ["IU-231.8770.17", "IU-223.8836.14", "IU-222.4345.14"]
+    ideVersions = ["IU-231.8770.17", "IU-223.8836.14", "IU-222.4345.14", "IU-233.11555.11"]
 }
 
 tasks.processResources {

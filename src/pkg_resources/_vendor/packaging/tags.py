@@ -43,8 +43,6 @@ if TYPE_CHECKING:  # pragma: no cover
     GlibcVersion = Tuple[int, int]
 
 
-logger = logging.getLogger(__name__)
-
 INTERPRETER_SHORT_NAMES = {
     "python": "py",  # Generic.
     "cpython": "cp",
@@ -148,10 +146,6 @@ def _warn_keyword_parameter(func_name, kwargs):
 def _get_config_var(name, warn=False):
     # type: (str, bool) -> Union[int, str, None]
     value = sysconfig.get_config_var(name)
-    if value is None and warn:
-        logger.debug(
-            "Config variable '%s' is unset, Python ABI tag may be incorrect", name
-        )
     return value
 
 

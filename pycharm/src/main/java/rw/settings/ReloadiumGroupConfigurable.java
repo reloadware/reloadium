@@ -3,11 +3,9 @@ package rw.settings;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.options.ex.SortedConfigurableGroup;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vcs.configurable.*;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NonNls;
+import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.openapi.vcs.configurable.VcsMappingConfigurable;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import rw.consts.Const;
 import rw.lang.RwBundle;
 
@@ -19,7 +17,7 @@ public class ReloadiumGroupConfigurable extends SortedConfigurableGroup implemen
 
     public ReloadiumGroupConfigurable(@NotNull Project project) {
         super(ID,
-          StringUtils.capitalize(Const.get().packageName),
+          StringUtil.capitalize(Const.get().packageName),
           RwBundle.message("configurable.description"),
           VcsMappingConfigurable.HELP_ID,
           GROUP_WEIGHT);
