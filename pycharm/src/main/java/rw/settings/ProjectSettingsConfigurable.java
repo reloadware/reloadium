@@ -5,7 +5,7 @@ import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.NlsContexts;
-import org.apache.commons.lang.StringUtils;
+import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,7 +27,7 @@ public class ProjectSettingsConfigurable implements Configurable, SearchableConf
 
     @Override
     public @NlsContexts.ConfigurableName String getDisplayName() {
-        return StringUtils.capitalize(Const.get().packageName) + "ProjectSettings";
+        return StringUtil.capitalize(Const.get().packageName) + "ProjectSettings";
     }
 
     @Override

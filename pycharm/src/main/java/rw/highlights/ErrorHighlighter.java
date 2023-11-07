@@ -6,8 +6,7 @@ import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileWrapper;
-import org.apache.commons.lang.StringUtils;
+import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -48,8 +47,7 @@ public class ErrorHighlighter {
         int startOffset = document.getLineStartOffset(line);
         int endOffset = document.getLineEndOffset(line);
         String lineContent = document.getText(new TextRange(startOffset, endOffset));
-        int lineStartOffset = StringUtils.indexOf(lineContent, StringUtils.stripStart(lineContent, null));
-
+        int lineStartOffset = StringUtil.indexOf(lineContent, StringUtil.trimStart(lineContent, " "));
 
         for (Editor e : EditorFactory.getInstance().getEditors(document)) {
             InlayModel inlayModel = e.getInlayModel();

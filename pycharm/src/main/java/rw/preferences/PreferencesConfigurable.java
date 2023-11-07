@@ -3,7 +3,7 @@ package rw.preferences;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.util.NlsContexts;
-import org.apache.commons.lang.StringUtils;
+import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,7 +20,7 @@ public class PreferencesConfigurable implements Configurable, SearchableConfigur
 
     @Override
     public @NlsContexts.ConfigurableName String getDisplayName() {
-        return StringUtils.capitalize(Const.get().packageName) + "Preferences";
+        return StringUtil.capitalize(Const.get().packageName) + "Preferences";
     }
 
     @Override

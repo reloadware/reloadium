@@ -1,7 +1,11 @@
 package rw.action;
 
 import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.FileDocumentManagerListener;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectLocator;
+import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -12,7 +16,15 @@ public class ReloadOnSave implements FileDocumentManagerListener {
 
     @Override
     public void beforeDocumentSaving(@NotNull Document document) {
-        ManualReload.handleSave(null, new Document[]{document});
+        VirtualFile virtualFile = FileDocumentManager.getInstance().getFile(document);
+
+        Project project = null;
+
+        if (virtualFile != null) {
+            project = ProjectLocator.getInstance().guessProjectForFile(virtualFile);
+        }
+
+        ManualReload.handleSave(project, new Document[]{document});
     }
 
 }

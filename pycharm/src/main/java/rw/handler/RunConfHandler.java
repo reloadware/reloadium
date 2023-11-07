@@ -171,6 +171,7 @@ public abstract class RunConfHandler implements Disposable {
 
     public void onProcessExit() {
         this.deactivate();
+        RunConfHandlerManager.get().unregister(this.executionEnvironment);
     }
 
     public Stack getStack() {

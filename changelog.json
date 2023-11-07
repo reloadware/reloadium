@@ -1,4 +1,48 @@
 {
+  "1.3.2": [
+    {
+      "type": "Added",
+      "description": "Numba support",
+      "tag": "Miscellaneous",
+      "date": "2023-11-06"
+    },
+    {
+      "type": "Fixed",
+      "description": "Fix startup issue for Python 3.8",
+      "tag": "Miscellaneous",
+      "date": "2023-11-06"
+    },
+    {
+      "type": "Added",
+      "description": "Restrict missing path mapping popup message to project files",
+      "tag": "Miscellaneous",
+      "date": "2023-11-06"
+    },
+    {
+      "type": "Added",
+      "description": "Fast debug mode for module scopes",
+      "tag": "Miscellaneous",
+      "date": "2023-11-06"
+    },
+    {
+      "type": "Fixed",
+      "description": "Fast debug not breaking in `if` `while` and other code blocks",
+      "tag": "Miscellaneous",
+      "date": "2023-11-06"
+    },
+    {
+      "type": "Fixed",
+      "description": "Filtered logs showing up when using Django",
+      "tag": "Miscellaneous",
+      "date": "2023-11-07"
+    },
+    {
+      "type": "Fixed",
+      "description": "Profiling preview overlapping VCS indicators",
+      "tag": "Miscellaneous",
+      "date": "2023-11-07"
+    }
+  ],
   "1.3.0": [
     {
       "type": "Fixed",

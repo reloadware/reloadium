@@ -2,6 +2,7 @@ package rw.handler;
 
 import com.intellij.execution.RunManager;
 import com.intellij.execution.configurations.RunConfiguration;
+import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -43,6 +44,10 @@ public class RunConfHandlerManager {
     public void register(ExecutionEnvironment executionEnvironment, RunConfHandler runConfHandler) {
         this.all.put(executionEnvironment, runConfHandler);
         this.last = runConfHandler;
+    }
+
+    public void unregister(ExecutionEnvironment executionEnvironment) {
+        this.all.remove(executionEnvironment);
     }
 
     public List<RunConfHandler> getAllActiveHandlers(@Nullable Project project) {

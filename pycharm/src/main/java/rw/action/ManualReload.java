@@ -8,9 +8,12 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileWrapper;
 import com.jetbrains.python.psi.impl.PyFileImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,6 +21,7 @@ import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
 import rw.session.cmds.ReloadFile;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -36,8 +40,11 @@ public class ManualReload extends AnAction implements DumbAware {
                 manager.saveDocument(d);
 
                 VirtualFile file = FileDocumentManager.getInstance().getFile(d);
+                if (file == null) {
+                    continue;
+                }
 
-                if(file == null) {
+                if (!isProjectFile(file, project)) {
                     continue;
                 }
 
@@ -58,6 +65,14 @@ public class ManualReload extends AnAction implements DumbAware {
         Presentation presentation = e.getPresentation();
         presentation.setVisible(true);
         presentation.setEnabled(isEnabled);
+    }
+
+    static private boolean isProjectFile(@NotNull VirtualFile file, @Nullable Project project) {
+        if(project == null) {
+            return false;
+        }
+        @Nullable Module module = ModuleUtilCore.findModuleForFile(file, project);
+        return module != null;
     }
 
     @Override

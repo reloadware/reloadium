@@ -46,8 +46,6 @@ from reloadium.vendored.watchdog.events import (
 from reloadium.vendored.watchdog.observers.api import BaseObserver, EventEmitter, DEFAULT_EMITTER_TIMEOUT, DEFAULT_OBSERVER_TIMEOUT
 from reloadium.vendored.watchdog.utils.dirsnapshot import DirectorySnapshot
 
-logger = logging.getLogger("fsevents")
-
 
 class FSEventsEmitter(EventEmitter):
 
@@ -89,14 +87,10 @@ class FSEventsEmitter(EventEmitter):
         # fsevents defaults to be recursive, so if the watch was meant to be non-recursive then we need to drop
         # all the events here which do not have a src_path / dest_path that matches the watched path
         if self._watch.is_recursive:
-            logger.debug("queue_event %s", event)
             EventEmitter.queue_event(self, event)
         else:
             if not self._is_recursive_event(event):
-                logger.debug("queue_event %s", event)
                 EventEmitter.queue_event(self, event)
-            else:
-                logger.debug("drop event %s", event)
 
     def _is_recursive_event(self, event):
         src_path = event.src_path if event.is_directory else os.path.dirname(event.src_path)
@@ -152,12 +146,6 @@ class FSEventsEmitter(EventEmitter):
         return in_history or before_start
 
     def queue_events(self, timeout, events):
-
-        if logger.getEffectiveLevel() <= logging.DEBUG:
-            for event in events:
-                flags = ", ".join(attr for attr in dir(event) if getattr(event, attr) is True)
-                logger.debug(f"{event}: {flags}")
-
         if time.monotonic() - self._start_time > 60:
             # Event history is no longer needed, let's free some memory.
             self._starting_state = None
@@ -227,7 +215,6 @@ class FSEventsEmitter(EventEmitter):
 
                     if dst_event:
                         # Item was moved within the watched folder.
-                        logger.debug("Destination event for rename is %s", dst_event)
 
                         dst_path = self._encode_path(dst_event.path)
                         dst_dirname = os.path.dirname(dst_path)
@@ -276,7 +263,6 @@ class FSEventsEmitter(EventEmitter):
                 # This will be set if root or any of its parents is renamed or deleted.
                 # TODO: find out new path and generate DirMovedEvent?
                 self.queue_event(DirDeletedEvent(self.watch.path))
-                logger.debug("Stopping because root path was changed")
                 self.stop()
 
                 self._fs_view.clear()
@@ -294,7 +280,7 @@ class FSEventsEmitter(EventEmitter):
             with self._lock:
                 self.queue_events(self.timeout, events)
         except Exception:
-            logger.exception("Unhandled exception in fsevents callback")
+            pass
 
     def run(self):
         self.pathnames = [self.watch.path]
@@ -303,7 +289,7 @@ class FSEventsEmitter(EventEmitter):
             _fsevents.add_watch(self, self.watch, self.events_callback, self.pathnames)
             _fsevents.read_events(self)
         except Exception:
-            logger.exception("Unhandled exception in FSEventsEmitter")
+            pass
 
     def on_thread_start(self):
         if self.suppress_history:
