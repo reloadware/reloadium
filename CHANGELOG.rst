@@ -2,6 +2,18 @@ Change Log
 ##########
 
 
+1.3.3
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Not reloading on save for some projects
+    * No OpenAI API key message not showing up
+    
+  Removed:
+    * Frame reloading non suspended frames
+    
 1.3.2
 -------
 
