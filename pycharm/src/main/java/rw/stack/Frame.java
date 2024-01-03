@@ -10,17 +10,25 @@ public class Frame {
     static private Integer counter = 0;
     final private Long id;
     final private File path;
-    final private String fullname;
     final private boolean reloadable;
     @Nullable
-    final private Frame back;
+    private Frame back;
 
-    public Frame(Long id, File path, String fullname, boolean reloadable, @Nullable Frame back) {
+    @Nullable
+    private Frame forward;
+
+    public Frame(Long id, File path, boolean reloadable) {
         this.id = id;
         this.path = path;
-        this.fullname = fullname;
-        this.back = back;
         this.reloadable = reloadable;
+    }
+
+    public void setForwardFrame(@Nullable Frame forward) {
+        this.forward = forward;
+    }
+
+    public void setBackFrame(@Nullable Frame back) {
+        this.back = back;
     }
 
     public Long getId() {
@@ -39,21 +47,46 @@ public class Frame {
         return ((Frame) other).getId().equals(this.getId());
     }
 
-
     public File getPath() {
         return this.path;
     }
 
-    public String getFullname() {
-        return this.fullname;
-    }
 
     @Nullable
     public Frame getBack() {
         return this.back;
     }
 
+    @Nullable
+    public Frame getForward() {
+        return this.forward;
+    }
+
     public boolean isReloadable() {
         return this.reloadable;
+    }
+
+    public boolean isDroppable() {
+        if (!this.isReloadable()) {
+            return false;
+        }
+
+        if (this.back == null) {
+            return false;
+        }
+
+        if (!this.back.isReloadable()) {
+            return false;
+        }
+
+        Frame current = this.forward;
+        while(current != null) {
+            if (!current.isReloadable()) {
+                return false;
+            }
+            current = current.forward;
+        }
+
+        return true;
     }
 }

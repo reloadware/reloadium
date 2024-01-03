@@ -16,7 +16,7 @@ public class StackUpdate extends Event {
 
         for (List<FrameData> frames : this.content.values()) {
             for (FrameData f : frames) {
-                f.localPath = this.handler.convertPathToLocal(f.getPath().toString(), false);
+                f.localPath = this.handler.convertPathToLocal(f.getPath(), false);
             }
         }
 

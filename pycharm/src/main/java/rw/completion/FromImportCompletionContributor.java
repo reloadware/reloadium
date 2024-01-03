@@ -65,7 +65,7 @@ public class FromImportCompletionContributor extends BaseCompletionContributor {
             String prompt = element.getText().replace(DUMMY_IDENTIFIER_TRIMMED, "");
 
             GetFromImportCompletion cmd = new GetFromImportCompletion(fromModule, prompt);
-            Cmd.Return completion = handler.getSession().send(cmd);
+            Cmd.Return completion = handler.getSession().send(cmd, true);
 
             if (completion == null) {
                 return;

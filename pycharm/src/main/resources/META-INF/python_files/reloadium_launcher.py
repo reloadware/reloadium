@@ -15,8 +15,8 @@ def set_path():
     remote_package_path = Path("/root/.reloadium") / package_dir
     local_package_path = Path.home() / ".reloadium" / package_dir
 
-    sys.path.insert(0, str(remote_package_path))
-    sys.path.insert(0, str(local_package_path))
+    sys.path.append(str(remote_package_path))
+    sys.path.append(str(local_package_path))
 
 
 if __name__ == "__main__":

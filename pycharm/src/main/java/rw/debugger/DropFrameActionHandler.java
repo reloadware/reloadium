@@ -24,15 +24,16 @@ public class DropFrameActionHandler implements XDropFrameHandler {
 
         Frame reFrame = this.stack.getFrameById(Long.valueOf(pyStackFrame.getFrameId()));
 
-        if (reFrame == null || !reFrame.isReloadable()) {
+        if(reFrame == null){
             return false;
         }
 
-        return reFrame.getBack() != null && reFrame.getBack().isReloadable();
+        boolean ret = reFrame.isDroppable();
+        return ret;
     }
 
     @Override
     public void drop(@NotNull XStackFrame frame) {
-        this.session.send(new DropFrame(((StackFrame) frame).getFrameId()));
+        this.session.send(new DropFrame(((StackFrame) frame).getFrameId()), false);
     }
 }

@@ -1,6 +1,6 @@
 All Rights Reserved
 
-Copyright (c) 2023 Reloadware
+Copyright (c) 2024 Reloadware
 
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR

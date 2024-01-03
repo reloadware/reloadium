@@ -1,7 +1,7 @@
 <idea-plugin xmlns:xi="http://www.w3.org/1999/XSL/Transform">
     <id>org.reloadium</id>
     <name>Reloadium - Hot Reloading, Profiling and AI Debugging for Python</name>
-    <version>1.3.3</version>
+    <version>1.3.4</version>
     <idea-version since-build="223"/>
     <vendor email="damian@reloadware.com" url="reloadium.io">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
@@ -31,6 +31,57 @@
 
     <change-notes><![CDATA[
     
+        <h3>1.3.4</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>Miscellaneous:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>More robust frame reloading</li>
+                            <li>Updating methods of nested dataclasses</li>
+                            <li>Dropping frames of functions returning tuples.</li>
+                            <li>Reloading methods of classes inside functions.</li>
+                            <li>Celery support</li>
+                            <li>Reloading forked processes support</li>
+                            <li>Improved line profiler.</li>
+                            <li>Profiling open files without breakpoints</li>
+                            <li>Profiling on stepping</li>
+                            <li>Profiling on resume</li>
+                            <li>Real time profiling on slow lines</li>
+                        </ul>
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Frame reloading crashing occasionally</li>
+                            <li>Orange update indicator showing for whole dataclasses when updating a single object</li>
+                            <li>Freezing on reloads</li>
+                            <li>-X flag issue on new PyCharm versions</li>
+                            <li>Debugger freezing occasionally</li>
+                        </ul>
+                    
+                </div>
+                <h4>PyCharm:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Error message not showing occasionally</li>
+                            <li>Droppable frames logic.</li>
+                            <li>Not reloading on save when multiple projects are open.</li>
+                            <li>Blue frame progress indicators not hiding</li>
+                            <li>Averaging line profile values in 'Mean' mode</li>
+                        </ul>
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Line timing rendering optimisations</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>1.3.3</h3>
             <div style="padding-left: 20px;">
             
@@ -1401,6 +1452,11 @@
             <add-to-group group-id="XDebugger.ToolWindow.TopToolbar3.Extra"/>
         </action>
     </actions>
+
+    <applicationListeners>
+        <listener class="rw.service.OpenedEditorsListener"
+                  topic="com.intellij.openapi.fileEditor.FileEditorManagerListener"/>
+    </applicationListeners>
 
     <xi:include href="ai.xml"/>
     <xi:include href="depot.xml"/>

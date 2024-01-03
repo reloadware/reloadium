@@ -1,16 +1,16 @@
 package rw.session;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
-import org.jetbrains.concurrency.Promise;
-import org.jetbrains.concurrency.Promises;
 import rw.audit.RwSentry;
 import rw.handler.RunConfHandler;
 import rw.session.cmds.Cmd;
+import rw.session.cmds.UpdateOpenFilesCmd;
 import rw.session.cmds.completion.*;
 import rw.session.events.*;
 
@@ -98,7 +98,7 @@ class Client extends Thread {
         }
     }
 
-    @Nullable Cmd.Return send(Cmd cmd) {
+    @Nullable Cmd.Return send(Cmd cmd, boolean blocking) {
         this.cmdReturn = null;
         this.cmdReturnId = cmd.getId();
 
@@ -106,6 +106,10 @@ class Client extends Thread {
         String payload = gson.toJson(cmd);
         LOGGER.info(String.format("Sending cmd %s", cmd.getId()));
         this.out.println(payload);
+
+        if(!blocking) {
+            return null;
+        }
 
         int timeout = 4000;
 
@@ -185,11 +189,13 @@ public class Session extends Thread {
                 entry("GetFrameCompletion", GetFrameCompletion.Return.class),
                 entry("GetGlobalCompletion", GetGlobalCompletion.Return.class),
                 entry("GetImportCompletion", GetImportCompletion.Return.class),
-                entry("GetFromImportCompletion", GetFromImportCompletion.Return.class)
+                entry("GetFromImportCompletion", GetFromImportCompletion.Return.class),
+                entry("UpdateOpenFilesCmd", UpdateOpenFilesCmd.Return.class)
         );
 
         try {
             this.serverSocket = new ServerSocket(0);
+            this.serverSocket.setSoTimeout(10000); // Timeout after 10 seconds
             this.port = this.serverSocket.getLocalPort();
         } catch (IOException ignored) {
         }
@@ -208,9 +214,15 @@ public class Session extends Thread {
             return null;
         }
 
-        ret = g.fromJson(payload, eventClass);
+        try {
+            ret = g.fromJson(payload, eventClass);
+        }
+        catch (JsonSyntaxException e) {
+            return null;
+        }
+
         ret.setHandler(this.handler);
-        if(!ret.prepare()) {
+        if(!ret.isValid()) {
             return null;
         }
 
@@ -248,20 +260,16 @@ public class Session extends Thread {
         }
     }
 
-    public @Nullable Cmd.Return send(Cmd cmd) {
+    public @Nullable Cmd.Return send(Cmd cmd, boolean blocking) {
         Cmd.Return ret = null;
 
         List<Client> clients = new ArrayList<>(this.clients);
 
         for (Client c : clients) {
-            ret = c.send(cmd);
+            ret = c.send(cmd, blocking);
         }
 
         return ret;
-    }
-
-    public Promise<Cmd.Return> sendAsync(Cmd cmd) {
-        return Promises.runAsync(() -> send(cmd));
     }
 
     public RunConfHandler getHandler() {

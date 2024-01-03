@@ -8,6 +8,8 @@ import com.intellij.openapi.project.ProjectLocator;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+
 
 public class ReloadOnSave implements FileDocumentManagerListener {
     public ReloadOnSave() {
@@ -18,13 +20,15 @@ public class ReloadOnSave implements FileDocumentManagerListener {
     public void beforeDocumentSaving(@NotNull Document document) {
         VirtualFile virtualFile = FileDocumentManager.getInstance().getFile(document);
 
-        Project project = null;
-
         if (virtualFile != null) {
-            project = ProjectLocator.getInstance().guessProjectForFile(virtualFile);
+            Collection<Project> projects = ProjectLocator.getInstance().getProjectsForFile(virtualFile);
+
+            for(Project project : projects) {
+                ManualReload.handleSave(project, new Document[]{document});
+            }
         }
-
-        ManualReload.handleSave(project, new Document[]{document});
+        else {
+            ManualReload.handleSave(null, new Document[]{document});
+        }
     }
-
 }

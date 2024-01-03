@@ -21,7 +21,12 @@ abstract public class ContextPopupAction extends WithReloaderBase implements Act
         final DataContext dataContext = e.getDataContext();
         final ConfigurationContext context = ConfigurationContext.getFromContext(dataContext, ActionPlaces.UNKNOWN);
 
-        RunnerAndConfigurationSettings ret = context.findExisting();
+        RunnerAndConfigurationSettings ret = null;
+        try {
+            ret = context.findExisting();
+        } catch (Exception exception) {
+            LOGGER.warn("Failed to get selected configuration", exception);
+        }
 
         if (ret == null) {
             ret = context.getConfiguration();

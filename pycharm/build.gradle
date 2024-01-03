@@ -7,7 +7,7 @@ plugins {
 
 
 group 'com.reloadware'
-version '1.3.3' //  # RwRender: version '{{ ctx.version }}' //
+version '1.3.4' //  # RwRender: version '{{ ctx.version }}' //
 
 
 repositories {
@@ -32,7 +32,7 @@ repositories {
 
 sourceCompatibility=17
 def remoteRobotVersion = "0.11.16"
-def intellijVersion = "2023.1.1" //  # RwRender: def intellijVersion = "{{ ctx.intellij_version }}" //
+def intellijVersion = "2023.2.5" //  # RwRender: def intellijVersion = "{{ ctx.intellij_version }}" //
 def intellijPro = false  //  # RwRender: def intellijPro = {{ ctx.pro }}  //
 
 

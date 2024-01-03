@@ -86,7 +86,7 @@ public class TestSession extends BaseTestCase {
                 tempFile);
         UserError event = (UserError) session.eventFactory(payload);
         assertThat(event).isInstanceOf(UserError.class);
-        assertThat(event.getPath()).isEqualTo(tempFile);
+        assertThat(event.getFile().getPath()).isEqualTo(tempFile.getPath());
         assertThat(event.getLine()).isEqualTo(2);
 
         event.handle();

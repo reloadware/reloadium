@@ -5,6 +5,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.FoldRegion;
 import com.intellij.openapi.editor.FoldingModel;
+import com.intellij.openapi.util.Pair;
 import org.jetbrains.annotations.Nullable;
 import rw.quickconfig.CumulateType;
 import rw.util.colormap.ColorMap;
@@ -20,7 +21,9 @@ import java.util.stream.IntStream;
 
 public class FileValues {
     Map<CumulateType, Map<Integer, Long>> values;
-    Map<Integer, String> lineToFrame;
+    Map<Integer, Long> hits;
+    Map<Integer, Long> partials;
+    Map<Integer, Long> lineToFrame;
 
 
     FileValues() {
@@ -31,40 +34,80 @@ public class FileValues {
         }
 
         this.lineToFrame = new HashMap<>();
+        this.hits = new HashMap<>();
+        this.partials = new HashMap<>();
     }
 
-    synchronized public void update(Map<Integer, Long> values, String frame, Integer frameLine, CumulateType cumulateType) {
+    synchronized public void update(Map<Integer, Long> values, Long frameId, boolean partial) {
         for (Map.Entry<Integer, Long> entry : values.entrySet()) {
             if (entry.getValue() == 0) {
                 continue;
             }
 
-            Long currentAddValue = this.values.get(CumulateType.ADD).getOrDefault(entry.getKey(), 0L);
-            Long currentMeanValue = this.values.get(CumulateType.MEAN).getOrDefault(entry.getKey(), entry.getValue());
-            Long currentMaxValue = this.values.get(CumulateType.MAX).getOrDefault(entry.getKey(), 0L);
-            Long currentMinValue = this.values.get(CumulateType.MAX).getOrDefault(entry.getKey(), Long.MAX_VALUE);
+            int line = entry.getKey() - 1;
+            Long value = entry.getValue();
+            boolean newFrame = this.lineToFrame.get(line) == null || !this.lineToFrame.get(line).equals(frameId);
 
-            this.values.get(CumulateType.ADD).put(entry.getKey(),
-                    entry.getValue() + currentAddValue);
-            this.values.get(CumulateType.MEAN).put(entry.getKey(), (entry.getValue() + currentMeanValue) / 2L);
-            if (entry.getValue() > currentMaxValue) {
-                this.values.get(CumulateType.MAX).put(entry.getKey(), entry.getValue());
-            }
-            if (entry.getValue() < currentMinValue) {
-                this.values.get(CumulateType.MIN).put(entry.getKey(), entry.getValue());
+            if (newFrame && !partial) {
+                this.hits.put(line, 0L);
+                this.partials.put(line, 0L);
             }
 
-            this.values.get(CumulateType.LAST).put(entry.getKey(), entry.getValue());
-        }
+            if(partial) {
+                this.partials.put(line, this.partials.getOrDefault(line, 0L) + value);
+            }
 
-        this.lineToFrame.put(frameLine - 1, frame);
+            Long currentAddValue = this.values.get(CumulateType.ADD).get(line);
+            Long currentLastValue = this.values.get(CumulateType.LAST).get(line);
+            Long currentMaxValue = this.values.get(CumulateType.MAX).get(line);
+            Long currentMinValue = this.values.get(CumulateType.MIN).get(line);
 
-        for (Integer l : values.keySet()) {
-            this.lineToFrame.put(l - 1, frame);
+            if (!partial) {
+                this.hits.put(line, this.hits.getOrDefault(line, 0L) + 1);
+            }
+            Long hits = this.hits.get(line);
+
+            if (currentAddValue == null || newFrame) {
+                this.values.get(CumulateType.ADD).put(line, value);
+            }
+            else {
+                if(partial) {
+                    this.values.get(CumulateType.ADD).put(line, value + currentAddValue);
+                }
+                else {
+                    this.values.get(CumulateType.ADD).put(line, currentAddValue + value - this.partials.getOrDefault(line, 0L));
+                }
+            }
+
+            if (currentLastValue == null || newFrame) {
+                this.values.get(CumulateType.LAST).put(line, value);
+            }
+            else {
+                if(partial) {
+                    this.values.get(CumulateType.LAST).put(line, this.partials.getOrDefault(line, 0L));
+                }
+                else {
+                    this.values.get(CumulateType.LAST).put(line, value);
+                }
+            }
+
+            if (!partial) {
+                this.values.get(CumulateType.MEAN).put(line, this.values.get(CumulateType.ADD).get(line) / hits);
+
+                if (currentMaxValue == null || newFrame || value > currentMaxValue) {
+                    this.values.get(CumulateType.MAX).put(line, value);
+                }
+
+                if (currentMinValue == null || newFrame || value < currentMinValue) {
+                    this.values.get(CumulateType.MIN).put(line, value);
+                }
+                this.partials.put(line, 0L);
+            }
+            this.lineToFrame.put(line, frameId);
         }
     }
 
-    synchronized Map<Integer, Long> getFoldedValues(Editor editor, @Nullable String frame, CumulateType cumulateType) {
+    synchronized Map<Integer, Long> getFoldedValues(Editor editor, @Nullable Long frameId, CumulateType cumulateType) {
         final FoldingModel foldingModel = editor.getFoldingModel();
         Document document = editor.getDocument();
 
@@ -72,10 +115,10 @@ public class FileValues {
         Map<Integer, Long> cumulateValues = new HashMap<>(this.values.get(cumulateType));
 
         for (Map.Entry<Integer, Long> entry : cumulateValues.entrySet()) {
-            int line = entry.getKey() - 1;
+            int line = entry.getKey();
 
-            if (frame != null) {
-                if (!this.lineToFrame.get(line).equals(frame)) {
+            if (frameId != null) {
+                if (!this.lineToFrame.get(line).equals(frameId)) {
                     continue;
                 }
             }
@@ -118,15 +161,15 @@ public class FileValues {
 
     @Nullable
     synchronized public Color getLineColor(int line, Editor editor, boolean frameScope, CumulateType cumulateType) {
-        String frame;
+        Long frameId;
 
         if (frameScope) {
-            frame = this.lineToFrame.get(line);
+            frameId = this.lineToFrame.get(line);
         } else {
-            frame = null;
+            frameId = null;
         }
 
-        Map<Integer, Long> values = this.getFoldedValues(editor, frame, cumulateType);
+        Map<Integer, Long> values = this.getFoldedValues(editor, frameId, cumulateType);
 
         if (values.isEmpty()) {
             return null;

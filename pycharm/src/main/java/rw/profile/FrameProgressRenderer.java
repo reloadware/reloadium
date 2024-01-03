@@ -9,9 +9,7 @@ import rw.highlights.Highlighter;
 import rw.session.events.LineProfile;
 
 import java.awt.*;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class FrameProgressRenderer {
@@ -20,55 +18,48 @@ public class FrameProgressRenderer {
     Color FRAME_PROGRESS_COLOR = new Color(0, 149, 255, 50);
     Color CURR_LINE_COLOR = new Color(0, 149, 255, 80);
     int BLINK_DURATION = 300;
-    private Highlighter highlighter;  // file to current line highlighter
+    int POINTER_BLINK_DURATION = 250;
+    Map<String, Blink> threadBlinkers;
 
     public FrameProgressRenderer(Project project) {
         this.project = project;
+        this.threadBlinkers = new HashMap<>();
     }
 
     public void onFrameProgressEvent(LineProfile event) {
-        this.renderFrameProgress(event);
-    }
-
-    public void renderFrameProgress(LineProfile event) {
-        if (this.highlighter != null) {
-            ApplicationManager.getApplication().invokeLater(this.highlighter::hide);
-        }
-
-        if (!event.isStop()) {
-            this.highlighter = new Highlighter(project,
-                    event.getFile(),
-                    event.getLine(),
-                    this.CURR_LINE_COLOR,
-                    -1,
-                    false);
-            ApplicationManager.getApplication().invokeLater(this.highlighter::show);
-        }
-
         LOGGER.info("Rendering frame progress");
 
-        if (!event.getTimeValues().isEmpty()) {
-            Set<Integer> lines = new HashSet<>(event.getTimeValues().keySet());
-            lines.add(event.getLine());
-            int start = Collections.min(lines);
-            int end = Collections.max(lines);
-            Blink blink = new Blink(project, event.getFile(), start, end, FRAME_PROGRESS_COLOR, -1,
-                    this.BLINK_DURATION);
-            Blinker.get().blink(blink);
-        }
-    }
-
-    public void activate() {
-        if (this.highlighter == null) {
+        if (event.getTimeValues().isEmpty()) {
             return;
         }
-        ApplicationManager.getApplication().invokeLater(this.highlighter::show);
-    }
 
-    public void deactivate() {
-        if (this.highlighter == null) {
-            return;
+        Set<Integer> lines = new HashSet<>(event.getTimeValues().keySet());
+
+        int start = Collections.min(lines);
+        int end = Collections.max(lines);
+
+        Blink blink = new Blink(this.project, event.getFile(), start, end, FRAME_PROGRESS_COLOR, -2,
+                this.BLINK_DURATION);
+        Blinker.get().blink(blink);
+
+
+        if (event.getPointer() != null) {
+            Blink pointerBlink = this.threadBlinkers.get(event.getThreadId());
+
+            if (pointerBlink != null && pointerBlink.getBegin() != event.getPointer()) {
+                pointerBlink.remove();
+                pointerBlink = null;
+            }
+
+            if(pointerBlink == null) {
+                pointerBlink = new Blink(this.project, event.getFile(), event.getPointer(), event.getPointer(),
+                    CURR_LINE_COLOR, -1,
+                    POINTER_BLINK_DURATION);
+
+                this.threadBlinkers.put(event.getThreadId(), pointerBlink);
+            }
+
+            Blinker.get().blink(pointerBlink);
         }
-        ApplicationManager.getApplication().invokeLater(this.highlighter::hide);
     }
 }
