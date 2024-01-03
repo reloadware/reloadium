@@ -17,7 +17,7 @@ public class Blink {
     private final VirtualFile file;
     private final int duration;
     private long expires;
-    private Highlighter highlighter = null;
+    private Highlighter highlighter;
 
     public Blink(Project project, VirtualFile file, int lineno, int endLineno, Color color, int layer, int duration) {
         this.project = project;
@@ -28,6 +28,14 @@ public class Blink {
         this.layer = layer;
 
         this.duration = duration;
+
+        this.highlighter = new Highlighter(this.project,
+                this.file,
+                this.lineno,
+                this.endLineno,
+                this.color,
+                this.layer,
+                false);
 
         this.resetExpiration();
     }
@@ -58,17 +66,10 @@ public class Blink {
     }
 
     public void render() {
-        this.highlighter = new Highlighter(this.project,
-                this.file,
-                this.lineno,
-                this.endLineno,
-                this.color,
-                this.layer,
-                false);
-        ApplicationManager.getApplication().invokeLater(() -> this.highlighter.show());
+        this.highlighter.show();
     }
 
     public void remove() {
-        ApplicationManager.getApplication().invokeLater(() -> this.highlighter.hide());
+        this.highlighter.hide();
     }
 }

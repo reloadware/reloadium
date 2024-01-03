@@ -53,7 +53,9 @@ public class RunConfHandlerManager {
     public List<RunConfHandler> getAllActiveHandlers(@Nullable Project project) {
         List<RunConfHandler> ret = new ArrayList<>();
 
-        this.all.forEach((key, value) -> {
+        Map<ExecutionEnvironment, RunConfHandler> allCopy = new HashMap<>(this.all);
+
+        allCopy.forEach((key, value) -> {
             if ((project == null || value.getProject() == project) && value.isActive()) {
                 ret.add(value);
             }
@@ -89,7 +91,9 @@ public class RunConfHandlerManager {
 
         RunConfiguration configuration = runManager.getSelectedConfiguration().getConfiguration();
 
-        for (RunConfHandler h : this.all.values()) {
+        Map<ExecutionEnvironment, RunConfHandler> allCopy = new HashMap<>(this.all);
+
+        for (RunConfHandler h : allCopy.values()) {
             if (h.runConf == configuration && h.isActive()) {
                 return h;
             }

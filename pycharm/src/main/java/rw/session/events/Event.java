@@ -12,7 +12,7 @@ public class Event {
     public void handle() {
     }
 
-    public boolean prepare() {
+    public boolean isValid() {
         return true;
     }
 

@@ -61,6 +61,6 @@ public class DropFrameAction extends AnAction implements DumbAware {
 
         assert handler != null;
         DropFrame cmd = new DropFrame(frame.getFrameId());
-        handler.getSession().send(cmd);
+        handler.getSession().send(cmd, false);
     }
 }

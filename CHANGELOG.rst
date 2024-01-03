@@ -2,6 +2,43 @@ Change Log
 ##########
 
 
+1.3.4
+-------
+
+**Miscellaneous**:
+    
+  Added:
+    * More robust frame reloading
+    * Updating methods of nested dataclasses
+    * Dropping frames of functions returning tuples.
+    * Reloading methods of classes inside functions.
+    * Celery support
+    * Reloading forked processes support
+    * Improved line profiler.
+    * Profiling open files without breakpoints
+    * Profiling on stepping
+    * Profiling on resume
+    * Real time profiling on slow lines
+    
+  Fixed:
+    * Frame reloading crashing occasionally
+    * Orange update indicator showing for whole dataclasses when updating a single object
+    * Freezing on reloads
+    * -X flag issue on new PyCharm versions
+    * Debugger freezing occasionally
+    
+**PyCharm**:
+    
+  Fixed:
+    * Error message not showing occasionally
+    * Droppable frames logic.
+    * Not reloading on save when multiple projects are open.
+    * Blue frame progress indicators not hiding
+    * Averaging line profile values in 'Mean' mode
+    
+  Added:
+    * Line timing rendering optimisations
+    
 1.3.3
 -------
 

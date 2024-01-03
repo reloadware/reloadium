@@ -130,7 +130,7 @@ public class CtxCompletionContributor extends BaseCompletionContributor {
                 return;
             }
 
-            Cmd.Return completion = handler.getSession().send(cmd);
+            Cmd.Return completion = handler.getSession().send(cmd, true);
 
             if (!(completion instanceof GetCtxCompletion.Return)) {
                 return;

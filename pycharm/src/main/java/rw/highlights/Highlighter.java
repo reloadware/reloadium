@@ -91,10 +91,6 @@ public class Highlighter {
         this(project, file, line, line, color, layer, gutter);
     }
 
-    public RangeHighlighter getDevice() {
-        return this.device;
-    }
-
     public void hide() {
         if (this.device == null) {
             return;

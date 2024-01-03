@@ -1,4 +1,138 @@
 {
+  "1.3.4": [
+    {
+      "type": "Added",
+      "description": "More robust frame reloading",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Fixed",
+      "description": "Frame reloading crashing occasionally",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Added",
+      "description": "Updating methods of nested dataclasses",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Fixed",
+      "description": "Orange update indicator showing for whole dataclasses when updating a single object",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Fixed",
+      "description": "Error message not showing occasionally",
+      "tag": "PyCharm",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Added",
+      "description": "Dropping frames of functions returning tuples.",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Added",
+      "description": "Reloading methods of classes inside functions.",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Fixed",
+      "description": "Droppable frames logic.",
+      "tag": "PyCharm",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Fixed",
+      "description": "Not reloading on save when multiple projects are open.",
+      "tag": "PyCharm",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Added",
+      "description": "Celery support",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Added",
+      "description": "Reloading forked processes support",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Fixed",
+      "description": "Freezing on reloads",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Added",
+      "description": "Improved line profiler.",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Added",
+      "description": "Profiling open files without breakpoints",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Added",
+      "description": "Profiling on stepping",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Added",
+      "description": "Profiling on resume",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Added",
+      "description": "Real time profiling on slow lines",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Fixed",
+      "description": "-X flag issue on new PyCharm versions",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Added",
+      "description": "Line timing rendering optimisations",
+      "tag": "PyCharm",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Fixed",
+      "description": "Blue frame progress indicators not hiding",
+      "tag": "PyCharm",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Fixed",
+      "description": "Averaging line profile values in 'Mean' mode",
+      "tag": "PyCharm",
+      "date": "2024-01-02"
+    },
+    {
+      "type": "Fixed",
+      "description": "Debugger freezing occasionally",
+      "tag": "Miscellaneous",
+      "date": "2024-01-02"
+    }
+  ],
   "1.3.3": [
     {
       "type": "Fixed",

@@ -30,7 +30,6 @@ public class MemoryProfiler extends LineProfiler {
         this.values.putIfAbsent(event.getFile(), new FileValues());
 
         FileValues fileValues = this.values.get(event.getFile());
-        fileValues.update(event.getMemoryValues(), event.getFrame(), event.getFrameLine(),
-                this.getQuickConfig().getState().getComulateType());
+        fileValues.update(event.getMemoryValues(), event.getFrameUuid(), event.isPartial());
     }
 }

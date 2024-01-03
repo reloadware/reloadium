@@ -41,21 +41,26 @@ public class Stack {
 
             this.threads.putIfAbsent(threadId, new Thread(threadId));
 
-            Frame backFrame = null;
             for (FrameData f : reverseFrames) {
                 Frame frame = this.frameIdToFrame.getOrDefault(f.getFrameId(),
                         new Frame(f.getFrameId(),
                                 f.getLocalPath(),
-                                f.getFullname(),
-                                f.isReloadable(),
-                                backFrame));
+                                f.isReloadable()));
                 frames.add(0, frame);
-
-                backFrame = frame;
 
                 this.pathToFrames.putIfAbsent(f.getLocalPath(), new ArrayList<>());
                 this.pathToFrames.get(f.getLocalPath()).add(frame);
                 this.frameIdToFrame.putIfAbsent(f.getFrameId(), frame);
+            }
+
+            for(int i = 0; i < frames.size(); i++) {
+                Frame frame = frames.get(i);
+                if (i > 0) {
+                    frame.setForwardFrame(frames.get(i - 1));
+                }
+                if (i < frames.size() - 1) {
+                    frame.setBackFrame(frames.get(i + 1));
+                }
             }
 
             this.content.put(threadId, frames);

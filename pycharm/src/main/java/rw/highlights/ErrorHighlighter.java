@@ -3,6 +3,7 @@ package rw.highlights;
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.editor.*;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -49,6 +50,9 @@ public class ErrorHighlighter {
         String lineContent = document.getText(new TextRange(startOffset, endOffset));
         int lineStartOffset = StringUtil.indexOf(lineContent, StringUtil.trimStart(lineContent, " "));
 
+        FileEditorManagerEx fileEditorManager = FileEditorManagerEx.getInstanceEx(this.project);
+        fileEditorManager.openFile(this.file, true);
+
         for (Editor e : EditorFactory.getInstance().getEditors(document)) {
             InlayModel inlayModel = e.getInlayModel();
 
@@ -59,15 +63,16 @@ public class ErrorHighlighter {
 
             LogicalPosition highlightPosition = new LogicalPosition(line, lineStartOffset);
 
-            Point p = e.logicalPositionToXY(highlightPosition);
-            if (!e.getScrollingModel().getVisibleArea().contains(p)) {
-                Timer timer = new Timer(500, t -> {
+            Timer timer = new Timer(500, t -> {
+                Point p = e.logicalPositionToXY(highlightPosition);
+                if (!e.getScrollingModel().getVisibleArea().contains(p)) {
+
                     e.getCaretModel().moveToLogicalPosition(new LogicalPosition(line, lineStartOffset));
                     e.getScrollingModel().scrollToCaret(ScrollType.CENTER);
-                });
-                timer.setRepeats(false); // execute the task only once
-                timer.start();
-            }
+                }
+            });
+            timer.setRepeats(false); // execute the task only once
+            timer.start();
         }
     }
 

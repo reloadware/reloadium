@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 
 import java.util.Map;
@@ -11,32 +12,38 @@ import java.util.Map;
 public class LineProfile extends FileEvent {
     public static final String ID = "LineProfile";
     private static final Logger LOGGER = Logger.getInstance(LineProfile.class);
-    private final Boolean stop;
     @SerializedName("memory_values")
     private final Map<Integer, Long> memoryValues;
     @SerializedName("time_values")
     private final Map<Integer, Long> timeValues;
-    private final Integer line;
-    private final String frame;
-    @SerializedName("frame_line")
-    private final Integer frameLine;
+
+    @SerializedName("frame_uuid")
+    private final Long frameUuid;
+
+    @SerializedName("thread_id")
+    private final String threadId;
+
+    @Nullable private final Integer pointer;
+
+    @SerializedName("partial")
+    private final Boolean partial;
 
     @VisibleForTesting
     public LineProfile(@NotNull String path,
                        @NotNull VirtualFile file,
-                       Boolean stop,
                        Map<Integer, Long> memoryValues,
                        Map<Integer, Long> timeValues,
-                       Integer line,
-                       String frame,
-                       Integer frameLine) {
+                       @Nullable Integer pointer,
+                       @NotNull Long frameUuid,
+                       @NotNull Boolean partial,
+                       @NotNull String threadId) {
         super(path, file);
-        this.stop = stop;
+        this.partial = partial;
         this.memoryValues = memoryValues;
         this.timeValues = timeValues;
-        this.line = line;
-        this.frame = frame;
-        this.frameLine = frameLine;
+        this.pointer = pointer;
+        this.frameUuid = frameUuid;
+        this.threadId = threadId;
     }
 
     @Override
@@ -50,10 +57,6 @@ public class LineProfile extends FileEvent {
         this.handler.getActiveProfiler().update();
     }
 
-    public Boolean isStop() {
-        return this.stop;
-    }
-
     public Map<Integer, Long> getMemoryValues() {
         return this.memoryValues;
     }
@@ -62,15 +65,19 @@ public class LineProfile extends FileEvent {
         return this.timeValues;
     }
 
-    public Integer getLine() {
-        return this.line;
+    @Nullable public Integer getPointer() {
+        return this.pointer;
     }
 
-    public String getFrame() {
-        return this.frame;
+    public String getThreadId() {
+        return this.threadId;
     }
 
-    public Integer getFrameLine() {
-        return this.frameLine;
+    public Long getFrameUuid() {
+        return this.frameUuid;
+    }
+
+    public Boolean isPartial() {
+        return this.partial;
     }
 }

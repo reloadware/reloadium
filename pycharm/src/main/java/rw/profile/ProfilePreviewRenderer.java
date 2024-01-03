@@ -6,6 +6,8 @@ import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.diff.LineStatusMarkerDrawUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.LogicalPosition;
+import com.intellij.openapi.editor.ScrollingModel;
 import com.intellij.openapi.editor.impl.DocumentMarkupModel;
 import com.intellij.openapi.editor.markup.*;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -48,10 +50,22 @@ class GutterRenderer implements ActiveGutterRenderer {
             return;
         }
 
-        Integer minLine = Collections.min(lines);
-        Integer maxLine = Collections.max(lines);
+        ScrollingModel scrollingModel = editor.getScrollingModel();
+        Rectangle visibleArea = scrollingModel.getVisibleArea();
 
-        for (Integer line : IntStream.rangeClosed(minLine - 1, maxLine).toArray()) {
+        // Convert the corners of the visible area to logical positions
+        LogicalPosition startLogicalPos = editor.xyToLogicalPosition(new Point(visibleArea.x, visibleArea.y));
+        LogicalPosition endLogicalPos = editor.xyToLogicalPosition(new Point(visibleArea.x, visibleArea.y + visibleArea.height));
+
+        // Convert logical positions to offsets
+        int startOffset = editor.logicalPositionToOffset(startLogicalPos);
+        int endOffset = editor.logicalPositionToOffset(endLogicalPos);
+
+        // Convert offsets to line numbers
+        int startLine = editor.getDocument().getLineNumber(startOffset);
+        int endLine = editor.getDocument().getLineNumber(endOffset);
+
+        for (Integer line : IntStream.rangeClosed(startLine - 1, endLine).toArray()) {
             Color color = this.fileValues.getLineColor(line, editor,
                     this.lineProfiler.getQuickConfig().getState().getFrameScope(), cumulateType);
             if (color == null) {
@@ -67,8 +81,7 @@ class GutterRenderer implements ActiveGutterRenderer {
             if (NewUI.isEnabled()) {
                 x = horizontalArea.first - 6;
                 endX = horizontalArea.first - 3;
-            }
-            else {
+            } else {
                 x = horizontalArea.first - 5;
                 endX = horizontalArea.first;
             }
@@ -137,19 +150,11 @@ class FileValuesRenderer {
             return;
         }
 
-        Integer minLine = Collections.min(this.fileValues.getValues(CumulateType.DEFAULT).keySet());
-        Integer maxLine = Collections.max(this.fileValues.getValues(CumulateType.DEFAULT).keySet());
-
         ApplicationManager.getApplication().invokeLater(() -> {
-            TextRange range;
-            try {
-                range = DiffUtil.getLinesRange(this.document, minLine - 1, maxLine);
-            } catch (IndexOutOfBoundsException e) {
-                return;
-            }
+            int endOffset = this.document.getLineEndOffset(this.document.getLineCount() - 1);
 
             this.device = this.markupModel.addRangeHighlighter(null,
-                    range.getStartOffset(), range.getEndOffset(),
+                    0, endOffset,
                     DebuggerColors.EXECUTION_LINE_HIGHLIGHTERLAYER + 51,
                     HighlighterTargetArea.LINES_IN_RANGE);
             LineMarkerRenderer renderer = new GutterRenderer(this.fileValues, this.lineProfiler);
@@ -170,11 +175,11 @@ public class ProfilePreviewRenderer {
         this.fileValuesRenderers = new ArrayList<>();
     }
 
-    public void deactivate() {
+    synchronized public void deactivate() {
         this.fileValuesRenderers.forEach(FileValuesRenderer::deactivate);
     }
 
-    public void activate() {
+    synchronized public void activate() {
         this.deactivate();
 
         this.fileValuesRenderers.clear();
@@ -189,7 +194,7 @@ public class ProfilePreviewRenderer {
         }
     }
 
-    public void update() {
+    synchronized public void update() {
         this.deactivate();
         this.activate();
     }

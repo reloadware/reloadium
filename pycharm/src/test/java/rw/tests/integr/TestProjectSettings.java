@@ -108,7 +108,7 @@ public class TestProjectSettings extends BaseTestCase {
         String pythonpath = runConf.getEnvs().get("PYTHONPATH");
         assertThat(pythonpath).isEqualTo(String.valueOf(this.packageManager.getFs().getPackagesRootDir()));
 
-        assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium_launcher pydev_proxy");
+        assertThat(runConf.getInterpreterOptions()).isEqualTo(" -m reloadium_launcher pydev_proxy");
     }
 
     @Test
@@ -141,7 +141,7 @@ public class TestProjectSettings extends BaseTestCase {
         assertThat(runConf.getScriptName()).isEqualTo("main");
         assertThat(runConf.isModuleMode()).isTrue();
         assertThat(runConf.getEnvs().get("PYTHONPATH").isBlank()).isFalse();
-        assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium_launcher pydev_proxy");
+        assertThat(runConf.getInterpreterOptions()).isEqualTo(" -m reloadium_launcher pydev_proxy");
     }
 
     @Test
@@ -155,7 +155,7 @@ public class TestProjectSettings extends BaseTestCase {
         String pythonpath = runConf.getEnvs().get("PYTHONPATH");
         assertThat(pythonpath).isEqualTo(String.valueOf(this.packageManager.getFs().getPackagesRootDir()));
 
-        assertThat(runConf.getInterpreterOptions()).isEqualTo("-m reloadium_launcher run");
+        assertThat(runConf.getInterpreterOptions()).isEqualTo(" -m reloadium_launcher run");
     }
 
     @Test

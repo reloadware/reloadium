@@ -11,18 +11,13 @@ public class FrameData {
     @SerializedName("reloadable")
     private boolean reloadable;
     private String path;
-    private String fullname;
 
     public Long getFrameId() {
         return frameId;
     }
 
-    public String getFullname() {
-        return this.fullname;
-    }
-
-    public File getPath() {
-        return new File(this.path);
+    public String getPath() {
+        return this.path;
     }
 
     public File getLocalPath() {

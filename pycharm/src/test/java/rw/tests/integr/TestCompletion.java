@@ -95,7 +95,7 @@ public class TestCompletion extends BaseTestCase {
 
         GetCtxCompletion.Return cmdRet = new GetCtxCompletion.Return(List.of(suggestion));
 
-        when(this.handler.getSession().send(any())).thenReturn(cmdRet);
+        when(this.handler.getSession().send(any(), anyBoolean())).thenReturn(cmdRet);
 
         EdtTestUtil.runInEdtAndWait(() -> {
             caretModel.moveToOffset(fileContent.indexOf("1") + 1);
@@ -120,7 +120,7 @@ public class TestCompletion extends BaseTestCase {
 
         GetCtxCompletion.Return cmdRet = new GetCtxCompletion.Return(List.of(suggestion));
 
-        lenient().when(this.handler.getSession().send(any())).thenReturn(cmdRet);
+        lenient().when(this.handler.getSession().send(any(), anyBoolean())).thenReturn(cmdRet);
 
         EdtTestUtil.runInEdtAndWait(() -> {
             caretModel.moveToOffset(fileContent.indexOf("\"") + 1);
@@ -146,7 +146,7 @@ public class TestCompletion extends BaseTestCase {
 
         GetCtxCompletion.Return cmdRet = new GetCtxCompletion.Return(List.of(suggestion));
 
-        lenient().when(this.handler.getSession().send(any())).thenReturn(cmdRet);
+        lenient().when(this.handler.getSession().send(any(), anyBoolean())).thenReturn(cmdRet);
 
         EdtTestUtil.runInEdtAndWait(() -> {
             caretModel.moveToOffset(fileContent.indexOf("\"") + 1);
@@ -172,7 +172,7 @@ public class TestCompletion extends BaseTestCase {
 
         GetCtxCompletion.Return cmdRet = new GetCtxCompletion.Return(List.of(suggestion));
 
-        lenient().when(this.handler.getSession().send(any())).thenReturn(cmdRet);
+        lenient().when(this.handler.getSession().send(any(), anyBoolean())).thenReturn(cmdRet);
 
         EdtTestUtil.runInEdtAndWait(() -> {
             caretModel.moveToOffset(fileContent.indexOf("{") + 1);
@@ -205,7 +205,7 @@ public class TestCompletion extends BaseTestCase {
 
         GetCtxCompletion.Return cmdRet = new GetCtxCompletion.Return(List.of(suggestion1, suggestion2));
 
-        lenient().when(this.handler.getSession().send(any())).thenReturn(cmdRet);
+        lenient().when(this.handler.getSession().send(any(), anyBoolean())).thenReturn(cmdRet);
 
         EdtTestUtil.runInEdtAndWait(() -> {
             caretModel.moveToOffset(fileContent.indexOf("[\"") + 2);
@@ -238,7 +238,7 @@ public class TestCompletion extends BaseTestCase {
 
         GetCtxCompletion.Return cmdRet = new GetCtxCompletion.Return(List.of(suggestion1, suggestion2));
 
-        lenient().when(this.handler.getSession().send(any())).thenReturn(cmdRet);
+        lenient().when(this.handler.getSession().send(any(), anyBoolean())).thenReturn(cmdRet);
 
         EdtTestUtil.runInEdtAndWait(() -> {
             caretModel.moveToOffset(fileContent.indexOf("[\"") + 1);

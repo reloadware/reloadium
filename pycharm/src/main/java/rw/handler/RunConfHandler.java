@@ -234,7 +234,6 @@ public abstract class RunConfHandler implements Disposable {
         if (this.activeProfiler != null) {
             this.activeProfiler.activate();
         }
-        this.frameProgressRenderer.activate();
 
         if (this.firstActivate) {
             this.onFirstActivate();
@@ -281,7 +280,6 @@ public abstract class RunConfHandler implements Disposable {
         this.errorHighlightManager.deactivate();
         this.threadErrorManager.deactivate();
         this.activeProfiler.deactivate();
-        this.frameProgressRenderer.deactivate();
         this.fastDebug.deactivate();
         this.active = false;
         IconPatcher.refresh(this.getProject());
@@ -323,7 +321,7 @@ public abstract class RunConfHandler implements Disposable {
 
     private void onQuickConfigChange(QuickConfigState state) {
         QuickConfigCmd cmd = new QuickConfigCmd(state);
-        this.getSession().send(cmd);
+        this.getSession().send(cmd, false);
         this.activeProfiler.deactivate();
         this.activeProfiler = this.profilerTypeToProfiler.get(state.getProfiler());
         this.activeProfiler.activate();
