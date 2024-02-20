@@ -13,6 +13,7 @@ import rw.action.WithReloaderBase;
 import rw.ai.tests.PythonTestUtil;
 import rw.ai.tests.fixtures.PyLightProjectDescriptor;
 import rw.audit.RwSentry;
+import rw.config.ConfigManager;
 import rw.haven.tests.fixtures.LicenseManagerFixture;
 import rw.pkg.PackageManager;
 import rw.service.Service;

@@ -45,12 +45,11 @@ abstract public class RemoteRunConfHandler extends PythonRunConfHandler {
     public void beforeRun(RunType runType) {
         super.beforeRun(runType);
 
-        ConfigManager.get().createIfNotExists();
-        Config config = ConfigManager.get().getConfig();
-
-        this.runConf.getEnvs().put(USER_ID_ENV, config.user.uuid);
-        this.runConf.getEnvs().put(LICENSE_ENV, config.account.licenseKey);
-        this.runConf.getEnvs().put(REMOTE_ENV, "True");
+        try(Config config = ConfigManager.get().getConfig(true)) {
+            this.runConf.getEnvs().put(USER_ID_ENV, config.user.uuid);
+            this.runConf.getEnvs().put(LICENSE_ENV, config.account.licenseKey);
+            this.runConf.getEnvs().put(REMOTE_ENV, "True");
+        }
     }
 
     @NotNull

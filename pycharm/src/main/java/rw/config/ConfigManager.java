@@ -9,6 +9,8 @@ import rw.pkg.NativeFileSystem;
 
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 public class ConfigManager {
@@ -18,9 +20,12 @@ public class ConfigManager {
     @VisibleForTesting
     public NativeFileSystem fs;
 
+    Lock lock;
+
     @VisibleForTesting
     public ConfigManager() {
         this.fs = NativeFileSystem.get();
+        this.lock = new ReentrantLock();
     }
 
     public static ConfigManager get() {
@@ -35,13 +40,16 @@ public class ConfigManager {
             return;
         }
 
-        Config config = new Config();
-        config.user.uuid = UUID.randomUUID().toString();
+        this.lock();
+
+        Config config = new Config(false);
+        config.init();
 
         this.save(config);
+        this.unlock();
     }
 
-    public void save(Config config) {
+    void save(Config config) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         try {
@@ -51,16 +59,28 @@ public class ConfigManager {
         }
     }
 
-    public Config getConfig() {
-        ConfigManager.get().createIfNotExists();
+    public Config getConfig(boolean readOnly) {
+        this.createIfNotExists();
+
+        this.lock();
 
         Gson g = new Gson();
         Config ret = null;
         try {
             ret = g.fromJson(FileUtils.readFileToString(this.fs.getConfigFile(), "utf-8"), Config.class);
+            ret.readOnly = readOnly;
         } catch (IOException e) {
             RwSentry.get().captureException(e, false);
         }
+
         return ret;
+    }
+
+    public void lock() {
+        this.lock.lock();
+    }
+
+    public void unlock() {
+        this.lock.unlock();
     }
 }

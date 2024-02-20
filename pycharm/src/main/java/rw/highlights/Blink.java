@@ -66,10 +66,24 @@ public class Blink {
     }
 
     public void render() {
-        this.highlighter.show();
+        ApplicationManager.getApplication().invokeLater(() -> {
+            this.highlighter.show();
+        });
     }
 
     public void remove() {
-        this.highlighter.hide();
+        ApplicationManager.getApplication().invokeLater(() -> {
+            this.highlighter.hide();
+        });
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj;
+    }
+
+    @Override
+    public int hashCode() {
+        return System.identityHashCode(this);
     }
 }

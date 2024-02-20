@@ -2,6 +2,25 @@ Change Log
 ##########
 
 
+1.4.0
+-------
+
+**PyCharm**:
+    
+  Fixed:
+    * Reloadium error when switching tabs in run mode
+    * Frame progress errors on some setups
+    
+**Miscellaneous**:
+    
+  Added:
+    * Line profiler optimisations
+    * Processing files optimisations
+    * Reloading long files optimisations
+    
+  Fixed:
+    * Crashing on start for inline functions
+    
 1.3.4
 -------
 

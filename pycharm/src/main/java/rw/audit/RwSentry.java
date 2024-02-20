@@ -8,6 +8,7 @@ import io.sentry.SentryLevel;
 import io.sentry.protocol.Message;
 import io.sentry.protocol.User;
 import org.jetbrains.annotations.VisibleForTesting;
+import rw.config.Config;
 import rw.config.ConfigManager;
 import rw.consts.Const;
 import rw.consts.Stage;
@@ -99,7 +100,10 @@ public class RwSentry {
         event.setServerName("");
 
         User user = new User();
-        user.setId(ConfigManager.get().getConfig().user.uuid);
+
+        try(Config config = ConfigManager.get().getConfig(true)) {
+            user.setId(config.user.uuid);
+        }
 
         event.setUser(user);
         event.setRelease(Const.get().version);
