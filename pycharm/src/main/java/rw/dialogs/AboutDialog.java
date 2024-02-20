@@ -8,6 +8,8 @@ import com.intellij.ui.components.JBLabel;
 import com.intellij.util.ui.JBFont;
 import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.Nullable;
+import rw.config.Config;
+import rw.config.ConfigManager;
 import rw.consts.Const;
 import rw.service.Service;
 
@@ -58,7 +60,17 @@ public class AboutDialog extends DialogWrapper {
     private Box getText() {
         Service service = Service.get();
         Box box = Box.createVerticalBox();
-        String appName = StringUtil.capitalize(Const.get().packageName);
+
+        String license;
+        try(Config config = ConfigManager.get().getConfig(true)) {
+            license = config.account.lastLicenseType;
+        }
+
+        if(license != null && license.length() > 2) {
+            license = Character.toUpperCase(license.charAt(0)) + license.substring(1).toLowerCase();
+        }
+
+        String appName = StringUtil.capitalize(Const.get().packageName + " " + license);
 
         box.add(label(appName, JBFont.label().biggerOn(3).asBold()));
         box.add(Box.createVerticalStrut(10));

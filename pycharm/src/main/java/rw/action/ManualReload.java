@@ -11,6 +11,13 @@ import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.xdebugger.XDebuggerManager;
+import com.intellij.xdebugger.breakpoints.XLineBreakpoint;
+import com.intellij.xdebugger.impl.XDebugSessionImpl;
+import com.intellij.xdebugger.impl.breakpoints.XBreakpointManagerImpl;
+import com.intellij.xdebugger.impl.breakpoints.XLineBreakpointImpl;
+import com.intellij.xdebugger.impl.breakpoints.XLineBreakpointManager;
+import com.jetbrains.python.debugger.PyDebugProcess;
 import com.jetbrains.python.psi.impl.PyFileImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,6 +49,11 @@ public class ManualReload extends AnAction implements DumbAware {
                 }
 
                 handlers.forEach(h -> {
+                    XBreakpointManagerImpl breakpointManager = (XBreakpointManagerImpl) XDebuggerManager.getInstance(h.getProject()).getBreakpointManager();
+                    XLineBreakpointManager lineBreakpointManager = breakpointManager.getLineBreakpointManager();
+
+                    lineBreakpointManager.getDocumentBreakpoints(d).forEach(XLineBreakpointImpl::updatePosition);
+
                     ReloadFile cmd = new ReloadFile(h.convertPathToRemote(file.getPath(), true), d.getText());
                     h.getSession().send(cmd, false);
                 });

@@ -6,6 +6,8 @@ import com.intellij.openapi.fileEditor.FileDocumentManagerListener;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectLocator;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.xdebugger.XDebuggerManager;
+import com.intellij.xdebugger.breakpoints.XBreakpointManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;

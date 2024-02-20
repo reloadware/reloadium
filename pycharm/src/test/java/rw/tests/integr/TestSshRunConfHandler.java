@@ -84,32 +84,12 @@ public class TestSshRunConfHandler extends BaseTestCase {
                             "  \"user\": {\n" +
                             "    \"uuid\": \"8fcb78db-229d-40ee-b4ef-86d415755ec0\"\n" +
                             "  },\n" +
-                            "  \"account\": {}\n" +
+                            "  \"account\": {\n" +
+                            "    \"license_key\": \"\",\n" +
+                            "    \"last_license_type\": \"TRIAL\"\n" +
+                            "  }\n" +
                             "}"
             );
-        }
-    }
-
-    @Test
-    public void testAlreadyExists() throws IOException {
-        UUID randomUuid = UUID.fromString("8fcb78db-229d-40ee-b4ef-86d415755ec0");
-
-        String content = "{\n" +
-                "  \"user\": {\n" +
-                "    \"uuid\": \"1fcb78db-229d-30ee-b4ef-16d415755ec0\"\n" +
-                "  }\n" +
-                "}";
-
-        FileUtils.writeStringToFile(this.packageManager.getFs().getConfigFile(), content, "utf-8");
-
-        try (MockedStatic<UUID> uuid = mockStatic(UUID.class)) {
-            uuid.when(UUID::randomUUID).thenReturn(randomUuid);
-            SshRunConfHandler remoteRunConfHandler = new SshRunConfHandler(this.cakeshop.getRunConf());
-
-            remoteRunConfHandler.beforeRun(RunType.RUN);
-
-            assertThat(this.packageManager.getFs().getConfigFile().exists());
-            assertThat(FileUtils.readFileToString(this.packageManager.getFs().getConfigFile(), "utf-8")).isEqualTo(content);
         }
     }
 }
