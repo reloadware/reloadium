@@ -1,7 +1,7 @@
 <idea-plugin xmlns:xi="http://www.w3.org/1999/XSL/Transform">
     <id>org.reloadium</id>
     <name>Reloadium - Hot Reloading and Profiling for Python</name>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
     <idea-version since-build="223"/>
     <vendor email="damian@reloadware.com" url="reloadium.io">Reloadware</vendor>
     <depends>com.intellij.modules.lang</depends>
@@ -31,6 +31,42 @@
 
     <change-notes><![CDATA[
     
+        <h3>1.4.1</h3>
+            <div style="padding-left: 20px;">
+            
+                <h4>Miscellaneous:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Not profiling some functions without breakpoint</li>
+                            <li>Dropping debugger on hot reloading errors</li>
+                            <li>Profiling data not updating for some multiline function calls</li>
+                        </ul>
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>Future annotations support</li>
+                            <li>Hot reloading __init__ and __post_init__ methods</li>
+                        </ul>
+                    
+                </div>
+                <h4>PyCharm:</h4>
+                <div style="padding-left: 40px;">
+                    
+                        <b>Fixed:</b>
+                        <ul>
+                            <li>Previewing variables not working for some django projects</li>
+                        </ul>
+                    
+                        <b>Added:</b>
+                        <ul>
+                            <li>2024.1 support</li>
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
         <h3>1.4.0</h3>
             <div style="padding-left: 20px;">
             

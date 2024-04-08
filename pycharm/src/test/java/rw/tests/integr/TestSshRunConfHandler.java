@@ -86,7 +86,7 @@ public class TestSshRunConfHandler extends BaseTestCase {
                             "  },\n" +
                             "  \"account\": {\n" +
                             "    \"license_key\": \"\",\n" +
-                            "    \"last_license_type\": \"TRIAL\"\n" +
+                            "    \"last_license_type\": \"UNKNOWN\"\n" +
                             "  }\n" +
                             "}"
             );

@@ -8,6 +8,7 @@ import rw.highlights.Blink;
 import rw.highlights.Blinker;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
+import rw.profile.FrameProgressRenderer;
 
 import java.awt.*;
 import java.util.List;
@@ -41,7 +42,7 @@ public class ModuleUpdate extends FileEvent {
 
             if (a.shouldBlink()) {
                 Blink blink = new Blink(this.handler.getProject(), this.getFile(), a.getLineStart(), a.getLineEnd(),
-                        BLINK_COLOR, -2, state.blinkDuration);
+                        BLINK_COLOR, -3, state.blinkDuration);
                 Blinker.get().blink(blink);
             }
         }
