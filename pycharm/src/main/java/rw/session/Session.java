@@ -106,6 +106,7 @@ class Client extends Thread {
         String payload = gson.toJson(cmd);
         LOGGER.info(String.format("Sending cmd %s", cmd.getId()));
         this.out.println(payload);
+        this.out.flush();
 
         if(!blocking) {
             return null;

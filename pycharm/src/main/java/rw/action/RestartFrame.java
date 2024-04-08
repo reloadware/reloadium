@@ -1,9 +1,6 @@
 package rw.action;
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKey;
-import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.ui.SimpleColoredComponent;
@@ -31,5 +28,10 @@ public class RestartFrame extends AnAction implements DumbAware {
         SimpleColoredComponent builder = new SimpleColoredComponent();
 
         XDebuggerFramesList framesList = e.getData(FRAMES_LIST);
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 }

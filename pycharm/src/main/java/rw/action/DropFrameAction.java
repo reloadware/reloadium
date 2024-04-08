@@ -1,5 +1,6 @@
 package rw.action;
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
@@ -62,5 +63,10 @@ public class DropFrameAction extends AnAction implements DumbAware {
         assert handler != null;
         DropFrame cmd = new DropFrame(frame.getFrameId());
         handler.getSession().send(cmd, false);
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 }

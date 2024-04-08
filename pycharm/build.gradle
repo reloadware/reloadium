@@ -7,7 +7,7 @@ plugins {
 
 
 group 'com.reloadware'
-version '1.4.0' //  # RwRender: version '{{ ctx.version }}' //
+version '1.4.1' //  # RwRender: version '{{ ctx.version }}' //
 
 
 repositories {
@@ -32,7 +32,7 @@ repositories {
 
 sourceCompatibility=17
 def remoteRobotVersion = "0.11.16"
-def intellijVersion = "2023.2.5" //  # RwRender: def intellijVersion = "{{ ctx.intellij_version }}" //
+def intellijVersion = "2023.3.3" //  # RwRender: def intellijVersion = "{{ ctx.intellij_version }}" //
 def intellijPro = false  //  # RwRender: def intellijPro = {{ ctx.pro }}  //
 
 
@@ -46,7 +46,8 @@ dependencies {
             'commons-io:commons-io:2.11.0',
             "ee.carlrobert:openai-client:1.2.1",
             'com.knuddels:jtokkit:0.1.0',
-            'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
+            'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2',
+            'com.vladsch.flexmark:flexmark-all:0.64.8',
     )
 
     testImplementation(
@@ -129,7 +130,7 @@ publishPlugin {
 }
 
 runPluginVerifier {
-    ideVersions = ["IU-231.8770.17", "IU-223.8836.14", "IU-222.4345.14", "IU-233.11555.11"]
+    ideVersions = ["IU-231.8770.17", "IU-223.8836.14", "IU-222.4345.14", "IU-233.11555.11", "IU-241.14494.240"]
 }
 
 tasks.processResources {

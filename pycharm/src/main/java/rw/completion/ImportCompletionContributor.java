@@ -13,10 +13,10 @@ import com.jetbrains.python.PyNames;
 import com.jetbrains.python.psi.PyFromImportStatement;
 import com.jetbrains.python.psi.PyImportStatement;
 import com.jetbrains.python.psi.PyImportStatementBase;
-import icons.PythonPsiApiIcons;
 import org.jetbrains.annotations.NotNull;
 import rw.handler.RunConfHandler;
 import rw.handler.RunConfHandlerManager;
+import rw.icons.Icons;
 import rw.preferences.Preferences;
 import rw.preferences.PreferencesState;
 import rw.session.cmds.Cmd;
@@ -112,7 +112,7 @@ public class ImportCompletionContributor extends BaseCompletionContributor {
             this.removeDuplicates(suggestions, parameters, result);
 
             for (Suggestion s : suggestions) {
-                Icon icon = CompletionUtils.TYPE_TO_ICON.getOrDefault(s.getPyType(), PythonPsiApiIcons.PythonFile);
+                Icon icon = CompletionUtils.TYPE_TO_ICON.getOrDefault(s.getPyType(), Icons.PythonFile);
 
                 String name = s.getName();
                 LookupElementBuilder builder = LookupElementBuilder.create(name).withItemTextForeground(COMPLETION_COLOR).withIcon(icon);

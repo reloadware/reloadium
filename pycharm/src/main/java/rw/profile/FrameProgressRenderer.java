@@ -15,7 +15,7 @@ import java.util.*;
 public class FrameProgressRenderer {
     private static final Logger LOGGER = Logger.getInstance(FrameProgressRenderer.class);
     Project project;
-    Color FRAME_PROGRESS_COLOR = new Color(0, 149, 255, 50);
+    static public Color FRAME_PROGRESS_COLOR = new Color(0, 149, 255, 50);
     Color CURR_LINE_COLOR = new Color(0, 149, 255, 80);
     int BLINK_DURATION = 300;
     int POINTER_BLINK_DURATION = 250;

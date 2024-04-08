@@ -1,7 +1,7 @@
 package rw.completion;
 
 import com.intellij.icons.AllIcons;
-import icons.PythonPsiApiIcons;
+import rw.icons.Icons;
 
 import javax.swing.*;
 import java.util.Map;
@@ -10,7 +10,7 @@ import static java.util.Map.entry;
 
 public class CompletionUtils {
     static Map<ObjectType, Icon> TYPE_TO_ICON = Map.ofEntries(
-            entry(ObjectType.MODULE, PythonPsiApiIcons.PythonFile),
+            entry(ObjectType.MODULE, Icons.PythonFile),
             entry(ObjectType.FUNCTION, AllIcons.Nodes.Function),
             entry(ObjectType.BUILTIN_FUN, AllIcons.Nodes.Function),
             entry(ObjectType.METHOD, AllIcons.Nodes.Method),

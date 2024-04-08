@@ -1,4 +1,48 @@
 {
+  "1.4.1": [
+    {
+      "type": "Fixed",
+      "description": "Not profiling some functions without breakpoint",
+      "tag": "Miscellaneous",
+      "date": "2024-04-06"
+    },
+    {
+      "type": "Added",
+      "description": "Future annotations support",
+      "tag": "Miscellaneous",
+      "date": "2024-04-06"
+    },
+    {
+      "type": "Fixed",
+      "description": "Previewing variables not working for some django projects",
+      "tag": "PyCharm",
+      "date": "2024-04-06"
+    },
+    {
+      "type": "Added",
+      "description": "Hot reloading __init__ and __post_init__ methods",
+      "tag": "Miscellaneous",
+      "date": "2024-04-06"
+    },
+    {
+      "type": "Fixed",
+      "description": "Dropping debugger on hot reloading errors",
+      "tag": "Miscellaneous",
+      "date": "2024-04-06"
+    },
+    {
+      "type": "Fixed",
+      "description": "Profiling data not updating for some multiline function calls",
+      "tag": "Miscellaneous",
+      "date": "2024-04-06"
+    },
+    {
+      "type": "Added",
+      "description": "2024.1 support",
+      "tag": "PyCharm",
+      "date": "2024-04-06"
+    }
+  ],
   "1.4.0": [
     {
       "type": "Fixed",

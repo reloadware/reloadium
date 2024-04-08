@@ -2,6 +2,28 @@ Change Log
 ##########
 
 
+1.4.1
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Not profiling some functions without breakpoint
+    * Dropping debugger on hot reloading errors
+    * Profiling data not updating for some multiline function calls
+    
+  Added:
+    * Future annotations support
+    * Hot reloading __init__ and __post_init__ methods
+    
+**PyCharm**:
+    
+  Fixed:
+    * Previewing variables not working for some django projects
+    
+  Added:
+    * 2024.1 support
+    
 1.4.0
 -------
 
