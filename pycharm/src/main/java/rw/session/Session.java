@@ -98,7 +98,7 @@ class Client extends Thread {
         }
     }
 
-    @Nullable Cmd.Return send(Cmd cmd, boolean blocking) {
+    synchronized @Nullable Cmd.Return send(Cmd cmd, boolean blocking) {
         this.cmdReturn = null;
         this.cmdReturnId = cmd.getId();
 

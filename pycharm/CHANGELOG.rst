@@ -2,6 +2,26 @@ Change Log
 ##########
 
 
+1.5.0
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Memory leaks on stepping
+    * Memory leaks on frame reloading
+    * CUDA out of memory issues
+    * RuntimeError: Attempted implicid sequence conversion issues in flask apps
+    * Django and webpack issues
+    
+  Added:
+    * Hot reloading django templates
+    
+**PyCharm**:
+    
+  Fixed:
+    * Highlighting errors in editor on hover
+    
 1.4.1
 -------
 
