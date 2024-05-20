@@ -18,7 +18,7 @@ public class FrameProgressRenderer {
     static public Color FRAME_PROGRESS_COLOR = new Color(0, 149, 255, 50);
     Color CURR_LINE_COLOR = new Color(0, 149, 255, 80);
     int BLINK_DURATION = 300;
-    int POINTER_BLINK_DURATION = 250;
+    int POINTER_BLINK_DURATION = 500;
     Map<String, Blink> threadBlinkers;
 
     public FrameProgressRenderer(Project project) {

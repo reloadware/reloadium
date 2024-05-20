@@ -1,4 +1,48 @@
 {
+  "1.5.0": [
+    {
+      "type": "Fixed",
+      "description": "Memory leaks on stepping",
+      "tag": "Miscellaneous",
+      "date": "2024-05-20"
+    },
+    {
+      "type": "Fixed",
+      "description": "Memory leaks on frame reloading",
+      "tag": "Miscellaneous",
+      "date": "2024-05-20"
+    },
+    {
+      "type": "Fixed",
+      "description": "CUDA out of memory issues",
+      "tag": "Miscellaneous",
+      "date": "2024-05-20"
+    },
+    {
+      "type": "Fixed",
+      "description": "Highlighting errors in editor on hover",
+      "tag": "PyCharm",
+      "date": "2024-05-20"
+    },
+    {
+      "type": "Fixed",
+      "description": "RuntimeError: Attempted implicid sequence conversion issues in flask apps",
+      "tag": "Miscellaneous",
+      "date": "2024-05-20"
+    },
+    {
+      "type": "Added",
+      "description": "Hot reloading django templates",
+      "tag": "Miscellaneous",
+      "date": "2024-05-20"
+    },
+    {
+      "type": "Fixed",
+      "description": "Django and webpack issues",
+      "tag": "Miscellaneous",
+      "date": "2024-05-20"
+    }
+  ],
   "1.4.1": [
     {
       "type": "Fixed",
