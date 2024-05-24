@@ -58,7 +58,7 @@ public class PackageManager {
     public String getCurrentVersion() {
         try {
             return this.fs.readString(this.currentVersionFile).strip();
-        } catch (IOException e) {
+        } catch (Exception e) {
             return null;
         }
     }

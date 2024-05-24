@@ -57,6 +57,6 @@ public class RemoteFileSystem extends FileSystem {
 
     @Override
     public File getHome() {
-        return new File("/root");
+        return new File("~");
     }
 }

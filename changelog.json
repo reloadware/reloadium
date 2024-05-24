@@ -1,4 +1,18 @@
 {
+  "1.5.1": [
+    {
+      "type": "Fixed",
+      "description": "Multiprocessing Pool issues",
+      "tag": "Miscellaneous",
+      "date": "2024-05-23"
+    },
+    {
+      "type": "Fixed",
+      "description": "RuntimeError: super(): empty __class__ cell when frame reloading with super()",
+      "tag": "Miscellaneous",
+      "date": "2024-05-23"
+    }
+  ],
   "1.5.0": [
     {
       "type": "Fixed",
