@@ -2,6 +2,15 @@ Change Log
 ##########
 
 
+1.5.1
+-------
+
+**Miscellaneous**:
+    
+  Fixed:
+    * Multiprocessing Pool issues
+    * RuntimeError: super(): empty __class__ cell when frame reloading with super()
+    
 1.5.0
 -------
 
